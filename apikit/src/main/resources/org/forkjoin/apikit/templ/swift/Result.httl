@@ -1,0 +1,79 @@
+///<ul>
+///    <li>1 参数验证错误</li>
+///    <li>2 服务器错误</li>
+///    <li>-1 表示需要登录</li>
+///    <li>-2 客户端异常</li>
+///    <li>-4 数据错误</li>
+///</ul>//
+//  Result.swift
+//  iHealthBaby(swift)
+//
+//  Created by zuoge85 on 15/8/6.
+//  Copyright (c) 2015年 ihealthbaby. All rights reserved.
+//
+
+import Foundation
+
+///<h1>协议返回结果！</h1>
+///<b>返回json如下:参数校验错误</b> {"msgMap":{"password":"密码不能为空!","mobile":"手机号不能为空!"},"status":1}
+///<p>status 0 表示成功 大于1 表示错误！</p>
+///<ul>
+///    <li>1 参数验证错误</li>
+///    <li>2 服务器错误</li>
+///    <li>-1 表示需要登录</li>
+///    <li>-2 客户端异常</li>
+///    <li>-4 数据错误</li>
+///</ul>
+///
+///msg 错误消息
+///data 协议特定字符串
+public class Result<T>{
+    let status:ResultStatus
+    var msg:String?
+    var data:T?
+    var msgMap:[String: String]?
+    var nsError:NSError?
+
+    var isSuccess:Bool{
+        return status == ResultStatus.SUCCESS
+    }
+
+    init(status:ResultStatus) {
+        self.status = status
+    }
+
+    init(status:ResultStatus, msg:String?, data:T?, msgMap:[String: String]?) {
+        self.status = status
+        self.msg = msg
+        self.data = data
+        self.msgMap = msgMap
+    }
+
+    init(_ nsError: NSError) {
+        self.status = ResultStatus.CLIENT_ERROR
+        self.nsError = nsError
+    }
+
+    init(data: T?) {
+        self.status = ResultStatus.SUCCESS
+        self.data = data
+    }
+
+}
+
+///<p>status 0 表示成功 大于1 表示错误！</p>
+///<ul>
+///    <li>1 参数验证错误</li>
+///    <li>2 服务器错误</li>
+///    <li>-1 表示需要登录</li>
+///    <li>-2 客户端异常</li>
+///    <li>-4 数据错误</li>
+///</ul>
+enum ResultStatus:Int{
+    case SUCCESS = 0
+    case VALIDATOR = 1
+    case ERROR = 2
+    case ACCOUNT_ERROR = -1
+    case CLIENT_ERROR = -2
+    case DATA_ERROR = -4
+}

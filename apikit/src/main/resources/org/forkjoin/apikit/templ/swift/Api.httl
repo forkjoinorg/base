@@ -1,0 +1,123 @@
+//
+//  Api.swift
+//  iHealthBaby(swift)
+//
+//  Created by zuoge85 on 15/8/9.
+//  Copyright (c) 2015年 ihealthbaby. All rights reserved.
+//
+
+import Foundation
+
+
+private let NAMES_PATTERN:String =  "\\{([^/]+?)\\}"
+
+public class Api{
+    var apiHttpClientAdapter:ApiHttpClientAdapter
+
+    init(_ apiHttpClientAdapter:ApiHttpClientAdapter){
+        self.apiHttpClientAdapter = apiHttpClientAdapter
+    }
+}
+
+
+public protocol ApiRequest{
+    func cancel() -> Void
+}
+
+public func ApiExpandUriComponent(url:String, uriVariables:Dictionary<String, Any>) ->String{
+    if find(url, "{") == nil {
+        return url
+    }
+    return regular(NAMES_PATTERN, url , uriVariables)
+}
+
+private extension String {
+    func urlEncode() -> CFString {
+
+        return CFURLCreateStringByAddingPercentEscapes(
+            nil,
+            self,
+            nil,
+            "!*'();:@&=+$,/?%#[]\" ",
+            CFStringBuiltInEncodings.UTF8.rawValue
+        )
+    }
+}
+
+
+
+private func regular(pattern:String, url:String, uriVariables:Dictionary<String, Any>) -> String{
+    var error:NSError?
+    let nsUrl = url as NSString
+
+    if let expression = NSRegularExpression(
+            pattern: pattern, options: .CaseInsensitive, error: &error
+        ) {
+            let matches = expression.matchesInString(
+                url, options: nil,
+                range: NSMakeRange(0, count(url) )
+            )
+            if !matches.isEmpty {
+                var mutableString:NSMutableString = NSMutableString(string: url)
+                var location:Int = 0
+                for match in matches{
+                    if let match = match as? NSTextCheckingResult {
+                        var matchRange =  match.range
+                        matchRange.location += location;
+
+                        var range = match.rangeAtIndex(1)
+                        var name = nsUrl.substringWithRange(range)
+
+                        var value = uriVariables[name]
+                        if let value = value {
+                            if let valueStr = getVariableValueAsString(value){
+                                var encodeStr:String = String(valueStr.urlEncode())
+                                mutableString.replaceCharactersInRange(matchRange, withString:encodeStr);
+
+                                location += (count(encodeStr) - matchRange.length)
+                            }
+                        }
+
+                    }
+                }
+                return String(mutableString)
+            }
+    }
+    return url
+}
+
+
+private func getVariableValueAsString(value:Any) -> String? {
+    if let list = value as? NSArray {
+        return list.componentsJoinedByString(",")
+    } else if let list = value as? Array<NSDate> {
+        return arrayToString(list)
+    } else if let list = value as? Array<NSData> {
+        return arrayToString(list)
+    } else if let list = value as? Array<Bool> {
+        return arrayToString(list)
+    } else if let list = value as? Array<Int32> {
+        return arrayToString(list)
+    } else if let list = value as? Array<Int64> {
+        return arrayToString(list)
+    } else if let list = value as? Array<Float> {
+        return arrayToString(list)
+    } else if let list = value as? Array<Double> {
+        return arrayToString(list)
+    } else if let list = value as? Array<String> {
+        return arrayToString(list)
+    } else {
+        return String(stringInterpolationSegment: value)
+    }
+}
+
+private func arrayToString<T>(list:Array<T>) -> String? {
+    var sb:String = ""
+    for (index, item) in enumerate(list) {
+        if(index > 0){
+            sb += ","
+        }
+        sb += String(stringInterpolationSegment: item)
+    }
+    return sb
+}

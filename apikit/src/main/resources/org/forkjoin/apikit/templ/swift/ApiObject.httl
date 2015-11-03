@@ -1,0 +1,122 @@
+//
+//  ApiObject.swift
+//  iHealthBaby(swift)
+//
+//  Created by zuoge85 on 15/8/7.
+//  Copyright (c) 2015年 ihealthbaby. All rights reserved.
+//
+
+import Foundation
+
+public protocol ApiObject:JSONJoy {
+    func encode(_parent:String, inout _ _form: Dictionary<String, AnyObject>)
+}
+
+///空实现，用这个标记返回的是基础类型
+public class BaseApiObject:ApiObject {
+    public required init(_ decoder: JSONDecoder){
+
+    }
+    public func encode(_parent:String, inout _ _form: Dictionary<String, AnyObject>){
+
+    }
+}
+
+//extension Void:JSONJoy {
+//    public init(_ decoder: JSONDecoder){
+//        self.init(decoder.bool)
+//    }
+//}
+//
+//extension Bool:JSONJoy {
+//    public init(_ decoder: JSONDecoder){
+//        self.init(decoder.bool)
+//    }
+//}
+//
+//extension Int:JSONJoy {
+//    public init(_ decoder: JSONDecoder){
+//        if let v = decoder.integer{
+//            self.init(v)
+//        } else {
+//            self.init()
+//        }
+//    }
+//}
+
+extension String:JSONJoy {
+    public init(_ decoder: JSONDecoder){
+        if let v = decoder.string{
+            self.init(v)
+        } else {
+            self.init()
+        }
+    }
+}
+
+//public protocol JSONJoy {
+//    init(_ decoder: JSONDecoder)
+//}
+
+public func ApiToString(value:Any)->String{
+    switch value{
+    case let date as NSDate:
+        var dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        var localZone = NSTimeZone.localTimeZone()
+        var gtmZone = NSTimeZone(forSecondsFromGMT: 0)
+        dateFormatter.timeZone = gtmZone
+        return dateFormatter.stringFromDate(date)
+    default:
+        return String(stringInterpolationSegment: value)
+    }
+}
+
+public func ApiTransform<T>(_decoder: JSONDecoder) -> T?{
+    switch T.self {
+    case _ as NSDate.Type:
+        if let dateString = _decoder.string {
+            var dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            return dateFormatter.dateFromString(dateString) as? T
+        }
+    case _ as NSData.Type:
+        if let dateString = _decoder.string {
+            //TOD 加入对 NSDate base64的支持
+            return nil
+        }
+    case _ as Bool.Type:
+        //bool 肯定会至少返回false
+        return _decoder.bool as? T
+    case _ as Int32.Type:
+        if let value = _decoder.number {
+            return value.intValue as? T
+        } else {
+            return Int32(0) as? T
+        }
+    case _ as Int64.Type:
+        //TODO 继续研究的代码片段
+        if let number = _decoder.number{
+            return number.longLongValue as? T
+        } else {
+            return Int64(0) as? T
+        }
+    case _ as Float.Type:
+        if let value = _decoder.number {
+            return value.floatValue as? T
+        } else {
+            return Float(0) as? T
+        }
+    case _ as Double.Type:
+        if let value = _decoder.number {
+            return value.doubleValue as? T
+        } else {
+            return Double(0) as? T
+        }
+    case _ as String.Type:
+        return _decoder.string as? T
+    default:
+        return _decoder.value as? T
+    }
+    return nil
+}
