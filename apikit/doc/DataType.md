@@ -15,10 +15,15 @@
     
 ## 2. 类型映射
 
-
-    
-    ABCD | EFGH | IGKL
-    -----|------|----
-    a    | b    | c
-    d    | e    | f
-    g    | h    | i
+    协议类型     | java 类型  | swift类型
+    ------------|-----------|----
+    boolean     | boolean   | c
+    int         | int       | f
+    long        | long      | i
+    float       | float     | i
+    double      | double    | i
+    String      | String    | i
+    byte[]      | byte[]    | i
+    Date        | Date      | i
+    enum        | enum      | i
+    数组        | List<T>  | Array
