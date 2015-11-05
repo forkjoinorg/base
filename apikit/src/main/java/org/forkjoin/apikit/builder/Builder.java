@@ -1,6 +1,6 @@
 package org.forkjoin.apikit.builder;
 
-import com.forkjoin.core.ResultExecute;
+import org.forkjoin.core.ResultExecute;
 import org.forkjoin.apikit.Config;
 import org.forkjoin.apikit.model.*;
 import org.slf4j.Logger;

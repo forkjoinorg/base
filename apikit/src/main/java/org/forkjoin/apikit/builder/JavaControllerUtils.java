@@ -1,8 +1,8 @@
 package org.forkjoin.apikit.builder;
 
 import com.forkjoin.api.ApiMethod;
-import com.forkjoin.spring.annotation.Account;
-import com.forkjoin.spring.annotation.AccountParam;
+import org.forkjoin.spring.annotation.Account;
+import org.forkjoin.spring.annotation.AccountParam;
 import org.forkjoin.apikit.Config;
 import org.forkjoin.apikit.model.ApiInfo;
 import org.forkjoin.apikit.model.ApiMethodInfo;

@@ -28,7 +28,7 @@ public class ApiBuilderMain {
 
 		Config cfg = new Config();
 		cfg.setPath(dir.getAbsolutePath());
-		cfg.setRootPackage("cn.ihealthbaby.api.port");
+		cfg.setRootPackage("org.forkjoin.apikit.example");
 
 		ApiBuilder builder = new ApiBuilder(cfg);
 		builder.analyse();

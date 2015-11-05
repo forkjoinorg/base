@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * api 信
  * @author zuoge85 on 15/6/11.
  */
 public class ApiInfo extends ModuleInfo {

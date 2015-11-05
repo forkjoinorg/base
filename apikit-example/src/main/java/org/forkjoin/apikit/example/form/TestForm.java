@@ -6,7 +6,6 @@ import org.forkjoin.apikit.example.model.User;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * 好吧，测试表单
@@ -39,24 +38,24 @@ public class TestForm<T> {
     Date regDate;
 
 
-    List<Boolean> booleanValueArray;
-    List<Integer> intValueArray;
-    List<Long> longValueArray;
-    List<Float> floatValueArray;
-    List<Double> doubleValueArray;
+    boolean[] booleanValueArray;
+    int[] intValueArray;
+    long[] longValueArray;
+    float[] floatValueArray;
+    double[] doubleValueArray;
 
-    List<String> stringValueArray;
+    String[] stringValueArray;
 
-    List<Date> regDateArray;
+    Date[] regDateArray;
 
     User user;
-    List<User> users;
+    User[] users;
 
-    List<T> generics;
+    T[] generics;
 
-    List<TestObject<T>> genericObjs;
+    TestObject<T>[] genericObjs;
 
-    List<TestObject<User>> genericUsers;
+    TestObject<User>[] genericUsers;
 
     TestObject<T> genericObj;
 

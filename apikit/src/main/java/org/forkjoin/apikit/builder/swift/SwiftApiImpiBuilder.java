@@ -1,6 +1,6 @@
 package org.forkjoin.apikit.builder.swift;
 
-import com.forkjoin.core.ResultExecute;
+import org.forkjoin.core.ResultExecute;
 import org.forkjoin.apikit.Config;
 import org.forkjoin.apikit.builder.BuilderUtils;
 import org.forkjoin.apikit.model.ApiInfo;

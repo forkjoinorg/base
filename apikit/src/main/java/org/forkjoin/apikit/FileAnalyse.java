@@ -4,7 +4,7 @@ package org.forkjoin.apikit;
 import com.forkjoin.api.ActionType;
 import com.forkjoin.api.Api;
 import com.forkjoin.api.ApiMethod;
-import com.forkjoin.spring.annotation.Account;
+import org.forkjoin.spring.annotation.Account;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jdt.core.dom.*;
