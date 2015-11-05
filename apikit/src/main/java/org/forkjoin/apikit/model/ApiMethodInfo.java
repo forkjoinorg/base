@@ -1,7 +1,7 @@
 package org.forkjoin.apikit.model;
 
 
-import com.isnowfox.api.ActionType;
+import com.forkjoin.api.ActionType;
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.Javadoc;
 import org.eclipse.jdt.core.dom.QualifiedName;

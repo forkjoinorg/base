@@ -1,13 +1,13 @@
 package org.forkjoin.apikit.builder;
 
+import com.forkjoin.api.ApiMethod;
+import com.forkjoin.spring.annotation.Account;
+import com.forkjoin.spring.annotation.AccountParam;
 import org.forkjoin.apikit.Config;
 import org.forkjoin.apikit.model.ApiInfo;
 import org.forkjoin.apikit.model.ApiMethodInfo;
 import org.forkjoin.apikit.model.ModelInfo;
 import com.google.common.collect.ImmutableSet;
-import com.isnowfox.api.ApiMethod;
-import com.isnowfox.spring.annotation.Account;
-import com.isnowfox.spring.annotation.AccountParam;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jdt.core.dom.Annotation;

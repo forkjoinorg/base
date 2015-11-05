@@ -11,8 +11,8 @@
 	<name>apikit</name>
 	<dependencies>
 		<dependency>
-			<groupId>cn.ihealthbaby</groupId>
-			<artifactId>isnowfox-core</artifactId>
+			<groupId>org.forkjoin</groupId>
+			<artifactId>forkjoin-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

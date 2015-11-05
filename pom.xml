@@ -10,6 +10,7 @@
         <module>core</module>
         <module>jdbckit</module>
         <module>apikit</module>
+        <module>apikit-example</module>
     </modules>
     <properties>
         <spring.version>4.1.6.RELEASE</spring.version>

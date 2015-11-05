@@ -1,9 +1,9 @@
 package org.forkjoin.apikit.builder;
 
+import com.forkjoin.core.ResultExecute;
 import org.forkjoin.apikit.Config;
 import org.forkjoin.apikit.model.MessageInfo;
 import org.forkjoin.apikit.model.ModelInfo;
-import com.isnowfox.core.ResultExecute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

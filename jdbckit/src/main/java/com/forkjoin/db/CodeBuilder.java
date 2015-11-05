@@ -5,11 +5,11 @@ import java.sql.Connection;
 
 import javax.sql.DataSource;
 
+import com.forkjoin.core.IocFactory;
+import com.forkjoin.core.SpringIocFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.isnowfox.core.IocFactory;
-import com.isnowfox.core.SpringIocFactory;
 import com.forkjoin.jdbckit.mysql.Builder;
 import com.forkjoin.jdbckit.mysql.Config;
 

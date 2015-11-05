@@ -2,7 +2,6 @@ package com.forkjoin.core.dao.impi;
 
 import com.forkjoin.core.PageResult;
 import com.forkjoin.core.dao.*;
-import com.isnowfox.core.dao.*;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import java.util.List;

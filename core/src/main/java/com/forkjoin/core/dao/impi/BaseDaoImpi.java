@@ -2,7 +2,6 @@ package com.forkjoin.core.dao.impi;
 
 import com.forkjoin.core.PageResult;
 import com.forkjoin.core.dao.*;
-import com.isnowfox.core.dao.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;

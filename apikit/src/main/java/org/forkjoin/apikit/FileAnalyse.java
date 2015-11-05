@@ -1,10 +1,10 @@
 package org.forkjoin.apikit;
 
 
-import com.isnowfox.api.ActionType;
-import com.isnowfox.api.Api;
-import com.isnowfox.api.ApiMethod;
-import com.isnowfox.spring.annotation.Account;
+import com.forkjoin.api.ActionType;
+import com.forkjoin.api.Api;
+import com.forkjoin.api.ApiMethod;
+import com.forkjoin.spring.annotation.Account;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jdt.core.dom.*;
@@ -293,7 +293,7 @@ public class FileAnalyse {
             if (o instanceof Annotation) {
                 Annotation annotation = (Annotation) o;
                 QualifiedName typeName = getTypeName(annotation.getTypeName());
-                if (typeName.getFullyQualifiedName().equals(com.isnowfox.api.Message.class.getName())) {
+                if (typeName.getFullyQualifiedName().equals(com.forkjoin.api.Message.class.getName())) {
                     return true;
                 }
             }
