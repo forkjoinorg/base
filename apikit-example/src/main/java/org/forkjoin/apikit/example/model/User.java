@@ -1,6 +1,7 @@
 package org.forkjoin.apikit.example.model;
 
-import com.forkjoin.api.Message;
+import org.forkjoin.api.Message;
+import org.hibernate.validator.constraints.Length;
 
 /**
  * 用户信息
@@ -13,6 +14,7 @@ public class User {
     /**
      * 名称允许重复
      */
+    @Length(max = 255)
     String name;
 
     /**
@@ -23,5 +25,4 @@ public class User {
      * 手机电话
      */
     String mobile;
-
 }

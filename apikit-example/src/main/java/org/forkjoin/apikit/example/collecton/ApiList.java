@@ -1,6 +1,6 @@
 package org.forkjoin.apikit.example.collecton;
 
-import com.forkjoin.api.Message;
+import org.forkjoin.api.Message;
 
 import java.util.List;
 
@@ -12,5 +12,5 @@ import java.util.List;
  */
 @Message
 public class ApiList<T> {
-	List<T> list;
+	T[] list;
 }

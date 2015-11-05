@@ -1,7 +1,7 @@
 package org.forkjoin.apikit.example.model;
 
 
-import com.forkjoin.api.Message;
+import org.forkjoin.api.Message;
 
 import java.util.Date;
 import java.util.List;

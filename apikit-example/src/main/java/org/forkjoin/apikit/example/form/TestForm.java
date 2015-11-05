@@ -1,6 +1,6 @@
 package org.forkjoin.apikit.example.form;
 
-import com.forkjoin.api.Message;
+import org.forkjoin.api.Message;
 import org.forkjoin.apikit.example.model.TestObject;
 import org.forkjoin.apikit.example.model.User;
 import org.hibernate.validator.constraints.Length;

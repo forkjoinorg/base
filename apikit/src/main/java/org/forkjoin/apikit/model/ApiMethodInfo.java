@@ -1,11 +1,11 @@
 package org.forkjoin.apikit.model;
 
 
-import com.forkjoin.api.ActionType;
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.Javadoc;
 import org.eclipse.jdt.core.dom.QualifiedName;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
+import org.forkjoin.api.ActionType;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
