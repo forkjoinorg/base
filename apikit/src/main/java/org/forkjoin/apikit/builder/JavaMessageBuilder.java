@@ -1,7 +1,7 @@
 package org.forkjoin.apikit.builder;
 
 import org.forkjoin.core.ResultExecute;
-import org.forkjoin.apikit.Config;
+import org.forkjoin.apikit.old.Config;
 import org.forkjoin.apikit.oldmodel.MessageInfo;
 import org.forkjoin.apikit.oldmodel.ModelInfo;
 import org.slf4j.Logger;

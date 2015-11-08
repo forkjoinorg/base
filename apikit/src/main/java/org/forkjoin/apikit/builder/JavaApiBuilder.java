@@ -1,10 +1,10 @@
 package org.forkjoin.apikit.builder;
 
 import org.forkjoin.core.ResultExecute;
-import org.forkjoin.apikit.Config;
+import org.forkjoin.apikit.old.Config;
 import org.forkjoin.apikit.oldmodel.ApiInfo;
 import org.forkjoin.apikit.oldmodel.ModelInfo;
-import org.forkjoin.apikit.oldmodel.Utils;
+import org.forkjoin.apikit.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

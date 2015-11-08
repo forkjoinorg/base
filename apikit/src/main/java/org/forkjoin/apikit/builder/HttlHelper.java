@@ -1,6 +1,6 @@
 package org.forkjoin.apikit.builder;
 
-import org.forkjoin.apikit.JavaFileFormat;
+import org.forkjoin.apikit.old.JavaFileFormat;
 import httl.Engine;
 import httl.Template;
 import org.apache.commons.io.FileUtils;

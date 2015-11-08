@@ -2,7 +2,6 @@ package org.forkjoin.apikit.info;
 
 import org.apache.commons.lang3.StringUtils;
 import org.forkjoin.apikit.builder.BuilderUtils;
-import org.forkjoin.apikit.oldmodel.ModuleInfo;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -10,6 +9,7 @@ import java.util.Set;
 
 /**
  * api 信
+ *
  * @author zuoge85 on 15/6/11.
  */
 public class ApiInfo extends ModuleInfo {
@@ -19,9 +19,9 @@ public class ApiInfo extends ModuleInfo {
 
     public void addApiMethod(ApiMethodInfo apiMethodInfo) {
         methodInfos.add(apiMethodInfo);
-        String id =  apiMethodInfo.getName();
+        String id = apiMethodInfo.getName();
         int i = 0;
-        while(idSet.contains(id)){
+        while (idSet.contains(id)) {
             id += i++;
         }
         idSet.add(id);
@@ -45,9 +45,9 @@ public class ApiInfo extends ModuleInfo {
     }
 
     @Override
-    public String getFiledName(){
+    public String getFiledName() {
         String name = getName();
-        if(StringUtils.isNotEmpty(name)){
+        if (StringUtils.isNotEmpty(name)) {
             char c = name.charAt(0);
             return Character.toLowerCase(c) + name.substring(1);
         }

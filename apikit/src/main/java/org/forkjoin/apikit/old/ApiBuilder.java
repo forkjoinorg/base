@@ -1,5 +1,6 @@
-package org.forkjoin.apikit;
+package org.forkjoin.apikit.old;
 
+import org.forkjoin.apikit.Utils;
 import org.forkjoin.apikit.builder.oc.OcMessageBuilder;
 import org.forkjoin.apikit.builder.swift.SwiftApiImpiBuilder;
 import org.forkjoin.apikit.builder.swift.SwiftMessageBuilder;
@@ -7,6 +8,8 @@ import com.google.common.collect.ImmutableMap;
 import org.apache.commons.io.IOUtils;
 import org.forkjoin.apikit.builder.*;
 import org.forkjoin.apikit.oldmodel.*;
+import org.forkjoin.apikit.oldmodel.ApiInfo;
+import org.forkjoin.apikit.oldmodel.ApiMethodInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,7 +53,7 @@ public class ApiBuilder {
             } else {
                 try (InputStream in = new FileInputStream(f)) {
                     String codeString = IOUtils.toString(in, FILE_CHARSET);
-                    ModuleInfo m = new FileAnalyse(config, codeString, f.getAbsolutePath()).analyse();
+                    org.forkjoin.apikit.info.ModuleInfo m = new FileAnalyse(config, codeString, f.getAbsolutePath()).analyse();
 
                     if (m instanceof MessageInfo) {
                         modelInfo.add((MessageInfo) m);

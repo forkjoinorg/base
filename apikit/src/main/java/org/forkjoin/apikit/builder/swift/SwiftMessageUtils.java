@@ -1,6 +1,6 @@
 package org.forkjoin.apikit.builder.swift;
 
-import org.forkjoin.apikit.Config;
+import org.forkjoin.apikit.old.Config;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jdt.core.dom.TypeParameter;

@@ -1,7 +1,7 @@
 package org.forkjoin.apikit.builder.update;
 
-import org.forkjoin.apikit.JavaFileFormat;
-import org.forkjoin.apikit.JdtUtils;
+import org.forkjoin.apikit.old.JavaFileFormat;
+import org.forkjoin.apikit.old.JdtUtils;
 import org.forkjoin.apikit.builder.BuilderUtils;
 import org.forkjoin.apikit.builder.HttlHelper;
 import org.forkjoin.apikit.oldmodel.ApiInfo;

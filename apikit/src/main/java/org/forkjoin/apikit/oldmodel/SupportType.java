@@ -1,7 +1,7 @@
 package org.forkjoin.apikit.oldmodel;
 
-import org.forkjoin.apikit.Config;
-import org.forkjoin.apikit.FileAnalyse;
+import org.forkjoin.apikit.old.Config;
+import org.forkjoin.apikit.old.FileAnalyse;
 import org.eclipse.jdt.core.dom.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

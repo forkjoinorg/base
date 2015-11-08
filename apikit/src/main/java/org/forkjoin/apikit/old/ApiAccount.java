@@ -1,4 +1,4 @@
-package org.forkjoin.apikit;
+package org.forkjoin.apikit.old;
 
 import org.forkjoin.apikit.oldmodel.ApiInfo;
 

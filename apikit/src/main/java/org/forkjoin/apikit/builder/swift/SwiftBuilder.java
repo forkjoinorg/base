@@ -1,12 +1,12 @@
 package org.forkjoin.apikit.builder.swift;
 
-import org.forkjoin.apikit.Config;
+import org.forkjoin.apikit.old.Config;
 import org.forkjoin.apikit.builder.Builder;
 import org.forkjoin.apikit.builder.BuilderUtils;
 import org.forkjoin.apikit.builder.HttlHelper;
 import org.forkjoin.apikit.oldmodel.ModelInfo;
 import org.forkjoin.apikit.oldmodel.ModuleInfo;
-import org.forkjoin.apikit.oldmodel.Utils;
+import org.forkjoin.apikit.Utils;
 
 import java.io.File;
 import java.io.IOException;

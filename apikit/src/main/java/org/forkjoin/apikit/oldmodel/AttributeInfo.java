@@ -2,6 +2,7 @@ package org.forkjoin.apikit.oldmodel;
 
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.Javadoc;
+import org.forkjoin.apikit.Utils;
 
 import java.util.ArrayList;
 

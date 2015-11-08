@@ -1,6 +1,6 @@
 package org.forkjoin.apikit.builder;
 
-import org.forkjoin.apikit.Config;
+import org.forkjoin.apikit.old.Config;
 import org.forkjoin.apikit.oldmodel.AttributeInfo;
 import org.forkjoin.apikit.oldmodel.MessageInfo;
 import org.forkjoin.apikit.oldmodel.ModelInfo;

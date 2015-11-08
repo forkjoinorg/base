@@ -1,9 +1,11 @@
-package org.forkjoin.apikit;
+package org.forkjoin.apikit.old;
 
 
 import org.forkjoin.api.ActionType;
 import org.forkjoin.api.Api;
 import org.forkjoin.api.ApiMethod;
+import org.forkjoin.apikit.oldmodel.ApiInfo;
+import org.forkjoin.apikit.oldmodel.ApiMethodInfo;
 import org.forkjoin.spring.annotation.Account;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;

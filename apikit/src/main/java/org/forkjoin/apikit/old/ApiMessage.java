@@ -1,4 +1,4 @@
-package org.forkjoin.apikit;
+package org.forkjoin.apikit.old;
 
 import java.util.List;
 import java.util.Map;

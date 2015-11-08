@@ -18,7 +18,6 @@ public class ApiType {
     private String packageName;
     private String name;
     private boolean isArray;
-    private boolean isApiType = false;
     private List<ApiType> typeArguments = new ArrayList<>();
 
     private boolean generic = false;

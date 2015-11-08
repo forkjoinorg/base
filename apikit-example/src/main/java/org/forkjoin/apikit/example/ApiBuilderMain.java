@@ -3,8 +3,10 @@ package org.forkjoin.apikit.example;
 import java.io.File;
 import java.io.IOException;
 
-import org.forkjoin.apikit.ApiBuilder;
-import org.forkjoin.apikit.Config;
+import org.forkjoin.apikit.Manager;
+import org.forkjoin.apikit.impi.BaseAnalyse;
+import org.forkjoin.apikit.old.ApiBuilder;
+import org.forkjoin.apikit.old.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,13 +28,22 @@ public class ApiBuilderMain {
 		// TODO 修改下面的乱七八糟的路径
 		log.info("代码路径:{}", dir.getAbsolutePath());
 
-		Config cfg = new Config();
-		cfg.setPath(dir.getAbsolutePath());
-		cfg.setRootPackage("org.forkjoin.apikit.example");
 
-		ApiBuilder builder = new ApiBuilder(cfg);
-		builder.analyse();
-		builder.check();
+		Manager manager = new Manager();
+		manager.setPath(dir.getAbsolutePath());
+		manager.setRootPackage("org.forkjoin.apikit.example");
+		manager.setAnalyse(new BaseAnalyse());
+
+		//开始处理
+		manager.analyse();
+
+//		Config cfg = new Config();
+//		cfg.setPath(dir.getAbsolutePath());
+//		cfg.setRootPackage("org.forkjoin.apikit.example");
+//
+//		ApiBuilder builder = new ApiBuilder(cfg);
+//		builder.analyse();
+//		builder.check();
 
 	}
 }
