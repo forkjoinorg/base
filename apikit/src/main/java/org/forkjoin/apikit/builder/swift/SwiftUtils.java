@@ -2,10 +2,10 @@ package org.forkjoin.apikit.builder.swift;
 
 import org.forkjoin.apikit.Config;
 import org.forkjoin.apikit.builder.BuilderUtils;
-import org.forkjoin.apikit.model.AttributeType;
-import org.forkjoin.apikit.model.ModelInfo;
-import org.forkjoin.apikit.model.ModuleInfo;
-import org.forkjoin.apikit.model.SupportType;
+import org.forkjoin.apikit.oldmodel.AttributeType;
+import org.forkjoin.apikit.oldmodel.ModelInfo;
+import org.forkjoin.apikit.oldmodel.ModuleInfo;
+import org.forkjoin.apikit.oldmodel.SupportType;
 
 /**
  * @author zuoge85 on 15/6/14.

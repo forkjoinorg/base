@@ -1,10 +1,14 @@
-package org.forkjoin.apikit.model;
+package org.forkjoin.apikit.oldmodel;
 
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.Date;
 
+
+/**
+ *
+ */
 public enum AttributeType {
     BOOLEAN, INT, LONG, FLOAT, DOUBLE, STRING, BYTES, DATE, OTHER;
 

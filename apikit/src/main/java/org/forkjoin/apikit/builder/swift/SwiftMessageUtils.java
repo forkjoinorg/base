@@ -4,7 +4,7 @@ import org.forkjoin.apikit.Config;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jdt.core.dom.TypeParameter;
-import org.forkjoin.apikit.model.*;
+import org.forkjoin.apikit.oldmodel.*;
 
 import java.util.List;
 

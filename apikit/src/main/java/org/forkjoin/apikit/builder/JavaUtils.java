@@ -1,8 +1,8 @@
 package org.forkjoin.apikit.builder;
 
 import org.forkjoin.apikit.Config;
-import org.forkjoin.apikit.model.ModelInfo;
-import org.forkjoin.apikit.model.ModuleInfo;
+import org.forkjoin.apikit.oldmodel.ModelInfo;
+import org.forkjoin.apikit.oldmodel.ModuleInfo;
 
 /**
  * @author zuoge85 on 15/6/15.

@@ -1,8 +1,8 @@
 package org.forkjoin.apikit.builder;
 
 import org.forkjoin.apikit.Config;
-import org.forkjoin.apikit.model.MessageInfo;
-import org.forkjoin.apikit.model.ModelInfo;
+import org.forkjoin.apikit.oldmodel.MessageInfo;
+import org.forkjoin.apikit.oldmodel.ModelInfo;
 import org.eclipse.jdt.core.dom.Annotation;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package org.forkjoin.apikit.model;
+package org.forkjoin.apikit.oldmodel;
 
 import java.io.File;
 

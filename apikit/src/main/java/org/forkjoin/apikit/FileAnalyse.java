@@ -1,14 +1,14 @@
 package org.forkjoin.apikit;
 
 
-import com.forkjoin.api.ActionType;
-import com.forkjoin.api.Api;
-import com.forkjoin.api.ApiMethod;
+import org.forkjoin.api.ActionType;
+import org.forkjoin.api.Api;
+import org.forkjoin.api.ApiMethod;
 import org.forkjoin.spring.annotation.Account;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jdt.core.dom.*;
-import org.forkjoin.apikit.model.*;
+import org.forkjoin.apikit.oldmodel.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -293,7 +293,7 @@ public class FileAnalyse {
             if (o instanceof Annotation) {
                 Annotation annotation = (Annotation) o;
                 QualifiedName typeName = getTypeName(annotation.getTypeName());
-                if (typeName.getFullyQualifiedName().equals(com.forkjoin.api.Message.class.getName())) {
+                if (typeName.getFullyQualifiedName().equals(org.forkjoin.api.Message.class.getName())) {
                     return true;
                 }
             }

@@ -1,10 +1,10 @@
 package org.forkjoin.apikit.builder;
 
 import org.forkjoin.apikit.Config;
-import org.forkjoin.apikit.model.AttributeType;
-import org.forkjoin.apikit.model.ModelInfo;
-import org.forkjoin.apikit.model.ModuleInfo;
-import org.forkjoin.apikit.model.SupportType;
+import org.forkjoin.apikit.oldmodel.AttributeType;
+import org.forkjoin.apikit.oldmodel.ModelInfo;
+import org.forkjoin.apikit.oldmodel.ModuleInfo;
+import org.forkjoin.apikit.oldmodel.SupportType;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.Javadoc;

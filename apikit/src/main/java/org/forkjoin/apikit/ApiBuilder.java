@@ -6,7 +6,7 @@ import org.forkjoin.apikit.builder.swift.SwiftMessageBuilder;
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.io.IOUtils;
 import org.forkjoin.apikit.builder.*;
-import org.forkjoin.apikit.model.*;
+import org.forkjoin.apikit.oldmodel.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

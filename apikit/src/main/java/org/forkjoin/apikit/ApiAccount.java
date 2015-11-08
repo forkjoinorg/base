@@ -1,6 +1,6 @@
 package org.forkjoin.apikit;
 
-import org.forkjoin.apikit.model.ApiInfo;
+import org.forkjoin.apikit.oldmodel.ApiInfo;
 
 /**
  * @author zuoge85 on 15/9/9.

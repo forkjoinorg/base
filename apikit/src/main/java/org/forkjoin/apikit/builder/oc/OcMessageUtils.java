@@ -1,7 +1,7 @@
 package org.forkjoin.apikit.builder.oc;
 
 import org.forkjoin.apikit.Config;
-import org.forkjoin.apikit.model.*;
+import org.forkjoin.apikit.oldmodel.*;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;

@@ -3,7 +3,7 @@ package org.forkjoin.apikit.builder;
 import org.forkjoin.apikit.Config;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.forkjoin.apikit.model.*;
+import org.forkjoin.apikit.oldmodel.*;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.validation.Valid;

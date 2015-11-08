@@ -1,10 +1,10 @@
 package org.forkjoin.apikit.builder;
 
 import org.forkjoin.apikit.Config;
-import org.forkjoin.apikit.model.AttributeInfo;
-import org.forkjoin.apikit.model.MessageInfo;
-import org.forkjoin.apikit.model.ModelInfo;
-import org.forkjoin.apikit.model.SupportType;
+import org.forkjoin.apikit.oldmodel.AttributeInfo;
+import org.forkjoin.apikit.oldmodel.MessageInfo;
+import org.forkjoin.apikit.oldmodel.ModelInfo;
+import org.forkjoin.apikit.oldmodel.SupportType;
 import org.apache.commons.collections.CollectionUtils;
 import org.eclipse.jdt.core.dom.TypeParameter;
 

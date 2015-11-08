@@ -14,7 +14,7 @@
         
     1. value 为restfull url
     2. type 为 ActionType 映射位http method（默认为GET）
-        
+    
 >    例如：
 >    
 >```
@@ -59,8 +59,3 @@
 >        String mobile;
 >    }
 >```
-
-
-
-
-

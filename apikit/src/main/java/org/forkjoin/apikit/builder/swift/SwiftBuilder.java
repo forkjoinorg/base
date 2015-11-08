@@ -4,9 +4,9 @@ import org.forkjoin.apikit.Config;
 import org.forkjoin.apikit.builder.Builder;
 import org.forkjoin.apikit.builder.BuilderUtils;
 import org.forkjoin.apikit.builder.HttlHelper;
-import org.forkjoin.apikit.model.ModelInfo;
-import org.forkjoin.apikit.model.ModuleInfo;
-import org.forkjoin.apikit.model.Utils;
+import org.forkjoin.apikit.oldmodel.ModelInfo;
+import org.forkjoin.apikit.oldmodel.ModuleInfo;
+import org.forkjoin.apikit.oldmodel.Utils;
 
 import java.io.File;
 import java.io.IOException;

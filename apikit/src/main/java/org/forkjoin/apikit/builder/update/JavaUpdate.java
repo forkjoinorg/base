@@ -4,7 +4,7 @@ import org.forkjoin.apikit.JavaFileFormat;
 import org.forkjoin.apikit.JdtUtils;
 import org.forkjoin.apikit.builder.BuilderUtils;
 import org.forkjoin.apikit.builder.HttlHelper;
-import org.forkjoin.apikit.model.ApiInfo;
+import org.forkjoin.apikit.oldmodel.ApiInfo;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.dom.*;

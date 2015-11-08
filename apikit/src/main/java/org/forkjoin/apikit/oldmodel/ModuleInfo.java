@@ -1,4 +1,4 @@
-package org.forkjoin.apikit.model;
+package org.forkjoin.apikit.oldmodel;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jdt.core.dom.Javadoc;
