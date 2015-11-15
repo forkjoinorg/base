@@ -53,14 +53,14 @@ public class ApiBuilder {
             } else {
                 try (InputStream in = new FileInputStream(f)) {
                     String codeString = IOUtils.toString(in, FILE_CHARSET);
-                    org.forkjoin.apikit.info.ModuleInfo m = new FileAnalyse(config, codeString, f.getAbsolutePath()).analyse();
-
-                    if (m instanceof MessageInfo) {
-                        modelInfo.add((MessageInfo) m);
-                    } else if (m instanceof ApiInfo) {
-                        modelInfo.add((ApiInfo) m);
-                    }
-                    log.info("分析完毕一个Message:{}", m);
+//                    org.forkjoin.apikit.info.ModuleInfo m = new FileAnalyse(config, codeString, f.getAbsolutePath()).analyse();
+//
+//                    if (m instanceof MessageInfo) {
+//                        modelInfo.add((MessageInfo) m);
+//                    } else if (m instanceof ApiInfo) {
+//                        modelInfo.add((ApiInfo) m);
+//                    }
+//                    log.info("分析完毕一个Message:{}", m);
                 } catch (IOException e) {
                     throw new RuntimeException("分析文件错误！", e);
                 }

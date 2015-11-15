@@ -11,20 +11,19 @@ import java.util.ArrayList;
  * @author zuoge85 on 15/6/11.
  */
 public class ModuleInfo {
-    private ArrayList<SupportType> imports = new ArrayList<>();
+    private ImportsInfo imports;
     private Javadoc comment;
     private SupportType supportType;
     private int id;
     private PackageInfo pack;
 
-    public void addImport(SupportType importDeclaration) {
-        imports.add(importDeclaration);
+    public void setImports(ImportsInfo imports) {
+        this.imports = imports;
     }
 
-    public ArrayList<SupportType> getImports() {
+    public ImportsInfo getImports() {
         return imports;
     }
-
 
     public Javadoc getComment() {
         return comment;
@@ -58,11 +57,11 @@ public class ModuleInfo {
         this.pack = pack;
     }
 
-    public String getName(){
+    public String getName() {
         return supportType.getName();
     }
 
-    public String getPackageName(){
+    public String getPackageName() {
         return supportType.getPackageName();
     }
 
@@ -77,9 +76,9 @@ public class ModuleInfo {
                 '}';
     }
 
-    public String getFiledName(){
+    public String getFiledName() {
         String name = getName();
-        if(StringUtils.isNotEmpty(name)){
+        if (StringUtils.isNotEmpty(name)) {
             char c = name.charAt(0);
             return Character.toLowerCase(c) + name.substring(1);
         }

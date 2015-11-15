@@ -113,6 +113,7 @@ public class SupportType {
         if (importDeclaration.isStatic()) {
             throw new RuntimeException("不支持静态导入");
         }
+
         Name name = importDeclaration.getName();
         if (name instanceof QualifiedName) {
             QualifiedName qName = (QualifiedName) name;

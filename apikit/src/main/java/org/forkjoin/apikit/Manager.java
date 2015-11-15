@@ -25,28 +25,31 @@ public class Manager {
     private String fileCharset = "utf8";
     private String fileSuffix = ".java";
 
-    private Analyse analyse;
+//    private Analyse analyse;
+    private ObjectFactory objectFactory;
     private List<Builder> list = new ArrayList<>();
     private File rootDir;
     private String rootDirPath;
 
     public void analyse() {
         rootDir = Utils.packToPath(path, rootPackage);
-        analyse(rootDir);
         rootDirPath = rootDir.getAbsolutePath();
+
+        analyse(rootDir);
     }
 
     private void analyse(File dir) {
-        for (File f : dir.listFiles(pathname -> {
-            return pathname.isDirectory() || pathname.getName().endsWith(fileSuffix);
-        })) {
+        for (File f : dir.listFiles(
+                pathname -> pathname.isDirectory() ||
+                        pathname.getName().endsWith(fileSuffix)
+        )) {
             if (f.isDirectory()) {
                 analyse(f);
             } else {
                 try (InputStream in = new FileInputStream(f)) {
                     String code = IOUtils.toString(in, fileCharset);
                     String pack = analysePack(f);
-                    ModuleInfo m = analyse.analyse(code, pack);
+                    ModuleInfo m = objectFactory.createAnalyse().analyse(code, pack);
 
                     if (m instanceof MessageInfo) {
                         list.parallelStream().forEach(builder -> builder.build((MessageInfo) m));
@@ -63,15 +66,15 @@ public class Manager {
 
     private String analysePack(File f) {
         String path = f.getAbsolutePath();
-        return Utils.pathToPack(path.substring(rootDirPath.length()));
+        return Utils.pathToPack(path.substring(rootDirPath.length()+1));
     }
 
     public void setFileCharset(String fileCharset) {
         this.fileCharset = fileCharset;
     }
 
-    public void setAnalyse(Analyse analyse) {
-        this.analyse = analyse;
+    public void setObjectFactory(ObjectFactory objectFactory) {
+        this.objectFactory = objectFactory;
     }
 
     public void addBuilder(Builder builder) {
