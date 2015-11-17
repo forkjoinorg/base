@@ -7,5 +7,4 @@ import org.forkjoin.apikit.info.ModuleType;
  */
 public interface ObjectFactory {
     Analyse createAnalyse();
-    ModuleAnalyse createModuleAnalyse(ModuleType type);
 }

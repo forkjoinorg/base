@@ -12,10 +12,10 @@ import java.util.ArrayList;
  */
 public class ModuleInfo {
     private ImportsInfo imports;
-    private Javadoc comment;
-    private SupportType supportType;
+    private JavadocInfo comment;
     private int id;
-    private PackageInfo pack;
+    private String name;
+    private String packageName;
 
     public void setImports(ImportsInfo imports) {
         this.imports = imports;
@@ -25,21 +25,15 @@ public class ModuleInfo {
         return imports;
     }
 
-    public Javadoc getComment() {
+    public JavadocInfo getComment() {
         return comment;
     }
 
-    public void setComment(Javadoc comment) {
+    public void setComment(JavadocInfo comment) {
         this.comment = comment;
     }
 
-    public SupportType getSupportType() {
-        return supportType;
-    }
 
-    public void setSupportType(SupportType supportType) {
-        this.supportType = supportType;
-    }
 
     public int getId() {
         return id;
@@ -49,35 +43,24 @@ public class ModuleInfo {
         this.id = id;
     }
 
-    public PackageInfo getPack() {
-        return pack;
-    }
-
-    public void setPack(PackageInfo pack) {
-        this.pack = pack;
-    }
 
     public String getName() {
-        return supportType.getName();
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPackageName() {
-        return supportType.getPackageName();
+        return packageName;
     }
 
-    @Override
-    public String toString() {
-        return "ModuleInfo{" +
-                "imports=" + imports +
-                ", comment=" + comment +
-                ", supportType=" + supportType +
-                ", id=" + id +
-                ", pack=" + pack +
-                '}';
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
     }
 
     public String getFiledName() {
-        String name = getName();
         if (StringUtils.isNotEmpty(name)) {
             char c = name.charAt(0);
             return Character.toLowerCase(c) + name.substring(1);

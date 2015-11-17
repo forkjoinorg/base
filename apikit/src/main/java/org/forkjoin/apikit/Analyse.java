@@ -8,5 +8,4 @@ import org.forkjoin.apikit.info.ModuleInfo;
  */
 public interface Analyse {
     ModuleInfo analyse(String code, String pack);
-    void setObjectFactory(ObjectFactory objectFactory);
 }

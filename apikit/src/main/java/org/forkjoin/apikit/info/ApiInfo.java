@@ -40,10 +40,6 @@ public class ApiInfo extends ModuleInfo {
     }
 
 
-    public String comment(String start) {
-        return BuilderUtils.formatComment(getComment(), start);
-    }
-
     @Override
     public String getFiledName() {
         String name = getName();

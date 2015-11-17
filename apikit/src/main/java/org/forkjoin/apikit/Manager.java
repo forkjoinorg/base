@@ -49,7 +49,8 @@ public class Manager {
                 try (InputStream in = new FileInputStream(f)) {
                     String code = IOUtils.toString(in, fileCharset);
                     String pack = analysePack(f);
-                    ModuleInfo m = objectFactory.createAnalyse().analyse(code, pack);
+                    Analyse analyse = objectFactory.createAnalyse();
+                    ModuleInfo m = analyse.analyse(code, pack);
 
                     if (m instanceof MessageInfo) {
                         list.parallelStream().forEach(builder -> builder.build((MessageInfo) m));

@@ -11,8 +11,8 @@ import java.util.Map;
  */
 public abstract class AbstractAnalyse implements Analyse{
     protected String name;
+    protected String packageName;
     protected Map<String, QualifiedName> nameMaps = new HashMap<>();
 
     protected ImportsInfo importsInfo = new ImportsInfo();
-
 }

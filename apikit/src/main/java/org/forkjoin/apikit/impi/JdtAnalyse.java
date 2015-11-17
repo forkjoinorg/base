@@ -3,15 +3,11 @@ package org.forkjoin.apikit.impi;
 import org.eclipse.jdt.core.dom.*;
 import org.forkjoin.api.Api;
 import org.forkjoin.apikit.AbstractAnalyse;
-import org.forkjoin.apikit.Analyse;
-import org.forkjoin.apikit.info.ImportsInfo;
 import org.forkjoin.apikit.info.ModuleInfo;
 import org.forkjoin.apikit.info.ModuleType;
 import org.forkjoin.apikit.oldmodel.AttributeType;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 基于jdt的分析器
@@ -22,14 +18,16 @@ public class JdtAnalyse extends AbstractAnalyse {
     private CompilationUnit node;
     private TypeDeclaration type;
 
+
     @Override
-    public ModuleInfo analyse(String code, String pack) {
+    public ModuleInfo analyse(String code, String packageName) {
         ASTParser parser = ASTParser.newParser(AST.JLS8);
         parser.setKind(ASTParser.K_COMPILATION_UNIT);
         parser.setSource(code.toCharArray());
         node = (CompilationUnit) parser.createAST(null);
 
-        analyse();
+        this.packageName = packageName;
+        analyseImports();
 
         List types = node.types();
         if (types.size() == 1) {
@@ -41,10 +39,15 @@ public class JdtAnalyse extends AbstractAnalyse {
 
         ModuleType moduleType = analyseType(type);
 
-        return null;
+        if (moduleType == null) {
+            return null;
+        }
+
+        JdtAbstractModuleAnalyse moduleAnalyse = createModuleAnalyse(moduleType);
+        return moduleAnalyse.analyse();
     }
 
-    private void analyse() {
+    private void analyseImports() {
         List imports = node.imports();
         for (Object importItem : imports) {
             ImportDeclaration importDeclaration = (ImportDeclaration) importItem;
@@ -133,5 +136,14 @@ public class JdtAnalyse extends AbstractAnalyse {
             return ast.newQualifiedName(ast.newName("java.lang"), ast.newSimpleName(fullyQualifiedName));
         }
         return null;
+    }
+
+    protected JdtAbstractModuleAnalyse createModuleAnalyse(ModuleType type) {
+        switch (type) {
+            case API:
+                return new JdtApiModuleAnalyse(node, this.type, name, packageName, importsInfo);
+            default:
+                return null;
+        }
     }
 }
