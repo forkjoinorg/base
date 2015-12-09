@@ -22,8 +22,7 @@ public class TypeInfo {
     private String name;
     private boolean isArray;
     private List<TypeInfo> typeArguments = new ArrayList<>();
-
-    private boolean generic = false;
+    private boolean isInside = false;
 
     private TypeInfo() {
     }
@@ -36,11 +35,20 @@ public class TypeInfo {
         TypeInfo typeInfo = new TypeInfo();
         typeInfo.type = TypeInfo.Type.form(name);
         typeInfo.isArray = isArray;
+        typeInfo.isInside = false;
 
         if (!typeInfo.type.isBaseType()) {
             throw new AnalyseException("错误的类型,不是base类型:" + name);
         }
         return typeInfo;
+    }
+
+    public void setArray(boolean array) {
+        this.isArray = array;
+    }
+
+    public List<TypeInfo> getTypeArguments() {
+        return typeArguments;
     }
 
     public static TypeInfo formImport(Import typeName, boolean isArray) {
@@ -50,6 +58,7 @@ public class TypeInfo {
         if (!typeInfo.type.isBaseType()) {
             typeInfo.packageName = typeName.getPackageName();
             typeInfo.name = typeName.getName();
+            typeInfo.isInside = typeName.isInside();
         }
         return typeInfo;
     }
@@ -59,7 +68,34 @@ public class TypeInfo {
     }
 
     public String getFullName() {
+        if(packageName == null && name == null){
+            return null;
+        }
         return packageName + "." + name;
+    }
+
+    public boolean isArray() {
+        return isArray;
+    }
+
+    public boolean isInside() {
+        return isInside;
+    }
+
+    public void setInside(boolean inside) {
+        isInside = inside;
+    }
+
+
+    @Override
+    public String toString() {
+        return "TypeInfo{" +
+                "type=" + type +
+                ", packageName='" + packageName + '\'' +
+                ", name='" + name + '\'' +
+                ", isArray=" + isArray +
+                ", typeArguments=" + typeArguments +
+                '}';
     }
 
     /**

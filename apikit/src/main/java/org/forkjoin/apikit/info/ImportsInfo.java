@@ -9,10 +9,10 @@ import java.util.Map;
  */
 public class ImportsInfo {
     private ArrayList<Import> imports = new ArrayList<>();
-    private Map<String,Import> map = new HashMap<>();
+    private Map<String, Import> map = new HashMap<>();
 
-    public void add(String packageName, String name){
-        add(new Import(packageName, name));
+    public void add(String packageName, String name, boolean isInside) {
+        add(new Import(packageName, name, isInside));
     }
 
     public void add(Import importInfo) {
@@ -24,7 +24,7 @@ public class ImportsInfo {
         return imports;
     }
 
-    public Import get(String name){
+    public Import get(String name) {
         return map.get(name);
     }
 }

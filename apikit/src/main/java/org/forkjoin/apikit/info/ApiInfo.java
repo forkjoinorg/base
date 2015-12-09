@@ -1,8 +1,9 @@
 package org.forkjoin.apikit.info;
 
-import org.apache.commons.lang3.StringUtils;
+import org.forkjoin.apikit.AnalyseException;
 
-import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * api 信
@@ -10,40 +11,39 @@ import java.util.ArrayList;
  * @author zuoge85 on 15/6/11.
  */
 public class ApiInfo extends ModuleInfo {
-    private ArrayList<ApiMethodInfo> methodInfos = new ArrayList<>();
+    private Map<String, ApiMethodInfo> methodInfosMap = new LinkedHashMap<>();
 
 //    private Set<String> idSet = new HashSet<>();
 
     public void addApiMethod(ApiMethodInfo apiMethodInfo) {
-        methodInfos.add(apiMethodInfo);
-//        String id = apiMethodInfo.getName();
-//        int i = 0;
-//        while (idSet.contains(id)) {
-//            id += i++;
-//        }
-//        idSet.add(id);
-//        apiMethodInfo.setId(id);
+        if (methodInfosMap.put(apiMethodInfo.getUrl(), apiMethodInfo) != null) {
+            throw new AnalyseException("严重错误,url 重复:" + apiMethodInfo.getUrl());
+        }
     }
 
-    public ArrayList<ApiMethodInfo> getMethodInfos() {
-        return methodInfos;
+    public Map<String, ApiMethodInfo> getMethodInfosMap() {
+        return methodInfosMap;
+    }
+
+    public ApiMethodInfo get(String url){
+        return methodInfosMap.get(url);
     }
 
     @Override
     public String toString() {
         return "ApiInfo{" +
-                "methodInfos=" + methodInfos +
+                "methodInfos=" + methodInfosMap +
                 '}';
     }
 
 
-    @Override
-    public String getFiledName() {
-        String name = getName();
-        if (StringUtils.isNotEmpty(name)) {
-            char c = name.charAt(0);
-            return Character.toLowerCase(c) + name.substring(1);
-        }
-        return null;
-    }
+//    @Override
+//    public String getFiledName() {
+//        String name = getName();
+//        if (StringUtils.isNotEmpty(name)) {
+//            char c = name.charAt(0);
+//            return Character.toLowerCase(c) + name.substring(1);
+//        }
+//        return null;
+//    }
 }

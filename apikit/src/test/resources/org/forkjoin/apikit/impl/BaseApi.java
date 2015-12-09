@@ -17,13 +17,18 @@ import javax.validation.Valid;
  */
 @Api
 public interface BaseApi {
+    /**
+     *
+     * @param user 用户
+     */
     @ApiMethod(value = "base/", type = ActionType.CREATE)
     @Account(value = true, param = "accountName")
-    TestObject<User[]>[] create(@Valid User user, @Valid TestForm<User> testForm);
+    TestObject<User[]>[] create(@Valid org.forkjoin.apikit.example.model.User user, @Valid TestForm<User> testForm);
 
     @ApiMethod(value = "base/{id}", type = ActionType.GET)
-    void get(@PathVariable String id);
+    void get(@PathVariable String[] ids);
 
     @ApiMethod("baseUrl/")
+    @Account(false)
     org.forkjoin.apikit.example.model.User create(@Valid User user, @Valid User user1);
 }

@@ -1,4 +1,4 @@
-package org.forkjoin.apikit.impi;
+package org.forkjoin.apikit.impl;
 
 import org.eclipse.jdt.core.dom.Annotation;
 import org.forkjoin.apikit.Analyse;

@@ -1,4 +1,4 @@
-package org.forkjoin.apikit.impi;
+package org.forkjoin.apikit.impl;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -54,8 +54,14 @@ public class JdtApiModuleAnalyse extends JdtAbstractModuleAnalyse {
 
 
 //        SupportType returnType = SupportType.from(this, method.getReturnType2());
-        apiMethodInfo.setResultType(jdtInfo.analyseType(method.getReturnType2()));
-        apiMethodInfo.setComment(method.getJavadoc());
+        TypeInfo resultType = jdtInfo.analyseType(method.getReturnType2());
+        if(resultType == null){
+            throw new AnalyseException("返回类型不能为空!" + method.getReturnType2());
+        }
+        apiMethodInfo.setResultType(resultType);
+
+
+        apiMethodInfo.setComment(transform(method.getJavadoc()));
 //        getTypeName(returnType2.ge)
 
         if (annotation instanceof NormalAnnotation) {
@@ -66,8 +72,8 @@ public class JdtApiModuleAnalyse extends JdtAbstractModuleAnalyse {
                 Expression value = pair.getValue();
                 switch (pairName) {
                     case "value":
-                        String url = StringEscapeUtils.unescapeJava(value.toString());
-                        apiMethodInfo.setUrl(url.substring(1, url.length() - 1));
+                        StringLiteral stringLiteral = (StringLiteral) value;
+                        apiMethodInfo.setUrl(stringLiteral.getLiteralValue());
                         break;
                     case "type":
                         ActionType actionType = ActionType.valueOf(((QualifiedName) value).getName().getFullyQualifiedName());
@@ -76,8 +82,10 @@ public class JdtApiModuleAnalyse extends JdtAbstractModuleAnalyse {
                 }
             }
         } else if (annotation instanceof SingleMemberAnnotation) {
-            String value = ((SingleMemberAnnotation) annotation).getValue().toString();
-            apiMethodInfo.setUrl(value);
+            SingleMemberAnnotation singleMemberAnnotation = (SingleMemberAnnotation) annotation;
+
+            StringLiteral stringLiteral = (StringLiteral) singleMemberAnnotation.getValue();
+            apiMethodInfo.setUrl(stringLiteral.getLiteralValue());
         }
 
         //处理注解
@@ -115,11 +123,11 @@ public class JdtApiModuleAnalyse extends JdtAbstractModuleAnalyse {
                 }
             }
         }
-        if (apiMethodInfo.getAccountParam() != null) {
-            if (!apiMethodInfo.isAccount()) {
-                throw new AnalyseException("不对！需要登录参数的怎么能不需要登录？" + jdtInfo);
-            }
-        }
+//        if (apiMethodInfo.getAccountParam() != null) {
+//            if (!apiMethodInfo.isAccount()) {
+//                throw new AnalyseException("不对！需要登录参数的怎么能不需要登录？" + jdtInfo);
+//            }
+//        }
         analyseMethodParamsInfo(apiMethodInfo, method);
         return apiMethodInfo;
     }
@@ -155,6 +163,18 @@ public class JdtApiModuleAnalyse extends JdtAbstractModuleAnalyse {
                         fieldInfo.setFormParam(true);
                     }
                 }
+            }
+
+            if(fieldInfo.isFormParam() && fieldInfo.isPathVariable()){
+                throw new AnalyseException("参数不能同时是路径参数和form" + fieldInfo);
+            }
+            if(fieldInfo.isFormParam()){
+                if(fieldInfo.getTypeInfo().isArray()){
+                    throw new AnalyseException("表单对象不支持数组!" + fieldInfo);
+                }
+            }
+            if(fieldInfo.getTypeInfo().getType() == TypeInfo.Type.VOID){
+                throw new AnalyseException("void 类型只能用于返回值");
             }
             apiMethodInfo.addParam(fieldInfo);
         }

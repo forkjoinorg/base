@@ -3,7 +3,7 @@ package org.forkjoin.apikit.example;
 import org.forkjoin.apikit.Analyse;
 import org.forkjoin.apikit.Manager;
 import org.forkjoin.apikit.ObjectFactory;
-import org.forkjoin.apikit.impi.JdtAnalyse;
+import org.forkjoin.apikit.impl.JdtAnalyse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

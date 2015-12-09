@@ -1,7 +1,7 @@
 package org;
 
 /**
- * @author zuoge85 on 15/12/8.
+ * @author zuoge85 on 15/12/8
  */
 public class Test {
     public static void main(String[] args) {
@@ -15,7 +15,7 @@ public class Test {
         System.out.println(Abc1.class.getName());
         System.out.println(Abc1.class.getSimpleName());
 
-         class Abc2{
+        class Abc2 {
 
         }
 
@@ -24,11 +24,11 @@ public class Test {
 
     }
 
-    private static class Abc{
+    private static class Abc {
 
     }
 
-    private class Abc1{
+    private class Abc1 {
 
     }
 }

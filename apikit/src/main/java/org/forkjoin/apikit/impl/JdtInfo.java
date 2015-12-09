@@ -1,4 +1,4 @@
-package org.forkjoin.apikit.impi;
+package org.forkjoin.apikit.impl;
 
 import org.eclipse.jdt.core.dom.*;
 import org.forkjoin.apikit.AnalyseException;
@@ -6,7 +6,6 @@ import org.forkjoin.apikit.Utils;
 import org.forkjoin.apikit.info.Import;
 import org.forkjoin.apikit.info.ImportsInfo;
 import org.forkjoin.apikit.info.TypeInfo;
-import org.forkjoin.apikit.oldmodel.AttributeType;
 
 import java.util.List;
 
@@ -21,21 +20,25 @@ public class JdtInfo {
 //    protected Map<String, QualifiedName> nameMaps = new HashMap<>();
 
     protected ImportsInfo importsInfo = new ImportsInfo();
+    private String sourcePackage;
 
     public JdtInfo(String code, String packageName) {
         this.packageName = packageName;
+
         ASTParser parser = ASTParser.newParser(AST.JLS8);
         parser.setKind(ASTParser.K_COMPILATION_UNIT);
         parser.setSource(code.toCharArray());
         node = (CompilationUnit) parser.createAST(null);
 
+        sourcePackage = node.getPackage().getName().getFullyQualifiedName();
+        sourcePackage = sourcePackage.substring(0, sourcePackage.length() - packageName.length());
 
         analyseImports();
 
         List types = node.types();
         if (types.size() == 1) {
             type = (TypeDeclaration) types.get(0);
-            name = type.getName().getFullyQualifiedName();
+            this.name = type.getName().getFullyQualifiedName();
         } else {
             throw new AnalyseException("错误的类型，现在只支持一个文件单个类:");
         }
@@ -55,8 +58,10 @@ public class JdtInfo {
     public Import getTypeName(Name typeName) {
         if (typeName instanceof QualifiedName) {
             QualifiedName name = (QualifiedName) typeName;
-            return new Import(
-                    name.getQualifier().getFullyQualifiedName(),
+            String fullyQualifiedName = name.getQualifier().getFullyQualifiedName();
+            //处理是否 inside
+            return newImport(
+                    fullyQualifiedName,
                     name.getName().getFullyQualifiedName()
             );
         } else {
@@ -67,7 +72,7 @@ public class JdtInfo {
             if (anImport == null) {
                 anImport = Utils.getLangImport(name);
                 if (anImport == null) {
-                    return new Import(packageName, name);
+                    return newImport(packageName, name);
                 }
             }
             return anImport;
@@ -75,8 +80,17 @@ public class JdtInfo {
     }
 
 
+    private Import newImport(String packageName, String name) {
+        boolean isInside = false;
+        if (packageName.startsWith(sourcePackage)) {
+            isInside = true;
+            packageName = packageName.substring(sourcePackage.length());
+        }
+        return new Import(packageName, name, isInside);
+    }
+
     /**
-     * TODO 处理 api 包内的类会出问题
+     *
      */
     private void analyseImports() {
         List imports = node.imports();
@@ -89,9 +103,13 @@ public class JdtInfo {
             Name name = importDeclaration.getName();
             if (name instanceof QualifiedName) {
                 QualifiedName qName = (QualifiedName) name;
+                String packageName = qName.getQualifier().getFullyQualifiedName();
+
                 importsInfo.add(
-                        qName.getQualifier().getFullyQualifiedName(),
-                        qName.getName().getFullyQualifiedName()
+                        newImport(
+                                packageName,
+                                qName.getName().getFullyQualifiedName()
+                        )
                 );
             } else {
                 throw new RuntimeException("不支持的导入名称:" + name);
@@ -114,6 +132,15 @@ public class JdtInfo {
             SimpleType simpleType = (SimpleType) fieldType;
             Import anImport = getTypeName(simpleType.getName());
             return TypeInfo.formImport(anImport, fieldType.isArrayType());
+        } else if (fieldType.isArrayType()) {
+            ArrayType arrayType = (ArrayType) fieldType;
+            if (arrayType.getDimensions() > 1) {
+                throw new AnalyseException("错误的数量:" + arrayType.getDimensions());
+            }
+
+            TypeInfo typeInfo = analyseType(arrayType.getElementType());
+            typeInfo.setArray(true);
+            return typeInfo;
         } else if (fieldType.isParameterizedType()) {
             ParameterizedType parameterizedType = (ParameterizedType) fieldType;
             Type parameterizedTypeType = parameterizedType.getType();
@@ -127,6 +154,7 @@ public class JdtInfo {
                     typeInfo.addArguments(typeArgumentInfo);
                 }
             }
+            return typeInfo;
         }
         return null;
     }

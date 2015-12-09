@@ -30,4 +30,12 @@ public class FieldInfo {
     }
 
 
+    @Override
+    public String toString() {
+        return "FieldInfo{" +
+                "typeInfo=" + typeInfo +
+                ", name='" + name + '\'' +
+                ", annotations=" + annotations +
+                '}';
+    }
 }

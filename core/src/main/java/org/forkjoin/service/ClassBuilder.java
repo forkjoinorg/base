@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 class  ClassBuilder<T> {
     private static final String PACKAGE_NAME = ServiceEngine.class.getPackage().getName();
-//    public static final String IMPI_FIELD_NAME = "$impi";
+//    public static final String IMPI_FIELD_NAME = "$impl";
     public static final String ARG_NAME = "arg";
 
     private static final AtomicInteger idSpeed = new AtomicInteger();

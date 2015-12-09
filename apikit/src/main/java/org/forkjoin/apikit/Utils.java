@@ -52,7 +52,7 @@ public final class Utils {
     public static Import getLangImport(String name) {
         try {
             Class<?> aClass = Class.forName("java.lang" + "." + name);
-            return new Import("java.lang", name);
+            return new Import("java.lang", name, false);
         } catch (ClassNotFoundException e) {
             return null;
         }

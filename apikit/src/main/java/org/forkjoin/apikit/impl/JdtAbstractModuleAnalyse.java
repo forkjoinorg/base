@@ -1,4 +1,4 @@
-package org.forkjoin.apikit.impi;
+package org.forkjoin.apikit.impl;
 
 import org.eclipse.jdt.core.dom.*;
 import org.forkjoin.apikit.info.AnnotationInfo;
@@ -22,9 +22,12 @@ public abstract class JdtAbstractModuleAnalyse {
     protected void initModuleInfo(ModuleInfo moduleInfo) {
         Javadoc javadoc = jdtInfo.getType().getJavadoc();
 
-        moduleInfo.setPackageName(moduleInfo.getPackageName());
-        moduleInfo.setName(moduleInfo.getName());
-        moduleInfo.setComment(transform(javadoc));
+        moduleInfo.init(
+                jdtInfo.getName(),
+                jdtInfo.getPackageName(),
+                jdtInfo.getImportsInfo(),
+                transform(javadoc)
+        );
     }
 
     protected AnnotationInfo transform(Annotation annotation) {

@@ -2,6 +2,7 @@ package org.forkjoin.apikit.info;
 
 
 import org.eclipse.jdt.core.dom.Javadoc;
+import org.forkjoin.api.Account;
 import org.forkjoin.api.ActionType;
 
 import java.util.ArrayList;
@@ -15,16 +16,18 @@ public class ApiMethodInfo {
     private String url;
     private ActionType type = ActionType.GET;
     private boolean account = true;
-    private String accountParam = null;
+    /**
+     * 账户对象名称
+     */
+    private String accountParam = Account.PARAM_NAME;
 
     private ArrayList<ApiMethodParamInfo> params = new ArrayList<>();
 //    private AttributeInfo formParam;
 
     private TypeInfo resultType;
-    private Javadoc comment;
+    private JavadocInfo comment;
 
     private List<AnnotationInfo> annotations = new ArrayList<>();
-
 //    private ArrayList<SingleVariableDeclaration> params = new ArrayList<>();
 //    private String id;
 
@@ -83,18 +86,25 @@ public class ApiMethodInfo {
         this.account = account;
     }
 
-    public void setComment(Javadoc comment) {
+    public void setComment(JavadocInfo comment) {
         this.comment = comment;
     }
 
-    public Javadoc getComment() {
+    public JavadocInfo getComment() {
         return comment;
     }
 
+    /**
+     * 账户对象名称
+     */
     public void setAccountParam(String accountParam) {
         this.accountParam = accountParam;
     }
 
+
+    /**
+     * 账户对象名称
+     */
     public String getAccountParam() {
         return accountParam;
     }
