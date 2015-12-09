@@ -20,4 +20,8 @@ public class Import {
     public String getName() {
         return name;
     }
+
+    public String getFullName() {
+        return packageName + "." + name;
+    }
 }

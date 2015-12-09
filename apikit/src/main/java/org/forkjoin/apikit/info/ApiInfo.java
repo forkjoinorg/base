@@ -1,11 +1,8 @@
 package org.forkjoin.apikit.info;
 
 import org.apache.commons.lang3.StringUtils;
-import org.forkjoin.apikit.builder.BuilderUtils;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * api 信
@@ -15,17 +12,17 @@ import java.util.Set;
 public class ApiInfo extends ModuleInfo {
     private ArrayList<ApiMethodInfo> methodInfos = new ArrayList<>();
 
-    private Set<String> idSet = new HashSet<>();
+//    private Set<String> idSet = new HashSet<>();
 
     public void addApiMethod(ApiMethodInfo apiMethodInfo) {
         methodInfos.add(apiMethodInfo);
-        String id = apiMethodInfo.getName();
-        int i = 0;
-        while (idSet.contains(id)) {
-            id += i++;
-        }
-        idSet.add(id);
-        apiMethodInfo.setId(id);
+//        String id = apiMethodInfo.getName();
+//        int i = 0;
+//        while (idSet.contains(id)) {
+//            id += i++;
+//        }
+//        idSet.add(id);
+//        apiMethodInfo.setId(id);
     }
 
     public ArrayList<ApiMethodInfo> getMethodInfos() {

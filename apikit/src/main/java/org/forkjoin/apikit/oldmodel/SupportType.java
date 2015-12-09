@@ -123,7 +123,10 @@ public class SupportType {
         }
     }
 
-    public static SupportType from(Config config, String name, String packageName, AttributeType type, boolean isArray) {
+    public static SupportType from(
+            Config config, String name, String packageName,
+            AttributeType type, boolean isArray
+    ) {
         boolean isApiType = false;
         if (packageName != null) {
             String rootPackage = config.getRootPackage();

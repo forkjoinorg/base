@@ -64,9 +64,9 @@ public class SwiftApiUtils extends SwiftUtils {
                 .append(start)
                 .append("<ul>\n");
 
-        sb.append(start).append("<li><b>Method:</b> ")
-                .append(method.getType().toMethod())
-                .append("</li>\n");
+//        sb.append(start).append("<li><b>Method:</b> ")
+//                .append(method.getType().toMethod())
+//                .append("</li>\n");
         Map<String, String> stringStringMap = commentToMap(method.getComment());
 
         ArrayList<AttributeInfo> pathParams = method.getPathParams();

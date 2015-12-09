@@ -1,18 +1,17 @@
 package org.forkjoin.apikit.builder;
 
-import com.forkjoin.api.ApiMethod;
-import org.forkjoin.spring.annotation.Account;
-import org.forkjoin.spring.annotation.AccountParam;
-import org.forkjoin.apikit.old.Config;
-import org.forkjoin.apikit.oldmodel.ApiInfo;
-import org.forkjoin.apikit.oldmodel.ApiMethodInfo;
-import org.forkjoin.apikit.oldmodel.ModelInfo;
+//import com.forkjoin.api.ApiMethod;
+
 import com.google.common.collect.ImmutableSet;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.QualifiedName;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
+import org.forkjoin.apikit.old.Config;
+import org.forkjoin.apikit.oldmodel.ApiInfo;
+import org.forkjoin.apikit.oldmodel.ApiMethodInfo;
+import org.forkjoin.apikit.oldmodel.ModelInfo;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -21,15 +20,18 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+//import org.forkjoin.spring.annotation.Account;
+//import org.forkjoin.spring.annotation.AccountParam;
+
 /**
  * @author zuoge85 on 15/6/17.
  */
 public class JavaControllerUtils extends JavaApiUtils {
     public static final Set<String> excludesSet = ImmutableSet.of(
             ResponseBody.class.getName(),
-            Account.class.getName(),
-            RequestMapping.class.getName(),
-            ApiMethod.class.getName()
+//            Account.class.getName(),
+            RequestMapping.class.getName()
+//            ApiMethod.class.getName()
     );
 
     public JavaControllerUtils(Config config, ModelInfo modelInfo, ApiInfo apiInfo, String rootPackage, String messagePackage) {
@@ -47,16 +49,16 @@ public class JavaControllerUtils extends JavaApiUtils {
 
         sb.append(lineStart);
         sb.append("@").append(ResponseBody.class.getSimpleName()).append("\n");
-        if(!method.isAccount()){
+        if (!method.isAccount()) {
             sb.append(lineStart);
-            sb.append("@").append(Account.class.getSimpleName()).append("(false)\n");
+//            sb.append("@").append(Account.class.getSimpleName()).append("(false)\n");
         }
 
         sb.append(lineStart);
         sb.append("@").append(RequestMapping.class.getSimpleName()).append("(value = \"")
                 .append(StringEscapeUtils.escapeJava(method.getUrl()))
                 .append("\", method = RequestMethod.")
-                .append(method.getType().toMethod().toString())
+//                .append(method.getType().toMethod().toString())
                 .append(")\n");
 
 
@@ -81,12 +83,12 @@ public class JavaControllerUtils extends JavaApiUtils {
         if (method.getAccountParam() != null) {
 
             String aSimpleName = config.getApiAccount().getSimpleName(apiInfo);
-            if(sb.length() > 0){
+            if (sb.length() > 0) {
                 sb.append(" , ");
             }
-            if(isAnnotation){
+            if (isAnnotation) {
                 sb.append('@');
-                sb.append(AccountParam.class.getSimpleName());
+//                sb.append(AccountParam.class.getSimpleName());
                 sb.append(' ');
             }
             sb.append(aSimpleName);

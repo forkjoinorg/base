@@ -1,11 +1,12 @@
 package org.forkjoin.apikit.impi;
 
-import org.eclipse.jdt.core.dom.*;
-import org.forkjoin.api.Api;
-import org.forkjoin.apikit.AbstractAnalyse;
+import org.eclipse.jdt.core.dom.Annotation;
+import org.forkjoin.apikit.Analyse;
+import org.forkjoin.apikit.AnalyseException;
 import org.forkjoin.apikit.info.ModuleInfo;
 import org.forkjoin.apikit.info.ModuleType;
-import org.forkjoin.apikit.oldmodel.AttributeType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -14,73 +15,41 @@ import java.util.List;
  *
  * @author zuoge85 on 15/11/8.
  */
-public class JdtAnalyse extends AbstractAnalyse {
-    private CompilationUnit node;
-    private TypeDeclaration type;
-
+public class JdtAnalyse implements Analyse {
+    private static final Logger log = LoggerFactory.getLogger(JdtAnalyse.class);
 
     @Override
     public ModuleInfo analyse(String code, String packageName) {
-        ASTParser parser = ASTParser.newParser(AST.JLS8);
-        parser.setKind(ASTParser.K_COMPILATION_UNIT);
-        parser.setSource(code.toCharArray());
-        node = (CompilationUnit) parser.createAST(null);
+        JdtInfo jdtInfo = new JdtInfo(code, packageName);
 
-        this.packageName = packageName;
-        analyseImports();
-
-        List types = node.types();
-        if (types.size() == 1) {
-            type = (TypeDeclaration) types.get(0);
-            name = type.getName().getFullyQualifiedName();
-        } else {
-            throw new RuntimeException("错误的类型，现在只支持一个文件单个类:");
-        }
-
-        ModuleType moduleType = analyseType(type);
+        ModuleType moduleType = analyseType(jdtInfo);
+        log.debug("模块类型:" + moduleType);
 
         if (moduleType == null) {
             return null;
         }
 
-        JdtAbstractModuleAnalyse moduleAnalyse = createModuleAnalyse(moduleType);
-        return moduleAnalyse.analyse();
-    }
-
-    private void analyseImports() {
-        List imports = node.imports();
-        for (Object importItem : imports) {
-            ImportDeclaration importDeclaration = (ImportDeclaration) importItem;
-            if (importDeclaration.isStatic()) {
-                throw new RuntimeException("不支持静态导入");
-            }
-
-            Name name = importDeclaration.getName();
-            if (name instanceof QualifiedName) {
-                QualifiedName qName = (QualifiedName) name;
-                importsInfo.add(
-                        qName.getQualifier().getFullyQualifiedName(),
-                        qName.getName().getFullyQualifiedName()
-                );
-            } else {
-                throw new RuntimeException("不支持的导入名称:" + name);
-            }
+        JdtAbstractModuleAnalyse moduleAnalyse = createModuleAnalyse(moduleType, jdtInfo);
+        if (moduleAnalyse != null) {
+            return moduleAnalyse.analyse();
+        } else {
+            throw new AnalyseException("错误的模块,未找到模块解析类:" + moduleType);
         }
     }
 
-    private ModuleType analyseType(TypeDeclaration type) {
-        List modifiers = type.modifiers();
+
+    private ModuleType analyseType(JdtInfo jdtInfo) {
+        List modifiers = jdtInfo.getType().modifiers();
         for (Object o : modifiers) {
             if (o instanceof Annotation) {
                 Annotation annotation = (Annotation) o;
-                QualifiedName typeName = getTypeName(annotation.getTypeName());
-                String fullyQualifiedName = typeName.getFullyQualifiedName();
+                String fullName = jdtInfo.getFullTypeName(annotation.getTypeName());
 
-                if (fullyQualifiedName.equals(Api.class.getName())) {
+                if (fullName.equals(org.forkjoin.api.Api.class.getName())) {
                     return ModuleType.API;
-                } else if (typeName.getFullyQualifiedName().equals(org.forkjoin.api.Message.class.getName())) {
+                } else if (fullName.equals(org.forkjoin.api.Message.class.getName())) {
                     return ModuleType.MESSAGE;
-                } else if (typeName.getFullyQualifiedName().equals(org.forkjoin.api.Enum.class.getName())) {
+                } else if (fullName.equals(org.forkjoin.api.Enum.class.getName())) {
                     return ModuleType.ENUM;
                 }
             }
@@ -88,60 +57,11 @@ public class JdtAnalyse extends AbstractAnalyse {
         return null;
     }
 
-    //
-//    private boolean isMessage(TypeDeclaration type) {
-//        List modifiers = type.modifiers();
-//        for (Object o : modifiers) {
-//            if (o instanceof Annotation) {
-//                Annotation annotation = (Annotation) o;
-//                QualifiedName typeName = getTypeName(annotation.getTypeName());
-//                if (typeName.getFullyQualifiedName().equals(org.forkjoin.api.Message.class.getName())) {
-//                    return true;
-//                }
-//            }
-//        }
-//        return false;
-//    }
-//
-//
-    public QualifiedName getTypeName(Name typeName) {
-        if (typeName instanceof QualifiedName) {
-            return (QualifiedName) typeName;
-        } else {
-            String fullyQualifiedName = typeName.getFullyQualifiedName();
-            QualifiedName qualifiedName = nameMaps.get(fullyQualifiedName);
-            if (qualifiedName == null) {
-                if (typeName.isSimpleName()) {
-                    AST ast = typeName.getAST();
-                    qualifiedName = formJavaLang((SimpleName) typeName);
-                    if (qualifiedName == null) {
-                        qualifiedName = ast.newQualifiedName(ast.newName(getPackageName()), ast.newSimpleName(fullyQualifiedName));
-                    }
-                }
-            }
-            return qualifiedName;
-        }
-    }
 
-    private String getPackageName() {
-        return node.getPackage().getName().getFullyQualifiedName();
-    }
-
-
-    public QualifiedName formJavaLang(SimpleName typeName) {
-        String fullyQualifiedName = typeName.getFullyQualifiedName();
-        AttributeType attributeType = AttributeType.formWrap(fullyQualifiedName);
-        if (attributeType != AttributeType.OTHER) {
-            AST ast = typeName.getAST();
-            return ast.newQualifiedName(ast.newName("java.lang"), ast.newSimpleName(fullyQualifiedName));
-        }
-        return null;
-    }
-
-    protected JdtAbstractModuleAnalyse createModuleAnalyse(ModuleType type) {
+    protected JdtAbstractModuleAnalyse createModuleAnalyse(ModuleType type, JdtInfo jdtInfo) {
         switch (type) {
             case API:
-                return new JdtApiModuleAnalyse(node, this.type, name, packageName, importsInfo);
+                return new JdtApiModuleAnalyse(jdtInfo);
             default:
                 return null;
         }

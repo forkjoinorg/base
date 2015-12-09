@@ -25,7 +25,7 @@ public class Manager {
     private String fileCharset = "utf8";
     private String fileSuffix = ".java";
 
-//    private Analyse analyse;
+    //    private Analyse analyse;
     private ObjectFactory objectFactory;
     private List<Builder> list = new ArrayList<>();
     private File rootDir;
@@ -66,8 +66,10 @@ public class Manager {
     }
 
     private String analysePack(File f) {
-        String path = f.getAbsolutePath();
-        return Utils.pathToPack(path.substring(rootDirPath.length()+1));
+        String path = f.getParent();
+
+        return path.length() > rootDirPath.length() ?
+                Utils.pathToPack(path.substring(rootDirPath.length() + 1)) : "";
     }
 
     public void setFileCharset(String fileCharset) {

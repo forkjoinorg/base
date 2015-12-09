@@ -15,7 +15,7 @@ import javax.validation.Valid;
 @Api
 public interface BaseApi {
     @ApiMethod(value = "base/", type = ActionType.CREATE)
-    User create(@Valid User user);
+    User create(@Valid User user,@Valid User user1);
 
     @ApiMethod(value = "base/{id}", type = ActionType.GET)
     User get(@PathVariable String id);

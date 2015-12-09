@@ -1,6 +1,5 @@
 package org.forkjoin.spring;
 
-import org.forkjoin.spring.annotation.AccountParam;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.Ordered;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -14,10 +13,15 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  */
 public class AccountParamArgumentResolver implements HandlerMethodArgumentResolver,Ordered {
 
+//    @Override
+//    public boolean supportsParameter(MethodParameter parameter) {
+//        AccountParam parameterAnnotation = parameter.getParameterAnnotation(AccountParam.class);
+//        return parameterAnnotation != null;
+//    }
+
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        AccountParam parameterAnnotation = parameter.getParameterAnnotation(AccountParam.class);
-        return parameterAnnotation != null;
+        return false;
     }
 
     @Override

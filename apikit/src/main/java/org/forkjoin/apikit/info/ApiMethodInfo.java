@@ -1,16 +1,11 @@
 package org.forkjoin.apikit.info;
 
 
-import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.Javadoc;
-import org.eclipse.jdt.core.dom.QualifiedName;
-import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.forkjoin.api.ActionType;
-import org.forkjoin.apikit.oldmodel.AttributeInfo;
-import org.forkjoin.apikit.oldmodel.SupportType;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * @author zuoge85 on 15/6/12.
@@ -22,34 +17,22 @@ public class ApiMethodInfo {
     private boolean account = true;
     private String accountParam = null;
 
-    private ArrayList<AttributeInfo> pathParams = new ArrayList<>();
-    private AttributeInfo formParam;
+    private ArrayList<ApiMethodParamInfo> params = new ArrayList<>();
+//    private AttributeInfo formParam;
 
-    private SupportType resultType;
+    private TypeInfo resultType;
     private Javadoc comment;
+
+    private List<AnnotationInfo> annotations = new ArrayList<>();
+
+//    private ArrayList<SingleVariableDeclaration> params = new ArrayList<>();
+//    private String id;
 
     public ApiMethodInfo() {
     }
 
-    private LinkedHashMap<QualifiedName, Annotation> annotationsMap = new LinkedHashMap<>();
-
-    private ArrayList<SingleVariableDeclaration> params = new ArrayList<>();
-    private String id;
-
-    public void addPathParam(AttributeInfo attr) {
-        pathParams.add(attr);
-    }
-
-    public void setFormParam(AttributeInfo formParam) {
-        this.formParam = formParam;
-    }
-
-    public AttributeInfo getFormParam() {
-        return formParam;
-    }
-
-    public ArrayList<AttributeInfo> getPathParams() {
-        return pathParams;
+    public void addParam(ApiMethodParamInfo param) {
+        params.add(param);
     }
 
     public String getName() {
@@ -76,20 +59,20 @@ public class ApiMethodInfo {
         this.type = type;
     }
 
-    public SupportType getResultType() {
+    public TypeInfo getResultType() {
         return resultType;
     }
 
-    public void setResultType(SupportType resultType) {
+    public void setResultType(TypeInfo resultType) {
         this.resultType = resultType;
     }
 
-    public void addAnnotation(QualifiedName typeName, Annotation annotation) {
-        annotationsMap.put(typeName, annotation);
+    public void addAnnotation(AnnotationInfo annotation) {
+        annotations.add(annotation);
     }
 
-    public LinkedHashMap<QualifiedName, Annotation> getAnnotationsMap() {
-        return annotationsMap;
+    public List<AnnotationInfo> getAnnotations() {
+        return annotations;
     }
 
     public boolean isAccount() {
@@ -108,14 +91,6 @@ public class ApiMethodInfo {
         return comment;
     }
 
-    public ArrayList<SingleVariableDeclaration> getParams() {
-        return params;
-    }
-
-    public void addParam(SingleVariableDeclaration param) {
-        params.add(param);
-    }
-
     public void setAccountParam(String accountParam) {
         this.accountParam = accountParam;
     }
@@ -123,6 +98,20 @@ public class ApiMethodInfo {
     public String getAccountParam() {
         return accountParam;
     }
+
+    public ArrayList<ApiMethodParamInfo> getParams() {
+        return params;
+    }
+
+
+    //    public String getId() {
+//        return id;
+//    }
+//
+//    public void setId(String id) {
+//        this.id = id;
+//    }
+
 
     @Override
     public String toString() {
@@ -132,20 +121,10 @@ public class ApiMethodInfo {
                 ", type=" + type +
                 ", account=" + account +
                 ", accountParam='" + accountParam + '\'' +
-                ", pathParams=" + pathParams +
-                ", formParam=" + formParam +
+                ", params=" + params +
                 ", resultType=" + resultType +
                 ", comment=" + comment +
-                ", annotationsMap=" + annotationsMap +
-                ", params=" + params +
+                ", annotations=" + annotations +
                 '}';
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 }

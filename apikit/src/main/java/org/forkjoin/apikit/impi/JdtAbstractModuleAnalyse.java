@@ -1,9 +1,10 @@
 package org.forkjoin.apikit.impi;
 
 import org.eclipse.jdt.core.dom.*;
-import org.forkjoin.apikit.info.ImportsInfo;
+import org.forkjoin.apikit.info.AnnotationInfo;
 import org.forkjoin.apikit.info.JavadocInfo;
 import org.forkjoin.apikit.info.ModuleInfo;
+import org.forkjoin.apikit.info.TypeInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,28 +13,34 @@ import java.util.List;
  * @author zuoge85 on 15/11/16.
  */
 public abstract class JdtAbstractModuleAnalyse {
-    protected CompilationUnit node;
-    protected TypeDeclaration type;
-    protected String name;
-    protected String packageName;
-    protected ImportsInfo importsInfo;
+    protected JdtInfo jdtInfo;
 
-    public JdtAbstractModuleAnalyse(CompilationUnit node, TypeDeclaration type, String name, String packageName, ImportsInfo importsInfo) {
-        this.node = node;
-        this.type = type;
-        this.name = name;
-        this.packageName = packageName;
-        this.importsInfo = importsInfo;
+    public JdtAbstractModuleAnalyse(JdtInfo jdtInfo) {
+        this.jdtInfo = jdtInfo;
     }
 
     protected void initModuleInfo(ModuleInfo moduleInfo) {
-        Javadoc javadoc = type.getJavadoc();
+        Javadoc javadoc = jdtInfo.getType().getJavadoc();
 
-        moduleInfo.setPackageName(packageName);
-        moduleInfo.setName(name);
+        moduleInfo.setPackageName(moduleInfo.getPackageName());
+        moduleInfo.setName(moduleInfo.getName());
         moduleInfo.setComment(transform(javadoc));
+    }
 
-        moduleInfo.setPackageName(packageName);
+    protected AnnotationInfo transform(Annotation annotation) {
+        TypeInfo typeInfo = jdtInfo.analyseType(annotation.getTypeName());
+        AnnotationInfo annotationInfo = new AnnotationInfo(typeInfo);
+        if (annotation instanceof NormalAnnotation) {
+            NormalAnnotation normalAnnotation = (NormalAnnotation) annotation;
+            List values = normalAnnotation.values();
+            for (Object obj : values) {
+                annotationInfo.addArgs(obj.toString());
+            }
+        } else if (annotation instanceof SingleMemberAnnotation) {
+            SingleMemberAnnotation singleMemberAnnotation = (SingleMemberAnnotation) annotation;
+            annotationInfo.addArgs(singleMemberAnnotation.getValue().toString());
+        }
+        return annotationInfo;
     }
 
     protected static JavadocInfo transform(Javadoc javadoc) {
@@ -63,28 +70,8 @@ public abstract class JdtAbstractModuleAnalyse {
 
     public abstract ModuleInfo analyse();
 
-    public QualifiedName getTypeName(Name typeName) {
-        if (typeName instanceof QualifiedName) {
-            return (QualifiedName) typeName;
-        } else {
-//            String fullyQualifiedName = typeName.getFullyQualifiedName();
-//            QualifiedName qualifiedName = nameMaps.get(fullyQualifiedName);
-//            if (qualifiedName == null) {
-//                if (typeName.isSimpleName()) {
-//                    AST ast = typeName.getAST();
-//                    qualifiedName = formJavaLang((SimpleName) typeName);
-//                    if (qualifiedName == null) {
-//                        qualifiedName = ast.newQualifiedName(ast.newName(getPackageName()), ast.newSimpleName(fullyQualifiedName));
-//                    }
-//                }
-//            }
-            return null;
-        }
-    }
-
-
-    public  boolean equalsType(Name typeName, Class<?> apiMethodClass) {
-        QualifiedName qualifiedName = getTypeName(typeName);
-        return apiMethodClass.getName().equals(qualifiedName.toString());
+    public boolean equalsType(Name typeName, Class<?> apiMethodClass) {
+        String fullTypeName = jdtInfo.getFullTypeName(typeName);
+        return apiMethodClass.getName().equals(fullTypeName);
     }
 }

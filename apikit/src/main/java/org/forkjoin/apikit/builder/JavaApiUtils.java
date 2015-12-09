@@ -68,9 +68,9 @@ public class JavaApiUtils extends JavaUtils {
                 .append(start)
                 .append("<ul>\n");
 
-        sb.append(start).append("<li><b>Method:</b> ")
-                .append(method.getType().toMethod())
-                .append("</li>\n");
+//        sb.append(start).append("<li><b>Method:</b> ")
+//                .append(method.getType().toMethod())
+//                .append("</li>\n");
         Map<String, String> stringStringMap = commentToMap(method.getComment());
 
         ArrayList<AttributeInfo> pathParams = method.getPathParams();
@@ -250,7 +250,7 @@ public class JavaApiUtils extends JavaUtils {
 
     public String resultTypeString(ApiMethodInfo method, String start) {
         StringBuilder sb = new StringBuilder(start);
-        sb.append("private static final ApiType ").append(method.getId()).append("Type = type(Result.class, ");
+        sb.append("private static final TypeInfo ").append(method.getId()).append("Type = type(Result.class, ");
         resultTypeString(sb, method.getResultType());
         sb.append(");");
         return sb.toString();

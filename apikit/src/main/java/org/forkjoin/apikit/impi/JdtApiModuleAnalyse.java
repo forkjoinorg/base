@@ -1,22 +1,26 @@
 package org.forkjoin.apikit.impi;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jdt.core.dom.*;
-import org.forkjoin.api.ApiMethod;
-import org.forkjoin.apikit.info.ApiInfo;
-import org.forkjoin.apikit.info.ImportsInfo;
-import org.forkjoin.apikit.info.ModuleInfo;
+import org.forkjoin.api.ActionType;
+import org.forkjoin.apikit.AnalyseException;
+import org.forkjoin.apikit.info.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
  * @author zuoge85 on 15/11/16.
  */
 public class JdtApiModuleAnalyse extends JdtAbstractModuleAnalyse {
+    private static final Logger log = LoggerFactory.getLogger(JdtApiModuleAnalyse.class);
 
-    public JdtApiModuleAnalyse(
-            CompilationUnit node, TypeDeclaration type, String name, String packageName, ImportsInfo importsInfo
-    ) {
-        super(node, type, name, packageName, importsInfo);
+    public JdtApiModuleAnalyse(JdtInfo jdtInfo) {
+        super(jdtInfo);
     }
 
     @Override
@@ -24,15 +28,18 @@ public class JdtApiModuleAnalyse extends JdtAbstractModuleAnalyse {
         ApiInfo apiInfo = new ApiInfo();
         initModuleInfo(apiInfo);
 
-        MethodDeclaration[] methods = type.getMethods();
+        MethodDeclaration[] methods = jdtInfo.getType().getMethods();
         for (MethodDeclaration method : methods) {
             List modifiers = method.modifiers();
             for (Object o : modifiers) {
                 if (o instanceof Annotation) {
                     Annotation annotation = (Annotation) o;
-                    if (equalsType(annotation.getTypeName(), ApiMethod.class)) {
-//                        ApiMethodInfo apiMethodInfo = analyseMethodInfo(method, annotation);
-//                        apiInfo.addApiMethod(apiMethodInfo);
+                    if (equalsType(annotation.getTypeName(), org.forkjoin.api.ApiMethod.class)) {
+                        //分析Method
+                        ApiMethodInfo apiMethodInfo = analyseMethodInfo(method, annotation);
+                        apiInfo.addApiMethod(apiMethodInfo);
+
+                        log.debug("ApiMethodInfo: {}:{}", method.getName(), apiMethodInfo);
                     }
                 }
             }
@@ -40,4 +47,116 @@ public class JdtApiModuleAnalyse extends JdtAbstractModuleAnalyse {
         return apiInfo;
     }
 
+
+    private ApiMethodInfo analyseMethodInfo(MethodDeclaration method, Annotation annotation) {
+        ApiMethodInfo apiMethodInfo = new ApiMethodInfo();
+        apiMethodInfo.setName(method.getName().getFullyQualifiedName());
+
+
+//        SupportType returnType = SupportType.from(this, method.getReturnType2());
+        apiMethodInfo.setResultType(jdtInfo.analyseType(method.getReturnType2()));
+        apiMethodInfo.setComment(method.getJavadoc());
+//        getTypeName(returnType2.ge)
+
+        if (annotation instanceof NormalAnnotation) {
+            @SuppressWarnings("unchecked")
+            List<MemberValuePair> values = ((NormalAnnotation) annotation).values();
+            for (MemberValuePair pair : values) {
+                String pairName = pair.getName().getFullyQualifiedName();
+                Expression value = pair.getValue();
+                switch (pairName) {
+                    case "value":
+                        String url = StringEscapeUtils.unescapeJava(value.toString());
+                        apiMethodInfo.setUrl(url.substring(1, url.length() - 1));
+                        break;
+                    case "type":
+                        ActionType actionType = ActionType.valueOf(((QualifiedName) value).getName().getFullyQualifiedName());
+                        apiMethodInfo.setType(actionType);
+                        break;
+                }
+            }
+        } else if (annotation instanceof SingleMemberAnnotation) {
+            String value = ((SingleMemberAnnotation) annotation).getValue().toString();
+            apiMethodInfo.setUrl(value);
+        }
+
+        //处理注解
+        List modifiers = method.modifiers();
+        for (Object o : modifiers) {
+            if (o instanceof Annotation && o != annotation) {
+                Annotation methodAnnotation = (Annotation) o;
+                AnnotationInfo annotationInfo = transform(methodAnnotation);
+                apiMethodInfo.addAnnotation(annotationInfo);
+                /**
+                 * 处理Account授权
+                 */
+                if (annotationInfo.getTypeInfo().getFullName().equals(org.forkjoin.api.Account.class.getName())) {
+                    if (methodAnnotation instanceof SingleMemberAnnotation) {
+                        String value = ((SingleMemberAnnotation) methodAnnotation).getValue().toString();
+                        apiMethodInfo.setAccount(Boolean.valueOf(value));
+                    } else if (methodAnnotation instanceof NormalAnnotation) {
+                        @SuppressWarnings("unchecked")
+                        List<MemberValuePair> values = ((NormalAnnotation) methodAnnotation).values();
+                        for (MemberValuePair pair : values) {
+                            String pairName = pair.getName().getFullyQualifiedName();
+                            String value = pair.getValue().toString();
+                            switch (pairName) {
+                                case "value":
+                                    apiMethodInfo.setAccount(Boolean.valueOf(value));
+                                    break;
+                                case "param":
+                                    if (StringUtils.isNotEmpty(value)) {
+                                        apiMethodInfo.setAccountParam(value.substring(1, value.length() - 1));
+                                    }
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (apiMethodInfo.getAccountParam() != null) {
+            if (!apiMethodInfo.isAccount()) {
+                throw new AnalyseException("不对！需要登录参数的怎么能不需要登录？" + jdtInfo);
+            }
+        }
+        analyseMethodParamsInfo(apiMethodInfo, method);
+        return apiMethodInfo;
+    }
+
+
+    /**
+     * 处理函数参数
+     */
+    private void analyseMethodParamsInfo(ApiMethodInfo apiMethodInfo, MethodDeclaration method) {
+        List parameters = method.parameters();
+
+        for (Object parameter : parameters) {
+            SingleVariableDeclaration paramDeclaration = (SingleVariableDeclaration) parameter;
+            if (paramDeclaration.isVarargs()) {
+                throw new AnalyseException("暂时不支持可变参数 varargs");
+            }
+            String paramName = paramDeclaration.getName().getFullyQualifiedName();
+            ApiMethodParamInfo fieldInfo = new ApiMethodParamInfo(paramName, jdtInfo.analyseType(paramDeclaration.getType()));
+            List modifiers = paramDeclaration.modifiers();
+            for (Object o : modifiers) {
+                if (o instanceof Annotation) {
+                    Annotation annotation = (Annotation) o;
+
+                    AnnotationInfo annotationInfo = transform(annotation);
+                    fieldInfo.addAnnotation(annotationInfo);
+
+                    TypeInfo annotationTypeInfo = jdtInfo.analyseType(annotation.getTypeName());
+
+                    String annotationFullName = annotationTypeInfo.getFullName();
+                    if (annotationFullName.equals(PathVariable.class.getName())) {
+                        fieldInfo.setPathVariable(true);
+                    } else if (annotationFullName.equals(Valid.class.getName())) {
+                        fieldInfo.setFormParam(true);
+                    }
+                }
+            }
+            apiMethodInfo.addParam(fieldInfo);
+        }
+    }
 }

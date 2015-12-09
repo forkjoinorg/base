@@ -23,4 +23,8 @@ public class ImportsInfo {
     public ArrayList<Import> getImports() {
         return imports;
     }
+
+    public Import get(String name){
+        return map.get(name);
+    }
 }

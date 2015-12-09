@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * javadoc 注释信息
+ * List<Map.Entry<String, List<String>>> 结构是 tagName -> fragments list
  * @author zuoge85 on 15/11/16.
  */
 public class JavadocInfo {

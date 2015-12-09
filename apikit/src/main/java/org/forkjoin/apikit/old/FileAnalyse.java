@@ -6,7 +6,7 @@ import org.forkjoin.api.Api;
 import org.forkjoin.api.ApiMethod;
 import org.forkjoin.apikit.oldmodel.ApiInfo;
 import org.forkjoin.apikit.oldmodel.ApiMethodInfo;
-import org.forkjoin.spring.annotation.Account;
+//import org.forkjoin.spring.annotation.Account;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jdt.core.dom.*;
@@ -112,75 +112,76 @@ public class FileAnalyse {
     }
 
     private ApiMethodInfo analyseMethodInfo(MethodDeclaration method, Annotation annotation) {
-        ApiMethodInfo apiMethodInfo = new ApiMethodInfo();
-        apiMethodInfo.setName(method.getName().getFullyQualifiedName());
-        SupportType returnType = SupportType.from(this, method.getReturnType2());
-        apiMethodInfo.setResultType(returnType);
-        apiMethodInfo.setComment(method.getJavadoc());
-//        getTypeName(returnType2.ge)
-
-        if (annotation instanceof NormalAnnotation) {
-            @SuppressWarnings("unchecked")
-            List<MemberValuePair> values = ((NormalAnnotation) annotation).values();
-            for (MemberValuePair pair : values) {
-                String pairName = pair.getName().getFullyQualifiedName();
-                Expression value = pair.getValue();
-                switch (pairName) {
-                    case "value":
-                        String url = StringEscapeUtils.unescapeJava(value.toString());
-                        apiMethodInfo.setUrl(url.substring(1, url.length() - 1));
-                        break;
-                    case "type":
-                        ActionType actionType = ActionType.valueOf(((QualifiedName) value).getName().getFullyQualifiedName());
-                        apiMethodInfo.setType(actionType);
-                        break;
-                }
-            }
-        } else if (annotation instanceof SingleMemberAnnotation) {
-            String value = ((SingleMemberAnnotation) annotation).getValue().toString();
-            apiMethodInfo.setUrl(value);
-        }
-
-        //处理注解
-        List modifiers = method.modifiers();
-        for (Object o : modifiers) {
-            if (o instanceof Annotation && o != annotation) {
-                Annotation methodAnnotation = (Annotation) o;
-                QualifiedName typeName = getTypeName(methodAnnotation.getTypeName());
-
-                apiMethodInfo.addAnnotation(typeName, methodAnnotation);
-                if (typeName.getFullyQualifiedName().equals(Account.class.getName())) {
-                    if (methodAnnotation instanceof SingleMemberAnnotation) {
-                        String value = ((SingleMemberAnnotation) methodAnnotation).getValue().toString();
-                        apiMethodInfo.setAccount(Boolean.valueOf(value));
-                    } else if (methodAnnotation instanceof NormalAnnotation) {
-                        @SuppressWarnings("unchecked")
-                        List<MemberValuePair> values = ((NormalAnnotation) methodAnnotation).values();
-                        for (MemberValuePair pair : values) {
-                            String pairName = pair.getName().getFullyQualifiedName();
-                            String value = pair.getValue().toString();
-                            switch (pairName) {
-                                case "value":
-                                    apiMethodInfo.setAccount(Boolean.valueOf(value));
-                                    break;
-                                case "param":
-                                    if (StringUtils.isNotEmpty(value)) {
-                                        apiMethodInfo.setAccountParam(value.substring(1, value.length() - 1));
-                                    }
-                                    break;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        if (apiMethodInfo.getAccountParam() != null) {
-            if (!apiMethodInfo.isAccount()) {
-                throw new RuntimeException("不对！需要登录参数的怎么能不需要登录？" + file);
-            }
-        }
-        analyseMethodParamsInfo(apiMethodInfo, method);
-        return apiMethodInfo;
+//        ApiMethodInfo apiMethodInfo = new ApiMethodInfo();
+//        apiMethodInfo.setName(method.getName().getFullyQualifiedName());
+//        SupportType returnType = SupportType.from(this, method.getReturnType2());
+//        apiMethodInfo.setResultType(returnType);
+//        apiMethodInfo.setComment(method.getJavadoc());
+////        getTypeName(returnType2.ge)
+//
+//        if (annotation instanceof NormalAnnotation) {
+//            @SuppressWarnings("unchecked")
+//            List<MemberValuePair> values = ((NormalAnnotation) annotation).values();
+//            for (MemberValuePair pair : values) {
+//                String pairName = pair.getName().getFullyQualifiedName();
+//                Expression value = pair.getValue();
+//                switch (pairName) {
+//                    case "value":
+//                        String url = StringEscapeUtils.unescapeJava(value.toString());
+//                        apiMethodInfo.setUrl(url.substring(1, url.length() - 1));
+//                        break;
+//                    case "type":
+//                        ActionType actionType = ActionType.valueOf(((QualifiedName) value).getName().getFullyQualifiedName());
+//                        apiMethodInfo.setType(actionType);
+//                        break;
+//                }
+//            }
+//        } else if (annotation instanceof SingleMemberAnnotation) {
+//            String value = ((SingleMemberAnnotation) annotation).getValue().toString();
+//            apiMethodInfo.setUrl(value);
+//        }
+//
+//        //处理注解
+//        List modifiers = method.modifiers();
+//        for (Object o : modifiers) {
+//            if (o instanceof Annotation && o != annotation) {
+//                Annotation methodAnnotation = (Annotation) o;
+//                QualifiedName typeName = getTypeName(methodAnnotation.getTypeName());
+//
+//                apiMethodInfo.addAnnotation(typeName, methodAnnotation);
+//                if (typeName.getFullyQualifiedName().equals(Account.class.getName())) {
+//                    if (methodAnnotation instanceof SingleMemberAnnotation) {
+//                        String value = ((SingleMemberAnnotation) methodAnnotation).getValue().toString();
+//                        apiMethodInfo.setAccount(Boolean.valueOf(value));
+//                    } else if (methodAnnotation instanceof NormalAnnotation) {
+//                        @SuppressWarnings("unchecked")
+//                        List<MemberValuePair> values = ((NormalAnnotation) methodAnnotation).values();
+//                        for (MemberValuePair pair : values) {
+//                            String pairName = pair.getName().getFullyQualifiedName();
+//                            String value = pair.getValue().toString();
+//                            switch (pairName) {
+//                                case "value":
+//                                    apiMethodInfo.setAccount(Boolean.valueOf(value));
+//                                    break;
+//                                case "param":
+//                                    if (StringUtils.isNotEmpty(value)) {
+//                                        apiMethodInfo.setAccountParam(value.substring(1, value.length() - 1));
+//                                    }
+//                                    break;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        if (apiMethodInfo.getAccountParam() != null) {
+//            if (!apiMethodInfo.isAccount()) {
+//                throw new RuntimeException("不对！需要登录参数的怎么能不需要登录？" + file);
+//            }
+//        }
+//        analyseMethodParamsInfo(apiMethodInfo, method);
+//        return apiMethodInfo;
+        return null;
     }
 
     private void analyseMethodParamsInfo(ApiMethodInfo apiMethodInfo, MethodDeclaration method) {
