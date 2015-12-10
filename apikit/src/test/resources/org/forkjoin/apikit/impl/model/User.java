@@ -2,7 +2,6 @@ package org.forkjoin.apikit.example.model;
 
 import org.forkjoin.api.Message;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.Min;
 

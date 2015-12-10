@@ -19,17 +19,17 @@ import static org.junit.Assert.assertEquals;
  * @author zuoge85 on 15/12/9.
  */
 
-public class JdtApiModuleAnalyseTest extends BaseTest {
+public class JdtApiAnalyseTest extends BaseTest {
     @Test
     public void test() throws IOException {
-        String code = readCode("BaseApi.java");
+        String code = readCode("api/BaseApi.java");
         Analyse analyse = createAnalyse();
         ApiInfo api = (ApiInfo) analyse.analyse(code, "api");
-        assertEquals(api.getName(), "BaseApi");
-        assertEquals(api.getPackageName(), "api");
+        assertEquals("BaseApi", api.getName());
+        assertEquals("api", api.getPackageName());
 
         ImportsInfo imports = api.getImports();
-        assertEquals(imports.getImports().size(), 9);
+        assertEquals(9, imports.getImports().size());
 
 
         assertImport(imports.get("Account"), Account.class.getName());
@@ -58,9 +58,9 @@ public class JdtApiModuleAnalyseTest extends BaseTest {
     }
 
     private void testBaseUrl(ApiMethodInfo apiMethodInfo) {
-        assertEquals(apiMethodInfo.getName(), "create");
-        assertEquals(apiMethodInfo.isAccount(), false);
-        assertEquals(apiMethodInfo.getUrl(), "baseUrl/");
+        assertEquals("create", apiMethodInfo.getName());
+        assertEquals(false, apiMethodInfo.isAccount());
+        assertEquals("baseUrl/", apiMethodInfo.getUrl());
 
         TypeInfo resultType = apiMethodInfo.getResultType();
         assertType(
@@ -69,34 +69,34 @@ public class JdtApiModuleAnalyseTest extends BaseTest {
     }
 
     private void testBaseId(ApiMethodInfo apiMethodInfo) {
-        assertEquals(apiMethodInfo.getName(), "get");
-        assertEquals(apiMethodInfo.getAccountParam(), Account.PARAM_NAME);
-        assertEquals(apiMethodInfo.isAccount(), true);
-        assertEquals(apiMethodInfo.getUrl(), "base/{id}");
+        assertEquals("get", apiMethodInfo.getName());
+        assertEquals(Account.PARAM_NAME, apiMethodInfo.getAccountParam());
+        assertEquals(true, apiMethodInfo.isAccount());
+        assertEquals("base/{id}", apiMethodInfo.getUrl());
 
         //返回值
         TypeInfo resultType = apiMethodInfo.getResultType();
 
-        assertEquals(resultType.getType(), TypeInfo.Type.VOID);
+        assertEquals(TypeInfo.Type.VOID, resultType.getType());
 
         //参数
         ApiMethodParamInfo param = apiMethodInfo.getParams().get(0);
 
         testApiMethodPathParam(param, "ids", null, 0);
 
-        assertEquals(param.getAnnotations().size(), 1);
+        assertEquals(1, param.getAnnotations().size());
         AnnotationInfo annotationInfo = param.getAnnotations().get(0);
         assertType(
                 annotationInfo.getTypeInfo(), PathVariable.class.getName()
         );
-        assertEquals(annotationInfo.getArgs().size(), 0);
+        assertEquals(0, annotationInfo.getArgs().size());
     }
 
     private void testBase(ApiMethodInfo apiMethodInfo) {
-        assertEquals(apiMethodInfo.getName(), "create");
-        assertEquals(apiMethodInfo.getAccountParam(), "accountName");
-        assertEquals(apiMethodInfo.isAccount(), true);
-        assertEquals(apiMethodInfo.getUrl(), "base/");
+        assertEquals("create", apiMethodInfo.getName());
+        assertEquals("accountName", apiMethodInfo.getAccountParam());
+        assertEquals(true, apiMethodInfo.isAccount());
+        assertEquals("base/", apiMethodInfo.getUrl());
 
         TypeInfo resultType = apiMethodInfo.getResultType();
         assertType(
@@ -114,23 +114,23 @@ public class JdtApiModuleAnalyseTest extends BaseTest {
         ApiMethodParamInfo param = params.get(0);
         testApiMethodParam(param, "user", "model.User", 0);
 
-        assertEquals(param.getAnnotations().size(), 1);
+        assertEquals(1, param.getAnnotations().size());
         AnnotationInfo annotationInfo = param.getAnnotations().get(0);
         assertType(
                 annotationInfo.getTypeInfo(), Valid.class.getName()
         );
-        assertEquals(annotationInfo.getArgs().size(), 0);
+        assertEquals(0, annotationInfo.getArgs().size());
 
         //测试参数1
         param = params.get(1);
         testApiMethodParam(param, "testForm", "form.TestForm", 1);
 
-        assertEquals(param.getAnnotations().size(), 1);
+        assertEquals(1, param.getAnnotations().size());
         annotationInfo = param.getAnnotations().get(0);
         assertType(
                 annotationInfo.getTypeInfo(), Valid.class.getName()
         );
-        assertEquals(annotationInfo.getArgs().size(), 0);
+        assertEquals(0, annotationInfo.getArgs().size());
     }
 
     private void testApiMethodParam(

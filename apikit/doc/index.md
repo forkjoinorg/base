@@ -35,11 +35,13 @@
     内部所有字段都被识别为Message字段，最后会被处理位属性，其他注解会被保留，
     根据不同的代码生成器决定是否保留其他注解
     
+    Message 支持泛型,注意只支持单类型参数泛型, 不支持多类型参数泛型!
+    
 >   例如：
 >
 >```
 >    @Message
->    public class User {
+>    public class User<T> {
 >    
 >        long id;
 >    
@@ -57,5 +59,6 @@
 >         * 手机电话
 >         */
 >        String mobile;
+>        T t;
 >    }
 >```

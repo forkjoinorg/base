@@ -37,7 +37,6 @@ public class JdtAnalyse implements Analyse {
         }
     }
 
-
     private ModuleType analyseType(JdtInfo jdtInfo) {
         List modifiers = jdtInfo.getType().modifiers();
         for (Object o : modifiers) {
@@ -57,11 +56,12 @@ public class JdtAnalyse implements Analyse {
         return null;
     }
 
-
     protected JdtAbstractModuleAnalyse createModuleAnalyse(ModuleType type, JdtInfo jdtInfo) {
         switch (type) {
             case API:
-                return new JdtApiModuleAnalyse(jdtInfo);
+                return new JdtApiAnalyse(jdtInfo);
+            case MESSAGE:
+                return new JdtMessageAnalyse(jdtInfo);
             default:
                 return null;
         }

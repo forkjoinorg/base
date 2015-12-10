@@ -1,10 +1,7 @@
 package org.forkjoin.apikit.impl;
 
 import org.eclipse.jdt.core.dom.*;
-import org.forkjoin.apikit.info.AnnotationInfo;
-import org.forkjoin.apikit.info.JavadocInfo;
-import org.forkjoin.apikit.info.ModuleInfo;
-import org.forkjoin.apikit.info.TypeInfo;
+import org.forkjoin.apikit.info.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +66,17 @@ public abstract class JdtAbstractModuleAnalyse {
             javadocInfo.add(tagName, fragmentsInfo);
         }
         return javadocInfo;
+    }
+
+    protected void transformAnnotations(FieldInfo fieldInfo, List modifiers){
+        for (Object o : modifiers) {
+            if (o instanceof Annotation) {
+                Annotation annotation = (Annotation) o;
+
+                AnnotationInfo annotationInfo = transform(annotation);
+                fieldInfo.addAnnotation(annotationInfo);
+            }
+        }
     }
 
     public abstract ModuleInfo analyse();

@@ -23,12 +23,26 @@ public class TypeInfo {
     private boolean isArray;
     private List<TypeInfo> typeArguments = new ArrayList<>();
     private boolean isInside = false;
+    /**
+     * 是否是泛型
+     */
+    private boolean isGeneric = false;
 
     private TypeInfo() {
     }
 
     public void addArguments(TypeInfo typeInfo) {
         typeArguments.add(typeInfo);
+    }
+
+    public static TypeInfo formGeneric(String name, boolean isArray) {
+        TypeInfo typeInfo = new TypeInfo();
+        typeInfo.type = Type.OTHER;
+        typeInfo.isArray = isArray;
+        typeInfo.isInside = false;
+        typeInfo.isGeneric = true;
+        typeInfo.name = name;
+        return typeInfo;
     }
 
     public static TypeInfo formBaseType(String name, boolean isArray) {
@@ -68,8 +82,8 @@ public class TypeInfo {
     }
 
     public String getFullName() {
-        if(packageName == null && name == null){
-            return null;
+        if(packageName == null){
+            return name;
         }
         return packageName + "." + name;
     }
@@ -86,6 +100,13 @@ public class TypeInfo {
         isInside = inside;
     }
 
+    public boolean isGeneric() {
+        return isGeneric;
+    }
+
+    public void setGeneric(boolean generic) {
+        isGeneric = generic;
+    }
 
     @Override
     public String toString() {

@@ -7,6 +7,7 @@ import org.forkjoin.apikit.info.Import;
 import org.forkjoin.apikit.info.ImportsInfo;
 import org.forkjoin.apikit.info.TypeInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,6 +22,7 @@ public class JdtInfo {
 
     protected ImportsInfo importsInfo = new ImportsInfo();
     private String sourcePackage;
+    private List<String> typeParameters = new ArrayList<>();
 
     public JdtInfo(String code, String packageName) {
         this.packageName = packageName;
@@ -33,19 +35,33 @@ public class JdtInfo {
         sourcePackage = node.getPackage().getName().getFullyQualifiedName();
         sourcePackage = sourcePackage.substring(0, sourcePackage.length() - packageName.length());
 
-        analyseImports();
 
         List types = node.types();
-        if (types.size() == 1) {
-            type = (TypeDeclaration) types.get(0);
-            this.name = type.getName().getFullyQualifiedName();
-        } else {
+        if (types.size() != 1) {
             throw new AnalyseException("错误的类型，现在只支持一个文件单个类:");
+        }
+
+        type = (TypeDeclaration) types.get(0);
+
+        analyseImports();
+        analyseTypeParameters();
+        this.name = type.getName().getFullyQualifiedName();
+    }
+
+    private void analyseTypeParameters() {
+        for (Object o : type.typeParameters()) {
+            TypeParameter typeParameter = (TypeParameter) o;
+
+            if (typeParameter.modifiers().size() > 0 || typeParameter.typeBounds().size() > 0) {
+                throw new AnalyseException("错误的泛型,不支持复杂的泛型");
+            }
+            String name = typeParameter.getName().getFullyQualifiedName();
+            typeParameters.add(name);
         }
     }
 
     /**
-     * 注意查找方式是,如果是不完整名称,那么先检查import,在检查lang ,最后是包内!
+     * 注意查找方式是,如果是不完整名称,先检查是否泛型,在先检查import,在检查lang ,最后是包内!
      * 处理逻辑和javac 不一致,注意
      *
      * @param typeName 类型名称,全面或者不是全名
@@ -67,6 +83,10 @@ public class JdtInfo {
         } else {
             //下面是处理名称不完整的情况
             String name = typeName.getFullyQualifiedName();
+            if (typeParameters.contains(name)) {
+                return null;
+            }
+
             Import anImport = importsInfo.get(name);
 
             if (anImport == null) {
@@ -120,6 +140,9 @@ public class JdtInfo {
 
     public TypeInfo analyseType(Name typeName) {
         Import anImport = getTypeName(typeName);
+        if (anImport == null) {
+            return TypeInfo.formGeneric(typeName.getFullyQualifiedName(), false);
+        }
         return TypeInfo.formImport(anImport, false);
     }
 
@@ -130,7 +153,11 @@ public class JdtInfo {
             return TypeInfo.formBaseType(name, primitiveType.isArrayType());
         } else if (fieldType.isSimpleType()) {
             SimpleType simpleType = (SimpleType) fieldType;
-            Import anImport = getTypeName(simpleType.getName());
+            Name name = simpleType.getName();
+            Import anImport = getTypeName(name);
+            if (anImport == null) {
+                return TypeInfo.formGeneric(name.getFullyQualifiedName(), false);
+            }
             return TypeInfo.formImport(anImport, fieldType.isArrayType());
         } else if (fieldType.isArrayType()) {
             ArrayType arrayType = (ArrayType) fieldType;
@@ -177,6 +204,11 @@ public class JdtInfo {
 //        return new SupportType(type, packageName, name, isArray, isApiType);
 //    }
 
+
+    public List<String> getTypeParameters() {
+        return typeParameters;
+    }
+
     public String getName() {
         return name;
     }
@@ -205,5 +237,4 @@ public class JdtInfo {
                 ",packageName='" + packageName + '\'' +
                 '}';
     }
-
 }

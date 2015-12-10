@@ -1,6 +1,5 @@
 package org.forkjoin.apikit.impl;
 
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jdt.core.dom.*;
 import org.forkjoin.api.ActionType;
@@ -16,10 +15,10 @@ import java.util.List;
 /**
  * @author zuoge85 on 15/11/16.
  */
-public class JdtApiModuleAnalyse extends JdtAbstractModuleAnalyse {
-    private static final Logger log = LoggerFactory.getLogger(JdtApiModuleAnalyse.class);
+public class JdtApiAnalyse extends JdtAbstractModuleAnalyse {
+    private static final Logger log = LoggerFactory.getLogger(JdtApiAnalyse.class);
 
-    public JdtApiModuleAnalyse(JdtInfo jdtInfo) {
+    public JdtApiAnalyse(JdtInfo jdtInfo) {
         super(jdtInfo);
     }
 
@@ -147,21 +146,15 @@ public class JdtApiModuleAnalyse extends JdtAbstractModuleAnalyse {
             String paramName = paramDeclaration.getName().getFullyQualifiedName();
             ApiMethodParamInfo fieldInfo = new ApiMethodParamInfo(paramName, jdtInfo.analyseType(paramDeclaration.getType()));
             List modifiers = paramDeclaration.modifiers();
-            for (Object o : modifiers) {
-                if (o instanceof Annotation) {
-                    Annotation annotation = (Annotation) o;
 
-                    AnnotationInfo annotationInfo = transform(annotation);
-                    fieldInfo.addAnnotation(annotationInfo);
+            transformAnnotations(fieldInfo, modifiers);
 
-                    TypeInfo annotationTypeInfo = jdtInfo.analyseType(annotation.getTypeName());
-
-                    String annotationFullName = annotationTypeInfo.getFullName();
-                    if (annotationFullName.equals(PathVariable.class.getName())) {
-                        fieldInfo.setPathVariable(true);
-                    } else if (annotationFullName.equals(Valid.class.getName())) {
-                        fieldInfo.setFormParam(true);
-                    }
+            for(AnnotationInfo annotationInfo: fieldInfo.getAnnotations()){
+                String annotationFullName = annotationInfo.getTypeInfo().getFullName();
+                if (annotationFullName.equals(PathVariable.class.getName())) {
+                    fieldInfo.setPathVariable(true);
+                } else if (annotationFullName.equals(Valid.class.getName())) {
+                    fieldInfo.setFormParam(true);
                 }
             }
 
@@ -179,4 +172,6 @@ public class JdtApiModuleAnalyse extends JdtAbstractModuleAnalyse {
             apiMethodInfo.addParam(fieldInfo);
         }
     }
+
+
 }
