@@ -2,6 +2,7 @@ package org.forkjoin.core.dao;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Map;
 
 import org.springframework.jdbc.core.RowMapper;
 
@@ -39,4 +40,7 @@ public interface TableInfo<T extends EntityObject, K extends KeyObject>{
 	<C extends T> RowMapper<C> getRowMapper(Class<C> cls);
 
 	String getDbTableName();
+
+	Map<String, UniqueInfo> getUniques();
+	UniqueInfo getUniques(String uniqueName);
 }

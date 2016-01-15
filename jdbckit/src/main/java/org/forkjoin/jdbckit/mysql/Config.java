@@ -9,6 +9,7 @@ public class Config {
     private String objectPack = "entity";
     private String daoPack = "dao";
     private String charset = "utf8";
+    private String tablePrefix;
 
     private File dir;
     private File resourcesDir;
@@ -85,4 +86,13 @@ public class Config {
     public File getResourcesDir() {
         return resourcesDir;
     }
+
+    public String getTablePrefix() {
+        return tablePrefix;
+    }
+
+    public void setTablePrefix(String tablePrefix) {
+        this.tablePrefix = tablePrefix;
+    }
 }
+

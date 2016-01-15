@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ConnectionCallback;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.JdbcUtils;
 
 import java.sql.Connection;
@@ -152,32 +153,32 @@ public class BaseDaoImpi<T extends EntityObject, K extends KeyObject>
         });
     }
 
-//    @Override
-//    public boolean del(final String key0, final Object value0) {
-//        return getJdbcTemplate().execute(new ConnectionCallback<Boolean>() {
-//            @Override
-//            public Boolean doInConnection(Connection con) throws SQLException, DataAccessException {
-//                PreparedStatement ps = null;
-//                try {
-//                    String tableName = tableInfo.getDbTableName();
-//                    String sql = "DELETE FROM `" + tableName + "` WHERE `" + key0 + "` = ?";
-//
-//                    if (log.isDebugEnabled()) {
-//                        log.debug("del by {}: {}[map:{}]", tableName, sql, value0);
-//                    }
-//                    ps = con.prepareStatement(sql);
-//                    ps.setObject(1, value0);
-//
-//                    return ps.executeUpdate() > 0;
-//                } catch (Exception e) {
-//                    log.error("sql错误", e);
-//                    throw e;
-//                } finally {
-//                    JdbcUtils.closeStatement(ps);
-//                }
-//            }
-//        });
-//    }
+    @Override
+    public boolean del(final String key0, final Object value0) {
+        return getJdbcTemplate().execute(new ConnectionCallback<Boolean>() {
+            @Override
+            public Boolean doInConnection(Connection con) throws SQLException, DataAccessException {
+                PreparedStatement ps = null;
+                try {
+                    String tableName = tableInfo.getDbTableName();
+                    String sql = "DELETE FROM `" + tableName + "` WHERE `" + SqlUtils.nameFilter(key0) + "` = ?";
+
+                    if (log.isDebugEnabled()) {
+                        log.debug("del by {}: {}[map:{}]", tableName, sql, value0);
+                    }
+                    ps = con.prepareStatement(sql);
+                    ps.setObject(1, value0);
+
+                    return ps.executeUpdate() > 0;
+                } catch (Exception e) {
+                    log.error("sql错误", e);
+                    throw e;
+                } finally {
+                    JdbcUtils.closeStatement(ps);
+                }
+            }
+        });
+    }
 //
 //    /**
 //     * 更具排序删除
@@ -346,7 +347,7 @@ public class BaseDaoImpi<T extends EntityObject, K extends KeyObject>
         boolean isAdd = false;
         ArrayList<Object> list = new ArrayList<>();
         for (Map.Entry<String, Object> e : m.entrySet()) {
-            String name = e.getKey();
+            String name = SqlUtils.nameFilter(e.getKey());
             list.add(e.getValue());
 
             if (isAdd) {
@@ -369,7 +370,7 @@ public class BaseDaoImpi<T extends EntityObject, K extends KeyObject>
         boolean isAdd = false;
         ArrayList<Object> list = new ArrayList<>();
         for (Map.Entry<String, Object> e : m.entrySet()) {
-            String name = e.getKey();
+            String name = SqlUtils.nameFilter(e.getKey());
             list.add(e.getValue());
 
             if (isAdd) {
@@ -400,13 +401,38 @@ public class BaseDaoImpi<T extends EntityObject, K extends KeyObject>
     }
 
     @Override
+    public long getCount(Select select) {
+        return readOnlyDaoImpi.getCount(select);
+    }
+
+    @Override
     public PageResult<T> findPage(QueryParams params, Order order, int page, int pageSize) {
         return readOnlyDaoImpi.findPage(params, order, page, pageSize);
     }
 
     @Override
+    public PageResult<T> findPage(Select select, int page, int pageSize) {
+        return readOnlyDaoImpi.findPage(select, page, pageSize);
+    }
+
+    @Override
+    public <C> PageResult<C> findPageBySelect(Select select, RowMapper<C> rowMapper, int page, int pageSize) {
+        return readOnlyDaoImpi.findPageBySelect(select, rowMapper, page, pageSize);
+    }
+
+    @Override
     public List<T> find(int max, QueryParams params, Order order) {
         return readOnlyDaoImpi.find(max, params, order);
+    }
+
+    @Override
+    public List<T> find(int max, Select select) {
+        return readOnlyDaoImpi.find(max, select);
+    }
+
+    @Override
+    public <C> List<C> findBySelect(int max, Select select, RowMapper<C> rowMapper) {
+        return readOnlyDaoImpi.findBySelect(max, select, rowMapper);
     }
 
     @Override

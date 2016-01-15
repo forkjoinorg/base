@@ -2,6 +2,7 @@ package org.forkjoin.core.dao.impi;
 
 import org.forkjoin.core.PageResult;
 import org.forkjoin.core.dao.*;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
  */
 public abstract class AbstractReadOnlyDao<T extends EntityObject, K extends KeyObject>
         extends JdbcDaoSupport implements ReadOnlyDao<T, K> {
+
 
     @Override
     public PageResult<T> findPage(int page, int pageSize) {
@@ -66,7 +68,7 @@ public abstract class AbstractReadOnlyDao<T extends EntityObject, K extends KeyO
 
     @Override
     public T findObject() {
-        return findObject(null);
+        return findObject((QueryParams) null);
     }
 
     @Override
@@ -85,5 +87,18 @@ public abstract class AbstractReadOnlyDao<T extends EntityObject, K extends KeyO
     }
 
     @Override
-    public abstract T findObject(QueryParams params);
+    public T findObject(QueryParams params) {
+        List<T> results = find(1, params);
+        return DataAccessUtils.singleResult(results);
+    }
+
+    ;
+
+    @Override
+    public T findObject(Select select) {
+        List<T> results = find(1, select);
+        return DataAccessUtils.singleResult(results);
+    }
+
+    ;
 }

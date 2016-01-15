@@ -73,6 +73,7 @@ public abstract class AbstractHttpClientAdapter {
                         .map(entry -> new BasicNameValuePair(entry.getKey(), AbstractHttpClientAdapter.this.toString(entry.getValue())))
                         .collect(toList());
 
+
                 requestBuilder.setEntity(new UrlEncodedFormEntity(collect, CHARSET));
             } else {
                 for (Map.Entry<String, Object> entry : form) {

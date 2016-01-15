@@ -24,7 +24,12 @@ public class HttlUtils {
         static {
             Properties configProperties = new Properties();
 //            configProperties.load(ObjectCreate.class.getResourceAsStream("/com/isnowfox/dbtool/mysql/httl.properties"));
-            engine = Engine.getEngine(HttlUtils.class.getResource("/org/forkjoin/jdbckit/mysql/httl.properties").getFile());
+            try {
+                configProperties.load(HttlUtils.class.getResourceAsStream("/org/forkjoin/jdbckit/mysql/httl.properties"));
+            } catch (IOException e) {
+                throw new RuntimeException();
+            }
+            engine = Engine.getEngine(configProperties);
         }
     }
 

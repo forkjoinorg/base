@@ -1,6 +1,7 @@
 package org.forkjoin.core.dao;
 
 import org.forkjoin.core.PageResult;
+import org.springframework.jdbc.core.RowMapper;
 
 import java.util.List;
 
@@ -14,6 +15,8 @@ public interface ReadOnlyDao<T extends EntityObject, K extends KeyObject> {
 
     long getCount(QueryParams params);
 
+    long getCount(Select select);
+
 
     PageResult<T> findPage(int page, int pageSize);
 
@@ -23,6 +26,9 @@ public interface ReadOnlyDao<T extends EntityObject, K extends KeyObject> {
 
     PageResult<T> findPage(QueryParams params, Order order, int page, int pageSize);
 
+    PageResult<T> findPage(Select select, int page, int pageSize);
+
+    <C> PageResult<C> findPageBySelect(Select select, final RowMapper<C> rowMapper, final int page, final int pageSize);
 
 
     List<T> find(int max);
@@ -39,6 +45,9 @@ public interface ReadOnlyDao<T extends EntityObject, K extends KeyObject> {
 
     List<T> find(int max, QueryParams params, Order order);
 
+    List<T> find(int max, Select select);
+
+    <C> List<C> findBySelect(int max, Select select, final RowMapper<C> rowMapper);
 
     T findObject();
 
@@ -49,4 +58,6 @@ public interface ReadOnlyDao<T extends EntityObject, K extends KeyObject> {
     T findObject(String key0, Object value0, String key1, Object value1, String key2, Object value2);
 
     T findObject(QueryParams params);
+
+    T findObject(Select select);
 }

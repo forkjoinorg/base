@@ -11,11 +11,14 @@
         <module>jdbckit</module>
         <module>apikit</module>
         <module>apikit-example</module>
+
     </modules>
     <properties>
         <spring.version>4.1.6.RELEASE</spring.version>
         <jackson.version>2.5.2</jackson.version>
         <junit.version>4.12</junit.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
     </properties>
     <dependencies>
         <dependency>
@@ -222,16 +225,16 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
-                        <encoding>UTF-8</encoding>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                        <encoding>${project.build.sourceEncoding}</encoding>
                     </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
                     <configuration>
-                        <encoding>UTF-8</encoding>
+                        <encoding>${project.build.sourceEncoding}</encoding>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -244,7 +247,7 @@
                             <file>
                                 <name>.settings/org.eclipse.core.resources.prefs</name>
                                 <content>
-                                    <![CDATA[eclipse.preferences.version=1${line.separator}encoding/<project>=UTF-8${line.separator}]]>
+                                    <![CDATA[eclipse.preferences.version=1${line.separator}encoding/<project>=${project.build.sourceEncoding}${line.separator}]]>
                                 </content>
                             </file>
                         </additionalConfig>
@@ -294,7 +297,7 @@
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <configuration>
                         <locale>zh_CN</locale>
-                        <encoding>UTF-8</encoding>
+                        <encoding>${project.build.sourceEncoding}</encoding>
                     </configuration>
                     <executions>
                         <execution>

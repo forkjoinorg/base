@@ -1,5 +1,7 @@
 package org.forkjoin.spring;
 
+import org.forkjoin.api.Account;
+import org.forkjoin.util.RequestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.method.HandlerMethod;
@@ -19,30 +21,30 @@ public abstract class AccountHandlerInterceptor<T> extends HandlerInterceptorAda
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-//        if (log.isDebugEnabled()) {
-//            log.debug("request:{}", RequestUtils.dump(request));
-//        }
-//        response.setHeader("Cache-Control", "no-cache,no-store");
-//        response.setIntHeader("Expires", -1);
-//        response.setHeader("Pragma", "no-cache");
-//
-//        if (handler instanceof HandlerMethod) {
-//            HandlerMethod handlerMethod = (HandlerMethod) handler;
-//            //默认都需要权限
-//            Account methodAnnotation = handlerMethod.getMethodAnnotation(Account.class);
-//            if (methodAnnotation == null || methodAnnotation.value()) {
-//                T accountObject = getAccountObject(request);
-//                if (accountObject == null) {
-//                    throw new AccountRuntimeException("未登录:" + request.getRequestURI() + ",ParameterMap:" + request.getParameterMap());
-//                }
-//                if (check(handlerMethod, accountObject)) {
-//                    request.setAttribute(ACCOUNT_REQUEST_ATTRIBUTE, accountObject);
-//                } else {
-//                    throw new AccountRuntimeException("没有权限:" + request.getRequestURI() + ",ParameterMap:" + RequestUtils.dump(request));
-//                }
-//            }
-//            return super.preHandle(request, response, handler);
-//        }
+        if (log.isDebugEnabled()) {
+            log.debug("request:{}", RequestUtils.dump(request));
+        }
+        response.setHeader("Cache-Control", "no-cache,no-store");
+        response.setIntHeader("Expires", -1);
+        response.setHeader("Pragma", "no-cache");
+
+        if (handler instanceof HandlerMethod) {
+            HandlerMethod handlerMethod = (HandlerMethod) handler;
+            //默认都需要权限
+            Account methodAnnotation = handlerMethod.getMethodAnnotation(Account.class);
+            if (methodAnnotation == null || methodAnnotation.value()) {
+                T accountObject = getAccountObject(request);
+                if (accountObject == null) {
+                    throw new AccountRuntimeException("未登录:" + request.getRequestURI() + ",ParameterMap:" + request.getParameterMap());
+                }
+                if (check(handlerMethod, accountObject)) {
+                    request.setAttribute(ACCOUNT_REQUEST_ATTRIBUTE, accountObject);
+                } else {
+                    throw new AccountRuntimeException("没有权限:" + request.getRequestURI() + ",ParameterMap:" + RequestUtils.dump(request));
+                }
+            }
+            return super.preHandle(request, response, handler);
+        }
         return super.preHandle(request, response, handler);
     }
 

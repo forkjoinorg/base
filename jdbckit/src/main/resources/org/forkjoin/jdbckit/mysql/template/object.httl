@@ -1,21 +1,27 @@
 <!--#set(Table t)-->
 <!--#set(Column c)-->
 <!--#set(SqlUtils sql)-->
+<!--#set(UniqueIndex index)-->
 package  $!{pack};
 
 import java.beans.Transient;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+
+
+import org.forkjoin.core.dao.UniqueInfo;
 
 
 import org.springframework.jdbc.core.RowMapper;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import com.isnowfox.core.dao.EntityObject;
-import com.isnowfox.core.dao.KeyObject;
-import com.isnowfox.core.dao.TableInfo;
+import  org.forkjoin.core.dao.EntityObject;
+import  org.forkjoin.core.dao.KeyObject;
+import  org.forkjoin.core.dao.TableInfo;
 <!--	#if(t.hasDateColumns)-->
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -76,9 +82,26 @@ public class $!{t.className}DO extends EntityObject<$!{t.className}DO, $!{t.clas
 		}
 <!--#end-->
 
+        @Override
+        public String toStringKey(){
+<!--		#if(t.keyColumns.size > 1)-->
+            StringBuilder sb = new StringBuilder();
+<!--    		#for(c : t.keyColumns)-->
+<!--    		    #if(for.index != 0)-->
+            sb.append('-');
+<!--    		    #end-->
+            sb.append($!{c.getGetName()}());
+<!--    		#end-->
+            return sb.toString();
+<!--    	#else-->
+<!--#set(Column c = t.keyColumns.get(0))-->
+            return String.valueOf($!{c.getGetName()}());
+<!--    	#end-->
+
+        }
 
 		@Override
-		public ThisTableInfo getTableInfo() {
+		public Table getTableInfo() {
 			return TABLE_INFO;
 		}
 
@@ -112,11 +135,13 @@ public class $!{t.className}DO extends EntityObject<$!{t.className}DO, $!{t.clas
 		};
 	}
 
+
+
 ##构造函数
 	public $!{t.className}DO() {
     }
 
- <!--#if(t.hasConstructorArgs)-->
+<!--#if(t.hasConstructorArgs)-->
 	public $!{t.className}DO($!{t.constructorArgs}) {
 <!--		#for(c : t.allColumns)-->
 <!--			#if(!c.autoIncrement)-->
@@ -125,6 +150,18 @@ public class $!{t.className}DO extends EntityObject<$!{t.className}DO, $!{t.clas
 <!--		#end-->
 	}
 <!--#end-->
+
+    public void setKey(Object key){
+<!--#if(t.keyColumn)-->
+<!--    #if(t.keyColumn.className == "int")-->
+        this.$!{t.keyColumn.fieldName} = ((Number)key).intValue();
+<!--    #else-->
+        this.$!{t.keyColumn.fieldName} = ($!{t.keyColumn.className})key;
+<!--    #end-->
+<!--#else-->
+        throw new RuntimeException("未实现的方法!");
+<!--#end-->
+    }
 <!--#for(c : t.allColumns)-->
 
 <!--		#if(c.remark)-->
@@ -154,6 +191,18 @@ public class $!{t.className}DO extends EntityObject<$!{t.className}DO, $!{t.clas
 <!--		#end-->
 <!--#end-->
 
+    @Override
+    public Object get(String dbName){
+        switch(dbName){
+<!--#for(c : t.allColumns)-->
+        case "$!{c.dbName}":
+            return $!{c.fieldName};
+<!--#end-->
+        default :
+            return null;
+        }
+    }
+
 	@Override
 	public String toString() {
 		return $!{t.getToString()};
@@ -162,31 +211,51 @@ public class $!{t.className}DO extends EntityObject<$!{t.className}DO, $!{t.clas
 	@Override
 	@JsonIgnore
     @Transient
-	public ThisTableInfo getTableInfo() {
+	public Table getTableInfo() {
 		return TABLE_INFO;
 	}
 
-	public static final ThisTableInfo TABLE_INFO= new ThisTableInfo();
+	public static final Table TABLE_INFO= new Table();
 
-	public static final class ThisTableInfo implements TableInfo<$!{t.className}DO ,Key>{
+	public static final class Table implements TableInfo<$!{t.className}DO ,Key>{
 		public static final String DB_TABLE_NAME = "$!{t.dbName}";
+		private Map<String, UniqueInfo> uniqueMap;
 
 <!--#for(c : t.allColumns)-->
-		public static final String $!{c.constantName}_DB_NAME = "$!{c.dbName}";
+		public static final String $!{c.constantName} = "$!{c.dbName}";
 <!--#end-->
 
-		private ThisTableInfo(){
+<!--#for(index : t.uniqueIndexes.values())-->
+        public static final String UNIQUE_$!{index.constantName} = "$!{index.indexName}";
+<!--#end-->
+
+		private Table(){
+		    uniqueMap = new HashMap<>();
+<!--#for(index : t.uniqueIndexes.values())-->
+		    uniqueMap.put("$!{index.indexName}", new UniqueInfo("$!{index.indexName}", $!{index.toFieldsArgs()}));
+<!--#end-->
 		}
 
 		@Override public String getKeyUpdatePartialPrefixSql(){
 			return "$!{sql.toUpdatePartialPrefix(t)}";
 		}
+
 		@Override public String getKeyWhereByKeySql(){
 			return "$!{sql.toWhereByKey(t)}";
 		}
+
 		@Override public String getKeyDeleteSql(){
 			return "$!{sql.toDelete(t)}";
 		}
+
+		@Override public Map<String, UniqueInfo> getUniques(){
+            return uniqueMap;
+		}
+
+		@Override
+        public UniqueInfo getUniques(String uniqueName){
+            return uniqueMap.get(uniqueName);
+        }
 
 		@Override
 		public int setPreparedStatement($!{t.className}DO t, PreparedStatement ps, int i, boolean isSetUnique) throws SQLException {

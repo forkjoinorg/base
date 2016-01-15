@@ -85,7 +85,7 @@ public abstract class MarkCompressOutput extends AbstractOutput implements MarkC
     }
 
     /* (non-Javadoc)
-         * @see com.isnowfox.core.io.bytes.Output#flush()
+         * @see  org.forkjoin.core.io.bytes.Output#flush()
          */
     @Override
     public final void flush() throws IOException {
@@ -93,7 +93,7 @@ public abstract class MarkCompressOutput extends AbstractOutput implements MarkC
     }
 
     /* (non-Javadoc)
-     * @see com.isnowfox.core.io.bytes.Output#close()
+     * @see  org.forkjoin.core.io.bytes.Output#close()
      */
     @Override
     public final void close() throws IOException {
@@ -101,7 +101,7 @@ public abstract class MarkCompressOutput extends AbstractOutput implements MarkC
     }
 
     /* (non-Javadoc)
-     * @see com.isnowfox.core.io.bytes.Output#writeBoolean(boolean)
+     * @see  org.forkjoin.core.io.bytes.Output#writeBoolean(boolean)
      */
     @Override
     public final void writeBoolean(boolean v) throws IOException {
@@ -110,7 +110,7 @@ public abstract class MarkCompressOutput extends AbstractOutput implements MarkC
 
 
     /* (non-Javadoc)
-     * @see com.isnowfox.core.io.bytes.Output#writeInt(int)
+     * @see  org.forkjoin.core.io.bytes.Output#writeInt(int)
      */
     @Override
     public final void writeInt(int v) throws IOException {
@@ -151,7 +151,7 @@ public abstract class MarkCompressOutput extends AbstractOutput implements MarkC
 
 
     /* (non-Javadoc)
-     * @see com.isnowfox.core.io.bytes.Output#writeLong(long)
+     * @see  org.forkjoin.core.io.bytes.Output#writeLong(long)
      */
     @Override
     public final void writeLong(long v) throws IOException {
@@ -220,7 +220,7 @@ public abstract class MarkCompressOutput extends AbstractOutput implements MarkC
     }
 
     /* (non-Javadoc)
-     * @see com.isnowfox.core.io.bytes.Output#writeDouble(double)
+     * @see  org.forkjoin.core.io.bytes.Output#writeDouble(double)
      */
     @Override
     public final void writeDouble(double v) throws IOException {
@@ -228,7 +228,7 @@ public abstract class MarkCompressOutput extends AbstractOutput implements MarkC
     }
 
     /* (non-Javadoc)
-     * @see com.isnowfox.core.io.bytes.Output#writeString(java.lang.String)
+     * @see  org.forkjoin.core.io.bytes.Output#writeString(java.lang.String)
      */
     @Override
     public final void writeString(String s) throws IOException {

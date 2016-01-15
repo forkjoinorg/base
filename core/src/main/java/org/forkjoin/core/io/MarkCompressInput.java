@@ -71,7 +71,7 @@ public abstract class MarkCompressInput extends AbstractInput implements MarkCom
 	}
 
 	/* (non-Javadoc)
-	 * @see com.isnowfox.core.io.bytes.Input#close()
+	 * @see  org.forkjoin.core.io.bytes.Input#close()
 	 */
 	@Override
 	public void close() throws IOException {
@@ -142,7 +142,7 @@ public abstract class MarkCompressInput extends AbstractInput implements MarkCom
 		}
 	}
 	/* (non-Javadoc)
-	 * @see com.isnowfox.core.io.bytes.Input#readBoolean()
+	 * @see  org.forkjoin.core.io.bytes.Input#readBoolean()
 	 */
 	@Override
 	public boolean readBoolean() throws IOException, ProtocolException {
@@ -157,7 +157,7 @@ public abstract class MarkCompressInput extends AbstractInput implements MarkCom
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.isnowfox.core.io.bytes.Input#readInt()
+	 * @see  org.forkjoin.core.io.bytes.Input#readInt()
 	 */
 	@Override
 	public int readInt() throws IOException, ProtocolException {
@@ -185,7 +185,7 @@ public abstract class MarkCompressInput extends AbstractInput implements MarkCom
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.isnowfox.core.io.bytes.Input#readLong()
+	 * @see  org.forkjoin.core.io.bytes.Input#readLong()
 	 */
 	@Override
 	public long readLong() throws IOException, ProtocolException {
@@ -221,7 +221,7 @@ public abstract class MarkCompressInput extends AbstractInput implements MarkCom
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.isnowfox.core.io.bytes.Input#readDouble()
+	 * @see  org.forkjoin.core.io.bytes.Input#readDouble()
 	 */
 	@Override
 	public double readDouble() throws IOException, ProtocolException {

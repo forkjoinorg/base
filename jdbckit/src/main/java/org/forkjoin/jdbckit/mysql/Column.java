@@ -56,6 +56,10 @@ public class Column {
 
     public String getResultGetMethod() {
         switch (type) {
+            case Types.TINYINT:
+                return "getByte";
+            case Types.SMALLINT:
+                return "getShort";
             case Types.BIGINT:
                 return "getLong";
             case Types.BIT:
@@ -116,6 +120,8 @@ public class Column {
                 case Types.DOUBLE:
                 case Types.FLOAT:
                 case Types.INTEGER:
+                case Types.TINYINT:
+                case Types.SMALLINT:
                     return "0";
                 case Types.BOOLEAN:
                     return "false";
@@ -134,6 +140,10 @@ public class Column {
 
     public String getWrapClassName() {
         switch (type) {
+            case Types.TINYINT:
+                return "Byte";
+            case Types.SMALLINT:
+                return "Short";
             case Types.BIGINT:
                 return "Long";
             case Types.BIT:
@@ -186,6 +196,10 @@ public class Column {
             return mapClassName;
         }
         switch (type) {
+            case Types.TINYINT:
+                return nullable ? "Byte" : "byte";
+            case Types.SMALLINT:
+                return nullable ? "Short" : "short";
             case Types.BIGINT:
                 return nullable ? "Long" : "long";
             case Types.BIT:

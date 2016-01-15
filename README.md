@@ -43,3 +43,16 @@ jdbckit 带来的好处
 
 1. 简单
 2. join效率问题，几乎所有sql 中间件都不能很好处理 join
+
+
+
+## maven
+
+`
+<repositories>
+  <repository>
+    <id>maven-repository</id>
+    <url>https://raw.githubusercontent.com/zuoge85/maven-repo/master/repository/</url>
+  </repository>
+</repositories>
+`

@@ -21,6 +21,8 @@ public class Table {
             .compile("XML:([^;]+);{1}(.*)");
     private static final Pattern JSON_PATTERN = Pattern
             .compile("JSON:([^;]+);{1}(.*)");
+
+
     private static final Logger log = LoggerFactory.getLogger(Table.class);
     private String name;
     private String type;
@@ -34,10 +36,12 @@ public class Table {
     private boolean oneKey;
     private boolean key;
     private Map<String, UniqueIndex> uniqueIndexes = new HashMap<>();
+    private String tablePrefix;
 
-    public Table(Connection con, DatabaseMetaData dm, String name, String type,
+    public Table(String tablePrefix, Connection con, DatabaseMetaData dm, String name, String type,
                  String remark) throws SQLException {
         super();
+        this.tablePrefix = tablePrefix;
         this.name = name;
         this.type = type;
         this.remark = remark;
@@ -151,8 +155,7 @@ public class Table {
             indexRs = dm.getIndexInfo(null, null, name, true, false);
             while (indexRs.next()) {
                 String cname = String.valueOf(indexRs.getObject("COLUMN_NAME"));
-                String indexName = String.valueOf(indexRs
-                        .getObject("INDEX_NAME"));
+                String indexName = String.valueOf(indexRs.getObject("INDEX_NAME"));
                 int ordinalPosition = indexRs.getInt("ORDINAL_POSITION");
 
                 addUniqueIndex(cname, indexName, ordinalPosition);
@@ -338,10 +341,16 @@ public class Table {
     }
 
     public String getClassName() {
+        if(tablePrefix != null && name.startsWith(tablePrefix)){
+            return NameUtils.toClassName(name.substring(tablePrefix.length()));
+        }
         return NameUtils.toClassName(name);
     }
 
     public String getFieldName() {
+        if(tablePrefix != null && name.startsWith(tablePrefix)){
+            return NameUtils.toFieldName(name.substring(tablePrefix.length()));
+        }
         return NameUtils.toFieldName(name);
     }
 

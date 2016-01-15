@@ -5,7 +5,7 @@
 <!--#set(String beanPack)-->
 package $!{implPack};
 
-import com.isnowfox.core.dao.impi.BaseDaoImpi;
+import  org.forkjoin.core.dao.impi.BaseDaoImpi;
 import $!{beanPack}.$!{t.className}DO;
 
 import org.springframework.stereotype.Component;

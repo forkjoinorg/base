@@ -31,7 +31,7 @@ public class Builder {
 			String name=String.valueOf(rs.getObject("TABLE_NAME"));
 			String remark=String.valueOf(rs.getObject("REMARKS"));
 			if(type.equals("TABLE")){
-				Table t=new Table(conn,dm,name,type,remark);
+				Table t=new Table(config.getTablePrefix(), conn,dm,name,type,remark);
 				list.add(t);
 			}
 		}

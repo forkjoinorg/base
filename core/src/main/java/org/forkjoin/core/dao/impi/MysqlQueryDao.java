@@ -1,17 +1,11 @@
 package org.forkjoin.core.dao.impi;
 
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.List;
-import java.util.Map;
-
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import org.forkjoin.core.PageResult;
 import org.forkjoin.core.dao.MysqlJdbcDaoSupport;
 import org.forkjoin.core.dao.SqlQueryDao;
-import org.forkjoin.core.PageResult;
 import org.forkjoin.core.dao.grid.Column;
 import org.forkjoin.core.dao.grid.Columns;
 import org.forkjoin.core.dao.grid.GridPageResult;
@@ -19,14 +13,15 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.support.JdbcUtils;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import java.sql.*;
+import java.util.List;
+import java.util.Map;
 
 
 public class MysqlQueryDao extends MysqlJdbcDaoSupport implements SqlQueryDao {
 	
 	@Override
-	public PageResult<Map<String,Object>> queryData(final Columns columns,final String sql,final int page,final int pageSize){
+	public PageResult<Map<String,Object>> queryData(final Columns columns, final String sql, final int page, final int pageSize){
 		return getJdbcTemplate().execute(new ConnectionCallback<PageResult<Map<String,Object>>>() {
 			@Override
 			public PageResult<Map<String,Object>> doInConnection(Connection con) throws SQLException,
@@ -67,7 +62,7 @@ public class MysqlQueryDao extends MysqlJdbcDaoSupport implements SqlQueryDao {
 	}
 	
 	@Override
-	public GridPageResult<Map<String,Object>> query(final String sql,final int page,final int pageSize){
+	public GridPageResult<Map<String,Object>> query(final String sql, final int page, final int pageSize){
 		return getJdbcTemplate().execute(new ConnectionCallback<GridPageResult<Map<String,Object>>>() {
 			@Override
 			public GridPageResult<Map<String,Object>> doInConnection(Connection con) throws SQLException,

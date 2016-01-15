@@ -1,5 +1,7 @@
 package org.forkjoin.jdbckit.mysql;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import java.util.TreeSet;
 
 /**
@@ -20,6 +22,23 @@ public class UniqueIndex {
         fields.add(field);
     }
 
+    public String getConstantName() {
+        return indexName.toUpperCase();
+    }
+
+
+    public String toFieldsArgs() {
+        StringBuilder sb = new StringBuilder();
+        for (Field field : fields) {
+            if(sb.length() > 0){
+                sb.append(" ,");
+            }
+            sb.append('"');
+            sb.append(StringEscapeUtils.escapeJava(field.fieldName));
+            sb.append('"');
+        }
+        return sb.toString();
+    }
     public String getIndexName() {
         return indexName;
     }

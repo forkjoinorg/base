@@ -17,6 +17,8 @@ public interface BaseDao<T extends EntityObject, K extends KeyObject> extends Re
 
     boolean del(K key);
 
+    boolean del(String key0, Object value0);
+
 //    boolean del(String key0, Object value0);
 
 //    boolean del(String key0, Object value0, Order order, int n);

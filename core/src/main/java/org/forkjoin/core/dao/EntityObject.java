@@ -69,6 +69,13 @@ public abstract class EntityObject<T extends EntityObject, K extends KeyObject> 
         return entityVersion.get();
     }
 
+    /**
+     * 可选函数
+     */
+    public abstract void setKey(Object key);
+
+    public abstract Object get(String dbName);
+
 //	@JsonIgnore @Transient public void daoDelete(){
 //		daoIsDelete = true;
 //	}
@@ -76,8 +83,4 @@ public abstract class EntityObject<T extends EntityObject, K extends KeyObject> 
 //	@JsonIgnore @Transient public boolean isDaoDelete(){
 //		return daoIsDelete;
 //	}
-
-    public abstract class KK {
-
-    }
 }
