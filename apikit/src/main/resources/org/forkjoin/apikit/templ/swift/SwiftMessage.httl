@@ -1,6 +1,6 @@
 <!--#set(MessageInfo m)-->
 <!--#set(AttributeInfo attr)-->
-<!--#set(SwiftMessageUtils utils)-->
+<!--#set(SwiftMessageWrapper utils)-->
 <!--#set(SupportType type)-->
 //
 //

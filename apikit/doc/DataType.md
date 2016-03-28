@@ -5,14 +5,15 @@
 0. void *(只在api返回值)*
 1. boolean
 2. byte *(8位有符号整数)*
-3. int *(32位有符号整数)*
-4. long *(64位有符号整数)*
-5. float *(32位浮点数)*
-6. double *(64位浮点数)*
-7. String 
-8. Date
-9. enum 枚举类型，只支持简单枚举类型
-10. Message类型
+3. short *(16位有符号整数)*
+4. int *(32位有符号整数)*
+5. long *(64位有符号整数)*
+6. float *(32位浮点数)*
+7. double *(64位浮点数)*
+8. String 
+9. Date
+10. enum 枚举类型，只支持简单枚举类型
+11. Message类型
 
 
 
@@ -24,6 +25,7 @@
     :----------:|-----------|----
     boolean     | boolean   | c
     int         | int       | f
+    short       | short       | f
     long        | long      | i
     float       | float     | i
     double      | double    | i

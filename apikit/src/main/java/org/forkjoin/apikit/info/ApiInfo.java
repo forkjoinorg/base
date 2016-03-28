@@ -1,32 +1,43 @@
 package org.forkjoin.apikit.info;
 
+import org.forkjoin.api.ActionType;
 import org.forkjoin.apikit.AnalyseException;
 
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
- * api 信
+ * api 信息
  *
  * @author zuoge85 on 15/6/11.
  */
 public class ApiInfo extends ModuleInfo {
-    private Map<String, ApiMethodInfo> methodInfosMap = new LinkedHashMap<>();
-
-//    private Set<String> idSet = new HashSet<>();
+    private Map<String, Map<ActionType, ApiMethodInfo>> methodInfosMap = new HashMap<>();
+    private ArrayList<ApiMethodInfo> methodInfos = new ArrayList<>();
 
     public void addApiMethod(ApiMethodInfo apiMethodInfo) {
-        if (methodInfosMap.put(apiMethodInfo.getUrl(), apiMethodInfo) != null) {
-            throw new AnalyseException("严重错误,url 重复:" + apiMethodInfo.getUrl());
+        Map<ActionType, ApiMethodInfo> map = methodInfosMap.get(apiMethodInfo.getUrl());
+        if (map == null) {
+            map = new HashMap<>();
+            methodInfosMap.put(apiMethodInfo.getUrl(), map);
         }
+        if (map.put(apiMethodInfo.getType(), apiMethodInfo) != null) {
+            throw new AnalyseException(apiMethodInfo + "apiMethodInfo严重错误,重复的定义:url" + apiMethodInfo.getUrl() + ",type:" + apiMethodInfo.getType());
+        }
+        methodInfos.add(apiMethodInfo);
     }
 
-    public Map<String, ApiMethodInfo> getMethodInfosMap() {
-        return methodInfosMap;
+    public ApiMethodInfo get(String url, ActionType type) {
+        Map<ActionType, ApiMethodInfo> map = methodInfosMap.get(url);
+        if (map == null) {
+            return null;
+        }
+        return map.get(type);
     }
 
-    public ApiMethodInfo get(String url){
-        return methodInfosMap.get(url);
+    public ArrayList<ApiMethodInfo> getMethodInfos() {
+        return methodInfos;
     }
 
     @Override
@@ -36,14 +47,4 @@ public class ApiInfo extends ModuleInfo {
                 '}';
     }
 
-
-//    @Override
-//    public String getFiledName() {
-//        String name = getName();
-//        if (StringUtils.isNotEmpty(name)) {
-//            char c = name.charAt(0);
-//            return Character.toLowerCase(c) + name.substring(1);
-//        }
-//        return null;
-//    }
 }

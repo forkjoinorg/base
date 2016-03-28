@@ -9,6 +9,7 @@ import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import org.forkjoin.core.type.GsonBytesTypeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.forkjoin.core.type.SqlDateTypeAdapter;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -23,8 +24,10 @@ public class JsonUtils {
     //private static final SimpleFilterProvider prov = new SimpleFilterProvider();
     static {
         GsonBytesTypeAdapter bytesTypeAdapter = new GsonBytesTypeAdapter();
+        SqlDateTypeAdapter sqlDateTypeAdapter = new SqlDateTypeAdapter();
         gson = new GsonBuilder().setDateFormat(FORMAT_PATTERN)
-                .registerTypeAdapter(byte[].class, bytesTypeAdapter).create();
+                .registerTypeAdapter(byte[].class, bytesTypeAdapter)
+                .registerTypeAdapter(java.sql.Date.class, sqlDateTypeAdapter).create();
 
 
         mapper.registerModule(new GuavaModule());
@@ -42,6 +45,8 @@ public class JsonUtils {
         SimpleDateFormat dateFormat = new SimpleDateFormat(FORMAT_PATTERN);
         dateFormat.setLenient(false);
         mapper.setDateFormat(dateFormat);
+
+
         //mapper.constructType(t)
 //		SerializerFactory.
 //		mapper.setSerializerFactory(f);
@@ -104,7 +109,7 @@ public class JsonUtils {
      */
     public static <T> T deserialize(String json, Class<T> valueType) {
         try {
-            return mapper.readValue(json, valueType);
+            return  mapper.readValue(json, valueType);
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage(), e);
         }

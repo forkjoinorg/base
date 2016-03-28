@@ -3,6 +3,9 @@ package org.forkjoin.core.dao;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.beans.Transient;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -75,6 +78,10 @@ public abstract class EntityObject<T extends EntityObject, K extends KeyObject> 
     public abstract void setKey(Object key);
 
     public abstract Object get(String dbName);
+    public abstract boolean set(String dbName, Object obj);
+
+    public abstract T newInstance();
+
 
 //	@JsonIgnore @Transient public void daoDelete(){
 //		daoIsDelete = true;

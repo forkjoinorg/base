@@ -14,6 +14,7 @@ public class Order {
 	public  static Order create(){
 		return new Order();
 	}
+
 	public  static Order create(String name, boolean isDesc){
 		Order p= new Order();
 		p.add(name, isDesc);
@@ -23,6 +24,7 @@ public class Order {
 	public static Order desc(String name){
 		return createSingleton(name, true);
 	}
+
 	public static Order asc(String name){
 		return createSingleton(name, false);
 	}
@@ -47,14 +49,39 @@ public class Order {
 			}
 		};
 	}
+
+	/**
+	 * expression
+     */
+	public static Order createByExp(final String expression,final boolean isDesc){
+		return new Order(){
+			@Override
+			public void toSql(StringBuilder sb) {
+				sb.append(" ORDER BY ");
+				sb.append(expression);
+				if (isDesc) {
+					sb.append(" DESC");
+				}else{
+					sb.append(" ASC");
+				}
+			}
+			@Override
+			public void add(String name, boolean isDesc) {
+				throw new  IllegalStateException("单例Order不能添加");
+			}
+		};
+	}
+
 	public void add(String name, boolean isDesc) {
 		items.add(new Item(name, isDesc));
 	}
+
 	public String toSql() {
 		StringBuilder sb=new StringBuilder();
 		toSql(sb);
 		return sb.toString();
 	}
+
 	public void toSql(StringBuilder sb) {
 		if(items.isEmpty()){
 			return ;
@@ -77,6 +104,7 @@ public class Order {
 			}
 		}
 	}
+
 	static class Item {
 		Item(String name, boolean desc) {
 			this.name = name;

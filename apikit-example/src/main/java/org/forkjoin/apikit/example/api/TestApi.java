@@ -24,7 +24,7 @@ public interface TestApi {
      * 添加
      */
     @Account(false)
-    @ApiMethod(value = "test/", type = ActionType.CREATE)
+    @ApiMethod(value = "test/", type = ActionType.POST)
     TestObject<User> create(@Valid TestForm<User> testForm);
 
     @Account(false)
@@ -32,7 +32,7 @@ public interface TestApi {
     TestObject<User> get(@PathVariable String id);
 
     @Account(false)
-    @ApiMethod(value = "test/", type = ActionType.UPDATE)
+    @ApiMethod(value = "test/", type = ActionType.PUT)
     TestObject<User> update(@Valid TestForm<User> testForm);
 
     @Account(false)

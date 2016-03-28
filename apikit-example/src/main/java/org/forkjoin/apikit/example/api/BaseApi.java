@@ -17,7 +17,7 @@ import javax.validation.Valid;
  */
 @Api
 public interface BaseApi {
-    @ApiMethod(value = "base/", type = ActionType.CREATE)
+    @ApiMethod(value = "base/", type = ActionType.POST)
     @Account(value = true, param = "accountName")
     TestObject<User[]>[] create(@Valid User user, @Valid TestForm<User> testForm);
 
@@ -25,5 +25,6 @@ public interface BaseApi {
     void get(@PathVariable String id);
 
     @ApiMethod("baseUrl/")
+    @Account(value = true, param = "accountName")
     org.forkjoin.apikit.example.model.User create(@Valid User user, @Valid User user1);
 }

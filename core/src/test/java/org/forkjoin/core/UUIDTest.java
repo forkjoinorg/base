@@ -4,6 +4,7 @@ package org.forkjoin.core;
 public class UUIDTest{
 	public static void main(String[] args) {
         System.out.println(Integer.toBinaryString(~0b100));
+        System.out.println(String.format("%%我"));
     }
 //	private static final int COUNT = 100000;
 //	public static void main(String[] args) {

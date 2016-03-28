@@ -44,17 +44,14 @@ public class JdtApiAnalyseTest extends BaseTest {
 
         //测试注释
         JavadocInfo comment = api.getComment();
-        Map.Entry<String, List<String>> entry = comment.getTags().get(0);
+        Map.Entry<String, Collection<String>> entry = comment.getTags(0);
 
         assertJavadocInfo(api.getComment(), "@author", Collections.singletonList(" zuoge85 on 15/6/11."));
 
         //测试Api函数
-        testBase(api.get("base/"));
-
-
-        testBaseId(api.get("base/{id}"));
-
-        testBaseUrl(api.get("baseUrl/"));
+        testBase(api.get("base/",ActionType.POST));
+        testBaseId(api.get("base/{id}", ActionType.GET));
+        testBaseUrl(api.get("baseUrl/", ActionType.GET));
     }
 
     private void testBaseUrl(ApiMethodInfo apiMethodInfo) {
@@ -124,7 +121,6 @@ public class JdtApiAnalyseTest extends BaseTest {
         //测试参数1
         param = params.get(1);
         testApiMethodParam(param, "testForm", "form.TestForm", 1);
-
         assertEquals(1, param.getAnnotations().size());
         annotationInfo = param.getAnnotations().get(0);
         assertType(

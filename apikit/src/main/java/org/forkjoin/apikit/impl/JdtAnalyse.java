@@ -23,7 +23,8 @@ public class JdtAnalyse implements Analyse {
         JdtInfo jdtInfo = new JdtInfo(code, packageName);
 
         ModuleType moduleType = analyseType(jdtInfo);
-        log.debug("模块类型:" + moduleType);
+
+        log.debug("模块类型{},fullName:{}",moduleType, jdtInfo.getFullName());
 
         if (moduleType == null) {
             return null;

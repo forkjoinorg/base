@@ -21,21 +21,30 @@ public class ApiMethodInfo {
      */
     private String accountParam = Account.PARAM_NAME;
 
+
+//    private boolean isPathVariable = false;
+//    private boolean isFormParam = false;
     private ArrayList<ApiMethodParamInfo> params = new ArrayList<>();
-//    private AttributeInfo formParam;
+    private ArrayList<ApiMethodParamInfo> pathParams = new ArrayList<>();
+    private ArrayList<ApiMethodParamInfo> formParams = new ArrayList<>();
 
     private TypeInfo resultType;
     private JavadocInfo comment;
 
     private List<AnnotationInfo> annotations = new ArrayList<>();
-//    private ArrayList<SingleVariableDeclaration> params = new ArrayList<>();
-//    private String id;
+    private String file;
 
     public ApiMethodInfo() {
     }
 
     public void addParam(ApiMethodParamInfo param) {
         params.add(param);
+        if(param.isPathVariable()){
+            pathParams.add(param);
+        }
+        if(param.isFormParam()){
+            formParams.add(param);
+        }
     }
 
     public String getName() {
@@ -123,6 +132,22 @@ public class ApiMethodInfo {
 //    }
 
 
+    public String getFile() {
+        return file;
+    }
+
+    public void setFile(String file) {
+        this.file = file;
+    }
+
+    public ArrayList<ApiMethodParamInfo> getFormParams() {
+        return formParams;
+    }
+
+    public ArrayList<ApiMethodParamInfo> getPathParams() {
+        return pathParams;
+    }
+
     @Override
     public String toString() {
         return "ApiMethodInfo{" +
@@ -135,6 +160,7 @@ public class ApiMethodInfo {
                 ", resultType=" + resultType +
                 ", comment=" + comment +
                 ", annotations=" + annotations +
+                ", file='" + file + '\'' +
                 '}';
     }
 }

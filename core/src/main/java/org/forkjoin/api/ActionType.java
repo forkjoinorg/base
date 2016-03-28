@@ -11,8 +11,8 @@ package org.forkjoin.api;
  */
 public enum ActionType {
     //    GET,POST,DELETE,PUT,GET_OR_POST
-    CREATE, GET,
-    UPDATE, DELETE, PATCH
+    POST, GET,
+    PUT, DELETE, PATCH
 
 //    private static final ImmutableBiMap<ActionType, RequestMethod> typeMap = ImmutableBiMap.<ActionType, RequestMethod>builder()
 //            .put(CREATE, RequestMethod.POST)

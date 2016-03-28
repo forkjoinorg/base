@@ -9,6 +9,7 @@ public final class MessageInfo extends ModuleInfo {
     private List<String> typeParameters = new ArrayList<>();
 
     public MessageInfo() {
+        
     }
 
     public void add(PropertyInfo attributeInfo) {
@@ -35,5 +36,15 @@ public final class MessageInfo extends ModuleInfo {
 
     public List<String> getTypeParameters() {
         return typeParameters;
+    }
+
+
+    @Override
+    public String toString() {
+        return super.toString() + ",MessageInfo{" +
+                "properties=" + properties.size() +
+                ", propertiesMap=" + propertiesMap.size() +
+                ", typeParameters=" + typeParameters.size() +
+                '}';
     }
 }

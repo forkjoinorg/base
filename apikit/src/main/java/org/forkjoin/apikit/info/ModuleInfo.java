@@ -1,12 +1,5 @@
 package org.forkjoin.apikit.info;
 
-import org.apache.commons.lang3.StringUtils;
-import org.eclipse.jdt.core.dom.Javadoc;
-import org.forkjoin.apikit.oldmodel.PackageInfo;
-import org.forkjoin.apikit.oldmodel.SupportType;
-
-import java.util.ArrayList;
-
 /**
  * @author zuoge85 on 15/6/11.
  */
@@ -54,5 +47,9 @@ public class ModuleInfo {
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;
+    }
+
+    public Object getFullName() {
+        return packageName + "." +name;
     }
 }

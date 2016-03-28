@@ -18,6 +18,7 @@ import org.forkjoin.core.dao.UniqueInfo;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import  org.forkjoin.core.dao.EntityObject;
 import  org.forkjoin.core.dao.KeyObject;
@@ -38,7 +39,7 @@ public class $!{t.className}DO extends EntityObject<$!{t.className}DO, $!{t.clas
 	private java.util.Date $!{c.fieldName};
 <!--		#else-->
 <!--			#if(c.objectType != 0 && (! c.nullable))-->
-	private $!{c.className} $!{c.fieldName} = new $!{c.className}();
+	private $!{c.className} $!{c.fieldName};
 <!--			#else-->
 	private $!{c.className} $!{c.fieldName};
 <!--			#end-->
@@ -151,6 +152,11 @@ public class $!{t.className}DO extends EntityObject<$!{t.className}DO, $!{t.clas
 	}
 <!--#end-->
 
+
+	public $!{t.className}DO newInstance(){
+		return new $!{t.className}DO();
+	}
+
     public void setKey(Object key){
 <!--#if(t.keyColumn)-->
 <!--    #if(t.keyColumn.className == "int")-->
@@ -203,6 +209,20 @@ public class $!{t.className}DO extends EntityObject<$!{t.className}DO, $!{t.clas
         }
     }
 
+
+	@Override
+	public boolean set(String dbName, Object obj) {
+		switch(dbName){
+<!--#for(c : t.allColumns)-->
+		case "$!{c.dbName}":
+			$!{c.fieldName} = ($!{c.className})obj;
+			return true;
+<!--#end-->
+		default :
+			return false;
+		}
+	}
+
 	@Override
 	public String toString() {
 		return $!{t.getToString()};
@@ -215,9 +235,10 @@ public class $!{t.className}DO extends EntityObject<$!{t.className}DO, $!{t.clas
 		return TABLE_INFO;
 	}
 
+
 	public static final Table TABLE_INFO= new Table();
 
-	public static final class Table implements TableInfo<$!{t.className}DO ,Key>{
+	public static final class Table extends TableInfo<$!{t.className}DO ,Key>{
 		public static final String DB_TABLE_NAME = "$!{t.dbName}";
 		private Map<String, UniqueInfo> uniqueMap;
 
@@ -232,7 +253,12 @@ public class $!{t.className}DO extends EntityObject<$!{t.className}DO, $!{t.clas
 		private Table(){
 		    uniqueMap = new HashMap<>();
 <!--#for(index : t.uniqueIndexes.values())-->
+<!--	#if(index.indexName != "PRIMARY")-->
 		    uniqueMap.put("$!{index.indexName}", new UniqueInfo("$!{index.indexName}", $!{index.toFieldsArgs()}));
+<!--	#end-->
+<!--#end-->
+<!--#for(c : t.allColumns)-->
+			super.initProperty("$!{c.dbName}", "$!{c.fieldName}", $!{c.classNameNoGeneric}.class, new TypeReference<$!{c.wrapClassName}>() {});
 <!--#end-->
 		}
 
@@ -278,14 +304,14 @@ public class $!{t.className}DO extends EntityObject<$!{t.className}DO, $!{t.clas
 			}
 <!--				#elseif(c.objectType ==1)-->
 			if(${c.fieldName} != null){
-				String ${c.fieldName}Str = com.isnowfox.util.XmlUtils.serialize(t.${c.getGetName()}());
+				String ${c.fieldName}Str = org.forkjoin.util.XmlUtils.serialize(t.${c.getGetName()}());
 				ps.setString(i++, ${c.fieldName}Str);
 			}else{
 				ps.setObject(i++, null);
 			}
 <!--				#elseif(c.objectType ==2)-->
 			if(t.${c.getGetName()}() != null){
-				String ${c.fieldName}Str = com.isnowfox.util.JsonUtils.serialize(t.${c.getGetName()}());
+				String ${c.fieldName}Str = org.forkjoin.util.JsonUtils.serialize(t.${c.getGetName()}());
 				ps.setString(i++, ${c.fieldName}Str);
 			}else{
 				ps.setObject(i++, null);
@@ -307,14 +333,14 @@ public class $!{t.className}DO extends EntityObject<$!{t.className}DO, $!{t.clas
 <!--		#else-->
 <!--			#if(c.objectType ==1)-->
 			if(${c.fieldName} != null){
-				String ${c.fieldName}Str = com.isnowfox.util.XmlUtils.serialize(t.${c.getGetName()}());
+				String ${c.fieldName}Str = org.forkjoin.util.XmlUtils.serialize(t.${c.getGetName()}());
 				ps.setString(i++, ${c.fieldName}Str);
 			}else{
 				ps.setObject(i++, null);
 			}
 <!--			#elseif(c.objectType ==2)-->
         	if(t.${c.getGetName()}() != null){
-			String ${c.fieldName}Str = com.isnowfox.util.JsonUtils.serialize(t.${c.getGetName()}());
+			String ${c.fieldName}Str = org.forkjoin.util.JsonUtils.serialize(t.${c.getGetName()}());
 				ps.setString(i++, ${c.fieldName}Str);
 			}else{
 				ps.setObject(i++, null);
@@ -394,22 +420,22 @@ public class $!{t.className}DO extends EntityObject<$!{t.className}DO, $!{t.clas
 <!--		#else-->
 <!--			#if(c.objectType ==1)-->
 					String $!{c.fieldName} = rs.$!{c.resultGetMethod}("$!{c.dbName}");
-					if (com.isnowfox.util.StringExpandUtils.isNotEmpty($!{c.fieldName})) {
-						o.$!{c.fieldName} = com.isnowfox.util.XmlUtils.deserialize($!{c.fieldName});
+					if (org.forkjoin.util.StringExpandUtils.isNotEmpty($!{c.fieldName})) {
+						o.$!{c.fieldName} = org.forkjoin.util.XmlUtils.deserialize($!{c.fieldName});
 					}else{
 <!--				#if(! c.nullable)-->
-						o.$!{c.fieldName} = new $!{c.className}();
+						o.$!{c.fieldName} =  null;
 <!--				#else-->
 						o.$!{c.fieldName} =  null;
 <!--				#end-->
 					}
 <!--			#elseif(c.objectType ==2)-->
 					String $!{c.fieldName}Str = rs.$!{c.resultGetMethod}("$!{c.dbName}");
-					if (com.isnowfox.util.StringExpandUtils.isNotEmpty($!{c.fieldName}Str)) {
-						o.$!{c.fieldName} =  com.isnowfox.util.JsonUtils.deserialize($!{c.fieldName}Str,new com.fasterxml.jackson.core.type.TypeReference<$!{c.className}>(){});
+					if (org.forkjoin.util.StringExpandUtils.isNotEmpty($!{c.fieldName}Str)) {
+						o.$!{c.fieldName} =  org.forkjoin.util.JsonUtils.deserialize($!{c.fieldName}Str,new com.fasterxml.jackson.core.type.TypeReference<$!{c.className}>(){});
 					}else{
 <!--				#if(! c.nullable)-->
-						o.$!{c.fieldName} = new $!{c.className}();
+						o.$!{c.fieldName} = null;
 <!--				#else-->
 						o.$!{c.fieldName} = null;
 <!--				#end-->
@@ -437,22 +463,22 @@ public class $!{t.className}DO extends EntityObject<$!{t.className}DO, $!{t.clas
 <!--		#else-->
 <!--			#if(c.objectType ==1)-->
 						String $!{c.fieldName} = rs.$!{c.resultGetMethod}("$!{c.dbName}");
-						if (com.isnowfox.util.StringExpandUtils.isNotEmpty($!{c.fieldName})) {
-							o.$!{c.setName}(com.isnowfox.util.XmlUtils.deserialize($!{c.fieldName}));
+						if (org.forkjoin.util.StringExpandUtils.isNotEmpty($!{c.fieldName})) {
+							o.$!{c.setName}(org.forkjoin.util.XmlUtils.deserialize($!{c.fieldName}));
 						}else{
 <!--				#if(! c.nullable)-->
-							o.$!{c.setName}(new $!{c.className}());
+							o.$!{c.setName}(null);
 <!--				#else-->
 							o.$!{c.setName}(null);
 <!--				#end-->
 						}
 <!--			#elseif(c.objectType ==2)-->
 						String $!{c.fieldName}Str = rs.$!{c.resultGetMethod}("$!{c.dbName}");
-						if (com.isnowfox.util.StringExpandUtils.isNotEmpty($!{c.fieldName}Str)) {
-							o.$!{c.setName}(com.isnowfox.util.JsonUtils.deserialize($!{c.fieldName}Str,new com.fasterxml.jackson.core.type.TypeReference<$!{c.className}>(){}));
+						if (org.forkjoin.util.StringExpandUtils.isNotEmpty($!{c.fieldName}Str)) {
+							o.$!{c.setName}(org.forkjoin.util.JsonUtils.deserialize($!{c.fieldName}Str,new com.fasterxml.jackson.core.type.TypeReference<$!{c.className}>(){}));
 						}else{
 <!--				#if(! c.nullable)-->
-							o.$!{c.setName}(new $!{c.className}());
+							o.$!{c.setName}(null);
 <!--				#else-->
 							o.$!{c.setName}(null);
 <!--				#end-->

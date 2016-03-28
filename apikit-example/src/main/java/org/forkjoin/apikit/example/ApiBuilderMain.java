@@ -1,8 +1,10 @@
 package org.forkjoin.apikit.example;
 
 import org.forkjoin.apikit.Analyse;
+import org.forkjoin.apikit.Context;
 import org.forkjoin.apikit.Manager;
 import org.forkjoin.apikit.ObjectFactory;
+import org.forkjoin.apikit.generator.ServerGenerator;
 import org.forkjoin.apikit.impl.JdtAnalyse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +20,7 @@ public class ApiBuilderMain {
     /**
      *
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         final String version = "v1";
         File dir = new File("apikit-example/src/main/java/");
         if (!dir.exists()) {
@@ -37,6 +39,13 @@ public class ApiBuilderMain {
         //开始处理
         manager.analyse();
 
+        //开始生产
+        ServerGenerator generator = new ServerGenerator();
+        generator.setRootPackage("com.text");
+        generator.setSrcPath("/Users/zuoge85/Documents/open/forkjoin/apikit-example/src/test/java/");
+        generator.setApiAccountClassName("java.lang.Object");
+        generator.setVersion("v1");
+        manager.generate(generator);
 //		Config cfg = new Config();
 //		cfg.setPath(dir.getAbsolutePath());
 //		cfg.setRootPackage("org.forkjoin.apikit.example");
@@ -44,13 +53,17 @@ public class ApiBuilderMain {
 //		ApiBuilder builder = new ApiBuilder(cfg);
 //		builder.analyse();
 //		builder.check();
-
     }
 
     private static ObjectFactory objectFactory = new ObjectFactory() {
         @Override
         public Analyse createAnalyse() {
             return new JdtAnalyse();
+        }
+
+        @Override
+        public Context createContext() {
+            return new Context();
         }
     };
 }

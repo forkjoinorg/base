@@ -1,6 +1,6 @@
 <!--#set(MessageInfo m)-->
 <!--#set(AttributeInfo attr)-->
-<!--#set(JavaMessageUtils utils)-->
+<!--#set(JavaMessageWrapper utils)-->
 <!--#set(SupportType type)-->
 package $!{utils.getPack()};
 
@@ -78,7 +78,7 @@ $!{utils.formatComment(attr.comment,"	 * ")}
 
 	@Override
 	public List<Entry<String, Object>> encode(String parent, List<Entry<String, Object>> $list) {
-$!{utils.getEncodeCode("        ")}
+		$!{utils.getEncodeCode("        ")}
 		return $list;
     }
 

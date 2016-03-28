@@ -4,6 +4,7 @@ public final class QueryParam {
 	public enum OperatorType{
 		EQ,		// = = 或 eq
 		LIKE,	
+		LIKE_BOTH,
 		LT,		//< 或 lt 			小于   ${ 3 < 5 }或 ${ 3 lt 5 }  true
 		GT,		// > 或 gt 			大于   ${ 3 > 5 }或 ${ 3 gt 5 }  false
 		LE,		//<= 或 le			小于等于 ${ 3 <= 5 }或 ${ 3 le 5 } true

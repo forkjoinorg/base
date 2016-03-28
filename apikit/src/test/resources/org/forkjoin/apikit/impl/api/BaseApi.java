@@ -21,7 +21,7 @@ public interface BaseApi {
      *
      * @param user 用户
      */
-    @ApiMethod(value = "base/", type = ActionType.CREATE)
+    @ApiMethod(value = "base/", type = ActionType.POST)
     @Account(value = true, param = "accountName")
     TestObject<User[]>[] create(@Valid org.forkjoin.apikit.example.model.User user, @Valid TestForm<User> testForm);
 

@@ -1,5 +1,5 @@
 <!--#set(ApiInfo m)-->
-<!--#set(JavaApiUtils utils)-->
+<!--#set(JavaApiWrapper utils)-->
 <!--#set(SupportType type)-->
 <!--#set(ApiMethodInfo method)-->
 <!--#set(AttributeInfo param)-->

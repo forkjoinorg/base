@@ -73,7 +73,7 @@ public class ReadOnlyDaoImpi<T extends EntityObject, K extends KeyObject>
         StringBuilder sb = new StringBuilder(
                 tableInfo.getFormatSelectPrefixSql());
         if (params != null) {
-            params.toSql(sb);
+            sb.append(params.toSql().replace("%","%%"));
         }
         if (order == null) {
             sb.append(tableInfo.getOrderByIdDescSql());
@@ -82,11 +82,9 @@ public class ReadOnlyDaoImpi<T extends EntityObject, K extends KeyObject>
         }
 
         if (params != null) {
-            return fastQueryPage(sb.toString(), tableInfo.getRowMapper(), page,
-                    pageSize, params.toParams());
+            return fastQueryPage(sb.toString(), tableInfo.getRowMapper(), page, pageSize, params.toParams());
         } else {
-            return fastQueryPage(sb.toString(), tableInfo.getRowMapper(), page,
-                    pageSize);
+            return fastQueryPage(sb.toString(), tableInfo.getRowMapper(), page, pageSize);
         }
     }
 
@@ -195,8 +193,7 @@ public class ReadOnlyDaoImpi<T extends EntityObject, K extends KeyObject>
     public <C extends T> PageResult<C> fastQueryPage(final String sql,
                                                      final RowMapper<C> rowMapper, final int page, final int pageSize,
                                                      final Object... args) {
-        return fastQueryPage(String.format(sql, SqlUtils.STRING_COUNT),
-                String.format(sql, " * "), rowMapper, page, pageSize, args);
+        return fastQueryPage(String.format(sql, SqlUtils.STRING_COUNT), String.format(sql, " * "), rowMapper, page, pageSize, args);
     }
 
     private <C> PageResult<C> fastQueryPage(final String countSql,
@@ -208,8 +205,14 @@ public class ReadOnlyDaoImpi<T extends EntityObject, K extends KeyObject>
                             PreparedStatement ps = null;
                             ResultSet rs = null;
                             try {
-                                ps = con.prepareStatement(String.format(
-                                        countSql, SqlUtils.STRING_COUNT));
+
+                                if (log.isDebugEnabled()) {
+                                    log.debug(
+                                            "fastQueryPage countSql: {}; params:{}; table:{}",
+                                            countSql, args,
+                                            tableInfo.getDbTableName());
+                                }
+                                ps = con.prepareStatement(countSql);
                                 int i = 1;
                                 for (Object o : args) {
                                     ps.setObject(i++, o);
@@ -236,18 +239,20 @@ public class ReadOnlyDaoImpi<T extends EntityObject, K extends KeyObject>
 
                                 String pageSql = sql + " LIMIT " + start + ","
                                         + pageSize;
+
+                                if (log.isDebugEnabled()) {
+                                    log.debug(
+                                            "fastQueryPage: {}; params:{}; table:{}",
+                                            pageSql, args,
+                                            tableInfo.getDbTableName());
+                                }
+
                                 ps = con.prepareStatement(pageSql);
                                 i = 1;
                                 for (Object o : args) {
                                     ps.setObject(i++, o);
                                 }
 
-                                if (log.isDebugEnabled()) {
-                                    log.debug(
-                                            "fastQueryPage: {}; params:{}; countSql:{}; table:{}",
-                                            pageSql, args, countSql,
-                                            tableInfo.getDbTableName());
-                                }
                                 rs = ps.executeQuery();
                                 int rowNum = 0;
                                 while (rs.next()) {

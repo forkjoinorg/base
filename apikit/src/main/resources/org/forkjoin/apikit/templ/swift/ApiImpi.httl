@@ -1,5 +1,5 @@
 <!--#set(ApiInfo m)-->
-<!--#set(SwiftApiUtils utils)-->
+<!--#set(SwiftApiWrapper utils)-->
 <!--#set(SupportType type)-->
 <!--#set(ApiMethodInfo method)-->
 <!--#set(AttributeInfo param)-->

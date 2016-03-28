@@ -3,6 +3,8 @@ package org.forkjoin.jdbckit.mysql;
 import org.apache.commons.lang3.StringUtils;
 
 import java.sql.Types;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class Column {
@@ -19,6 +21,7 @@ public class Column {
     private int size;
     private boolean isUnique;
     private String mapClassName;
+    private String mapClassNameGeneric;
     private OBJECT_TYPE objectType;
     /**
      * seq是主键特有的,表示顺序
@@ -106,6 +109,10 @@ public class Column {
         }
     }
 
+    public void setMapClassNameGeneric(String mapClassNameGeneric) {
+        this.mapClassNameGeneric = mapClassNameGeneric;
+    }
+
     /**
      * 返回 类型的初始值字符串
      *
@@ -139,6 +146,9 @@ public class Column {
     }
 
     public String getWrapClassName() {
+        if (mapClassName != null) {
+            return mapClassName;
+        }
         switch (type) {
             case Types.TINYINT:
                 return "Byte";
@@ -188,6 +198,13 @@ public class Column {
             default:
                 return "Object";
         }
+    }
+
+    public String getClassNameNoGeneric() {
+        if (mapClassNameGeneric != null) {
+            return mapClassNameGeneric;
+        }
+        return getClassName();
     }
 
     public String getClassName() {
@@ -322,8 +339,15 @@ public class Column {
         return mapClassName;
     }
 
+    private static final Pattern GENERIC_PATTERN = Pattern.compile("([^<]+)<[^>]+>.*");
     public void setMapClassName(String mapClassName) {
         this.mapClassName = mapClassName;
+
+        //java.util.ArrayList<String>
+        Matcher m = GENERIC_PATTERN.matcher(mapClassName);
+        if (m.find()) {
+            setMapClassNameGeneric(m.group(1));
+        }
     }
 
     public int getObjectType() {

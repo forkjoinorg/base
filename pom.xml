@@ -10,6 +10,7 @@
         <module>core</module>
         <module>jdbckit</module>
         <module>apikit</module>
+        <module>apikit-core</module>
         <module>apikit-example</module>
 
     </modules>

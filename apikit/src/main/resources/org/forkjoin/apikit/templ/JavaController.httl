@@ -1,5 +1,5 @@
 <!--#set(ApiInfo m)-->
-<!--#set(JavaControllerUtils utils)-->
+<!--#set(JavaControllerWrapper utils)-->
 <!--#set(SupportType type)-->
 <!--#set(ApiMethodInfo method)-->
 package $!{utils.getPack()};

@@ -216,6 +216,9 @@ public class JdtInfo {
     public String getPackageName() {
         return packageName;
     }
+    public String getFullName() {
+        return packageName + "." + name;
+    }
 
 
     public CompilationUnit getNode() {

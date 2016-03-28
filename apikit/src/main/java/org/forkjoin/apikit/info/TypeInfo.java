@@ -82,14 +82,26 @@ public class TypeInfo {
     }
 
     public String getFullName() {
-        if(packageName == null){
+        if (packageName == null) {
             return name;
         }
         return packageName + "." + name;
     }
 
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     public boolean isArray() {
         return isArray;
+    }
+
+    public boolean isBytes() {
+        return isArray() && type == Type.BYTE;
     }
 
     public boolean isInside() {
@@ -119,43 +131,49 @@ public class TypeInfo {
                 '}';
     }
 
+    public boolean isOtherType() {
+        return type == Type.OTHER;
+    }
+
+
     /**
-     * 0. void
+     * 0. void *(只在api返回值)*
      * 1. boolean
-     * 2. byte (8位有符号整数)
-     * 3. int (32位有符号整数)
-     * 4. long (64位有符号整数)
-     * 5. float (32位浮点数)
-     * 6. double (64位浮点数)
-     * 7. String
-     * 8. Date
+     * 2. byte *(8位有符号整数)*
+     * 3. short *(16位有符号整数)*
+     * 4. int *(32位有符号整数)*
+     * 5. long *(64位有符号整数)*
+     * 6. float *(32位浮点数)*
+     * 7. double *(64位浮点数)*
+     * 8. String
+     * 9. Date
+     * 10. enum 枚举类型，只支持简单枚举类型
+     * 11. Message类型
      * <p>
      * enum Message 和其他非上面声明类型都不属于basic type
      *
      * @author zuoge85
      */
     public enum Type {
-        VOID, BOOLEAN, BYTE, INT, LONG, FLOAT,
+        VOID, BOOLEAN, BYTE, SHORT, INT, LONG, FLOAT,
         DOUBLE, STRING, DATE,
         OTHER;
 
-        public boolean isBaseType() {
-            return this != OTHER;
-        }
 
         private static final ImmutableMap<String, Type> typeMap = ImmutableMap.<String, Type>builder()
                 .put(void.class.getSimpleName(), VOID)
                 .put(boolean.class.getSimpleName(), BOOLEAN)
                 .put(byte.class.getSimpleName(), BYTE)
+                .put(short.class.getSimpleName(), SHORT)
                 .put(int.class.getSimpleName(), INT)
                 .put(long.class.getSimpleName(), LONG)
                 .put(float.class.getSimpleName(), FLOAT)
                 .put(double.class.getSimpleName(), DOUBLE)
 
-
                 .put(Void.class.getName(), VOID)
                 .put(Boolean.class.getName(), BOOLEAN)
                 .put(Byte.class.getName(), BYTE)
+                .put(Short.class.getName(), SHORT)
                 .put(Integer.class.getName(), INT)
                 .put(Long.class.getName(), LONG)
                 .put(Float.class.getName(), FLOAT)
@@ -171,9 +189,18 @@ public class TypeInfo {
                     type == OTHER;
         }
 
+        public boolean isHasNull() {
+            return isHasNull(this);
+        }
+
         public static boolean isBaseType(Type type) {
             return type != OTHER;
         }
+
+        public boolean isBaseType() {
+            return isBaseType(this);
+        }
+
 
         public static Type form(String name) {
             Type type = typeMap.get(name);

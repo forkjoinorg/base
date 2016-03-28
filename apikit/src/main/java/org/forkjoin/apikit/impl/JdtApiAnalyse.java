@@ -59,7 +59,6 @@ public class JdtApiAnalyse extends JdtAbstractModuleAnalyse {
         }
         apiMethodInfo.setResultType(resultType);
 
-
         apiMethodInfo.setComment(transform(method.getJavadoc()));
 //        getTypeName(returnType2.ge)
 

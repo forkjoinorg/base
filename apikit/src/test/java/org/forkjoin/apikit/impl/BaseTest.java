@@ -6,6 +6,7 @@ import org.forkjoin.apikit.info.*;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -70,8 +71,7 @@ public class BaseTest {
     protected void assertJavadocInfo(
             JavadocInfo comment, String name, List<String> value
     ) {
-        Map.Entry<String, List<String>> entry = comment.getTags().get(0);
-
+        Map.Entry<String, Collection<String>> entry = comment.getTags(0);
         assertEquals(name, entry.getKey());
         assertEquals(value, entry.getValue());
     }
@@ -80,12 +80,12 @@ public class BaseTest {
     protected void assertJavadocInfo(
             JavadocInfo comment, String name0, List<String> value0, String name1, List<String> value1
     ) {
-        Map.Entry<String, List<String>> entry = comment.getTags().get(0);
+        Map.Entry<String, Collection<String>> entry = comment.getTags(0);
 
         assertEquals(name0, entry.getKey());
         assertEquals(value0, entry.getValue());
 
-        entry = comment.getTags().get(1);
+        entry = comment.getTags(1);
 
         assertEquals(name1, entry.getKey());
         assertEquals(value1, entry.getValue());

@@ -16,6 +16,11 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.forkjoin</groupId>
+			<artifactId>forkjoin-apikit-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>com.github.httl</groupId>
 			<artifactId>httl</artifactId>
 			<version>1.0.11</version>

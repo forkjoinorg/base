@@ -1,8 +1,6 @@
 package org.forkjoin.apikit;
 
 import org.apache.commons.io.IOUtils;
-import org.forkjoin.apikit.info.ApiInfo;
-import org.forkjoin.apikit.info.MessageInfo;
 import org.forkjoin.apikit.info.ModuleInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * @author zuoge85 on 15/11/8.
@@ -27,13 +26,15 @@ public class Manager {
 
     //    private Analyse analyse;
     private ObjectFactory objectFactory;
-    private List<Builder> list = new ArrayList<>();
+//    private List<Generator> messageGenerators = new ArrayList<>();
     private File rootDir;
     private String rootDirPath;
+    private Context context;
 
     public void analyse() {
         rootDir = Utils.packToPath(path, rootPackage);
         rootDirPath = rootDir.getAbsolutePath();
+        context = objectFactory.createContext();
 
         analyse(rootDir);
     }
@@ -52,17 +53,21 @@ public class Manager {
                     Analyse analyse = objectFactory.createAnalyse();
                     ModuleInfo m = analyse.analyse(code, pack);
 
-                    if (m instanceof MessageInfo) {
-                        list.parallelStream().forEach(builder -> builder.build((MessageInfo) m));
-                    } else if (m instanceof ApiInfo) {
-                        list.parallelStream().forEach(builder -> builder.build((ApiInfo) m));
+                    context.add(m);
+                    if(m!=null){
+                        log.info("分析完毕一个,name:{},Message:{}", m.getFullName(), m);
+                    }else{
+                        log.info("分析完毕一个,不存在module:{}", f.getName());
                     }
-                    log.info("分析完毕一个Message:{}", m);
                 } catch (IOException e) {
                     throw new RuntimeException("分析文件错误！", e);
                 }
             }
         }
+    }
+
+    public void generate(Generator generator) throws Exception {
+        generator.generate(context);
     }
 
     private String analysePack(File f) {
@@ -80,9 +85,6 @@ public class Manager {
         this.objectFactory = objectFactory;
     }
 
-    public void addBuilder(Builder builder) {
-        list.add(builder);
-    }
 
     public void setRootPackage(String rootPackage) {
         this.rootPackage = rootPackage;
