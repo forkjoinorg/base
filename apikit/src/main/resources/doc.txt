@@ -1,5 +1,0 @@
-协议工具文档
-
-
-不加参数的apimethod 参数默认都是PathVariable
-
