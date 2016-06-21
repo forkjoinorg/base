@@ -1,0 +1,38 @@
+<!--#set(ApiInfo m)-->
+<!--#set(JavaControllerWrapper utils)-->
+<!--#set(SupportType type)-->
+<!--#set(ApiMethodInfo method)-->
+package $!{utils.getPack()}.i;
+
+import com.isnowfox.spring.Result;
+import com.isnowfox.spring.annotation.Account;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import javax.validation.Valid;
+
+
+$!{utils.imports}
+
+
+/**
+ * 主要用于限制api Controller 是否实现
+$!{utils.comment(" * ")}
+ */
+public interface $!{utils.name}{
+
+<!--#for(method : m.methodInfos)-->
+
+<!--		#if(method.comment)-->
+	/**
+$!{utils.formatComment(method.comment,"	 * ")}
+	 */
+<!--		#end-->
+    Result<$!{utils.result(method)}> $!{method.name}($!{utils.params(method, false)}) throws Exception;
+<!--#end-->
+}

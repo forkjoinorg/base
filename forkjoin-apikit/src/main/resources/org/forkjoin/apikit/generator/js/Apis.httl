@@ -1,0 +1,47 @@
+<!--#set(ApiInfo info)-->
+<!--#set(Collection<ApiInfo> values)-->
+<!--#set(NameUtils nameUtils)-->
+'use strict';
+
+<!--#for(info : values)-->
+import $!{info.name}  from './$!{info.packageName.replace('.','/')}/$!{info.name}';
+<!--#end-->
+
+class Apis {
+<!--#for(info : values)-->
+    $!{nameUtils.toFieldName(info.name)}:$!{info.name};
+<!--#end-->
+    _xhrArray:XMLHttpRequest[];
+
+    constructor() {
+        this._xhrArray = [];
+<!--#for(info : values)-->
+        this.$!{nameUtils.toFieldName(info.name)} = new $!{info.name}();
+        this.$!{nameUtils.toFieldName(info.name)}._initNet(this._xhrHandler.bind(this));
+<!--#end-->
+    }
+
+    _xhrHandler(xhr:XMLHttpRequest) {
+        this._xhrArray.push(xhr);
+        xhr.loadend = ()=> {
+            this._clearXhr(xhr);
+        };
+    }
+
+    _clearXhr(xhr:XMLHttpRequest) {
+        var index = this._xhrArray.indexOf(xhr);
+        if (index > -1) {
+            this._xhrArray.splice(index, 1);
+        }
+    }
+
+    stopAll() {
+        for (var i = 0; i < this._xhrArray.length; i++) {
+            this._xhrArray[i].abort();
+        }
+        this._xhrArray.length = 0;
+    }
+}
+
+
+export default Apis;

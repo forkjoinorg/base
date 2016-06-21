@@ -1,0 +1,34 @@
+<!--#set(MessageInfo m)-->
+<!--#set(AttributeInfo attr)-->
+<!--#set(SwiftMessageWrapper utils)-->
+<!--#set(SupportType type)-->
+//
+//
+//
+//  Created by api tools
+//  Copyright (c) 2015年 ihealthbaby. All rights reserved.
+//
+
+import UIKit
+
+$!{utils.comment("///")}
+public class $!{utils.name}$!{utils.typeParameters}:ApiObject {
+<!--#for(attr : m.attributes)-->
+<!--		#if(attr.comment)-->
+$!{utils.formatComment(attr.comment,"    ///")}
+<!--		#end-->
+    $!{utils.property(attr)}
+<!--#end-->
+
+    public init(){
+$!{utils.baseInit("        ")}
+    }
+
+    public required init(_ _decoder: JSONDecoder){
+$!{utils.getDecodeCode("        ")}
+    }
+
+    public func encode(_parent:String, inout _ _form: Dictionary<String,AnyObject>){
+$!{utils.getEncodeCode("        ")}
+    }
+}

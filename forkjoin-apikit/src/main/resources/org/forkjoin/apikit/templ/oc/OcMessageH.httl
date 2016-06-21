@@ -1,0 +1,33 @@
+<!--#set(MessageInfo m)-->
+<!--#set(AttributeInfo attr)-->
+<!--#set(OcMessageWrapper utils)-->
+<!--#set(SupportType type)-->
+//
+// Created by api tool,请勿修改
+//
+
+#import <Foundation/Foundation.h>
+
+$!{utils.ocClass("")}
+
+<!--		#if(m.comment)-->
+/**
+$!{utils.comment(" * ")}
+ */
+<!--#end-->
+@interface $!{utils.name} : NSObject
+
+<!--#for(attr : m.attributes)-->
+<!--		#if(attr.comment)-->
+/**
+$!{utils.formatComment(attr.comment," * ")}
+ */
+<!--		#end-->
+$!{utils.property(attr)}
+<!--#end-->
+
+//+ (instancetype)accountWithDict:(NSDictionary *)dict;
+//public List<Entry<String, Object>> encode(String parent, List<Entry<String, Object>> $list) {
+
+
+@end

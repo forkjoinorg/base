@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/forkjoin.iml" filepath="$PROJECT_DIR$/.idea/forkjoin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/forkjoin-apikit/forkjoin-apikit.iml" filepath="$PROJECT_DIR$/forkjoin-apikit/forkjoin-apikit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/forkjoin-apikit-core/forkjoin-apikit-core.iml" filepath="$PROJECT_DIR$/forkjoin-apikit-core/forkjoin-apikit-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/forkjoin-apikit-example/forkjoin-apikit-example.iml" filepath="$PROJECT_DIR$/forkjoin-apikit-example/forkjoin-apikit-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/forkjoin-apikit-springmvc/forkjoin-apikit-springmvc.iml" filepath="$PROJECT_DIR$/forkjoin-apikit-springmvc/forkjoin-apikit-springmvc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/forkjoin-core/forkjoin-core.iml" filepath="$PROJECT_DIR$/forkjoin-core/forkjoin-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/forkjoin-jdbckit/forkjoin-jdbckit.iml" filepath="$PROJECT_DIR$/forkjoin-jdbckit/forkjoin-jdbckit.iml" />
+    </modules>
+  </component>
+</project>

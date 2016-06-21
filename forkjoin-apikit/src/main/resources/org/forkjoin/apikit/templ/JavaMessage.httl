@@ -1,0 +1,89 @@
+<!--#set(MessageInfo m)-->
+<!--#set(AttributeInfo attr)-->
+<!--#set(JavaMessageWrapper utils)-->
+<!--#set(SupportType type)-->
+package $!{utils.getPack()};
+
+$!{utils.imports}
+
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.AbstractMap.SimpleImmutableEntry;
+
+
+/**
+$!{utils.comment(" * ")}
+ */
+public class $!{m.name}$!{utils.typeParameters} implements ApiMessage{
+
+<!--#for(attr : m.attributes)-->
+
+<!--		#if(attr.comment)-->
+	/**
+$!{utils.formatComment(attr.comment,"	 * ")}
+	 */
+<!--		#end-->
+<!--$!{utils.formatAnnotations(attr.annotations,"	")}-->
+	private $!{attr.supportType.getNewJavaTypeString(false, false)} $!{attr.name};
+<!--#end-->
+
+	public $!{m.name}(){
+	}
+
+<!--#if(!m.attributes.empty())-->
+	public $!{m.name}($!{utils.getConstructorString()}){
+<!--		#for(attr : m.attributes)-->
+		this.$!{attr.name} = $!{attr.name};
+<!--		#end-->
+	}
+<!--#end-->
+
+<!--#for(attr : m.attributes)-->
+
+<!--		#if(attr.comment)-->
+	/**
+$!{utils.formatComment(attr.comment,"	 * ")}
+	 */
+<!--		#end-->
+	public $!{attr.supportType.getNewJavaTypeString(false, false)} $!{attr.javaGetName}() {
+		return $!{attr.name};
+	}
+
+<!--		#if(attr.comment)-->
+	/**
+$!{utils.formatComment(attr.comment,"	 * ")}
+	 */
+<!--		#end-->
+	public void $!{attr.javaSetName}($!{attr.supportType.getNewJavaTypeString(false, false)} $!{attr.name}) {
+		this.$!{attr.name} = $!{attr.name};
+	}
+<!--#end-->
+##List的add函数
+<!--#for(attr : m.attributes)-->
+<!--		#if(attr.supportType.isArray)-->
+
+<!--		#if(attr.comment)-->
+	/**
+$!{utils.formatComment(attr.comment,"	 * ")}
+	 */
+<!--		#end-->
+	public void $!{attr.javaAddName}($!{attr.supportType.getNewJavaTypeStringNoArray()} $!{attr.name}) {
+		if(this.$!{attr.name} == null){
+			this.$!{attr.name} = new $!{attr.supportType.getNewJavaTypeString(true, true)} ();
+		}
+		this.$!{attr.name}.add($!{attr.name});
+	}
+<!--		#end-->
+<!--#end-->
+
+	@Override
+	public List<Entry<String, Object>> encode(String parent, List<Entry<String, Object>> $list) {
+		$!{utils.getEncodeCode("        ")}
+		return $list;
+    }
+
+	@Override
+	public String toString() {
+		return $!{utils.getToString};
+	}
+}

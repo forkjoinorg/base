@@ -1,0 +1,52 @@
+<!--#set(String packName)-->
+<!--#set(ApiInfo info)-->
+<!--#set(PackageInfo<ApiInfo> packageInfo)-->
+<!--#set(Collection<PackageInfo<ApiInfo>> packageInfos)-->
+package $!{packName};
+
+<!--#for(packageInfo : packageInfos)-->
+<!--        #for(info : packageInfo.values)-->
+import $!{packName}.${info.pack.name}.$!{info.supportType.name};
+<!--        #end-->
+<!--#end-->
+
+/**
+ * api 管理器，单例，使用之前需要初始化
+ * @author zuoge85 on 15/6/15.
+ */
+public class ApiManager {
+    private static ApiManager instance;
+
+   /**
+    * 初始化
+    */
+    public static void init(HttpClientAdapter httpClientAdapter) {
+        instance = new ApiManager(httpClientAdapter);
+    }
+
+    public static ApiManager getInstance() {
+        return instance;
+    }
+
+    private HttpClientAdapter httpClientAdapter;
+
+<!--#for(packageInfo : packageInfos)-->
+<!--        #for(info : packageInfo.values)-->
+
+   /**
+$!{info.comment("    * ")}
+    */
+    public final $!{info.supportType.name} $!{info.filedName};
+<!--        #end-->
+<!--#end-->
+
+    public ApiManager(HttpClientAdapter httpClientAdapter) {
+        this.httpClientAdapter = httpClientAdapter;
+
+<!--#for(packageInfo : packageInfos)-->
+<!--        #for(info : packageInfo.values)-->
+        $!{info.filedName} =  new $!{info.supportType.name}(httpClientAdapter);
+<!--        #end-->
+<!--#end-->
+    }
+}

@@ -1,0 +1,86 @@
+<!--#set(ApiInfo m)-->
+<!--#set(JavaApiWrapper utils)-->
+<!--#set(SupportType type)-->
+<!--#set(ApiMethodInfo method)-->
+<!--#set(AttributeInfo param)-->
+package $!{utils.getPack()};
+
+$!{utils.imports}
+
+import java.util.*;
+import java.util.concurrent.Future;
+import java.util.Map.Entry;
+
+import com.android.volley.Request;
+
+import $!{utils.rootPackage}.Result;
+import $!{utils.rootPackage}.HttpClientAdapter.Callback;
+import $!{utils.rootPackage}.HttpClientAdapter.RequestCallback;
+import $!{utils.rootPackage}.HttpClientAdapter.RequestParam;
+
+/**
+$!{utils.comment(" * ")}
+ */
+public class $!{m.name} extends $!{utils.rootPackage}.Api {
+    private $!{utils.rootPackage}.HttpClientAdapter httpClientAdapter;
+
+    public $!{m.name}($!{utils.rootPackage}.HttpClientAdapter httpClientAdapter) {
+        this.httpClientAdapter = httpClientAdapter;
+    }
+<!--#for(method : m.methodInfos)-->
+
+##下面是异步带tag
+   /**
+$!{utils.formatBaseComment(method.comment,"    * ")}
+    *
+$!{utils.requestComment(method,"    * ")}
+    */
+    public void $!{method.name}($!{utils.asyncParams(method)},Object tag) {
+        Map<String, Object> uriVariables = new HashMap<>();
+<!--        #for(param : method.pathParams)-->
+        uriVariables.put("$!{param.getName()}", $!{param.getName()});
+<!--        #end-->
+        String url = expandUriComponent("$!{method.url}", uriVariables);
+
+        RequestParam<$!{utils.result(method)}>  requestParam = new RequestParam<>(
+            "$!{method.type.toMethod()}", url, $!{method.id}Type, ${method.account}
+        );
+<!--        #if(method.formParam)-->
+        requestParam.setForm($!{method.formParam.getName()}.encode("", new ArrayList<Entry<String, Object>>()));
+<!--        #end-->
+        requestParam.setCallable(callable);
+        requestParam.setTag(tag);
+        httpClientAdapter.requestAsync(requestParam);
+    }
+
+
+##下面是异步,带回调
+   /**
+$!{utils.formatBaseComment(method.comment,"    * ")}
+    *
+$!{utils.requestComment(method,"    * ")}
+    */
+    public void $!{method.name}($!{utils.asyncReuestCallbackParams(method)}) {
+        Map<String, Object> uriVariables = new HashMap<>();
+<!--        #for(param : method.pathParams)-->
+        uriVariables.put("$!{param.getName()}", $!{param.getName()});
+<!--        #end-->
+        String url = expandUriComponent("$!{method.url}", uriVariables);
+
+        RequestParam<$!{utils.result(method)}> requestParam = new RequestParam<>(
+            "$!{method.type.toMethod()}", url, $!{method.id}Type, ${method.account}
+        );
+<!--        #if(method.formParam)-->
+        requestParam.setForm($!{method.formParam.getName()}.encode("", new ArrayList<Entry<String, Object>>()));
+<!--        #end-->
+        requestParam.setCallable(callable);
+        requestParam.setRequestCallback(requestCallback);
+        httpClientAdapter.requestAsync(requestParam);
+    }
+##循环结束
+<!--#end-->
+
+<!--#for(method : m.methodInfos)-->
+$!{utils.resultTypeString(method,"    ")}
+<!--#end-->
+}

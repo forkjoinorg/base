@@ -1,0 +1,46 @@
+<!--#set(ApiInfo m)-->
+<!--#set(JSApiWrapper utils)-->
+<!--#set(TypeInfo type)-->
+<!--#set(ApiMethodInfo method)-->
+<!--#set(ApiMethodParamInfo param)-->
+'use strict';
+
+$!{utils.imports}
+
+/**
+$!{utils.comment(" * ")}
+*/
+class $!{m.name} extends AbstractApi {
+
+<!--#for(method : m.methodInfos)-->
+
+##下面是异步带tag
+   /**
+$!{utils.formatBaseComment(method.comment,"    * ")}
+    *
+$!{utils.requestComment(method,"    * ")}
+    */
+    $!{method.name}($!{utils.params(method)}):Promise {
+        <!--#if(method.pathParams)-->
+        var _path = {};
+        <!--    #for(param : method.pathParams)-->
+        _path["$!{param.name}"] = $!{param.name};
+        <!--    #end-->
+        <!--#else-->
+        var _path = null;
+        <!--#end-->
+        <!--#if(method.formParams)-->
+        <!--#set(param = method.formParams[0])-->
+        var _form = $!{param.name};
+        <!--#else-->
+        var _form = null;
+        <!--#end-->
+        return super._request(
+            "$!{method.type.name()}", "$!{method.url}", _path, _form
+        );
+
+    }
+##循环结束
+<!--#end-->
+}
+export default $!{m.name};

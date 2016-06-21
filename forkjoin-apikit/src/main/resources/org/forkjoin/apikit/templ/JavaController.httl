@@ -1,0 +1,46 @@
+<!--#set(ApiInfo m)-->
+<!--#set(JavaControllerWrapper utils)-->
+<!--#set(SupportType type)-->
+<!--#set(ApiMethodInfo method)-->
+package $!{utils.getPack()};
+
+import com.isnowfox.spring.Result;
+import com.isnowfox.spring.annotation.Account;
+import com.isnowfox.spring.annotation.AccountParam;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.PathVariable;
+
+
+import javax.validation.Valid;
+import $!{utils.getPack()}.i.*;
+
+
+$!{utils.imports}
+
+
+/**
+$!{utils.comment(" * ")}
+ */
+@Controller
+@RequestMapping(value = "$!{utils.version}", produces = "application/json")
+public class $!{utils.name}  implements $!{m.name}{
+
+<!--#for(method : m.methodInfos)-->
+
+<!--		#if(method.comment)-->
+	/**
+$!{utils.formatComment(method.comment,"	 * ")}
+	 */
+<!--		#end-->
+<!--$!{utils.annotations(method,'	')}-->
+    @Override
+    public Result<$!{utils.result(method)}> $!{method.name}($!{utils.params(method)}) throws Exception {
+        return Result.createSuccess();
+    }
+<!--#end-->
+}

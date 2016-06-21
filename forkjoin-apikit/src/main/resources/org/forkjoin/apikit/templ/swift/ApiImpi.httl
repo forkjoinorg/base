@@ -1,0 +1,52 @@
+<!--#set(ApiInfo m)-->
+<!--#set(SwiftApiWrapper utils)-->
+<!--#set(SupportType type)-->
+<!--#set(ApiMethodInfo method)-->
+<!--#set(AttributeInfo param)-->
+//
+//  ApiImpi.swift
+//  iHealthBaby(swift)
+//
+//  Created by zuoge85 on 15/8/9.
+//  Copyright (c) 2015年 ihealthbaby. All rights reserved.
+//
+
+import Foundation
+
+$!{utils.comment("///")}
+public class $!{m.name}:Api{
+    override init(_ apiHttpClientAdapter: ApiHttpClientAdapter) {
+        super.init(apiHttpClientAdapter)
+    }
+
+<!--#for(method : m.methodInfos)-->
+
+$!{utils.formatBaseComment(method.comment,"    ///")}
+$!{utils.requestComment(method,"    ///")}
+    ///
+    public func $!{method.name}($!{utils.asyncParams(method)}) -> ApiRequest? {
+        var _uriVariables = Dictionary<String, Any>()
+<!--        #for(param : method.pathParams)-->
+        _uriVariables["$!{param.getName()}"] = $!{param.getName()}
+<!--        #end-->
+
+        var _url = ApiExpandUriComponent("$!{method.url}", _uriVariables)
+<!--        #if(method.formParam)-->
+
+        var _form = Dictionary<String,AnyObject>()
+        $!{method.formParam.getName()}.encode("", &_form)
+<!--        #end-->
+
+        var _requestParam = ApiRequestParam$!{utils.apiRequestParamGeneric(method)}(
+            method:"$!{method.type.toMethod()}",
+            uri:_url,
+            isAccount:${method.account},
+            call:_call,
+            form:#if(method.formParam) _form #else nil #end
+
+        )
+
+        return self.apiHttpClientAdapter.requestAsync(_requestParam)
+    }
+<!--#end-->
+}

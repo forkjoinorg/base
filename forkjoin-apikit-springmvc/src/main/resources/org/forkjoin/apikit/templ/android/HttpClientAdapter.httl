@@ -1,0 +1,115 @@
+<!--#set(String packName)-->
+package $!{packName};
+
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.concurrent.Future;
+import java.util.Map.Entry;
+import java.util.List;
+
+import com.android.volley.Request;
+
+
+/**
+ * http 请求实现接口，客户端自行实现
+ * <b>适配器应该保证回调一定是在ui线程</b>
+ * @author zuoge85 on 15/6/15.
+ */
+public interface HttpClientAdapter {
+
+    /**
+     * RequestParam
+     *  form 可能为空
+     *  requestCallback 可能为空
+     */
+    <T> void requestAsync(RequestParam<T> requestParam);
+
+    /**
+     * 回调接口，回调会回到ui 线程
+     *
+     */
+    interface Callback<T> {
+        void call(Result<T> t);
+    }
+
+    /**
+     * 在请求发出前，使用这个可以处理请求
+     *
+     */
+    interface RequestCallback<T> {
+        void call(Request<Result<T>> t);
+    }
+
+    /**
+     * 请求参数
+     * 非final 字段都可能为空
+     *
+     */
+    public static class RequestParam<T> {
+        private final String method;
+        private final String uri;
+        private final Type type;
+        private final boolean isAccount;
+
+        private List<Entry<String, Object>> form;
+        private Callback<T> callable;
+        private RequestCallback<T> requestCallback;
+        private Object tag;
+
+        public RequestParam(String method, String uri, Type type,
+                            boolean isAccount) {
+            this.method = method;
+            this.uri = uri;
+            this.type = type;
+            this.isAccount = isAccount;
+        }
+
+        public String getMethod() {
+            return method;
+        }
+
+        public String getUri() {
+            return uri;
+        }
+
+        public Type getType() {
+            return type;
+        }
+
+        public boolean isAccount() {
+            return isAccount;
+        }
+
+        public List<Entry<String, Object>> getForm() {
+            return form;
+        }
+
+        public void setForm(List<Entry<String, Object>> form) {
+            this.form = form;
+        }
+
+        public Callback<T> getCallable() {
+            return callable;
+        }
+
+        public void setCallable(Callback<T> callable) {
+            this.callable = callable;
+        }
+
+        public RequestCallback<T> getRequestCallback() {
+            return requestCallback;
+        }
+
+        public void setRequestCallback(RequestCallback<T> requestCallback) {
+            this.requestCallback = requestCallback;
+        }
+
+        public Object getTag() {
+			return tag;
+		}
+
+		public void setTag(Object tag) {
+			this.tag = tag;
+		}
+    }
+}

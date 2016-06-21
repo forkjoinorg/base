@@ -1,0 +1,27 @@
+<!--#set(ApiInfo m)-->
+<!--#set(JavaControllerWrapper utils)-->
+<!--#set(TypeInfo type)-->
+<!--#set(ApiMethodInfo method)-->
+package $!{utils.getPack()}.i;
+
+import org.forkjoin.apikit.spring.*;
+import javax.validation.Valid;
+
+$!{utils.imports}
+
+
+/**
+ * 主要用于限制api Controller 是否实现
+$!{utils.comment(" * ")}
+ */
+public interface $!{utils.name}Interface{
+<!--#for(method : m.methodInfos)-->
+
+<!--		#if(method.comment)-->
+	/**
+$!{utils.formatComment(method.comment,"	 * ")}
+	 */
+<!--		#end-->
+    Result<$!{utils.result(method)}> $!{method.name}($!{utils.params(method, false)}) throws Exception;
+<!--#end-->
+}

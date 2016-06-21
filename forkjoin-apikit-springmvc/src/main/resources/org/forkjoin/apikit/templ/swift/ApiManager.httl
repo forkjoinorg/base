@@ -1,0 +1,37 @@
+<!--#set(String packName)-->
+<!--#set(ApiInfo info)-->
+<!--#set(PackageInfo<ApiInfo> packageInfo)-->
+<!--#set(Collection<PackageInfo<ApiInfo>> packageInfos)-->
+<!--#set(String prefix)-->
+
+//
+//  ApiManager.swift
+//  iHealthBaby(swift)
+//
+//  Created by zuoge85 on 15/8/9.
+//  Copyright (c) 2015年 ihealthbaby. All rights reserved.
+//
+import Foundation
+
+public class ApiManager {
+    let apiHttpClientAdapter:ApiHttpClientAdapter
+
+<!--#for(packageInfo : packageInfos)-->
+<!--        #for(info : packageInfo.values)-->
+
+$!{info.comment("    ///")}
+    let $!{info.filedName}:$!{info.supportType.getSwiftTypeString("", true)}
+<!--        #end-->
+<!--#end-->
+    init(_ apiHttpClientAdapter:ApiHttpClientAdapter){
+        self.apiHttpClientAdapter = apiHttpClientAdapter
+
+
+
+<!--#for(packageInfo : packageInfos)-->
+<!--        #for(info : packageInfo.values)-->
+        self.$!{info.filedName} = $!{info.supportType.getSwiftTypeString("", true)}(self.apiHttpClientAdapter)
+<!--        #end-->
+<!--#end-->
+    }
+}

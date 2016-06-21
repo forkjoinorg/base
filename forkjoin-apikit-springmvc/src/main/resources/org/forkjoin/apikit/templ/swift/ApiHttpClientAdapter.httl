@@ -1,0 +1,34 @@
+//
+//  File.swift
+//  iHealthBaby(swift)
+//
+//  Created by zuoge85 on 15/8/6.
+//  Copyright (c) 2015年 ihealthbaby. All rights reserved.
+//
+
+import Foundation
+
+
+public protocol ApiHttpClientAdapter {
+    func requestAsync<T, O:ApiObject >(param:ApiRequestParam<T, O>) -> ApiRequest?
+}
+
+public struct ApiRequestParam<T, O:ApiObject>{
+    let method:String
+    let uri:String
+    let isAccount:Bool
+    let call:(Result<T>)->Void
+    var form: Dictionary<String,AnyObject>?
+    
+    public init(
+        method:String, uri:String,
+        isAccount:Bool, call: (Result<T>)->Void,
+        form: Dictionary<String,AnyObject>?
+    ){
+        self.method = method
+        self.uri = uri
+        self.isAccount = isAccount
+        self.call = call
+        self.form = form
+    }
+}
