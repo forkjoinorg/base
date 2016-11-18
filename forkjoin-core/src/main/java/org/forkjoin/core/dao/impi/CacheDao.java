@@ -6,12 +6,15 @@ import org.forkjoin.core.PageResult;
 import org.forkjoin.core.dao.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.JdbcUtils;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -156,60 +159,63 @@ public class CacheDao<T extends EntityObject, K extends KeyObject>
                                            final int pageSize, final Object[] args) {
         return getJdbcTemplate()
                 .execute(
-                        (ConnectionCallback<PageResult<C>>) con -> {
-                            PreparedStatement ps = null;
-                            ResultSet rs = null;
-                            try {
-                                ps = con.prepareStatement(String.format(
-                                        countSql, SqlUtils.STRING_COUNT));
-                                int i = 1;
-                                for (Object o : args) {
-                                    ps.setObject(i++, o);
-                                }
-                                rs = ps.executeQuery();
-                                int count;
-                                if (rs.next()) {
-                                    count = Integer.valueOf(rs.getObject(1)
-                                            .toString());
-                                } else {
-                                    throw new ResultPageDataAccessException(
-                                            "查询count失败!");
-                                }
-                                JdbcUtils.closeResultSet(rs);
-                                JdbcUtils.closeStatement(ps);
+                        new ConnectionCallback<PageResult<C>>() {
+                            @Override
+                            public PageResult<C> doInConnection(Connection con) throws SQLException, DataAccessException {
+                                PreparedStatement ps = null;
+                                ResultSet rs = null;
+                                try {
+                                    ps = con.prepareStatement(String.format(
+                                            countSql, SqlUtils.STRING_COUNT));
+                                    int i = 1;
+                                    for (Object o : args) {
+                                        ps.setObject(i++, o);
+                                    }
+                                    rs = ps.executeQuery();
+                                    int count;
+                                    if (rs.next()) {
+                                        count = Integer.valueOf(rs.getObject(1)
+                                                .toString());
+                                    } else {
+                                        throw new ResultPageDataAccessException(
+                                                "查询count失败!");
+                                    }
+                                    JdbcUtils.closeResultSet(rs);
+                                    JdbcUtils.closeStatement(ps);
 
-                                PageResult<C> pageResult = PageResult
-                                        .createPage(count, page, pageSize, null);
+                                    PageResult<C> pageResult = PageResult
+                                            .createPage(count, page, pageSize, null);
 
-                                List<C> list = Lists
-                                        .newArrayListWithCapacity(pageResult
-                                                .getPageCount());
-                                int start = pageResult.getStart();
+                                    List<C> list = Lists
+                                            .newArrayListWithCapacity(pageResult
+                                                    .getPageCount());
+                                    int start = pageResult.getStart();
 
-                                String pageSql = sql + " LIMIT " + start + ","
-                                        + pageSize;
-                                ps = con.prepareStatement(pageSql);
-                                i = 1;
-                                for (Object o : args) {
-                                    ps.setObject(i++, o);
-                                }
+                                    String pageSql = sql + " LIMIT " + start + ","
+                                            + pageSize;
+                                    ps = con.prepareStatement(pageSql);
+                                    i = 1;
+                                    for (Object o : args) {
+                                        ps.setObject(i++, o);
+                                    }
 
-                                if (log.isDebugEnabled()) {
-                                    log.debug(
-                                            "fastQueryPage: {}; params:{}; countSql:{}; table:{}",
-                                            pageSql, args, countSql,
-                                            tableInfo.getDbTableName());
+                                    if (log.isDebugEnabled()) {
+                                        log.debug(
+                                                "fastQueryPage: {}; params:{}; countSql:{}; table:{}",
+                                                pageSql, args, countSql,
+                                                tableInfo.getDbTableName());
+                                    }
+                                    rs = ps.executeQuery();
+                                    int rowNum = 0;
+                                    while (rs.next()) {
+                                        list.add(rowMapper.mapRow(rs, rowNum++));
+                                    }
+                                    pageResult.setValue(list);
+                                    return pageResult;
+                                } finally {
+                                    JdbcUtils.closeResultSet(rs);
+                                    JdbcUtils.closeStatement(ps);
                                 }
-                                rs = ps.executeQuery();
-                                int rowNum = 0;
-                                while (rs.next()) {
-                                    list.add(rowMapper.mapRow(rs, rowNum++));
-                                }
-                                pageResult.setValue(list);
-                                return pageResult;
-                            } finally {
-                                JdbcUtils.closeResultSet(rs);
-                                JdbcUtils.closeStatement(ps);
                             }
                         });
     }

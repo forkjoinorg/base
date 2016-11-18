@@ -12,8 +12,10 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.RowMapperResultSetExtractor;
 import org.springframework.jdbc.support.JdbcUtils;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -199,72 +201,75 @@ public class ReadOnlyDaoImpi<T extends EntityObject, K extends KeyObject>
     private <C> PageResult<C> fastQueryPage(final String countSql,
                                             final String sql, final RowMapper<C> rowMapper, int curPage,
                                             int curPageSize, final Object[] args) {
-        int page = Math.max(curPage, 1);
-        int pageSize = Math.min(curPageSize, 200);
+        final int page = Math.max(curPage, 1);
+        final int pageSize = Math.min(curPageSize, 200);
         return getJdbcTemplate()
                 .execute(
-                        (ConnectionCallback<PageResult<C>>) con -> {
-                            PreparedStatement ps = null;
-                            ResultSet rs = null;
-                            try {
+                        new ConnectionCallback<PageResult<C>>() {
+                            @Override
+                            public PageResult<C> doInConnection(Connection con) throws SQLException, DataAccessException {
+                                PreparedStatement ps = null;
+                                ResultSet rs = null;
+                                try {
 
-                                if (log.isDebugEnabled()) {
-                                    log.debug(
-                                            "fastQueryPage countSql: {}; params:{}; table:{}",
-                                            countSql, args,
-                                            tableInfo.getDbTableName());
+                                    if (log.isDebugEnabled()) {
+                                        log.debug(
+                                                "fastQueryPage countSql: {}; params:{}; table:{}",
+                                                countSql, args,
+                                                tableInfo.getDbTableName());
+                                    }
+                                    ps = con.prepareStatement(countSql);
+                                    int i = 1;
+                                    for (Object o : args) {
+                                        ps.setObject(i++, o);
+                                    }
+                                    rs = ps.executeQuery();
+                                    int count;
+                                    if (rs.next()) {
+                                        count = Integer.valueOf(rs.getObject(1)
+                                                .toString());
+                                    } else {
+                                        throw new ResultPageDataAccessException(
+                                                "查询count失败!");
+                                    }
+                                    JdbcUtils.closeResultSet(rs);
+                                    JdbcUtils.closeStatement(ps);
+
+                                    PageResult<C> pageResult = PageResult
+                                            .createPage(count, page, pageSize, null);
+
+                                    List<C> list = Lists
+                                            .newArrayListWithCapacity(pageResult
+                                                    .getPageCount());
+                                    int start = pageResult.getStart();
+
+                                    String pageSql = sql + " LIMIT " + start + ","
+                                            + pageSize;
+
+                                    if (log.isDebugEnabled()) {
+                                        log.debug(
+                                                "fastQueryPage: {}; params:{}; table:{}",
+                                                pageSql, args,
+                                                tableInfo.getDbTableName());
+                                    }
+
+                                    ps = con.prepareStatement(pageSql);
+                                    i = 1;
+                                    for (Object o : args) {
+                                        ps.setObject(i++, o);
+                                    }
+
+                                    rs = ps.executeQuery();
+                                    int rowNum = 0;
+                                    while (rs.next()) {
+                                        list.add(rowMapper.mapRow(rs, rowNum++));
+                                    }
+                                    pageResult.setValue(list);
+                                    return pageResult;
+                                } finally {
+                                    JdbcUtils.closeResultSet(rs);
+                                    JdbcUtils.closeStatement(ps);
                                 }
-                                ps = con.prepareStatement(countSql);
-                                int i = 1;
-                                for (Object o : args) {
-                                    ps.setObject(i++, o);
-                                }
-                                rs = ps.executeQuery();
-                                int count;
-                                if (rs.next()) {
-                                    count = Integer.valueOf(rs.getObject(1)
-                                            .toString());
-                                } else {
-                                    throw new ResultPageDataAccessException(
-                                            "查询count失败!");
-                                }
-                                JdbcUtils.closeResultSet(rs);
-                                JdbcUtils.closeStatement(ps);
-
-                                PageResult<C> pageResult = PageResult
-                                        .createPage(count, page, pageSize, null);
-
-                                List<C> list = Lists
-                                        .newArrayListWithCapacity(pageResult
-                                                .getPageCount());
-                                int start = pageResult.getStart();
-
-                                String pageSql = sql + " LIMIT " + start + ","
-                                        + pageSize;
-
-                                if (log.isDebugEnabled()) {
-                                    log.debug(
-                                            "fastQueryPage: {}; params:{}; table:{}",
-                                            pageSql, args,
-                                            tableInfo.getDbTableName());
-                                }
-
-                                ps = con.prepareStatement(pageSql);
-                                i = 1;
-                                for (Object o : args) {
-                                    ps.setObject(i++, o);
-                                }
-
-                                rs = ps.executeQuery();
-                                int rowNum = 0;
-                                while (rs.next()) {
-                                    list.add(rowMapper.mapRow(rs, rowNum++));
-                                }
-                                pageResult.setValue(list);
-                                return pageResult;
-                            } finally {
-                                JdbcUtils.closeResultSet(rs);
-                                JdbcUtils.closeStatement(ps);
                             }
                         });
     }

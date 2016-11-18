@@ -65,10 +65,12 @@ public class RequestUtils {
             hashMap.put("cookies", cookieArray);
         }
         Map<String, String> parameters = new HashMap<>();
-        request.getParameterMap().entrySet().parallelStream().forEach(e -> {
+
+        for (Map.Entry<String, String[]> e : request.getParameterMap().entrySet()) {
             String valueStr = Arrays.toString(e.getValue());
             parameters.put(e.getKey(), valueStr.substring(0, Math.min(64, valueStr.length())));
-        });
+        }
+
         hashMap.put("parameters", parameters);
         HashMap<String, Object> headerMap = new LinkedHashMap<>();
         Enumeration<String> headerNames = request.getHeaderNames();

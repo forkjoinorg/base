@@ -39,15 +39,18 @@ public abstract class AbstractApacheHttpClientAdapter extends AbstractHttpClient
         this(serverUrl, null, 0);
     }
 
-    public <R> R request(String method, String uri, List<Map.Entry<String, Object>> form, boolean isAccount, ResultCallback<R> callback) {
+    public <R> R request(String method, String uri, List<Map.Entry<String, Object>> form, boolean isAccount, final ResultCallback<R> callback) {
         try {
             final AtomicReference<R> resultRef = new AtomicReference<>(null);
             final CountDownLatch latch = new CountDownLatch(1);
-            requestAsync(method, uri, form, isAccount, (isSuccess, json, ex) -> {
-                R r = callback.call(isSuccess, json, ex);
-                resultRef.set(r);
-                latch.countDown();
-                return r;
+            requestAsync(method, uri, form, isAccount, new ResultCallback<Object>() {
+                @Override
+                public Object call(boolean isSuccess, String json, Exception ex) {
+                    R r = callback.call(isSuccess, json, ex);
+                    resultRef.set(r);
+                    latch.countDown();
+                    return r;
+                }
             }).get();
             latch.await();
 
@@ -59,7 +62,7 @@ public abstract class AbstractApacheHttpClientAdapter extends AbstractHttpClient
 
     public <R> Future<?> requestAsync(
             String method, String uri, List<Map.Entry<String, Object>> form,
-            boolean isAccount, ResultCallback<R> callback
+            boolean isAccount, final ResultCallback<R> callback
     ) {
         final String url = createUrl(uri);
         HttpUriRequest request = createRequest(method, form, isAccount, url);
