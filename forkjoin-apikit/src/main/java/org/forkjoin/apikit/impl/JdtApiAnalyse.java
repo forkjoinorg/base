@@ -1,5 +1,6 @@
 package org.forkjoin.apikit.impl;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jdt.core.dom.*;
 import org.forkjoin.apikit.AnalyseException;
@@ -7,6 +8,7 @@ import org.forkjoin.apikit.core.Account;
 import org.forkjoin.apikit.core.ActionType;
 import org.forkjoin.apikit.core.ApiMethod;
 import org.forkjoin.apikit.info.*;
+import org.forkjoin.apikit.spring.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,11 +57,7 @@ public class JdtApiAnalyse extends JdtAbstractModuleAnalyse {
 
 
 //        SupportType returnType = SupportType.from(this, method.getReturnType2());
-        TypeInfo resultType = jdtInfo.analyseType(method.getReturnType2());
-        if(resultType == null){
-            throw new AnalyseException("返回类型不能为空!" + method.getReturnType2());
-        }
-        apiMethodInfo.setResultType(resultType);
+        analyseReturnInfo(method, apiMethodInfo);
 
         apiMethodInfo.setComment(transform(method.getJavadoc()));
 //        getTypeName(returnType2.ge)
@@ -130,6 +128,24 @@ public class JdtApiAnalyse extends JdtAbstractModuleAnalyse {
 //        }
         analyseMethodParamsInfo(apiMethodInfo, method);
         return apiMethodInfo;
+    }
+
+    private void analyseReturnInfo(MethodDeclaration method, ApiMethodInfo apiMethodInfo) {
+        TypeInfo resultType = jdtInfo.analyseType(method.getReturnType2());
+        if(resultType == null){
+            throw new AnalyseException("返回类型不能为空!" + method.getReturnType2());
+        }
+        if(!Result.class.getName().equals(resultType.getFullName())){
+            throw new AnalyseException("现在的版本返回类型必须是!" + Result.class.getName());
+        }
+        if(CollectionUtils.isEmpty(resultType.getTypeArguments())){
+            throw new AnalyseException("反正类型不存在！!" + resultType);
+        }
+        /**
+         * 真真正正的返回类型
+         */
+        TypeInfo realResultType = resultType.getTypeArguments().get(0);
+        apiMethodInfo.setResultType(realResultType);
     }
 
 

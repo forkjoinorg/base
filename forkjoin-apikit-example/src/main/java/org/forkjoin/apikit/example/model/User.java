@@ -12,17 +12,41 @@ import javax.validation.constraints.Min;
 @Message
 public class User {
 
-    long id;
+    private long id;
 
     /**
      * 名称允许重复
      */
     @Length(max = 255)
-    String name;
+    private String name;
 
     /**
      * 年龄
      */
     @Min(14)
-    int age;
+    private int age;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
 }

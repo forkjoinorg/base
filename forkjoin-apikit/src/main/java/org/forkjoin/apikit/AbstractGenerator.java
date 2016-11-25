@@ -13,24 +13,22 @@ public abstract class AbstractGenerator implements Generator {
 
     public void generate(Context context) throws Exception {
         this.context = context;
-        context.apis.getValues().parallelStream().forEach(
-                apiInfo -> {
-                    try {
-                        generateApi(apiInfo);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-        );
-        context.messages.getValues().parallelStream().forEach(
-                messageInfo -> {
-                    try {
-                        generateMessage(messageInfo);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-        );
+
+        for (ApiInfo apiInfo : context.apis.getValues()) {
+            try {
+                generateApi(apiInfo);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        for (MessageInfo messageInfo : context.messages.getValues()) {
+            try {
+                generateMessage(messageInfo);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
 
         generateTool();
     }

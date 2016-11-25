@@ -4,9 +4,6 @@
 
 import User from './User'
 import User from './User'
-import TestObject from './TestObject'
-import TestObject from './TestObject'
-import TestObject from './TestObject'
 
 
 /**

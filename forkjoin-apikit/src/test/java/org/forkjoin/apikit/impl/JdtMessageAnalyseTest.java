@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 public class JdtMessageAnalyseTest extends BaseTest {
     @Test
     public void testUser() throws IOException {
-        String code = readCode("model/User.java");
+        String code = readCode("api/model/User.java");
         Analyse analyse = createAnalyse();
         MessageInfo message = (MessageInfo) analyse.analyse(code, "model");
         assertEquals("User", message.getName());
@@ -69,7 +69,7 @@ public class JdtMessageAnalyseTest extends BaseTest {
      */
     @Test
     public void testTestObject() throws IOException {
-        String code = readCode("model/TestObject.java");
+        String code = readCode("api/model/TestObject.java");
         Analyse analyse = createAnalyse();
         MessageInfo message = (MessageInfo) analyse.analyse(code, "model");
         assertEquals("TestObject", message.getName());

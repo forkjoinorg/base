@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.forkjoin</groupId>
     <artifactId>base</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>2.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <url>http://forkjoin.org</url>
     <modules>
@@ -13,13 +13,14 @@
         <module>forkjoin-apikit-springmvc</module>
         <module>forkjoin-apikit</module>
         <module>forkjoin-apikit-example</module>
+        <module>forkjoin-apikit-client</module>
     </modules>
     <properties>
         <spring.version>4.1.6.RELEASE</spring.version>
         <jackson.version>2.5.2</jackson.version>
         <junit.version>4.12</junit.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.8</java.version>
+        <java.version>1.7</java.version>
     </properties>
     <dependencies>
         <dependency>

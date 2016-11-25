@@ -18,24 +18,20 @@ class BaseApi extends AbstractApi {
     *
     * <div class='http-info'>http 说明：<b>Api Url:</b> <b>base/</b>
     * <ul>
-    * <li><b>Form:</b>Usercreate</li>
     * <li><b>Form:</b>TestFormcreate</li>
     * <li><b>Model:</b> TestObject[]</li>
     * <li>需要登录</li>
     * </ul>
     * </div>
     * @see TestObject[]
-    * @see User
     * @see TestForm
 
     */
-    create(user:User, testForm:TestForm):Promise {
+    create(testForm:TestForm):Promise {
         var _path = null;
-        var _form = user;
         return super._request(
-            "POST", "base/", _path, _form
-        );
-
+                    "POST", "base/", _path, testForm
+                );
     }
 
 
@@ -56,11 +52,9 @@ class BaseApi extends AbstractApi {
     get(id:String):Promise {
         var _path = {};
         _path["id"] = id;
-        var _form = null;
         return super._request(
-            "GET", "base/{id}", _path, _form
-        );
-
+                    "GET", "base/{id}", _path, null
+                );
     }
 
 
@@ -71,23 +65,19 @@ class BaseApi extends AbstractApi {
     * <div class='http-info'>http 说明：<b>Api Url:</b> <b>baseUrl/</b>
     * <ul>
     * <li><b>Form:</b>Usercreate</li>
-    * <li><b>Form:</b>Usercreate</li>
     * <li><b>Model:</b> User</li>
     * <li>需要登录</li>
     * </ul>
     * </div>
     * @see User
     * @see User
-    * @see User
 
     */
-    create(user:User, user1:User):Promise {
+    create(user:User):Promise {
         var _path = null;
-        var _form = user;
         return super._request(
-            "GET", "baseUrl/", _path, _form
-        );
-
+                    "GET", "baseUrl/", _path, user
+                );
     }
 
 }

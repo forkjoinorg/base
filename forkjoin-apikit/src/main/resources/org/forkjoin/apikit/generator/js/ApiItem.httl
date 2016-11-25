@@ -31,14 +31,14 @@ $!{utils.requestComment(method,"    * ")}
         <!--#end-->
         <!--#if(method.formParams)-->
         <!--#set(param = method.formParams[0])-->
-        var _form = $!{param.name};
-        <!--#else-->
-        var _form = null;
-        <!--#end-->
         return super._request(
-            "$!{method.type.name()}", "$!{method.url}", _path, _form
-        );
-
+                    "$!{method.type.name()}", "$!{method.url}", _path, $!{param.name}
+                );
+        <!--#else-->
+        return super._request(
+                    "$!{method.type.name()}", "$!{method.url}", _path, null
+                );
+        <!--#end-->
     }
 ##循环结束
 <!--#end-->

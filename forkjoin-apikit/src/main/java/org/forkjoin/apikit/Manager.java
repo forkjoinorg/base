@@ -5,13 +5,7 @@ import org.forkjoin.apikit.info.ModuleInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
+import java.io.*;
 
 /**
  * @author zuoge85 on 15/11/8.
@@ -26,7 +20,7 @@ public class Manager {
 
     //    private Analyse analyse;
     private ObjectFactory objectFactory;
-//    private List<Generator> messageGenerators = new ArrayList<>();
+    //    private List<Generator> messageGenerators = new ArrayList<>();
     private File rootDir;
     private String rootDirPath;
     private Context context;
@@ -35,15 +29,26 @@ public class Manager {
         rootDir = Utils.packToPath(path, rootPackage);
         rootDirPath = rootDir.getAbsolutePath();
         context = objectFactory.createContext();
+        context.setPath(path);
+        context.setRootPackage(rootPackage);
 
         analyse(rootDir);
     }
 
     private void analyse(File dir) {
-        for (File f : dir.listFiles(
-                pathname -> pathname.isDirectory() ||
-                        pathname.getName().endsWith(fileSuffix)
-        )) {
+        File[] files = dir.listFiles(
+                new FileFilter() {
+                    @Override
+                    public boolean accept(File pathname) {
+                        return pathname.isDirectory() ||
+                                pathname.getName().endsWith(fileSuffix);
+                    }
+                }
+        );
+        if (files == null) {
+            return;
+        }
+        for (File f : files) {
             if (f.isDirectory()) {
                 analyse(f);
             } else {
@@ -54,9 +59,9 @@ public class Manager {
                     ModuleInfo m = analyse.analyse(code, pack);
 
                     context.add(m);
-                    if(m!=null){
+                    if (m != null) {
                         log.info("分析完毕一个,name:{},Message:{}", m.getFullName(), m);
-                    }else{
+                    } else {
                         log.info("分析完毕一个,不存在module:{}", f.getName());
                     }
                 } catch (IOException e) {

@@ -35,15 +35,20 @@ public class JavaWrapper<T extends ModuleInfo> extends BuilderWrapper<T> {
     }
 
     public String toJavaTypeString(TypeInfo typeInfo, boolean isWrap, boolean isArrayList, boolean isTypeArguments) {
+        return toJavaTypeString(typeInfo, isWrap, isArrayList, isTypeArguments, isArrayList);
+    }
+
+    /**
+     *
+     * @param isChildArrayList 参数类型是否处理数组
+     */
+    public String toJavaTypeString(TypeInfo typeInfo, boolean isWrap, boolean isArrayList, boolean isTypeArguments, boolean isChildArrayList) {
         StringBuilder sb = new StringBuilder();
         TypeInfo.Type type = typeInfo.getType();
         if (type == TypeInfo.Type.BYTE && typeInfo.isArray()) {
             sb.append("byte[]");
         } else if (isArrayList && typeInfo.isArray()) {
-            sb.append("java.util.ArrayList");
-            sb.append('<');
-            sb.append(toJavaTypeString(typeInfo, true, false));
-            sb.append('>');
+            toJavaArrayTypeString(typeInfo, sb, isWrap, true);
             return sb.toString();
         } else if (typeInfo.isOtherType()) {
             sb.append(typeInfo.getName());
@@ -60,11 +65,21 @@ public class JavaWrapper<T extends ModuleInfo> extends BuilderWrapper<T> {
                 if (i > 0) {
                     sb.append(',');
                 }
-                sb.append(toJavaTypeString(typeArgument, true, isArrayList));
+                sb.append(toJavaTypeString(typeArgument, true, isChildArrayList));
             }
             sb.append('>');
         }
         return sb.toString();
+    }
+
+    /**
+     * 处理数组!
+     */
+    protected void toJavaArrayTypeString(TypeInfo typeInfo, StringBuilder sb,  boolean isWrap, boolean isArrayList) {
+        sb.append("java.util.ArrayList");
+        sb.append('<');
+        sb.append(toJavaTypeString(typeInfo, true, false));
+        sb.append('>');
     }
 
 

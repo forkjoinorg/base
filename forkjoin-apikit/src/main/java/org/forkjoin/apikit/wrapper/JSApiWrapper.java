@@ -7,6 +7,7 @@ import org.forkjoin.apikit.info.ApiInfo;
 import org.forkjoin.apikit.info.ApiMethodInfo;
 import org.forkjoin.apikit.info.ApiMethodParamInfo;
 import org.forkjoin.apikit.info.TypeInfo;
+import org.forkjoin.apikit.utils.CommentUtils;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -68,7 +69,7 @@ public class JSApiWrapper extends JSWrapper<ApiInfo> {
 //        sb.append(start).append("<li><b>Method:</b> ")
 //                .append(method.getType().toMethod())
 //                .append("</li>\n");
-        Map<String, String> stringStringMap = commentToMap(method.getComment());
+        Map<String, String> stringStringMap = CommentUtils.commentToMap(method.getComment());
 
         ArrayList<ApiMethodParamInfo> params = method.getParams();
         for (ApiMethodParamInfo attributeInfo : params) {

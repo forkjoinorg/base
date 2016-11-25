@@ -25,6 +25,7 @@ public class ApiInfo extends ModuleInfo {
         if (map.put(apiMethodInfo.getType(), apiMethodInfo) != null) {
             throw new AnalyseException(apiMethodInfo + "apiMethodInfo严重错误,重复的定义:url" + apiMethodInfo.getUrl() + ",type:" + apiMethodInfo.getType());
         }
+        apiMethodInfo.setIndex(methodInfos.size());
         methodInfos.add(apiMethodInfo);
     }
 

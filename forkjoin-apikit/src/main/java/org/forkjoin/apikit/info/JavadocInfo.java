@@ -1,9 +1,13 @@
 package org.forkjoin.apikit.info;
 
+import com.google.common.base.Supplier;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * javadoc 注释信息
@@ -14,7 +18,12 @@ import java.util.*;
 public class JavadocInfo {
 
     private ListMultimap<String, String> tags = Multimaps.newListMultimap(
-            new LinkedHashMap<>(), ArrayList::new
+            new LinkedHashMap<String, Collection<String>>(), new Supplier<List<String>>() {
+                @Override
+                public List<String> get() {
+                    return new CopyOnWriteArrayList<>();
+                }
+            }
     );
 
     public void add(String tagName, List<String> fragmentsInfo) {

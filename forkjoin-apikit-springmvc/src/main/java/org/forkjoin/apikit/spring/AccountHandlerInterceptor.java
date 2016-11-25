@@ -27,6 +27,7 @@ public abstract class AccountHandlerInterceptor<T> extends HandlerInterceptorAda
         response.setHeader("Cache-Control", "no-cache,no-store");
         response.setIntHeader("Expires", -1);
         response.setHeader("Pragma", "no-cache");
+        response.setCharacterEncoding("UTF-8");
 
         if (handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;

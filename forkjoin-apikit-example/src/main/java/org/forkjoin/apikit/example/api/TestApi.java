@@ -7,6 +7,7 @@ import org.forkjoin.apikit.core.ApiMethod;
 import org.forkjoin.apikit.example.form.TestForm;
 import org.forkjoin.apikit.example.model.TestObject;
 import org.forkjoin.apikit.example.model.User;
+import org.forkjoin.apikit.spring.Result;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.validation.Valid;
@@ -14,7 +15,6 @@ import java.util.List;
 
 
 /**
- *
  * @author zuoge85 on 15/6/11.
  */
 @Api
@@ -25,37 +25,37 @@ public interface TestApi {
      */
     @Account(false)
     @ApiMethod(value = "test/", type = ActionType.POST)
-    TestObject<User> create(@Valid TestForm<User> testForm);
+    Result<TestObject<User>> create(@Valid TestForm<User> testForm) throws Exception;
 
     @Account(false)
     @ApiMethod(value = "test/{id}", type = ActionType.GET)
-    TestObject<User> get(@PathVariable String id);
+    Result<TestObject<User>> get(@PathVariable String id) throws Exception;
 
     @Account(false)
     @ApiMethod(value = "test/", type = ActionType.PUT)
-    TestObject<User> update(@Valid TestForm<User> testForm);
+    Result<TestObject<User>> update(@Valid TestForm<User> testForm) throws Exception;
 
     @Account(false)
     @ApiMethod(value = "test/", type = ActionType.PATCH)
-    TestObject<User> patchUpdate(@Valid TestForm<User> testForm);
+    Result<TestObject<User>> patchUpdate(@Valid TestForm<User> testForm) throws Exception;
 
     @Account(false)
     @ApiMethod(value = "test/{id}", type = ActionType.DELETE)
-    Boolean delete(@PathVariable String id);
+    Result<Boolean> delete(@PathVariable String id) throws Exception;
 
     @Account(false)
     @ApiMethod(value = "tests/{id}", type = ActionType.DELETE)
-    Integer deletes(@PathVariable List<String> id);
+    Result<Integer> deletes(@PathVariable List<String> id) throws Exception;
 
     @Account(false)
     @ApiMethod(value = "search/{id}/{name}", type = ActionType.GET)
-    TestObject<User> search(@PathVariable String id, @PathVariable String name);
+    Result<TestObject<User>> search(@PathVariable String id, @PathVariable String name) throws Exception;
 
     @Account(false)
     @ApiMethod(value = "testString/{name}", type = ActionType.GET)
-    String testString(@PathVariable String name);
+    Result<String> testString(@PathVariable String name) throws Exception;
 
     @Account(false)
     @ApiMethod(value = "testString1/{name}/{age}", type = ActionType.GET)
-    String testString1(@PathVariable String name, @PathVariable String age);
+    Result<String> testString1(@PathVariable String name, @PathVariable String age) throws Exception;
 }

@@ -7,26 +7,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
 /**
  *
  */
 public abstract class HttlGenerator extends AbstractGenerator {
     private static final Logger log = LoggerFactory.getLogger(HttlGenerator.class);
-    protected String srcPath;
+    protected String outPath;
     protected String rootPackage;
 
-    public String getSrcPath() {
-        return srcPath;
+    public String getOutPath() {
+        return outPath;
     }
 
-    public void setSrcPath(String srcPath) {
-        this.srcPath = srcPath;
+    public void setOutPath(String outPath) {
+        this.outPath = outPath;
     }
 
     public String getRootPackage() {
@@ -38,7 +35,7 @@ public abstract class HttlGenerator extends AbstractGenerator {
     }
 
     protected void executeModule(
-            BuilderWrapper utils, String templPath,File file
+            BuilderWrapper utils, String templPath, File file
     )
             throws Exception {
 
@@ -51,7 +48,7 @@ public abstract class HttlGenerator extends AbstractGenerator {
     }
 
     protected void execute(
-            Map<String, Object> parameters,String templPath,File file
+            Map<String, Object> parameters, String templPath, File file
     )
             throws Exception {
 
@@ -66,12 +63,12 @@ public abstract class HttlGenerator extends AbstractGenerator {
     )
             throws Exception {
 
-        log.info("开始生成文件到内存 name:{}, templ:{}",utils.getFullName(), templPath);
+        log.info("开始生成文件到内存 name:{}, templ:{}", utils.getFullName(), templPath);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("m", utils.getModuleInfo());
         parameters.put("utils", utils);
         String code = HttlUtils.renderToString(parameters, templPath);
-        log.info("结束生成文件到内存 name:{}, templ:{}",utils.getFullName(),templPath);
+        log.info("结束生成文件到内存 name:{}, templ:{}", utils.getFullName(), templPath);
         return code;
     }
 }

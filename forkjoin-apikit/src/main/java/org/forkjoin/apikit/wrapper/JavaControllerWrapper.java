@@ -7,6 +7,7 @@ import org.forkjoin.apikit.Context;
 import org.forkjoin.apikit.info.ApiInfo;
 import org.forkjoin.apikit.info.ApiMethodInfo;
 import org.forkjoin.apikit.info.ApiMethodParamInfo;
+import org.forkjoin.apikit.info.TypeInfo;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -77,25 +78,10 @@ public class JavaControllerWrapper extends JavaApiWrapper {
         return sb.toString();
     }
 
+
     @Override
-    public String params(ApiMethodInfo method, boolean isAnnotation) {
-        StringBuilder sb = new StringBuilder(
-                super.params(method, isAnnotation)
-        );
-        if (method.getAccountParam() != null) {
-            String aSimpleName = apiAccountClassName;
-            if (sb.length() > 0) {
-                sb.append(", ");
-            }
-            if (isAnnotation) {
-                sb.append('@');
-                sb.append(AccountParam.class.getSimpleName());
-                sb.append(' ');
-            }
-            sb.append(aSimpleName);
-            sb.append(' ');
-            sb.append(method.getAccountParam());
-        }
-        return sb.toString();
+    protected void toJavaArrayTypeString(TypeInfo typeInfo, StringBuilder sb,  boolean isWrap, boolean isArrayList) {
+        sb.append(toJavaTypeString(typeInfo, isWrap, false, true, isArrayList));
+        sb.append("[]");
     }
 }

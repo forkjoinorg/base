@@ -1,25 +1,30 @@
 package org.forkjoin.apikit.spring.client;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.message.BasicNameValuePair;
+import org.forkjoin.apikit.client.Callback;
+import org.forkjoin.apikit.client.HttpClientAdapter;
+import org.forkjoin.apikit.client.Result;
 import org.forkjoin.apikit.spring.AccountHandlerInterceptor;
 import org.forkjoin.apikit.spring.utils.DateTimeUtils;
+import org.forkjoin.apikit.spring.utils.JsonUtils;
 
+import java.lang.reflect.Type;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Future;
 
-import static java.util.stream.Collectors.toList;
-
 /**
  * @author zuoge85 on 15/6/23.
  */
-public abstract class AbstractHttpClientAdapter {
+public abstract class AbstractHttpClientAdapter implements HttpClientAdapter {
     public static final String ENCODING = "UTF-8";
     public static final Charset CHARSET = Charset.forName(ENCODING);
 
@@ -62,17 +67,17 @@ public abstract class AbstractHttpClientAdapter {
                 method.equalsIgnoreCase("PATCH");
 
         RequestBuilder requestBuilder = RequestBuilder.create(method).setUri(url);
-        if (isAccount) {
+        if (isAccount && StringUtils.isNotEmpty(accountToken)) {
             requestBuilder.setHeader(AccountHandlerInterceptor.ACCOUNT_TOKEN_HEADER_NAME, accountToken);
         }
         requestBuilder.setHeader("Accept-Language", "zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3");
 
         if (form != null) {
             if (isPostForm) {
-                List<BasicNameValuePair> collect = form.stream()
-                        .map(entry -> new BasicNameValuePair(entry.getKey(), AbstractHttpClientAdapter.this.toString(entry.getValue())))
-                        .collect(toList());
-
+                List<BasicNameValuePair> collect = new ArrayList<>();
+                for (Map.Entry<String, Object> entry : form) {
+                    collect.add(new BasicNameValuePair(entry.getKey(), AbstractHttpClientAdapter.this.toString(entry.getValue())));
+                }
 
                 requestBuilder.setEntity(new UrlEncodedFormEntity(collect, CHARSET));
             } else {
@@ -84,13 +89,13 @@ public abstract class AbstractHttpClientAdapter {
         return requestBuilder.build();
     }
 
-    public abstract <R> R request(String method, String uri, List<Map.Entry<String, Object>> form, boolean isAccount, ResultCallback<R> callback);
 
-    public abstract <R> Future<?> requestAsync(final String method, final String uri,
-                                               final List<Map.Entry<String, Object>> form,
-                                               final boolean isAccount, ResultCallback<R> callback);
-
-    protected interface ResultCallback<R> {
-        R call(boolean isSuccess, String json, Exception ex);
+    protected <T> Result<T> handlerResult(Type type, boolean isSuccess, String json, Exception ex) {
+        if (isSuccess) {
+            return JsonUtils.deserialize(json, type);
+        } else {
+            return Result.createError(ex);
+        }
     }
+
 }

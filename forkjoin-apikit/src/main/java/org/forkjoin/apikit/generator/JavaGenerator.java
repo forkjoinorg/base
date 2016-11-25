@@ -13,7 +13,7 @@ import java.io.File;
 public abstract class JavaGenerator extends HttlGenerator {
 
     protected File getFileName(BuilderWrapper utils) {
-        return Utils.packToPath(srcPath, utils.getPack(), utils.getName(), ".java");
+        return Utils.packToPath(outPath, utils.getPack(), utils.getName(), ".java");
     }
 
     @Override

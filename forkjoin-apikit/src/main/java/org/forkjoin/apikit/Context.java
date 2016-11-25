@@ -13,6 +13,9 @@ public class Context {
     protected PackageInfo<ApiInfo> apis = new PackageInfo<>();
 
 
+    private String path;
+    private String rootPackage;
+
     public void add(ModuleInfo m) {
         if (m instanceof MessageInfo) {
             messages.add(m.getPackageName(), (MessageInfo) m);
@@ -21,6 +24,21 @@ public class Context {
         }
     }
 
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getRootPackage() {
+        return rootPackage;
+    }
+
+    public void setRootPackage(String rootPackage) {
+        this.rootPackage = rootPackage;
+    }
 
     public PackageInfo<ApiInfo> getApis() {
         return apis;

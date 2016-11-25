@@ -7,6 +7,7 @@ import org.forkjoin.apikit.info.ApiInfo;
 import org.forkjoin.apikit.info.ApiMethodInfo;
 import org.forkjoin.apikit.info.ApiMethodParamInfo;
 import org.forkjoin.apikit.info.TypeInfo;
+import org.forkjoin.apikit.utils.CommentUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.validation.Valid;
@@ -60,7 +61,7 @@ public class JavaApiWrapper extends JavaWrapper<ApiInfo> {
 //        sb.append(start).append("<li><b>Method:</b> ")
 //                .append(method.getType().toMethod())
 //                .append("</li>\n");
-        Map<String, String> stringStringMap = commentToMap(method.getComment());
+        Map<String, String> stringStringMap = CommentUtils.commentToMap(method.getComment());
 
         ArrayList<ApiMethodParamInfo> params = method.getParams();
         for (ApiMethodParamInfo attributeInfo : params) {
@@ -156,22 +157,6 @@ public class JavaApiWrapper extends JavaWrapper<ApiInfo> {
         return sb.toString();
     }
 
-    public String asyncParams(ApiMethodInfo method) {
-        String params = params(method, false);
-        if (params.length() > 0) {
-            params += ", ";
-        }
-        return params + "Callback<" + result(method) + "> callable";
-    }
-
-    public String asyncReuestCallbackParams(ApiMethodInfo method) {
-        String params = params(method, false);
-        if (params.length() > 0) {
-            params += ", ";
-        }
-        return params + "Callback<" + result(method) + "> callable, " +
-                "RequestCallback<" + result(method) + "> requestCallback";
-    }
 
     public String params(ApiMethodInfo method) {
         return params(method, true);
@@ -214,24 +199,24 @@ public class JavaApiWrapper extends JavaWrapper<ApiInfo> {
         return sb.toString();
     }
 
-//    public String resultTypeString(ApiMethodInfo method, String start) {
-//        StringBuilder sb = new StringBuilder(start);
-//        sb.append("private static final TypeInfo ").append(method.getId()).append("Type = type(Result.class, ");
-//        resultTypeString(sb, method.getResultType());
-//        sb.append(");");
-//        return sb.toString();
-//    }
-//
-//    private void resultTypeString(StringBuilder sb, TypeInfo resultType) {
-//        if (resultType.getTypeArguments().isEmpty()) {
-//            sb.append(" type(").append(resultType.getNewJavaTypeString(true, false, false)).append(".class)");
-//        } else {
-//            sb.append(" type(").append(resultType.getNewJavaTypeString(true, false, false)).append(".class");//
-//            for (TypeInfo typeArgument : resultType.getTypeArguments()) {
-//                sb.append(",");
-//                resultTypeString(sb, typeArgument);
-//            }
-//            sb.append(")");
-//        }
-//    }
+    public String resultTypeString(ApiMethodInfo method, String start) {
+        StringBuilder sb = new StringBuilder(start);
+        sb.append("private static final ApiType _").append(method.getIndex()).append("Type = ApiUtils.type(Result.class, ");
+        resultTypeString(sb, method.getResultType());
+        sb.append(");");
+        return sb.toString();
+    }
+
+    private void resultTypeString(StringBuilder sb, TypeInfo resultType) {
+        if (resultType.getTypeArguments().isEmpty()) {
+            sb.append(" ApiUtils.type(").append(toJavaTypeString(resultType, true, false, false)).append(".class)");
+        } else {
+            sb.append(" ApiUtils.type(").append(toJavaTypeString(resultType, true, false, false)).append(".class");//
+            for (TypeInfo typeArgument : resultType.getTypeArguments()) {
+                sb.append(",");
+                resultTypeString(sb, typeArgument);
+            }
+            sb.append(")");
+        }
+    }
 }

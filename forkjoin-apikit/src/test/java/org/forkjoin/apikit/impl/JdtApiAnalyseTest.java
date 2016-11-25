@@ -6,6 +6,7 @@ import org.forkjoin.apikit.core.Api;
 import org.forkjoin.apikit.core.ApiMethod;
 import org.forkjoin.apikit.Analyse;
 import org.forkjoin.apikit.info.*;
+import org.forkjoin.apikit.spring.Result;
 import org.junit.Test;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -29,18 +30,19 @@ public class JdtApiAnalyseTest extends BaseTest {
         assertEquals("api", api.getPackageName());
 
         ImportsInfo imports = api.getImports();
-        assertEquals(9, imports.getImports().size());
+        assertEquals(10, imports.getImports().size());
 
 
         assertImport(imports.get("Account"), Account.class.getName());
         assertImport(imports.get("ActionType"), ActionType.class.getName());
         assertImport(imports.get("Api"), Api.class.getName());
         assertImport(imports.get("ApiMethod"), ApiMethod.class.getName());
-        assertImport(imports.get("TestForm"), "form.TestForm", true);
-        assertImport(imports.get("TestObject"), "model.TestObject", true);
-        assertImport(imports.get("User"), "model.User", true);
+        assertImport(imports.get("TestForm"), "api.form.TestForm", true);
+        assertImport(imports.get("TestObject"), "api.model.TestObject", true);
+        assertImport(imports.get("User"), "api.model.User", true);
         assertImport(imports.get("PathVariable"), PathVariable.class.getName());
         assertImport(imports.get("Valid"), Valid.class.getName());
+        assertImport(imports.get("Result"), Result.class.getName());
 
         //测试注释
         JavadocInfo comment = api.getComment();
@@ -61,7 +63,7 @@ public class JdtApiAnalyseTest extends BaseTest {
 
         TypeInfo resultType = apiMethodInfo.getResultType();
         assertType(
-                resultType, "model.User", true, false, 0
+                resultType, "api.model.User", true, false, 0
         );
     }
 
@@ -97,19 +99,19 @@ public class JdtApiAnalyseTest extends BaseTest {
 
         TypeInfo resultType = apiMethodInfo.getResultType();
         assertType(
-                resultType, "model.TestObject", true, true, 1
+                resultType, "api.model.TestObject", true, true, 1
         );
         assertType(
-                resultType.getTypeArguments().get(0), "model.User", true, true, 0
+                resultType.getTypeArguments().get(0), "api.model.User", true, true, 0
         );
 
-        assertJavadocInfo(apiMethodInfo.getComment(), "@param", Arrays.asList("user", " 用户"));
+        assertJavadocInfo(apiMethodInfo.getComment(), "@param", Arrays.asList("testForm", " 测试表单"));
 
         //测试参数0
         //Valid User user, @Valid TestForm<User> testForm
         ArrayList<ApiMethodParamInfo> params = apiMethodInfo.getParams();
         ApiMethodParamInfo param = params.get(0);
-        testApiMethodParam(param, "user", "model.User", 0);
+        testApiMethodParam(param, "testForm", "api.form.TestForm", 1);
 
         assertEquals(1, param.getAnnotations().size());
         AnnotationInfo annotationInfo = param.getAnnotations().get(0);
@@ -119,13 +121,7 @@ public class JdtApiAnalyseTest extends BaseTest {
         assertEquals(0, annotationInfo.getArgs().size());
 
         //测试参数1
-        param = params.get(1);
-        testApiMethodParam(param, "testForm", "form.TestForm", 1);
-        assertEquals(1, param.getAnnotations().size());
-        annotationInfo = param.getAnnotations().get(0);
-        assertType(
-                annotationInfo.getTypeInfo(), Valid.class.getName()
-        );
+
         assertEquals(0, annotationInfo.getArgs().size());
     }
 

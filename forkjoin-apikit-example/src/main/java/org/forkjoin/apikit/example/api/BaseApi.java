@@ -7,6 +7,7 @@ import org.forkjoin.apikit.core.ApiMethod;
 import org.forkjoin.apikit.example.form.TestForm;
 import org.forkjoin.apikit.example.model.TestObject;
 import org.forkjoin.apikit.example.model.User;
+import org.forkjoin.apikit.spring.Result;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.validation.Valid;
@@ -19,12 +20,12 @@ import javax.validation.Valid;
 public interface BaseApi {
     @ApiMethod(value = "base/", type = ActionType.POST)
     @Account(value = true, param = "accountName")
-    TestObject<User[]>[] create(@Valid User user, @Valid TestForm<User> testForm);
+    Result<TestObject<User[]>[]> create(@Valid TestForm<User> testForm, java.lang.Object accountName) throws Exception;
 
     @ApiMethod(value = "base/{id}", type = ActionType.GET)
-    void get(@PathVariable String id);
+    Result<Void> get(@PathVariable String id, java.lang.Object user) throws Exception;
 
     @ApiMethod("baseUrl/")
     @Account(value = true, param = "accountName")
-    org.forkjoin.apikit.example.model.User create(@Valid User user, @Valid User user1);
+    Result<User> create(@Valid User user,  java.lang.Object accountName) throws Exception;
 }

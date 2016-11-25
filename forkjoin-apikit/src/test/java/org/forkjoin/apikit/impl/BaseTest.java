@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class BaseTest {
     protected String readCode(String name) throws IOException {
-        InputStream input = JdtApiAnalyseTest.class.getResourceAsStream(name);
+        InputStream input = BaseTest.class.getResourceAsStream(name);
         return IOUtils.toString(input);
     }
 

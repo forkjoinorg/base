@@ -1,6 +1,7 @@
 package org.forkjoin.apikit.info;
 
 
+import org.forkjoin.apikit.AnalyseException;
 import org.forkjoin.apikit.core.Account;
 import org.forkjoin.apikit.core.ActionType;
 
@@ -11,6 +12,7 @@ import java.util.List;
  * @author zuoge85 on 15/6/12.
  */
 public class ApiMethodInfo {
+    private int index;
     private String name;
     private String url;
     private ActionType type = ActionType.GET;
@@ -43,6 +45,9 @@ public class ApiMethodInfo {
         }
         if (param.isFormParam()) {
             formParams.add(param);
+        }
+        if(formParams.size()>1){
+            throw new AnalyseException("分析错误！暂时只支持单表单");
         }
     }
 
@@ -147,15 +152,26 @@ public class ApiMethodInfo {
         return pathParams;
     }
 
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
     @Override
     public String toString() {
         return "ApiMethodInfo{" +
-                "name='" + name + '\'' +
+                "index=" + index +
+                ", name='" + name + '\'' +
                 ", url='" + url + '\'' +
                 ", type=" + type +
                 ", account=" + account +
                 ", accountParam='" + accountParam + '\'' +
                 ", params=" + params +
+                ", pathParams=" + pathParams +
+                ", formParams=" + formParams +
                 ", resultType=" + resultType +
                 ", comment=" + comment +
                 ", annotations=" + annotations +

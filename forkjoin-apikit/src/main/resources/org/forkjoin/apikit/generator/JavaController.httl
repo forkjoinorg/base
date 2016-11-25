@@ -2,7 +2,7 @@
 <!--#set(JavaControllerWrapper utils)-->
 <!--#set(TypeInfo type)-->
 <!--#set(ApiMethodInfo method)-->
-package $!{utils.getPack()};
+package $!{utils.getPack()}.controller;
 
 
 import org.forkjoin.apikit.core.AccountParam;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 
 import javax.validation.Valid;
-import $!{utils.getPack()}.i.*;
+import $!{utils.getPack()}.*;
 
 
 $!{utils.imports}
@@ -28,7 +28,7 @@ $!{utils.comment(" * ")}
  */
 @Controller
 @RequestMapping(value = "$!{utils.version}", produces = "application/json")
-public class $!{utils.name}Controller implements $!{m.name}Interface{
+public class $!{utils.name}Controller implements $!{m.name}{
 
 <!--#for(method : m.methodInfos)-->
 

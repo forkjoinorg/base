@@ -28,11 +28,9 @@ class TestApi extends AbstractApi {
     */
     create(testForm:TestForm):Promise {
         var _path = null;
-        var _form = testForm;
         return super._request(
-            "POST", "test/", _path, _form
-        );
-
+                    "POST", "test/", _path, testForm
+                );
     }
 
 
@@ -53,11 +51,9 @@ class TestApi extends AbstractApi {
     get(id:String):Promise {
         var _path = {};
         _path["id"] = id;
-        var _form = null;
         return super._request(
-            "GET", "test/{id}", _path, _form
-        );
-
+                    "GET", "test/{id}", _path, null
+                );
     }
 
 
@@ -77,11 +73,9 @@ class TestApi extends AbstractApi {
     */
     update(testForm:TestForm):Promise {
         var _path = null;
-        var _form = testForm;
         return super._request(
-            "PUT", "test/", _path, _form
-        );
-
+                    "PUT", "test/", _path, testForm
+                );
     }
 
 
@@ -101,11 +95,9 @@ class TestApi extends AbstractApi {
     */
     patchUpdate(testForm:TestForm):Promise {
         var _path = null;
-        var _form = testForm;
         return super._request(
-            "PATCH", "test/", _path, _form
-        );
-
+                    "PATCH", "test/", _path, testForm
+                );
     }
 
 
@@ -126,11 +118,9 @@ class TestApi extends AbstractApi {
     delete(id:String):Promise {
         var _path = {};
         _path["id"] = id;
-        var _form = null;
         return super._request(
-            "DELETE", "test/{id}", _path, _form
-        );
-
+                    "DELETE", "test/{id}", _path, null
+                );
     }
 
 
@@ -151,11 +141,9 @@ class TestApi extends AbstractApi {
     deletes(id:List):Promise {
         var _path = {};
         _path["id"] = id;
-        var _form = null;
         return super._request(
-            "DELETE", "tests/{id}", _path, _form
-        );
-
+                    "DELETE", "tests/{id}", _path, null
+                );
     }
 
 
@@ -179,11 +167,9 @@ class TestApi extends AbstractApi {
         var _path = {};
         _path["id"] = id;
         _path["name"] = name;
-        var _form = null;
         return super._request(
-            "GET", "search/{id}/{name}", _path, _form
-        );
-
+                    "GET", "search/{id}/{name}", _path, null
+                );
     }
 
 
@@ -204,11 +190,9 @@ class TestApi extends AbstractApi {
     testString(name:String):Promise {
         var _path = {};
         _path["name"] = name;
-        var _form = null;
         return super._request(
-            "GET", "testString/{name}", _path, _form
-        );
-
+                    "GET", "testString/{name}", _path, null
+                );
     }
 
 
@@ -232,11 +216,9 @@ class TestApi extends AbstractApi {
         var _path = {};
         _path["name"] = name;
         _path["age"] = age;
-        var _form = null;
         return super._request(
-            "GET", "testString1/{name}/{age}", _path, _form
-        );
-
+                    "GET", "testString1/{name}/{age}", _path, null
+                );
     }
 
 }

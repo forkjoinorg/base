@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/forkjoin.iml" filepath="$PROJECT_DIR$/.idea/forkjoin.iml" />
       <module fileurl="file://$PROJECT_DIR$/forkjoin-apikit/forkjoin-apikit.iml" filepath="$PROJECT_DIR$/forkjoin-apikit/forkjoin-apikit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/forkjoin-apikit-client/forkjoin-apikit-client.iml" filepath="$PROJECT_DIR$/forkjoin-apikit-client/forkjoin-apikit-client.iml" />
       <module fileurl="file://$PROJECT_DIR$/forkjoin-apikit-core/forkjoin-apikit-core.iml" filepath="$PROJECT_DIR$/forkjoin-apikit-core/forkjoin-apikit-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/forkjoin-apikit-example/forkjoin-apikit-example.iml" filepath="$PROJECT_DIR$/forkjoin-apikit-example/forkjoin-apikit-example.iml" />
       <module fileurl="file://$PROJECT_DIR$/forkjoin-apikit-springmvc/forkjoin-apikit-springmvc.iml" filepath="$PROJECT_DIR$/forkjoin-apikit-springmvc/forkjoin-apikit-springmvc.iml" />
