@@ -18,16 +18,12 @@ public abstract class AccountHandlerInterceptor<T> extends HandlerInterceptorAda
     private static final Logger log = LoggerFactory.getLogger(AccountHandlerInterceptor.class);
     public static final String ACCOUNT_TOKEN_HEADER_NAME = "accountToken";
 
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (log.isDebugEnabled()) {
             log.debug("request:{}", RequestUtils.dump(request));
         }
-        response.setHeader("Cache-Control", "no-cache,no-store");
-        response.setIntHeader("Expires", -1);
-        response.setHeader("Pragma", "no-cache");
-        response.setCharacterEncoding("UTF-8");
+
 
         if (handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;

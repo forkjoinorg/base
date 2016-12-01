@@ -22,11 +22,8 @@ import java.util.Map;
 /**
  * @author zuoge85 on 15/4/18.
  */
-public class NoCacheMappingJacksonHttpMessageConverter
-        extends
-        MappingJackson2HttpMessageConverter implements MessageSourceAware {
-    private static final Logger log = LoggerFactory
-            .getLogger(AccountHandlerInterceptor.class);
+public class I18nResultJacksonHttpMessageConverter extends MappingJackson2HttpMessageConverter implements MessageSourceAware {
+    private static final Logger log = LoggerFactory.getLogger(AccountHandlerInterceptor.class);
 
     private MessageSourceAccessor messageAccessor;
     private JsonEncoding encoding = JsonEncoding.UTF8;
@@ -60,14 +57,26 @@ public class NoCacheMappingJacksonHttpMessageConverter
         HttpHeaders headers = outputMessage.getHeaders();
         headers.set(HttpHeaders.CONTENT_TYPE, headers.getContentType()
                 .toString() + ";charset=" + encoding.getJavaName());
-        headers.set("Pragma", "No-cache");
-        headers.set("Cache-Control", "no-cache");
-        headers.set("Expires", "0");
+//        headers.set("Pragma", "No-cache");
+//        headers.set("Cache-Control", "no-cache");
+//        headers.set("Expires", "0");
         super.writeInternal(o, outputMessage);
         if (log.isDebugEnabled()) {
             String serialize = JsonUtils.serialize(o);
             log.debug("响应:{}", serialize.substring(0, Math.min(serialize.length(), 64)));
         }
+    }
+
+    protected boolean canWrite(MediaType mediaType) {
+        if (mediaType == null || MediaType.ALL.equals(mediaType)) {
+            return true;
+        }
+        for (MediaType supportedMediaType : getSupportedMediaTypes()) {
+            if (supportedMediaType.isCompatibleWith(mediaType)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

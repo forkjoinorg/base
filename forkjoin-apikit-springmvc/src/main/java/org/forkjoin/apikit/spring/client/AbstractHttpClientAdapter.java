@@ -11,6 +11,7 @@ import org.forkjoin.apikit.core.Result;
 import org.forkjoin.apikit.spring.AccountHandlerInterceptor;
 import org.forkjoin.apikit.spring.utils.DateTimeUtils;
 import org.forkjoin.apikit.spring.utils.JsonUtils;
+import org.springframework.http.HttpHeaders;
 
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
@@ -28,13 +29,14 @@ public abstract class AbstractHttpClientAdapter implements HttpClientAdapter {
 
     protected final String serverUrl;
     protected String accountToken;
+    protected String suffix;
 
     public AbstractHttpClientAdapter(String serverUrl) {
         this.serverUrl = serverUrl;
     }
 
     protected String createUrl(String uri) {
-        return serverUrl + uri;
+        return suffix == null ? serverUrl + uri : serverUrl + uri + "." + suffix;
     }
 
     public void setAccountToken(String accountToken) {
@@ -68,7 +70,8 @@ public abstract class AbstractHttpClientAdapter implements HttpClientAdapter {
         if (isAccount && StringUtils.isNotEmpty(accountToken)) {
             requestBuilder.setHeader(AccountHandlerInterceptor.ACCOUNT_TOKEN_HEADER_NAME, accountToken);
         }
-        requestBuilder.setHeader("Accept-Language", "zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3");
+        requestBuilder.setHeader(HttpHeaders.ACCEPT_LANGUAGE, "zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3");
+        requestBuilder.setHeader(HttpHeaders.ACCEPT, "application/json;q=0.9,image/webp,*/*;q=0.8");
 
         if (form != null) {
             if (isPostForm) {
@@ -96,4 +99,12 @@ public abstract class AbstractHttpClientAdapter implements HttpClientAdapter {
         }
     }
 
+
+    public String getSuffix() {
+        return suffix;
+    }
+
+    public void setSuffix(String suffix) {
+        this.suffix = suffix;
+    }
 }
