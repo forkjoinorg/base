@@ -9,7 +9,7 @@ import org.apache.http.concurrent.FutureCallback;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.forkjoin.apikit.client.Callback;
-import org.forkjoin.apikit.client.Result;
+import org.forkjoin.apikit.core.Result;
 import org.springframework.http.MediaType;
 
 import java.io.IOException;
@@ -46,7 +46,7 @@ public class ApacheHttpClientAdapter extends AbstractHttpClientAdapter {
         try {
             final AtomicReference<Result<T>> resultRef = new AtomicReference<>(null);
             final CountDownLatch latch = new CountDownLatch(1);
-            requestAsync(method, uri, form,type, isAccount, new Callback<T>(){
+            requestAsync(method, uri, form, type, isAccount, new Callback<T>() {
                 @Override
                 public void call(Result<T> t) {
                     resultRef.set(t);

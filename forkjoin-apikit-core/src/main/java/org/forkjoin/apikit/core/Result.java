@@ -1,6 +1,4 @@
-package org.forkjoin.apikit.spring;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+package org.forkjoin.apikit.core;
 
 import java.beans.Transient;
 import java.util.Map;
@@ -16,13 +14,24 @@ import java.util.Map;
  */
 public class Result<T> {
 
+    /**请求成功*/
     public static final int SUCCESS = 0;
+    /**参数校验错误*/
     public static final int VALIDATOR = 1;
+    /**服务器错误*/
     public static final int ERROR = 2;
+    /**需要登录*/
     public static final int ACCOUNT_ERROR = -1;
+    /**客户端异常*/
+    public static final int CLIENT_ERROR = -2;
+    /**客户取消*/
+    public static final int CLIENT_CANCEL = -3;
+
 
     public static final String FIELD_STATUS = "status";
+
     public static final String FIELD_MSG = "msg";
+
     public static final String FIELD_DATA = "data";
 
     public static <T> Result<T> createSuccess() {
@@ -33,6 +42,19 @@ public class Result<T> {
         return new Result<>(SUCCESS, null, data);
     }
 
+    public static <T> Result<T> createError(Exception ex) {
+        Result<T> result = new Result<>();
+        result.setStatus(CLIENT_ERROR);
+        result.setException(ex);
+        return result;
+    }
+
+    public static <T> Result<T> createError(Exception ex, String msg) {
+        Result<T> result = createError(ex);
+        result.setMsg(msg);
+        return result;
+    }
+
     public static <T> Result<T> createError(int status, String msg) {
         return new Result<>(status, msg, null);
     }
@@ -41,11 +63,23 @@ public class Result<T> {
         return new Result<>(ACCOUNT_ERROR, msg, null);
     }
 
+    public static <T> Result<T> createCancel() {
+        Result<T> result = new Result<>();
+        result.setStatus(CLIENT_CANCEL);
+        return result;
+    }
 
+
+    /**状态字段*/
     private int status;
+
+    /**返回消息*/
     private String msg;
+    /**返回数据*/
     private T data;
+    /**返回消息map,一眼封装参数错误*/
     private Map<String,Object> msgMap;
+    private Exception exception;
 
     public Result() {
 
@@ -83,10 +117,21 @@ public class Result<T> {
         this.data = data;
     }
 
-    @JsonIgnore
-    @Transient
+
     public boolean isSuccess() {
         return status == SUCCESS;
+    }
+
+    public boolean isClientError() {
+        return status == SUCCESS;
+    }
+
+    public Exception getException() {
+        return exception;
+    }
+
+    public void setException(Exception exception) {
+        this.exception = exception;
     }
 
 
@@ -106,13 +151,5 @@ public class Result<T> {
 
     public void setMsgMap(Map<String, Object> msgMap) {
         this.msgMap = msgMap;
-    }
-
-    @SuppressWarnings("unchecked")
-    public <R> Result<R> to() {
-        if(this instanceof I18nResult){
-            return (Result<R>) this;
-        }
-        return Result.createError(status, msg);
     }
 }

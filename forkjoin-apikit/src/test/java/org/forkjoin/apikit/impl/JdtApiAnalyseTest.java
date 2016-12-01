@@ -1,12 +1,8 @@
 package org.forkjoin.apikit.impl;
 
-import org.forkjoin.apikit.core.Account;
-import org.forkjoin.apikit.core.ActionType;
-import org.forkjoin.apikit.core.Api;
-import org.forkjoin.apikit.core.ApiMethod;
+import org.forkjoin.apikit.core.*;
 import org.forkjoin.apikit.Analyse;
 import org.forkjoin.apikit.info.*;
-import org.forkjoin.apikit.spring.Result;
 import org.junit.Test;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -30,19 +26,14 @@ public class JdtApiAnalyseTest extends BaseTest {
         assertEquals("api", api.getPackageName());
 
         ImportsInfo imports = api.getImports();
-        assertEquals(10, imports.getImports().size());
+        assertEquals(6, imports.getImports().size());
 
 
-        assertImport(imports.get("Account"), Account.class.getName());
-        assertImport(imports.get("ActionType"), ActionType.class.getName());
-        assertImport(imports.get("Api"), Api.class.getName());
-        assertImport(imports.get("ApiMethod"), ApiMethod.class.getName());
         assertImport(imports.get("TestForm"), "api.form.TestForm", true);
         assertImport(imports.get("TestObject"), "api.model.TestObject", true);
         assertImport(imports.get("User"), "api.model.User", true);
         assertImport(imports.get("PathVariable"), PathVariable.class.getName());
         assertImport(imports.get("Valid"), Valid.class.getName());
-        assertImport(imports.get("Result"), Result.class.getName());
 
         //测试注释
         JavadocInfo comment = api.getComment();

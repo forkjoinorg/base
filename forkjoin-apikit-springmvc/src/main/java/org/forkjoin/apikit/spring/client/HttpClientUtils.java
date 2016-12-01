@@ -9,7 +9,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.message.BasicNameValuePair;
-import org.forkjoin.apikit.spring.Result;
+import org.forkjoin.apikit.core.Result;
 import org.forkjoin.apikit.spring.utils.DateTimeUtils;
 import org.forkjoin.apikit.spring.utils.JsonUtils;
 import org.slf4j.Logger;

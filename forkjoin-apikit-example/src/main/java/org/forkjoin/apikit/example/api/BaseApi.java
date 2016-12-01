@@ -1,13 +1,9 @@
 package org.forkjoin.apikit.example.api;
 
-import org.forkjoin.apikit.core.Account;
-import org.forkjoin.apikit.core.ActionType;
-import org.forkjoin.apikit.core.Api;
-import org.forkjoin.apikit.core.ApiMethod;
+import org.forkjoin.apikit.core.*;
 import org.forkjoin.apikit.example.form.TestForm;
 import org.forkjoin.apikit.example.model.TestObject;
 import org.forkjoin.apikit.example.model.User;
-import org.forkjoin.apikit.spring.Result;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.validation.Valid;

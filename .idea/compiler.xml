@@ -23,7 +23,6 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="forkjoin-apikit" />
-        <module name="forkjoin-apikit-client" />
         <module name="forkjoin-apikit-core" />
         <module name="forkjoin-apikit-example" />
         <module name="forkjoin-apikit-springmvc" />

@@ -11,8 +11,8 @@ public class ImportsInfo {
     private ArrayList<Import> imports = new ArrayList<>();
     private Map<String, Import> map = new HashMap<>();
 
-    public void add(String packageName, String name, boolean isInside) {
-        add(new Import(packageName, name, isInside));
+    public void add(String packageName, String name, boolean isInside, boolean onDemand) {
+        add(new Import(packageName, name, isInside, onDemand));
     }
 
     public void add(Import importInfo) {
@@ -26,5 +26,19 @@ public class ImportsInfo {
 
     public Import get(String name) {
         return map.get(name);
+    }
+
+
+    public Import getOnDemandImport(String name) {
+        for (Import imp : imports) {
+            if (imp.isOnDemand()) {
+                try {
+                    Class<?> aClass = Class.forName(imp.getFullName() + "." + name);
+                    return new Import(imp.getFullName(), name, false, false);
+                } catch (ClassNotFoundException ignored) {
+                }
+            }
+        }
+        return null;
     }
 }

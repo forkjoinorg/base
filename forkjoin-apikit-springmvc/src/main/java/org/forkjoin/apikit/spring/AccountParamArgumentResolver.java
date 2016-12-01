@@ -14,10 +14,16 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  */
 public class AccountParamArgumentResolver implements HandlerMethodArgumentResolver, Ordered {
 
+    private Class<?> accountClass;
+
+    public AccountParamArgumentResolver(Class<?> accountClass) {
+        this.accountClass = accountClass;
+    }
+
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        AccountParam parameterAnnotation = parameter.getParameterAnnotation(AccountParam.class);
-        return parameterAnnotation != null;
+        AccountParam parameterAnnotation = (AccountParam) parameter.getParameterAnnotation(AccountParam.class);
+        return parameterAnnotation != null || parameter.getParameterType().equals(accountClass);
     }
 
     @Override

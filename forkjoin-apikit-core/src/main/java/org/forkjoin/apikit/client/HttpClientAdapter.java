@@ -1,5 +1,7 @@
 package org.forkjoin.apikit.client;
 
+import org.forkjoin.apikit.core.Result;
+
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;

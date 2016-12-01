@@ -13,7 +13,6 @@
         <module>forkjoin-apikit-springmvc</module>
         <module>forkjoin-apikit</module>
         <module>forkjoin-apikit-example</module>
-        <module>forkjoin-apikit-client</module>
     </modules>
     <properties>
         <spring.version>4.1.6.RELEASE</spring.version>

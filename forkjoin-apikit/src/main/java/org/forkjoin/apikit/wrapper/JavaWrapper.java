@@ -39,7 +39,6 @@ public class JavaWrapper<T extends ModuleInfo> extends BuilderWrapper<T> {
     }
 
     /**
-     *
      * @param isChildArrayList 参数类型是否处理数组
      */
     public String toJavaTypeString(TypeInfo typeInfo, boolean isWrap, boolean isArrayList, boolean isTypeArguments, boolean isChildArrayList) {
@@ -75,7 +74,7 @@ public class JavaWrapper<T extends ModuleInfo> extends BuilderWrapper<T> {
     /**
      * 处理数组!
      */
-    protected void toJavaArrayTypeString(TypeInfo typeInfo, StringBuilder sb,  boolean isWrap, boolean isArrayList) {
+    protected void toJavaArrayTypeString(TypeInfo typeInfo, StringBuilder sb, boolean isWrap, boolean isArrayList) {
         sb.append("java.util.ArrayList");
         sb.append('<');
         sb.append(toJavaTypeString(typeInfo, true, false));
@@ -119,7 +118,10 @@ public class JavaWrapper<T extends ModuleInfo> extends BuilderWrapper<T> {
                     addImport(fullName);
                 }
             } else {
-                String fullName = importItem.getPackageName() + "." + importItem.getName();
+                String fullName = importItem.getFullName();
+                if (importItem.isOnDemand()) {
+                    fullName += ".*";
+                }
                 if (!exclude(fullName)) {
                     addImport(fullName);
                 }

@@ -78,7 +78,7 @@ public class JdtInfo {
             //处理是否 inside
             return newImport(
                     fullyQualifiedName,
-                    name.getName().getFullyQualifiedName()
+                    name.getName().getFullyQualifiedName(), false
             );
         } else {
             //下面是处理名称不完整的情况
@@ -88,25 +88,32 @@ public class JdtInfo {
             }
 
             Import anImport = importsInfo.get(name);
-
-            if (anImport == null) {
-                anImport = Utils.getLangImport(name);
-                if (anImport == null) {
-                    return newImport(packageName, name);
-                }
+            if (anImport != null) {
+                return anImport;
             }
-            return anImport;
+
+            anImport = Utils.getLangImport(name);
+            if (anImport != null) {
+                return anImport;
+            }
+
+            anImport = importsInfo.getOnDemandImport(name);
+            if (anImport != null) {
+                return anImport;
+            }
+
+            return newImport(packageName, name, false);
         }
     }
 
 
-    private Import newImport(String packageName, String name) {
+    private Import newImport(String packageName, String name, boolean onDemand) {
         boolean isInside = false;
         if (packageName.startsWith(sourcePackage)) {
             isInside = true;
             packageName = packageName.substring(sourcePackage.length());
         }
-        return new Import(packageName, name, isInside);
+        return new Import(packageName, name, isInside, onDemand);
     }
 
     /**
@@ -117,9 +124,8 @@ public class JdtInfo {
         for (Object importItem : imports) {
             ImportDeclaration importDeclaration = (ImportDeclaration) importItem;
             if (importDeclaration.isStatic()) {
-                throw new RuntimeException("不支持静态导入");
+                throw new RuntimeException("不支持静态导入:" + importDeclaration);
             }
-
             Name name = importDeclaration.getName();
             if (name instanceof QualifiedName) {
                 QualifiedName qName = (QualifiedName) name;
@@ -128,7 +134,7 @@ public class JdtInfo {
                 importsInfo.add(
                         newImport(
                                 packageName,
-                                qName.getName().getFullyQualifiedName()
+                                qName.getName().getFullyQualifiedName(), importDeclaration.isOnDemand()
                         )
                 );
             } else {
@@ -216,6 +222,7 @@ public class JdtInfo {
     public String getPackageName() {
         return packageName;
     }
+
     public String getFullName() {
         return packageName + "." + name;
     }

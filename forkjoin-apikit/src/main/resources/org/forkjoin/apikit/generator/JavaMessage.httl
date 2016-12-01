@@ -7,7 +7,6 @@ package $!{utils.getPack()};
 $!{utils.imports}
 
 import org.forkjoin.apikit.core.*;
-import org.forkjoin.apikit.spring.*;
 
 import java.util.*;
 import java.util.Map.Entry;

@@ -7,13 +7,15 @@ public class Import {
     private String packageName;
     private String name;
     private boolean isInside = false;
+    private boolean onDemand;
 
 
 
-    public Import(String packageName, String name, boolean isInside) {
+    public Import(String packageName, String name, boolean isInside, boolean onDemand) {
         this.packageName = packageName;
         this.name = name;
         this.isInside = isInside;
+        this.onDemand = onDemand;
     }
 
     public String getPackageName() {
@@ -34,5 +36,13 @@ public class Import {
 
     public void setInside(boolean inside) {
         isInside = inside;
+    }
+
+    public boolean isOnDemand() {
+        return onDemand;
+    }
+
+    public void setOnDemand(boolean onDemand) {
+        this.onDemand = onDemand;
     }
 }

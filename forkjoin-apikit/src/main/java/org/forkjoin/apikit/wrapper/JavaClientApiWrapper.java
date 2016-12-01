@@ -1,6 +1,7 @@
 package org.forkjoin.apikit.wrapper;
 
 import org.forkjoin.apikit.Context;
+import org.forkjoin.apikit.info.AnnotationInfo;
 import org.forkjoin.apikit.info.ApiInfo;
 import org.forkjoin.apikit.info.ApiMethodInfo;
 import org.forkjoin.apikit.info.ApiMethodParamInfo;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.List;
 
 //import org.forkjoin.spring.annotation.Account;
 //import org.forkjoin.spring.annotation.AccountParam;
@@ -15,17 +17,24 @@ import java.util.ArrayList;
 /**
  * @author zuoge85 on 15/6/17.
  */
-public class JavaClientWrapper extends JavaApiWrapper {
+public class JavaClientApiWrapper extends JavaApiWrapper {
 
-    public JavaClientWrapper(Context context, ApiInfo moduleInfo, String rootPackage) {
+    private boolean isAnnotations = false;
+    public JavaClientApiWrapper(Context context, ApiInfo moduleInfo, String rootPackage) {
         super(context, moduleInfo, rootPackage);
+    }
+
+    @Override
+    public String formatAnnotations(List<AnnotationInfo> annotations, String start) {
+        return null;
     }
 
     @Override
     public void init() {
         addExclude("org.forkjoin.apikit.spring.Result");
         addExclude("org.springframework.web.bind.annotation.PathVariable");
-        addExclude("javax.validation.Valid");
+        addExclude("javax.validation");
+        addExclude("org.hibernate.validator");
         addExclude("org.forkjoin.apikit.core.Account");
         addExclude("org.forkjoin.apikit.core.ActionType");
         addExclude("org.forkjoin.apikit.core.Api");
@@ -83,5 +92,13 @@ public class JavaClientWrapper extends JavaApiWrapper {
             }
         }
         return sb.toString();
+    }
+
+    public boolean isAnnotations() {
+        return isAnnotations;
+    }
+
+    public void setAnnotations(boolean annotations) {
+        isAnnotations = annotations;
     }
 }

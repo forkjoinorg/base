@@ -2,7 +2,7 @@ package org.forkjoin.apikit.spring.client;
 
 import org.apache.commons.lang3.StringUtils;
 import org.forkjoin.apikit.client.Callback;
-import org.forkjoin.apikit.client.Result;
+import org.forkjoin.apikit.core.Result;
 import org.forkjoin.apikit.spring.AccountHandlerInterceptor;
 import org.forkjoin.apikit.spring.AccountRuntimeException;
 import org.forkjoin.apikit.spring.utils.ExecutorsUtils;

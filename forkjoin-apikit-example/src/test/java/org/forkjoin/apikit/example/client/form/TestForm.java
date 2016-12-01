@@ -1,13 +1,10 @@
 package org.forkjoin.apikit.example.client.form;
 
-import org.forkjoin.apikit.core.Message;
 import org.forkjoin.apikit.example.client.model.TestObject;
 import org.forkjoin.apikit.example.client.model.User;
-import org.hibernate.validator.constraints.Length;
 import java.util.Date;
 
 import org.forkjoin.apikit.core.*;
-import org.forkjoin.apikit.spring.*;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -40,7 +37,6 @@ public class TestForm<T extends ApiMessage> implements ApiMessage {
 
 	private double doubleValue;
 
-	@Length(max = 255)
 	private String stringValue;
 
 	private byte[] bytesValue;

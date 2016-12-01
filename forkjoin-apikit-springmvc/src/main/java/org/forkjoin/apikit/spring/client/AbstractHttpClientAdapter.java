@@ -6,9 +6,8 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.message.BasicNameValuePair;
-import org.forkjoin.apikit.client.Callback;
 import org.forkjoin.apikit.client.HttpClientAdapter;
-import org.forkjoin.apikit.client.Result;
+import org.forkjoin.apikit.core.Result;
 import org.forkjoin.apikit.spring.AccountHandlerInterceptor;
 import org.forkjoin.apikit.spring.utils.DateTimeUtils;
 import org.forkjoin.apikit.spring.utils.JsonUtils;
@@ -19,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Future;
 
 /**
  * @author zuoge85 on 15/6/23.

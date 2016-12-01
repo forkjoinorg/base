@@ -1,10 +1,8 @@
 package org.forkjoin.apikit.example.client.model;
 
-import org.forkjoin.apikit.core.Message;
 import java.util.Date;
 
 import org.forkjoin.apikit.core.*;
-import org.forkjoin.apikit.spring.*;
 
 import java.util.*;
 import java.util.Map.Entry;

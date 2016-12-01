@@ -18,7 +18,7 @@ public abstract class JavaGenerator extends HttlGenerator {
 
     @Override
     public void generateMessage(MessageInfo messageInfo) throws Exception {
-        JavaMessageWrapper utils = new JavaMessageWrapper(context, messageInfo, rootPackage);
+        JavaMessageWrapper utils = createMessageWarpper(messageInfo);
         File file = getFileName(utils);
         utils.init();
         executeModule(
@@ -26,5 +26,9 @@ public abstract class JavaGenerator extends HttlGenerator {
                 "/org/forkjoin/apikit/generator/JavaMessage.httl",
                 file
         );
+    }
+
+    protected JavaMessageWrapper createMessageWarpper(MessageInfo messageInfo) {
+        return new JavaMessageWrapper(context, messageInfo, rootPackage);
     }
 }

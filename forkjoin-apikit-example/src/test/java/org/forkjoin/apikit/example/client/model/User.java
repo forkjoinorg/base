@@ -1,12 +1,6 @@
 package org.forkjoin.apikit.example.client.model;
 
-import org.forkjoin.apikit.core.Message;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.Range;
-import javax.validation.constraints.Min;
-
 import org.forkjoin.apikit.core.*;
-import org.forkjoin.apikit.spring.*;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -22,13 +16,11 @@ public class User implements ApiMessage {
 	/**
 	 * 名称允许重复
 	 */
-	@Length(max = 255)
 	private String name;
 
 	/**
 	 * 年龄
 	 */
-	@Min(14)
 	private int age;
 
 	public User() {

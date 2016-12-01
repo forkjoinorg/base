@@ -1,9 +1,6 @@
 package org.forkjoin.apikit.example.client.collecton;
 
-import org.forkjoin.apikit.core.Message;
-
 import org.forkjoin.apikit.core.*;
-import org.forkjoin.apikit.spring.*;
 
 import java.util.*;
 import java.util.Map.Entry;

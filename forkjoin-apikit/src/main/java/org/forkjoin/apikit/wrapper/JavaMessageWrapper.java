@@ -3,6 +3,7 @@ package org.forkjoin.apikit.wrapper;
 import org.apache.commons.collections.CollectionUtils;
 import org.forkjoin.apikit.Context;
 import org.forkjoin.apikit.Utils;
+import org.forkjoin.apikit.info.AnnotationInfo;
 import org.forkjoin.apikit.info.MessageInfo;
 import org.forkjoin.apikit.info.PropertyInfo;
 import org.forkjoin.apikit.info.TypeInfo;
@@ -13,14 +14,26 @@ import java.util.List;
  * @author zuoge85 on 15/6/14.
  */
 public class JavaMessageWrapper extends JavaWrapper<MessageInfo> {
+    private boolean isAnnotations = false;
+
     public JavaMessageWrapper(Context context, MessageInfo messageInfo, String rootPackage) {
         super(context, messageInfo, rootPackage);
     }
 
+
+    @Override
+    public String formatAnnotations(List<AnnotationInfo> annotations, String start) {
+        return null;
+    }
+
     @Override
     public void init() {
+        addExclude("javax.validation");
+        addExclude("org.hibernate.validator");
+        addExclude("org.forkjoin.apikit.core.Message");
         super.init();
     }
+
 
     public String typeParameters() {
         List<String> typeParameters = moduleInfo.getTypeParameters();
@@ -236,6 +249,15 @@ public class JavaMessageWrapper extends JavaWrapper<MessageInfo> {
                 .append(name).append("\",")
                 .append(name)
                 .append("));\n");
+    }
+
+
+    public boolean isAnnotations() {
+        return isAnnotations;
+    }
+
+    public void setAnnotations(boolean annotations) {
+        isAnnotations = annotations;
     }
 //    if (id != null) {
 //			$list.add(new SimpleImmutableEntry<String, Object>(parent + "id",id));

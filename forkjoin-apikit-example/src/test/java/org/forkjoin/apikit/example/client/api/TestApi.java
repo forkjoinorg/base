@@ -1,5 +1,6 @@
 package org.forkjoin.apikit.example.client.api;
 
+import org.forkjoin.apikit.core.*;
 import org.forkjoin.apikit.example.client.form.TestForm;
 import org.forkjoin.apikit.example.client.model.TestObject;
 import org.forkjoin.apikit.example.client.model.User;
@@ -9,11 +10,7 @@ import java.util.*;
 import java.util.concurrent.Future;
 import java.util.Map.Entry;
 
-import org.forkjoin.apikit.client.ApiUtils;
-import org.forkjoin.apikit.client.ApiType;
-import org.forkjoin.apikit.client.Result;
-import org.forkjoin.apikit.client.HttpClientAdapter;
-import org.forkjoin.apikit.client.Callback;
+import org.forkjoin.apikit.client.*;
 
 /**
  * @author  zuoge85 on 15/6/11.
