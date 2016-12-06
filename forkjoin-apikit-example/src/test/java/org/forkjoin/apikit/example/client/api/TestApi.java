@@ -1,5 +1,6 @@
 package org.forkjoin.apikit.example.client.api;
 
+import org.springframework.web.bind.annotation.*;
 import org.forkjoin.apikit.core.*;
 import org.forkjoin.apikit.example.client.form.TestForm;
 import org.forkjoin.apikit.example.client.model.TestObject;
@@ -13,7 +14,7 @@ import java.util.Map.Entry;
 import org.forkjoin.apikit.client.*;
 
 /**
- * @author  zuoge85 on 15/6/11.
+ * @author   zuoge85 on 15/6/11.
  */
 public class TestApi {
 	private HttpClientAdapter httpClientAdapter;

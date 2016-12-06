@@ -104,12 +104,18 @@ public class JavaMessageWrapper extends JavaWrapper<MessageInfo> {
 
                 if (attr.getTypeInfo().isBytes()) {
                     sb.append("=length:\" + ");
-                    sb.append(attr.getName());
-                    sb.append(".length");
+
+                    sb.append("(").append(attr.getName())
+                            .append(" == null?-1:")
+                            .append(attr.getName())
+                            .append(".length)");
                 } else {
                     sb.append("=size:\" + ");
-                    sb.append(attr.getName());
-                    sb.append(".size()");
+
+                    sb.append("(").append(attr.getName())
+                            .append(" == null?-1:")
+                            .append(attr.getName())
+                            .append(".size())");
                 }
                 sb.append(" + \"");
             } else {

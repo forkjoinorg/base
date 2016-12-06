@@ -10,7 +10,5 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface Account {
-    String PARAM_NAME = "user";
     boolean value() default true;
-    String param() default "";
 }

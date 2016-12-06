@@ -36,7 +36,11 @@ $!{utils.requestComment(method,"    * ")}
         Result<$!{utils.result(method)}> result = $!{method.name}($!{utils.args(method,false)});
         if(!result.isSuccess()){
             Exception ex = result.getException();
-            throw new RuntimeException(ex.getMessage(), ex);
+            if(ex != null){
+                throw new RuntimeException(ex.getMessage(), ex);
+            }else{
+                throw new RuntimeException(result.toString());
+            }
         }
         return result.getData();
     }

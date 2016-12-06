@@ -6,6 +6,7 @@ import org.forkjoin.apikit.core.Account;
 import org.forkjoin.apikit.core.ActionType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -15,12 +16,8 @@ public class ApiMethodInfo {
     private int index;
     private String name;
     private String url;
-    private ActionType type = ActionType.GET;
+    private ActionType[] types = new ActionType[]{ActionType.GET};
     private boolean account = true;
-    /**
-     * 账户对象名称
-     */
-    private String accountParam = Account.PARAM_NAME;
 
 
     //    private boolean isPathVariable = false;
@@ -46,7 +43,7 @@ public class ApiMethodInfo {
         if (param.isFormParam()) {
             formParams.add(param);
         }
-        if(formParams.size()>1){
+        if (formParams.size() > 1) {
             throw new AnalyseException("分析错误！暂时只支持单表单");
         }
     }
@@ -68,11 +65,15 @@ public class ApiMethodInfo {
     }
 
     public ActionType getType() {
-        return type;
+        return types.length > 0 ? types[0] : null;
     }
 
-    public void setType(ActionType type) {
-        this.type = type;
+    public ActionType[] getTypes() {
+        return types;
+    }
+
+    public void setTypes(ActionType[] types) {
+        this.types = types;
     }
 
     public TypeInfo getResultType() {
@@ -107,20 +108,7 @@ public class ApiMethodInfo {
         return comment;
     }
 
-    /**
-     * 账户对象名称
-     */
-    public void setAccountParam(String accountParam) {
-        this.accountParam = accountParam;
-    }
 
-
-    /**
-     * 账户对象名称
-     */
-    public String getAccountParam() {
-        return accountParam;
-    }
 
     public ArrayList<ApiMethodParamInfo> getParams() {
         return params;
@@ -166,9 +154,8 @@ public class ApiMethodInfo {
                 "index=" + index +
                 ", name='" + name + '\'' +
                 ", url='" + url + '\'' +
-                ", type=" + type +
+                ", types=" + Arrays.toString(types) +
                 ", account=" + account +
-                ", accountParam='" + accountParam + '\'' +
                 ", params=" + params +
                 ", pathParams=" + pathParams +
                 ", formParams=" + formParams +

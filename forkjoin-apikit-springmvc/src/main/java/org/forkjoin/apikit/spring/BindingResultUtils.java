@@ -1,5 +1,6 @@
 package org.forkjoin.apikit.spring;
 
+import org.forkjoin.apikit.core.Result;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;

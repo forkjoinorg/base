@@ -118,18 +118,22 @@ public class Result<T> {
     }
 
 
+    @Transient
     public boolean isSuccess() {
         return status == SUCCESS;
     }
 
+    @Transient
     public boolean isClientError() {
         return status == SUCCESS;
     }
 
+    @Transient
     public Exception getException() {
         return exception;
     }
 
+    @Transient
     public void setException(Exception exception) {
         this.exception = exception;
     }

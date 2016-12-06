@@ -9,8 +9,11 @@ import org.apache.http.message.BasicNameValuePair;
 import org.forkjoin.apikit.client.HttpClientAdapter;
 import org.forkjoin.apikit.core.Result;
 import org.forkjoin.apikit.spring.AccountHandlerInterceptor;
+import org.forkjoin.apikit.spring.ResultExceptionResolver;
 import org.forkjoin.apikit.spring.utils.DateTimeUtils;
 import org.forkjoin.apikit.spring.utils.JsonUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 
 import java.lang.reflect.Type;
@@ -24,6 +27,8 @@ import java.util.Map;
  * @author zuoge85 on 15/6/23.
  */
 public abstract class AbstractHttpClientAdapter implements HttpClientAdapter {
+    protected static final Logger log = LoggerFactory.getLogger(AbstractHttpClientAdapter.class);
+
     public static final String ENCODING = "UTF-8";
     public static final Charset CHARSET = Charset.forName(ENCODING);
 
@@ -93,6 +98,7 @@ public abstract class AbstractHttpClientAdapter implements HttpClientAdapter {
 
     protected <T> Result<T> handlerResult(Type type, boolean isSuccess, String json, Exception ex) {
         if (isSuccess) {
+            log.debug("解析json:{},type:{}",json,type);
             return JsonUtils.deserialize(json, type);
         } else {
             return Result.createError(ex);

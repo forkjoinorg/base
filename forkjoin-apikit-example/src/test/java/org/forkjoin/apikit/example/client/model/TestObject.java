@@ -459,13 +459,18 @@ public class TestObject<T extends ApiMessage> implements ApiMessage {
 	public String toString() {
 		return "TestObject [id=" + id + ",booleanValue=" + booleanValue + ",intValue=" + intValue + ",longValue="
 				+ longValue + ",floatValue=" + floatValue + ",doubleValue=" + doubleValue + ",stringValue="
-				+ stringValue + ",bytesValue=length:" + bytesValue.length + ",regDate=" + regDate
-				+ ",booleanValueArray=size:" + booleanValueArray.size() + ",intValueArray=size:" + intValueArray.size()
-				+ ",longValueArray=size:" + longValueArray.size() + ",floatValueArray=size:" + floatValueArray.size()
-				+ ",doubleValueArray=size:" + doubleValueArray.size() + ",stringValueArray=size:"
-				+ stringValueArray.size() + ",regDateArray=size:" + regDateArray.size() + ",user=" + user
-				+ ",users=size:" + users.size() + ",generics=size:" + generics.size() + ",genericObjs=size:"
-				+ genericObjs.size() + ",genericUsers=size:" + genericUsers.size() + ",genericObj=" + genericObj
-				+ ",generic=" + generic + ", ]";
+				+ stringValue + ",bytesValue=length:" + (bytesValue == null ? -1 : bytesValue.length) + ",regDate="
+				+ regDate + ",booleanValueArray=size:" + (booleanValueArray == null ? -1 : booleanValueArray.size())
+				+ ",intValueArray=size:" + (intValueArray == null ? -1 : intValueArray.size())
+				+ ",longValueArray=size:" + (longValueArray == null ? -1 : longValueArray.size())
+				+ ",floatValueArray=size:" + (floatValueArray == null ? -1 : floatValueArray.size())
+				+ ",doubleValueArray=size:" + (doubleValueArray == null ? -1 : doubleValueArray.size())
+				+ ",stringValueArray=size:" + (stringValueArray == null ? -1 : stringValueArray.size())
+				+ ",regDateArray=size:" + (regDateArray == null ? -1 : regDateArray.size()) + ",user=" + user
+				+ ",users=size:" + (users == null ? -1 : users.size()) + ",generics=size:"
+				+ (generics == null ? -1 : generics.size()) + ",genericObjs=size:"
+				+ (genericObjs == null ? -1 : genericObjs.size()) + ",genericUsers=size:"
+				+ (genericUsers == null ? -1 : genericUsers.size()) + ",genericObj=" + genericObj + ",generic="
+				+ generic + ", ]";
 	}
 }

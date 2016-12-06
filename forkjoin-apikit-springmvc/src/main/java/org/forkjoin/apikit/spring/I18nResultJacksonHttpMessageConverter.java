@@ -12,12 +12,8 @@ import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.validation.ObjectError;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author zuoge85 on 15/4/18.
@@ -33,23 +29,7 @@ public class I18nResultJacksonHttpMessageConverter extends MappingJackson2HttpMe
     protected void writeInternal(Object o, HttpOutputMessage outputMessage)
             throws IOException, HttpMessageNotWritableException {
         if (o instanceof I18nResult) {
-            I18nResult r = (I18nResult) o;
-            // {"error":"参数验证错误:[密码不能为空!;性别格式错误:^[f|m]$!]!","data":{"password":"密码不能为空!","gender":"性别格式错误:^[f|m]$!"},"status":1}
-            Object[] args = r.getArgs();
-
-            Map<String, String> messageMap = new HashMap<>();
-
-            List<ObjectError> fields = r.getFields();
-            for (ObjectError field : fields) {
-                String key = field.getObjectName();
-                String message = messageAccessor.getMessage(field);
-                messageMap.put(key, message);
-            }
-
-            r.setMsgMap(messageMap);
-            if (null != r.getCode()) {
-                r.setMsg(messageAccessor.getMessage(r.getCode(), args));
-            }
+            ResultUtils.handleI18n((I18nResult) o, messageAccessor);
             // {"status":1,"msg":"手机号已经被使用!","data":null}
         }
         JsonEncoding encoding = getJsonEncoding(outputMessage.getHeaders()
@@ -66,6 +46,7 @@ public class I18nResultJacksonHttpMessageConverter extends MappingJackson2HttpMe
             log.debug("响应:{}", serialize.substring(0, Math.min(serialize.length(), 64)));
         }
     }
+
 
     protected boolean canWrite(MediaType mediaType) {
         if (mediaType == null || MediaType.ALL.equals(mediaType)) {

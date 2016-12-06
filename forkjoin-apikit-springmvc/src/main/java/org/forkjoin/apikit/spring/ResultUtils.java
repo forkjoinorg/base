@@ -18,7 +18,7 @@ import java.util.Map;
 public class ResultUtils {
     public static final String RESULT_ATTRIBUTE_NAME = "result";
 
-    public static void hendleI18n(I18nResult result, MessageSourceAccessor messageSourceAccessor) {
+    public static void handleI18n(I18nResult result, MessageSourceAccessor messageSourceAccessor) {
         Object[] headers = result.getArgs();
         HashMap<String, Object> serialize = new HashMap<>();
         List fields = result.getFields();
@@ -41,6 +41,7 @@ public class ResultUtils {
 
         StringBuilder sb = new StringBuilder();
         Map<String, Object> msgMap = new HashMap<>();
+
         for (ObjectError error : bindingResult.getAllErrors()) {
             String key = (error instanceof FieldError
                     ? ((FieldError) error).getField()
@@ -62,10 +63,11 @@ public class ResultUtils {
     }
 
 
+
     public static Object handler(Map map, MessageSourceAccessor messageSourceAccessor) {
         Object result = map.get(RESULT_ATTRIBUTE_NAME);
         if (result instanceof I18nResult) {
-            ResultUtils.hendleI18n((I18nResult) result, messageSourceAccessor);
+            ResultUtils.handleI18n((I18nResult) result, messageSourceAccessor);
         } else {
             for (Object obj : map.values()) {
                 if (obj instanceof BindingResult) {

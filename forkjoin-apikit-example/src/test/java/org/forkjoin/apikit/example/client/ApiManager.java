@@ -26,11 +26,11 @@ public class ApiManager {
 	private HttpClientAdapter httpClientAdapter;
 
 	/**
-	 * @author  zuoge85 on 15/6/11.
+	 * @author   zuoge85 on 15/6/11.
 	 */
 	public final BaseApi baseApi;
 	/**
-	 * @author  zuoge85 on 15/6/11.
+	 * @author   zuoge85 on 15/6/11.
 	 */
 	public final TestApi testApi;
 

@@ -32,10 +32,13 @@ public class ResultExceptionResolver extends DefaultHandlerExceptionResolver
 
     protected ModelAndView doResolveException(HttpServletRequest request,
                                               HttpServletResponse response, Object handler, Exception ex) {
-        log.error("处理错误:{},{}", ex.getMessage(), ex.getClass().getName(), ex);
+
         if (handler instanceof HandlerMethod) {
-            return handlerJson(ex);
+            ModelAndView modelAndView = handlerJson(ex);
+            log.error("处理错误结果:{}", modelAndView);
+            return modelAndView;
         }
+        log.error("处理错误:{},{}", ex.getMessage(), ex.getClass().getName(), ex);
         return noJsonResolveException(request, response, handler, ex);
     }
 
@@ -47,12 +50,18 @@ public class ResultExceptionResolver extends DefaultHandlerExceptionResolver
             );
 
             ModelAndView modelAndView = new ModelAndView();
-            modelAndView.addObject(
-                    Result.FIELD_STATUS,
-                    Result.VALIDATOR
-            );
+
             modelAndView.addObject(ResultUtils.RESULT_ATTRIBUTE_NAME, result);
             modelAndView.addObject("bindingResult", bindingResult);
+            return modelAndView;
+        }else if (ex instanceof I18nValidationException) {
+            I18nResult i18nResult = ((I18nValidationException) ex).getI18nResult();
+            ResultUtils.handleI18n(i18nResult, messageAccessor);
+
+            ModelAndView modelAndView = new ModelAndView();
+
+            modelAndView.addObject(ResultUtils.RESULT_ATTRIBUTE_NAME, i18nResult);
+            modelAndView.addObject("i18nResult", i18nResult);
             return modelAndView;
         } else if (ex instanceof AccountRuntimeException) {
             String message = messageAccessor.getMessage("server.error",

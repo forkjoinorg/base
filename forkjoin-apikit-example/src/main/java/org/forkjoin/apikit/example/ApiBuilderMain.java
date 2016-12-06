@@ -45,15 +45,15 @@ public class ApiBuilderMain {
         //开始处理
         manager.analyse();
 
-        //开始生产
-        {
-            ServerGenerator generator = new ServerGenerator();
-//            generator.setRootPackage("com.text");
-//            generator.setOutPath("/Users/zuoge85/Documents/open/forkjoin/forkjoin-apikit-example/src/test/java/");
-            generator.setApiAccountClassName("java.lang.Object");
-            generator.setVersion(version);
-            manager.generate(generator);
-        }
+//        //开始生产
+//        {
+//            ServerGenerator generator = new ServerGenerator();
+////            generator.setRootPackage("com.text");
+////            generator.setOutPath("/Users/zuoge85/Documents/open/forkjoin/forkjoin-apikit-example/src/test/java/");
+//            generator.setApiAccountClassName("java.lang.Object");
+//            generator.setVersion(version);
+//            manager.generate(generator);
+//        }
 
         {
             JavaClientGenerator generator = new JavaClientGenerator();

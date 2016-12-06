@@ -6,12 +6,12 @@ import org.eclipse.jdt.core.dom.*;
 import org.forkjoin.apikit.AnalyseException;
 import org.forkjoin.apikit.core.Account;
 import org.forkjoin.apikit.core.ActionType;
-import org.forkjoin.apikit.core.ApiMethod;
 import org.forkjoin.apikit.core.Result;
 import org.forkjoin.apikit.info.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -30,6 +30,7 @@ public class JdtApiAnalyse extends JdtAbstractModuleAnalyse {
     public ModuleInfo analyse() {
         ApiInfo apiInfo = new ApiInfo();
         initModuleInfo(apiInfo);
+        apiInfo.setName(apiInfo.getName().replace("Controller",""));
 
         MethodDeclaration[] methods = jdtInfo.getType().getMethods();
         for (MethodDeclaration method : methods) {
@@ -37,7 +38,7 @@ public class JdtApiAnalyse extends JdtAbstractModuleAnalyse {
             for (Object o : modifiers) {
                 if (o instanceof Annotation) {
                     Annotation annotation = (Annotation) o;
-                    if (equalsType(annotation.getTypeName(), ApiMethod.class)) {
+                    if (equalsType(annotation.getTypeName(), RequestMapping.class)) {
                         //分析Method
                         ApiMethodInfo apiMethodInfo = analyseMethodInfo(method, annotation);
                         apiInfo.addApiMethod(apiMethodInfo);
@@ -55,7 +56,7 @@ public class JdtApiAnalyse extends JdtAbstractModuleAnalyse {
         ApiMethodInfo apiMethodInfo = new ApiMethodInfo();
         apiMethodInfo.setName(method.getName().getFullyQualifiedName());
 
-
+        //  @ApiMethod(value = "test", type = ActionType.GET)
 //        SupportType returnType = SupportType.from(this, method.getReturnType2());
         analyseReturnInfo(method, apiMethodInfo);
 
@@ -73,9 +74,22 @@ public class JdtApiAnalyse extends JdtAbstractModuleAnalyse {
                         StringLiteral stringLiteral = (StringLiteral) value;
                         apiMethodInfo.setUrl(stringLiteral.getLiteralValue());
                         break;
-                    case "type":
-                        ActionType actionType = ActionType.valueOf(((QualifiedName) value).getName().getFullyQualifiedName());
-                        apiMethodInfo.setType(actionType);
+                    case "method":
+                        if (value instanceof ArrayInitializer) {
+                            ArrayInitializer valueArrayInitializer = (ArrayInitializer) value;
+                            @SuppressWarnings("unchecked")
+                            List<Expression> expressions = valueArrayInitializer.expressions();
+
+                            ActionType[] actionTypes = new ActionType[expressions.size()];
+                            for (int i = 0; i < expressions.size(); i++) {
+                                Expression valueItem = expressions.get(i);
+                                actionTypes[i] = ActionType.valueOf(((QualifiedName) valueItem).getName().getFullyQualifiedName());
+                            }
+                            apiMethodInfo.setTypes(actionTypes);
+                        } else {
+                            ActionType actionType = ActionType.valueOf(((QualifiedName) value).getName().getFullyQualifiedName());
+                            apiMethodInfo.setTypes(new ActionType[]{actionType});
+                        }
                         break;
                 }
             }
@@ -110,11 +124,6 @@ public class JdtApiAnalyse extends JdtAbstractModuleAnalyse {
                                 case "value":
                                     apiMethodInfo.setAccount(Boolean.valueOf(value));
                                     break;
-                                case "param":
-                                    if (StringUtils.isNotEmpty(value)) {
-                                        apiMethodInfo.setAccountParam(value.substring(1, value.length() - 1));
-                                    }
-                                    break;
                             }
                         }
                     }
@@ -132,13 +141,13 @@ public class JdtApiAnalyse extends JdtAbstractModuleAnalyse {
 
     private void analyseReturnInfo(MethodDeclaration method, ApiMethodInfo apiMethodInfo) {
         TypeInfo resultType = jdtInfo.analyseType(method.getReturnType2());
-        if(resultType == null){
+        if (resultType == null) {
             throw new AnalyseException("返回类型不能为空!" + method.getReturnType2());
         }
-        if(!Result.class.getName().equals(resultType.getFullName())){
+        if (!Result.class.getName().equals(resultType.getFullName())) {
             throw new AnalyseException("现在的版本返回类型必须是!" + Result.class.getName());
         }
-        if(CollectionUtils.isEmpty(resultType.getTypeArguments())){
+        if (CollectionUtils.isEmpty(resultType.getTypeArguments())) {
             throw new AnalyseException("反正类型不存在！!" + resultType);
         }
         /**
@@ -166,7 +175,7 @@ public class JdtApiAnalyse extends JdtAbstractModuleAnalyse {
 
             transformAnnotations(fieldInfo, modifiers);
 
-            for(AnnotationInfo annotationInfo: fieldInfo.getAnnotations()){
+            for (AnnotationInfo annotationInfo : fieldInfo.getAnnotations()) {
                 String annotationFullName = annotationInfo.getTypeInfo().getFullName();
                 if (annotationFullName.equals(PathVariable.class.getName())) {
                     fieldInfo.setPathVariable(true);
@@ -175,15 +184,15 @@ public class JdtApiAnalyse extends JdtAbstractModuleAnalyse {
                 }
             }
 
-            if(fieldInfo.isFormParam() && fieldInfo.isPathVariable()){
+            if (fieldInfo.isFormParam() && fieldInfo.isPathVariable()) {
                 throw new AnalyseException("参数不能同时是路径参数和form" + fieldInfo);
             }
-            if(fieldInfo.isFormParam()){
-                if(fieldInfo.getTypeInfo().isArray()){
+            if (fieldInfo.isFormParam()) {
+                if (fieldInfo.getTypeInfo().isArray()) {
                     throw new AnalyseException("表单对象不支持数组!" + fieldInfo);
                 }
             }
-            if(fieldInfo.getTypeInfo().getType() == TypeInfo.Type.VOID){
+            if (fieldInfo.getTypeInfo().getType() == TypeInfo.Type.VOID) {
                 throw new AnalyseException("void 类型只能用于返回值");
             }
             apiMethodInfo.addParam(fieldInfo);

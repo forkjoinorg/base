@@ -5,6 +5,7 @@ import org.forkjoin.apikit.client.Callback;
 import org.forkjoin.apikit.core.Result;
 import org.forkjoin.apikit.spring.AccountHandlerInterceptor;
 import org.forkjoin.apikit.spring.AccountRuntimeException;
+import org.forkjoin.apikit.spring.I18nValidationException;
 import org.forkjoin.apikit.spring.utils.ExecutorsUtils;
 import org.junit.Assert;
 import org.slf4j.Logger;
@@ -144,7 +145,7 @@ public class MockHttpClientAdapter extends AbstractHttpClientAdapter {
                         @SuppressWarnings("all")
                         Exception ex = mvcResult.getResolvedException();
                         if (ex != null && !(ex instanceof BindException)
-                                && !(ex instanceof AccountRuntimeException)) {
+                                && !(ex instanceof AccountRuntimeException) && !(ex instanceof I18nValidationException)) {
                             log.error("错误！", ex.getMessage());
                             Assert.assertTrue(mvcResult.getResponse()
                                     .getContentAsString(), false);

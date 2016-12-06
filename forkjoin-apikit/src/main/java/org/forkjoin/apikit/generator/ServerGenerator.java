@@ -26,7 +26,7 @@ public class ServerGenerator extends JavaGenerator {
     @Override
     protected File getFileName(BuilderWrapper utils) {
         if (utils instanceof JavaControllerWrapper) {
-            return Utils.packToPath(context.getPath(), utils.getPack() + ".controller", utils.getName() + "Controller", ".java");
+            return Utils.packToPath(context.getPath(), utils.getPack() + ".api", utils.getName() + "Controller", ".java");
         } else {
             return null;
         }
@@ -42,10 +42,10 @@ public class ServerGenerator extends JavaGenerator {
 
     @Override
     public void generateApi(ApiInfo apiInfo) throws Exception {
-        JavaControllerWrapper utils = new JavaControllerWrapper(context, apiInfo, context.getRootPackage());
-        utils.setApiAccountClassName(apiAccountClassName);
-        utils.setVersion(getVersion());
-        utils.init();
+//        JavaControllerWrapper utils = new JavaControllerWrapper(context, apiInfo, context.getRootPackage());
+//        utils.setApiAccountClassName(apiAccountClassName);
+//        utils.setVersion(getVersion());
+//        utils.init();
 //        executeModule(
 //                utils,
 //                "/org/forkjoin/apikit/generator/JavaControllerInterface.httl",
@@ -53,21 +53,21 @@ public class ServerGenerator extends JavaGenerator {
 //        );
 
 
-        File file = getFileName(utils);
-        if (!file.exists()) {
-            executeModule(
-                    utils,
-                    "/org/forkjoin/apikit/generator/JavaController.httl",
-                    file
-            );
-        } else {
-            String code = executeModuleToString(
-                    utils,
-                    "/org/forkjoin/apikit/generator/JavaController.httl"
-            );
-            log.info("文件已经存在，现在开始替换模式！fullName:{},file:{}", utils.getFullName(), file);
-            new JavaCodeUpdate(file, utils, apiInfo).update(code, utils.getName() + "Controller");
-        }
+//        File file = getFileName(utils);
+//        if (!file.exists()) {
+//            executeModule(
+//                    utils,
+//                    "/org/forkjoin/apikit/generator/JavaController.httl",
+//                    file
+//            );
+//        } else {
+//            String code = executeModuleToString(
+//                    utils,
+//                    "/org/forkjoin/apikit/generator/JavaController.httl"
+//            );
+//            log.info("文件已经存在，现在开始替换模式！fullName:{},file:{}", utils.getFullName(), file);
+//            new JavaCodeUpdate(file, utils, apiInfo).update(code, utils.getName() + "Controller");
+//        }
     }
 
     @Override

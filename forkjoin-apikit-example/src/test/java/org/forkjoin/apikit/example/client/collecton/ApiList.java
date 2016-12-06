@@ -50,6 +50,6 @@ public class ApiList<T extends ApiMessage> implements ApiMessage {
 
 	@Override
 	public String toString() {
-		return "ApiList [list=size:" + list.size() + ", ]";
+		return "ApiList [list=size:" + (list == null ? -1 : list.size()) + ", ]";
 	}
 }

@@ -7,7 +7,7 @@ import AbstractApi from './../AbstractApi'
 
 
 /**
- * @author  zuoge85 on 15/6/11.
+ * @author   zuoge85 on 15/6/11.
 */
 class BaseApi extends AbstractApi {
 
@@ -53,7 +53,7 @@ class BaseApi extends AbstractApi {
         var _path = {};
         _path["id"] = id;
         return super._request(
-                    "GET", "base/{id}", _path, null
+                    "POST", "base/{id}", _path, null
                 );
     }
 

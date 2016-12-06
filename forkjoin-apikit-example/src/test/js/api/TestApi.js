@@ -7,7 +7,7 @@ import AbstractApi from './../AbstractApi'
 
 
 /**
- * @author  zuoge85 on 15/6/11.
+ * @author   zuoge85 on 15/6/11.
 */
 class TestApi extends AbstractApi {
 

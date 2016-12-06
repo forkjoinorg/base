@@ -19,14 +19,14 @@ import static org.junit.Assert.assertEquals;
 public class JdtApiAnalyseTest extends BaseTest {
     @Test
     public void test() throws IOException {
-        String code = readCode("api/BaseApi.java");
+        String code = readCode("api/BaseApiController.java");
         Analyse analyse = createAnalyse();
         ApiInfo api = (ApiInfo) analyse.analyse(code, "api");
         assertEquals("BaseApi", api.getName());
         assertEquals("api", api.getPackageName());
 
         ImportsInfo imports = api.getImports();
-        assertEquals(6, imports.getImports().size());
+        assertEquals(9, imports.getImports().size());
 
 
         assertImport(imports.get("TestForm"), "api.form.TestForm", true);
@@ -60,7 +60,6 @@ public class JdtApiAnalyseTest extends BaseTest {
 
     private void testBaseId(ApiMethodInfo apiMethodInfo) {
         assertEquals("get", apiMethodInfo.getName());
-        assertEquals(Account.PARAM_NAME, apiMethodInfo.getAccountParam());
         assertEquals(true, apiMethodInfo.isAccount());
         assertEquals("base/{id}", apiMethodInfo.getUrl());
 
@@ -72,7 +71,7 @@ public class JdtApiAnalyseTest extends BaseTest {
         //参数
         ApiMethodParamInfo param = apiMethodInfo.getParams().get(0);
 
-        testApiMethodPathParam(param, "ids", null, 0);
+        testApiMethodPathParam(param, "id", null, 0);
 
         assertEquals(1, param.getAnnotations().size());
         AnnotationInfo annotationInfo = param.getAnnotations().get(0);
@@ -84,7 +83,6 @@ public class JdtApiAnalyseTest extends BaseTest {
 
     private void testBase(ApiMethodInfo apiMethodInfo) {
         assertEquals("create", apiMethodInfo.getName());
-        assertEquals("accountName", apiMethodInfo.getAccountParam());
         assertEquals(true, apiMethodInfo.isAccount());
         assertEquals("base/", apiMethodInfo.getUrl());
 
