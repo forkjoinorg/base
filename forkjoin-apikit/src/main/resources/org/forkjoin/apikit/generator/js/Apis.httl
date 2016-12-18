@@ -6,12 +6,22 @@
 <!--#for(info : values)-->
 import $!{info.name}  from './$!{info.packageName.replace('.','/')}/$!{info.name}';
 <!--#end-->
+import ApiUtils from "./ApiUtils";
 
 class Apis {
 <!--#for(info : values)-->
     $!{nameUtils.toFieldName(info.name)}:$!{info.name};
 <!--#end-->
     _xhrArray:XMLHttpRequest[];
+
+    static init(apiUrl:String, apiVersion:String){
+        ApiUtils.apiUrl = apiUrl;
+        ApiUtils.apiVersion = apiVersion;
+    }
+
+    static setToken(token:String){
+        ApiUtils.setToken(token);
+    }
 
     constructor() {
         this._xhrArray = [];

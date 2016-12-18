@@ -31,6 +31,10 @@ public class PackageInfo<T extends ModuleInfo> {
         return multimap.values();
     }
 
+    public Map<String, Collection<T>> getAll() {
+        return  multimap.asMap();
+    }
+
     public Collection<Map.Entry<String, T>> getEntries() {
         return multimap.entries();
     }

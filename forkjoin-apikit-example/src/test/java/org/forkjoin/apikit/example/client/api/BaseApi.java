@@ -43,7 +43,11 @@ public class BaseApi {
 		Result<java.util.ArrayList<TestObject<User>>> result = create(testForm);
 		if (!result.isSuccess()) {
 			Exception ex = result.getException();
-			throw new RuntimeException(ex.getMessage(), ex);
+			if (ex != null) {
+				throw new RuntimeException(ex.getMessage(), ex);
+			} else {
+				throw new RuntimeException(result.toString());
+			}
 		}
 		return result.getData();
 	}
@@ -115,7 +119,11 @@ public class BaseApi {
 		Result<Void> result = get(id);
 		if (!result.isSuccess()) {
 			Exception ex = result.getException();
-			throw new RuntimeException(ex.getMessage(), ex);
+			if (ex != null) {
+				throw new RuntimeException(ex.getMessage(), ex);
+			} else {
+				throw new RuntimeException(result.toString());
+			}
 		}
 		return result.getData();
 	}
@@ -186,7 +194,11 @@ public class BaseApi {
 		Result<User> result = create(user);
 		if (!result.isSuccess()) {
 			Exception ex = result.getException();
-			throw new RuntimeException(ex.getMessage(), ex);
+			if (ex != null) {
+				throw new RuntimeException(ex.getMessage(), ex);
+			} else {
+				throw new RuntimeException(result.toString());
+			}
 		}
 		return result.getData();
 	}

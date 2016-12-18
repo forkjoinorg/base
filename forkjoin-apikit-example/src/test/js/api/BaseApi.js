@@ -27,7 +27,7 @@ class BaseApi extends AbstractApi {
     * @see TestForm
 
     */
-    create(testForm:TestForm):Promise {
+    create(testForm:TestForm):Promise<TestObject[]> {
         var _path = null;
         return super._request(
                     "POST", "base/", _path, testForm
@@ -49,7 +49,7 @@ class BaseApi extends AbstractApi {
     * @see String
 
     */
-    get(id:String):Promise {
+    get(id:String):Promise<void> {
         var _path = {};
         _path["id"] = id;
         return super._request(
@@ -73,7 +73,7 @@ class BaseApi extends AbstractApi {
     * @see User
 
     */
-    create(user:User):Promise {
+    create(user:User):Promise<User> {
         var _path = null;
         return super._request(
                     "GET", "baseUrl/", _path, user

@@ -26,7 +26,7 @@ class TestApi extends AbstractApi {
     * @see TestForm
 
     */
-    create(testForm:TestForm):Promise {
+    create(testForm:TestForm):Promise<TestObject> {
         var _path = null;
         return super._request(
                     "POST", "test/", _path, testForm
@@ -48,7 +48,7 @@ class TestApi extends AbstractApi {
     * @see String
 
     */
-    get(id:String):Promise {
+    get(id:String):Promise<TestObject> {
         var _path = {};
         _path["id"] = id;
         return super._request(
@@ -71,7 +71,7 @@ class TestApi extends AbstractApi {
     * @see TestForm
 
     */
-    update(testForm:TestForm):Promise {
+    update(testForm:TestForm):Promise<TestObject> {
         var _path = null;
         return super._request(
                     "PUT", "test/", _path, testForm
@@ -93,7 +93,7 @@ class TestApi extends AbstractApi {
     * @see TestForm
 
     */
-    patchUpdate(testForm:TestForm):Promise {
+    patchUpdate(testForm:TestForm):Promise<TestObject> {
         var _path = null;
         return super._request(
                     "PATCH", "test/", _path, testForm
@@ -115,7 +115,7 @@ class TestApi extends AbstractApi {
     * @see String
 
     */
-    delete(id:String):Promise {
+    delete(id:String):Promise<Boolean> {
         var _path = {};
         _path["id"] = id;
         return super._request(
@@ -138,7 +138,7 @@ class TestApi extends AbstractApi {
     * @see List
 
     */
-    deletes(id:List):Promise {
+    deletes(id:List):Promise<Number> {
         var _path = {};
         _path["id"] = id;
         return super._request(
@@ -163,7 +163,7 @@ class TestApi extends AbstractApi {
     * @see String
 
     */
-    search(id:String, name:String):Promise {
+    search(id:String, name:String):Promise<TestObject> {
         var _path = {};
         _path["id"] = id;
         _path["name"] = name;
@@ -187,7 +187,7 @@ class TestApi extends AbstractApi {
     * @see String
 
     */
-    testString(name:String):Promise {
+    testString(name:String):Promise<String> {
         var _path = {};
         _path["name"] = name;
         return super._request(
@@ -212,7 +212,7 @@ class TestApi extends AbstractApi {
     * @see String
 
     */
-    testString1(name:String, age:String):Promise {
+    testString1(name:String, age:String):Promise<String> {
         var _path = {};
         _path["name"] = name;
         _path["age"] = age;

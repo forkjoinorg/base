@@ -207,11 +207,17 @@ public class JavaApiWrapper extends JavaWrapper<ApiInfo> {
         return sb.toString();
     }
 
+    // private static final ApiType _0Type = ApiUtils.type(Result.class,  ApiUtils.type(java.util.ArrayList.class));
+    //Result<AppModel[]>
     private void resultTypeString(StringBuilder sb, TypeInfo resultType) {
-        if (resultType.getTypeArguments().isEmpty()) {
-            sb.append(" ApiUtils.type(").append(toJavaTypeString(resultType, true, false, false)).append(".class)");
+        if (resultType.isArray()) {
+            sb.append(" ApiUtils.type(java.util.ArrayList.class, ").append(toJavaTypeString(resultType, true, false, false)).append(".class");
         } else {
             sb.append(" ApiUtils.type(").append(toJavaTypeString(resultType, true, false, false)).append(".class");//
+        }
+        if (resultType.getTypeArguments().isEmpty()) {
+            sb.append(")");
+        } else {
             for (TypeInfo typeArgument : resultType.getTypeArguments()) {
                 sb.append(",");
                 resultTypeString(sb, typeArgument);

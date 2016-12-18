@@ -13,6 +13,7 @@ import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 这个版本还不能 ,解开泛型或者支持泛型
@@ -58,13 +59,15 @@ public class JavaScriptGenerator extends HttlGenerator {
     public void generateTool() throws Exception {
         {
             Map<String, Object> parameters = new HashMap<>();
-            Collection<MessageInfo> values = context.getMessages().getValues();
-            parameters.put("values", values);
+
+            Set<Map.Entry<String, Collection<MessageInfo>>> all = context.getMessages().getAll().entrySet();
+            parameters.put("all", all);
+            parameters.put("values",  context.getMessages().getValues());
             File file = Utils.packToPath(outPath, "", "index", ".js");
 
             execute(
                     parameters,
-                    "/org/forkjoin/apikit/generator/js/Objects.httl",
+                    "/org/forkjoin/apikit/generator/js/index.httl",
                     file
             );
         }

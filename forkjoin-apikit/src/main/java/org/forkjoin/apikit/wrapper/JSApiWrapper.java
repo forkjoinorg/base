@@ -92,7 +92,7 @@ public class JSApiWrapper extends JSWrapper<ApiInfo> {
                     sb.append("</span>");
                 }
                 sb.append("</li>\n");
-            } else if(attributeInfo.isFormParam()){
+            } else if (attributeInfo.isFormParam()) {
                 sb.append(start).append("<li><b>Form:</b>")
                         .append(
                                 StringEscapeUtils.escapeHtml4(
@@ -120,7 +120,7 @@ public class JSApiWrapper extends JSWrapper<ApiInfo> {
         sb.append(start).append("</ul>\n").append(start).append("</div>\n");
 
         for (ApiMethodParamInfo attributeInfo : method.getParams()) {
-            if (attributeInfo.isPathVariable()||attributeInfo.isFormParam()) {
+            if (attributeInfo.isPathVariable() || attributeInfo.isFormParam()) {
                 String name = attributeInfo.getName();
                 String txt = stringStringMap.get(name);
                 if (StringUtils.isNotEmpty(txt)) {
@@ -142,7 +142,7 @@ public class JSApiWrapper extends JSWrapper<ApiInfo> {
         }
 
         for (ApiMethodParamInfo attributeInfo : method.getParams()) {
-            if ((attributeInfo.isPathVariable()||attributeInfo.isFormParam() )&& attributeInfo.getTypeInfo().getType() != TypeInfo.Type.VOID) {
+            if ((attributeInfo.isPathVariable() || attributeInfo.isFormParam()) && attributeInfo.getTypeInfo().getType() != TypeInfo.Type.VOID) {
                 sb.append(start).append("@see ").append(
                         StringEscapeUtils.escapeHtml4(toTypeString(attributeInfo.getTypeInfo()))
                 ).append("\n");
@@ -160,7 +160,7 @@ public class JSApiWrapper extends JSWrapper<ApiInfo> {
         ArrayList<ApiMethodParamInfo> params = method.getParams();
         for (int i = 0; i < params.size(); i++) {
             ApiMethodParamInfo attributeInfo = params.get(i);
-            if(attributeInfo.isFormParam() || attributeInfo.isPathVariable()){
+            if (attributeInfo.isFormParam() || attributeInfo.isPathVariable()) {
                 if (sb.length() > 0) {
                     sb.append(", ");
                 }
@@ -174,13 +174,11 @@ public class JSApiWrapper extends JSWrapper<ApiInfo> {
         return sb.toString();
     }
 
-//    public String resultTypeString(ApiMethodInfo method, String start) {
-//        StringBuilder sb = new StringBuilder(start);
-//        sb.append("private static final TypeInfo ").append(method.getId()).append("Type = type(Result.class, ");
-//        resultTypeString(sb, method.getResultType());
-//        sb.append(");");
-//        return sb.toString();
-//    }
+
+    public String resultTypeString(ApiMethodInfo method) {
+        String returnType = toTypeString(method.getResultType());
+        return StringEscapeUtils.escapeHtml4(returnType);
+    }
 //
 //    private void resultTypeString(StringBuilder sb, TypeInfo resultType) {
 //        if (resultType.getTypeArguments().isEmpty()) {

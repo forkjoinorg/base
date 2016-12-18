@@ -13,11 +13,6 @@ class ApiList {
 
     }
 
-    formObject({list}):ApiList{
-        this.list = list;
-        return this;
-    }
-
     static of({list}):ApiList{
         return new ApiList().formObject({list});
     }

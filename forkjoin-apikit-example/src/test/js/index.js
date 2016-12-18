@@ -6,25 +6,35 @@ import TestObject from './model/TestObject';
 import User from './model/User';
 import Apis from "./Apis";
 
+const collecton:{
+    ApiList:ApiList
+} = {
+    ApiList:ApiList
+};
 
-var Objects:{
-    ApiList:ApiList,
-    TestForm:TestForm,
+const form:{
+    TestForm:TestForm
+} = {
+    TestForm:TestForm
+};
+
+const model:{
     TestObject:TestObject,
     User:User
 } = {
-    ApiList:ApiList,
-    TestForm:TestForm,
     TestObject:TestObject,
     User:User
 };
 
-export default Objects;
+
+export default Apis;
 
 export {
+    collecton,
+    form,
+    model,
     ApiList,
     TestForm,
     TestObject,
     User,
-    Apis
 };

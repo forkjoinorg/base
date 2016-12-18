@@ -20,7 +20,7 @@ $!{utils.formatBaseComment(method.comment,"    * ")}
     *
 $!{utils.requestComment(method,"    * ")}
     */
-    $!{method.name}($!{utils.params(method)}):Promise {
+    $!{method.name}($!{utils.params(method)}):Promise<$!{utils.resultTypeString(method)}> {
         <!--#if(method.pathParams)-->
         var _path = {};
         <!--    #for(param : method.pathParams)-->

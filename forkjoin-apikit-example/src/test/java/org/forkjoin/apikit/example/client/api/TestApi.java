@@ -40,7 +40,11 @@ public class TestApi {
 		Result<TestObject<User>> result = create(testForm);
 		if (!result.isSuccess()) {
 			Exception ex = result.getException();
-			throw new RuntimeException(ex.getMessage(), ex);
+			if (ex != null) {
+				throw new RuntimeException(ex.getMessage(), ex);
+			} else {
+				throw new RuntimeException(result.toString());
+			}
 		}
 		return result.getData();
 	}
@@ -104,7 +108,11 @@ public class TestApi {
 		Result<TestObject<User>> result = get(id);
 		if (!result.isSuccess()) {
 			Exception ex = result.getException();
-			throw new RuntimeException(ex.getMessage(), ex);
+			if (ex != null) {
+				throw new RuntimeException(ex.getMessage(), ex);
+			} else {
+				throw new RuntimeException(result.toString());
+			}
 		}
 		return result.getData();
 	}
@@ -168,7 +176,11 @@ public class TestApi {
 		Result<TestObject<User>> result = update(testForm);
 		if (!result.isSuccess()) {
 			Exception ex = result.getException();
-			throw new RuntimeException(ex.getMessage(), ex);
+			if (ex != null) {
+				throw new RuntimeException(ex.getMessage(), ex);
+			} else {
+				throw new RuntimeException(result.toString());
+			}
 		}
 		return result.getData();
 	}
@@ -232,7 +244,11 @@ public class TestApi {
 		Result<TestObject<User>> result = patchUpdate(testForm);
 		if (!result.isSuccess()) {
 			Exception ex = result.getException();
-			throw new RuntimeException(ex.getMessage(), ex);
+			if (ex != null) {
+				throw new RuntimeException(ex.getMessage(), ex);
+			} else {
+				throw new RuntimeException(result.toString());
+			}
 		}
 		return result.getData();
 	}
@@ -296,7 +312,11 @@ public class TestApi {
 		Result<Boolean> result = delete(id);
 		if (!result.isSuccess()) {
 			Exception ex = result.getException();
-			throw new RuntimeException(ex.getMessage(), ex);
+			if (ex != null) {
+				throw new RuntimeException(ex.getMessage(), ex);
+			} else {
+				throw new RuntimeException(result.toString());
+			}
 		}
 		return result.getData();
 	}
@@ -360,7 +380,11 @@ public class TestApi {
 		Result<Integer> result = deletes(id);
 		if (!result.isSuccess()) {
 			Exception ex = result.getException();
-			throw new RuntimeException(ex.getMessage(), ex);
+			if (ex != null) {
+				throw new RuntimeException(ex.getMessage(), ex);
+			} else {
+				throw new RuntimeException(result.toString());
+			}
 		}
 		return result.getData();
 	}
@@ -426,7 +450,11 @@ public class TestApi {
 		Result<TestObject<User>> result = search(id, name);
 		if (!result.isSuccess()) {
 			Exception ex = result.getException();
-			throw new RuntimeException(ex.getMessage(), ex);
+			if (ex != null) {
+				throw new RuntimeException(ex.getMessage(), ex);
+			} else {
+				throw new RuntimeException(result.toString());
+			}
 		}
 		return result.getData();
 	}
@@ -496,7 +524,11 @@ public class TestApi {
 		Result<String> result = testString(name);
 		if (!result.isSuccess()) {
 			Exception ex = result.getException();
-			throw new RuntimeException(ex.getMessage(), ex);
+			if (ex != null) {
+				throw new RuntimeException(ex.getMessage(), ex);
+			} else {
+				throw new RuntimeException(result.toString());
+			}
 		}
 		return result.getData();
 	}
@@ -562,7 +594,11 @@ public class TestApi {
 		Result<String> result = testString1(name, age);
 		if (!result.isSuccess()) {
 			Exception ex = result.getException();
-			throw new RuntimeException(ex.getMessage(), ex);
+			if (ex != null) {
+				throw new RuntimeException(ex.getMessage(), ex);
+			} else {
+				throw new RuntimeException(result.toString());
+			}
 		}
 		return result.getData();
 	}

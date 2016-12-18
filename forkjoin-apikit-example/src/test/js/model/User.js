@@ -22,13 +22,6 @@ class User {
 
     }
 
-    formObject({id,name,age}):User{
-        this.id = id;
-        this.name = name;
-        this.age = age;
-        return this;
-    }
-
     static of({id,name,age}):User{
         return new User().formObject({id,name,age});
     }
