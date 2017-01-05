@@ -44,6 +44,7 @@ jdbckit 是一个生成简单对象映射的工具（spring jdbc template）
 
 1. 生成简单对象，映射和简单的多条件查询
 2. 不支持join和表关系
+3. 支持 字段映射成json 和xml
 
 jdbckit 带来的好处
 

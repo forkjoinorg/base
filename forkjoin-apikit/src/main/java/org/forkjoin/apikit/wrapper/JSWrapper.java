@@ -8,6 +8,9 @@ import org.forkjoin.apikit.info.ImportsInfo;
 import org.forkjoin.apikit.info.ModuleInfo;
 import org.forkjoin.apikit.info.TypeInfo;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @author zuoge85 on 15/6/15.
  */
@@ -39,6 +42,10 @@ public class JSWrapper<T extends ModuleInfo> extends BuilderWrapper<T> {
 
 
     public String getImports() {
+        return getImports(new HashSet<String>());
+    }
+
+    public String getImports(Set<String> containsSet) {
         StringBuilder sb = new StringBuilder();
         ImportsInfo imports = moduleInfo.getImports();
         String moduleInfoPackageName = moduleInfo.getPackageName();
@@ -49,11 +56,15 @@ public class JSWrapper<T extends ModuleInfo> extends BuilderWrapper<T> {
                 //import {User} from './../form/User';
                 String packageName = importItem.getPackageName();
 
-                sb.append("import ")
-                        .append(importItem.getName())
-                        .append(" from './")
-                        .append(StringUtils.repeat("../", myLevel))
-                        .append(packageName.replace(".", "/")).append('/').append(importItem.getName()).append("'\n");
+                if (!containsSet.contains(importItem.getName())) {
+                    containsSet.add(importItem.getName());
+                    sb.append("import ")
+                            .append(importItem.getName())
+                            .append(" from './")
+                            .append(StringUtils.repeat("../", myLevel))
+                            .append(packageName.replace(".", "/")).append('/').append(importItem.getName()).append("'\n");
+
+                }
             }
         }
         return sb.toString();

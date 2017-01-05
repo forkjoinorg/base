@@ -5,6 +5,8 @@ import org.forkjoin.apikit.info.MessageInfo;
 import org.forkjoin.apikit.info.PropertyInfo;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author zuoge85 on 15/6/14.
@@ -21,7 +23,9 @@ public class JSMessageWrapper extends JSWrapper<MessageInfo> {
 
     @Override
     public String getImports() {
-        StringBuilder sb = new StringBuilder(super.getImports());
+        Set<String> containsSet = new HashSet<>();
+
+        StringBuilder sb = new StringBuilder(super.getImports(containsSet));
         //自己的目录级别
         int i = 0;
         for (PropertyInfo pro : moduleInfo.getProperties()) {
@@ -30,11 +34,14 @@ public class JSMessageWrapper extends JSWrapper<MessageInfo> {
                     sb.append("\n\n");
                 }
                 String proTypeName = pro.getTypeInfo().getName();
-                if(!this.getName().equals(proTypeName)){
-                    sb.append("import ")
-                            .append(proTypeName)
-                            .append(" from './").append(proTypeName).append("'\n");
-                    i++;
+                if (!this.getName().equals(proTypeName)) {
+                    if (!containsSet.contains(proTypeName)) {
+                        containsSet.add(proTypeName);
+                        sb.append("import ")
+                                .append(proTypeName)
+                                .append(" from './").append(proTypeName).append("'\n");
+                        i++;
+                    }
                 }
             }
         }
