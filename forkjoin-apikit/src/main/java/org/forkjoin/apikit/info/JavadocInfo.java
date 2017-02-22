@@ -11,12 +11,14 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * javadoc 注释信息
- * List<Map.Entry<String, List<String>>> 结构是 tagName -> fragments list
+ *
+ *
  *
  * @author zuoge85 on 15/11/16.
  */
 public class JavadocInfo {
 
+    //<code>List<Map.Entry<String, List<String>>> 结构是 tagName -> fragments list</code>
     private ListMultimap<String, String> tags = Multimaps.newListMultimap(
             new LinkedHashMap<String, Collection<String>>(), new Supplier<List<String>>() {
                 @Override

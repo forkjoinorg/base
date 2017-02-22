@@ -2,11 +2,11 @@ package org.forkjoin.apikit.core;
 
 /**
  * CRUD 映射 到 http method
- * C-> POST
- * R-> GET
- * U-> PUT
- * D-> DELETE
- * Part of the update(部分更新)->PATCH
+ * C- POST
+ * R- GET
+ * U- PUT
+ * D- DELETE
+ * P- PATCH (Part of the update(部分更新) )
  * @author zuoge85 on 15/6/12.
  */
 public enum ActionType {

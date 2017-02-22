@@ -56,10 +56,10 @@ jdbckit 带来的好处
 ## maven
 
 `
-<repositories>
-  <repository>
-    <id>maven-repository</id>
-    <url>https://raw.githubusercontent.com/zuoge85/maven-repo/master/repository/</url>
-  </repository>
-</repositories>
-`
+现在已经提交到 maven 中心库
+
+<dependency>
+    <groupId>org.forkjoin</groupId>
+    <artifactId>forkjoin-apikit</artifactId>
+    <version>2.0.1</version>
+</dependency>

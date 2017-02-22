@@ -44,7 +44,7 @@ public class Result<T> {
 
     public static <T> Result<T> createError(Exception ex) {
         Result<T> result = new Result<>();
-        result.setStatus(CLIENT_ERROR);
+        result.setStatus(ERROR);
         result.setException(ex);
         return result;
     }
@@ -60,7 +60,7 @@ public class Result<T> {
     }
 
     public static <T> Result<T> createError(String msg) {
-        return new Result<>(ACCOUNT_ERROR, msg, null);
+        return new Result<>(ERROR, msg, null);
     }
 
     public static <T> Result<T> createCancel() {
