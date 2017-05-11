@@ -13,6 +13,7 @@ class Apis {
     $!{nameUtils.toFieldName(info.name)}:$!{info.name};
 <!--#end-->
     _xhrArray:XMLHttpRequest[];
+    _isStop = true;
 
     static init(apiUrl:String, apiVersion:String){
         ApiUtils.apiUrl = apiUrl;
@@ -25,17 +26,23 @@ class Apis {
 
     constructor() {
         this._xhrArray = [];
+        let _xhrHandler = this._xhrHandler.bind(this);
 <!--#for(info : values)-->
         this.$!{nameUtils.toFieldName(info.name)} = new $!{info.name}();
-        this.$!{nameUtils.toFieldName(info.name)}._initNet(this._xhrHandler.bind(this));
+        this.$!{nameUtils.toFieldName(info.name)}._initNet(_xhrHandler);
 <!--#end-->
+        this._isStop = false;
     }
 
     _xhrHandler(xhr:XMLHttpRequest) {
-        this._xhrArray.push(xhr);
-        xhr.loadend = ()=> {
-            this._clearXhr(xhr);
-        };
+        if(this._isStop){
+            xhr.abort();
+        }else{
+            this._xhrArray.push(xhr);
+            xhr.loadend = ()=> {
+                this._clearXhr(xhr);
+            };
+        }
     }
 
     _clearXhr(xhr:XMLHttpRequest) {
