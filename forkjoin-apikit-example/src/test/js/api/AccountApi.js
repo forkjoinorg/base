@@ -18,7 +18,6 @@ class AccountApi extends AbstractApi {
     * <div class='http-info'>http 说明：<b>Api Url:</b> <b>account/login</b>
     * <ul>
     * <li><b>Model:</b> String</li>
-    * <li>需要登录</li>
     * </ul>
     * </div>
     * @see String
@@ -58,18 +57,16 @@ class AccountApi extends AbstractApi {
     *
     * <div class='http-info'>http 说明：<b>Api Url:</b> <b>baseUrl/testNotLogin</b>
     * <ul>
-    * <li><b>Form:</b>UsertestNotLogin</li>
     * <li><b>Model:</b> User</li>
     * </ul>
     * </div>
     * @see User
-    * @see User
 
     */
-    testNotLogin(user:User):Promise<User> {
+    testNotLogin():Promise<User> {
         var _path = null;
         return super._request(
-                    "GET", "baseUrl/testNotLogin", _path, user
+                    "GET", "baseUrl/testNotLogin", _path, null
                 );
     }
 

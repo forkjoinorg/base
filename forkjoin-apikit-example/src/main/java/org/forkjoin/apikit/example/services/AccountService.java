@@ -20,6 +20,9 @@ public class AccountService {
     }
 
     public ExampleAccount getByToken(String token) {
+        if(token == null){
+            return null;
+        }
         return map.get(token);
     }
 }

@@ -24,6 +24,7 @@ public class AccountApiController {
     private AccountService accountService;
 
     @RequestMapping(value = "account/login", method = RequestMethod.POST)
+    @Account(false)
     public Result<String> login() throws Exception {
         String token = accountService.login();
         return Result.createSuccess(token);
@@ -42,7 +43,7 @@ public class AccountApiController {
      */
     @Account(false)
     @RequestMapping(value = "baseUrl/testNotLogin", method = {RequestMethod.GET, RequestMethod.POST})
-    public Result<User> testNotLogin(@Valid User user, Object accountName) throws Exception {
+    public Result<User> testNotLogin() throws Exception {
         return Result.createSuccess();
     }
 }

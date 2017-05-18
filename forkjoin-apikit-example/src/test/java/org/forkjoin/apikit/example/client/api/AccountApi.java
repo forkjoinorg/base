@@ -25,7 +25,6 @@ public class AccountApi {
 	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>account/login</b>
 	 * <ul>
 	 * <li><b>Model:</b> String</li>
-	 * <li>需要登录</li>
 	 * </ul>
 	 * </div>
 	 * @see String
@@ -50,7 +49,6 @@ public class AccountApi {
 	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>account/login</b>
 	 * <ul>
 	 * <li><b>Model:</b> String</li>
-	 * <li>需要登录</li>
 	 * </ul>
 	 * </div>
 	 * @see String
@@ -60,7 +58,7 @@ public class AccountApi {
 		Map<String, Object> _uriVariables = new HashMap<>();
 		String _url = ApiUtils.expandUriComponent("account/login", _uriVariables);
 
-		return httpClientAdapter.request("POST", _url, null, _0Type, true);
+		return httpClientAdapter.request("POST", _url, null, _0Type, false);
 	}
 
 	/**
@@ -69,7 +67,6 @@ public class AccountApi {
 	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>account/login</b>
 	 * <ul>
 	 * <li><b>Model:</b> String</li>
-	 * <li>需要登录</li>
 	 * </ul>
 	 * </div>
 	 * @see String
@@ -79,7 +76,7 @@ public class AccountApi {
 		Map<String, Object> _uriVariables = new HashMap<>();
 		String _url = ApiUtils.expandUriComponent("account/login", _uriVariables);
 
-		return httpClientAdapter.requestAsync("POST", _url, null, _0Type, true, callable);
+		return httpClientAdapter.requestAsync("POST", _url, null, _0Type, false, callable);
 	}
 
 	/**
@@ -147,18 +144,14 @@ public class AccountApi {
 	 *
 	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>baseUrl/testNotLogin</b>
 	 * <ul>
-	 * <li><b>Form:</b>UsertestNotLogin</li>
-	 * <li><b>Form:</b>ObjecttestNotLogin</li>
 	 * <li><b>Model:</b> User</li>
 	 * </ul>
 	 * </div>
 	 * @see User
-	 * @see User
-	 * @see Object
 
 	 */
-	public User testNotLoginData(User user) {
-		Result<User> result = testNotLogin(user);
+	public User testNotLoginData() {
+		Result<User> result = testNotLogin();
 		if (!result.isSuccess()) {
 			Exception ex = result.getException();
 			if (ex != null) {
@@ -175,22 +168,17 @@ public class AccountApi {
 	 *
 	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>baseUrl/testNotLogin</b>
 	 * <ul>
-	 * <li><b>Form:</b>UsertestNotLogin</li>
-	 * <li><b>Form:</b>ObjecttestNotLogin</li>
 	 * <li><b>Model:</b> User</li>
 	 * </ul>
 	 * </div>
 	 * @see User
-	 * @see User
-	 * @see Object
 
 	 */
-	public Result<User> testNotLogin(User user) {
+	public Result<User> testNotLogin() {
 		Map<String, Object> _uriVariables = new HashMap<>();
 		String _url = ApiUtils.expandUriComponent("baseUrl/testNotLogin", _uriVariables);
 
-		List<Entry<String, Object>> _form = user.encode("", new ArrayList<Entry<String, Object>>());
-		return httpClientAdapter.request("GET", _url, _form, _2Type, false);
+		return httpClientAdapter.request("GET", _url, null, _2Type, false);
 	}
 
 	/**
@@ -198,22 +186,17 @@ public class AccountApi {
 	 *
 	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>baseUrl/testNotLogin</b>
 	 * <ul>
-	 * <li><b>Form:</b>UsertestNotLogin</li>
-	 * <li><b>Form:</b>ObjecttestNotLogin</li>
 	 * <li><b>Model:</b> User</li>
 	 * </ul>
 	 * </div>
 	 * @see User
-	 * @see User
-	 * @see Object
 
 	 */
-	public Future<?> testNotLogin(User user, Callback<User> callable) {
+	public Future<?> testNotLogin(Callback<User> callable) {
 		Map<String, Object> _uriVariables = new HashMap<>();
 		String _url = ApiUtils.expandUriComponent("baseUrl/testNotLogin", _uriVariables);
 
-		List<Entry<String, Object>> _form = user.encode("", new ArrayList<Entry<String, Object>>());
-		return httpClientAdapter.requestAsync("GET", _url, _form, _2Type, false, callable);
+		return httpClientAdapter.requestAsync("GET", _url, null, _2Type, false, callable);
 	}
 
 	private static final ApiType _0Type = ApiUtils.type(Result.class, ApiUtils.type(String.class));

@@ -24,10 +24,19 @@ public class AccountApiControllerTest extends BaseControllerTest {
 
     @Test
     public void testStringData() {
-        String str = RandomStringUtils.random(ARRAY_MAX);
-        String token = apiManager.accountApi.loginData();
+
+        /**
+         * 未登陆
+         */
+        apiManager.accountApi.testNotLoginData();
         Result<Void> result = apiManager.accountApi.testLogin();
         Assert.assertEquals(result.getStatus(), Result.ACCOUNT_ERROR);
 
+        /**
+         * 登陆
+         */
+        String token = apiManager.accountApi.loginData();
+        httpClientAdapter.setAccountToken(token);
+        apiManager.accountApi.testLoginData();
     }
 }
