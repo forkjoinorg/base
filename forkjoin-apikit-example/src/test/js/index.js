@@ -3,6 +3,7 @@
 import ApiList from './collecton/ApiList';
 import TestForm from './form/TestForm';
 import TestObject from './model/TestObject';
+import TestObjectList from './model/TestObjectList';
 import User from './model/User';
 import Apis from "./Apis";
 
@@ -20,9 +21,11 @@ const form:{
 
 const model:{
     TestObject:TestObject,
+    TestObjectList:TestObjectList,
     User:User
 } = {
     TestObject:TestObject,
+    TestObjectList:TestObjectList,
     User:User
 };
 
@@ -36,5 +39,6 @@ export {
     ApiList,
     TestForm,
     TestObject,
+    TestObjectList,
     User,
 };

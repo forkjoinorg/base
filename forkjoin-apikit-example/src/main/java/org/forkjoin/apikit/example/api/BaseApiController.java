@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequestMapping(value = "v1")
 public class BaseApiController {
 
-	@RequestMapping(value = "base/", method = RequestMethod.POST)
+	@RequestMapping(value = "base", method = RequestMethod.POST)
 	public Result<TestObject<User[]>[]> create(@Valid TestForm<User> testForm, Object accountName) throws Exception {
 		return Result.createSuccess();
 	}

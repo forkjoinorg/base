@@ -1,7 +1,17 @@
-# base
+# apikit 和jdbckit 工具集合
 
 
-## 2.0 第一个版本完成，可以使用
+[apikit 文档](./forkjoin-apikit/README.md)
+
+
+api kit 是一个根据spring mvc 生成http RESTful 客户端 sdk 和doc 的工具
+现在支持生成java client sdk 和 es6 client sdk，项目已经成功应用在多个项目
+
+只需稍微改造项目， 就可以生成远程调用代码（存根）
+
+------------------------------------------------------------
+
+## 2.0 可以使用
 
 1. 去掉专门的配置文件模式，转而使用项目内java 文件识别
 2. api 现在直接读取控制获取相关信息
@@ -30,7 +40,7 @@ apikit 是一个生成http restfull 客户端和服务器接口的工具
 2. 生成 swift android javase 相关api 接口
 3. 类似json rpc，但是不同于jsonrpc
 
-apikit 带来的好处
+apikit 带来的特点
 
 1. 统一的接口定义，告别前后端对协议，显著减少前端编码
 2. 统一的接口定义文档，根据注释生成标准的javadoc 文档，告别文档的不统一或者和代码脱节等问题
@@ -61,5 +71,5 @@ jdbckit 带来的好处
 <dependency>
     <groupId>org.forkjoin</groupId>
     <artifactId>forkjoin-apikit</artifactId>
-    <version>2.0.1</version>
+    <version>2.0.3</version>
 </dependency>

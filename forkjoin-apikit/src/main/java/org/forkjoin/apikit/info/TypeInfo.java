@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author zuoge85 on 15/6/12.
  */
-public class TypeInfo {
+public class TypeInfo implements Cloneable{
     private static final Logger log = LoggerFactory.getLogger(TypeInfo.class);
 
     private Type type;
@@ -104,6 +104,24 @@ public class TypeInfo {
         return isArray() && type == Type.BYTE;
     }
 
+
+    public boolean isArrayOrList() {
+        return (isArray() || isList()) && type != Type.BYTE;
+    }
+
+    public boolean isList() {
+        try {
+            String fullName = getFullName();
+            if (fullName != null) {
+                Class<?> cls = Class.forName(fullName);
+                return List.class.isAssignableFrom(cls);
+            }
+            return false;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+    }
+
     public boolean isInside() {
         return isInside;
     }
@@ -118,6 +136,16 @@ public class TypeInfo {
 
     public void setGeneric(boolean generic) {
         isGeneric = generic;
+    }
+
+
+    @Override
+    public TypeInfo clone()  {
+        try {
+            return (TypeInfo) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

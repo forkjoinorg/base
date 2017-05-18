@@ -1,6 +1,7 @@
 package org.forkjoin.apikit.spring.client;
 
 import org.apache.commons.lang3.StringUtils;
+import org.forkjoin.apikit.JsonConvert;
 import org.forkjoin.apikit.client.Callback;
 import org.forkjoin.apikit.core.Result;
 import org.forkjoin.apikit.spring.AccountHandlerInterceptor;
@@ -11,6 +12,7 @@ import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -22,6 +24,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URI;
@@ -34,7 +37,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 /**
  * @author zuoge85 on 15/6/18.
@@ -44,13 +46,14 @@ public class MockHttpClientAdapter extends AbstractHttpClientAdapter {
 
     private final ExecutorService asyncExecutor;
 
+
     @Autowired
     protected WebApplicationContext context;
 
     protected MockMvc mvc;
 
-    public MockHttpClientAdapter(String serverUrl) {
-        super(serverUrl);
+    public MockHttpClientAdapter(String serverUrl, ConversionService conversionService, JsonConvert jsonConvert) {
+        super(serverUrl, conversionService, jsonConvert);
 
         asyncExecutor = ExecutorsUtils.newFixedThreadPool(32,
                 new Thread.UncaughtExceptionHandler() {
@@ -67,6 +70,15 @@ public class MockHttpClientAdapter extends AbstractHttpClientAdapter {
                     }
                 });
     }
+
+    public MockHttpClientAdapter(String serverUrl, ConversionService conversionService) {
+        this(serverUrl, conversionService, null);
+    }
+
+    public MockHttpClientAdapter(String serverUrl) {
+        this(serverUrl, null, null);
+    }
+
 
     @PostConstruct
     private void init() {
@@ -135,10 +147,9 @@ public class MockHttpClientAdapter extends AbstractHttpClientAdapter {
     }
 
     private void assertHeader(ResultActions perform) throws Exception {
-        perform.andExpect(content().encoding(ENCODING))
-                .andExpect(
-                        content().contentTypeCompatibleWith(
-                                MediaType.APPLICATION_JSON))
+        perform
+//                .andExpect(content().encoding(ENCODING))
+//                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andDo(new ResultHandler() {
                     @Override
                     public void handle(MvcResult mvcResult) throws Exception {
@@ -147,8 +158,7 @@ public class MockHttpClientAdapter extends AbstractHttpClientAdapter {
                         if (ex != null && !(ex instanceof BindException)
                                 && !(ex instanceof AccountRuntimeException) && !(ex instanceof I18nValidationException)) {
                             log.error("错误！", ex.getMessage());
-                            Assert.assertTrue(mvcResult.getResponse()
-                                    .getContentAsString(), false);
+                            Assert.assertTrue(mvcResult.getResponse().getContentAsString(), false);
                         }
                     }
                 });
@@ -178,6 +188,8 @@ public class MockHttpClientAdapter extends AbstractHttpClientAdapter {
     }
 
     @Override
+    @PreDestroy
     public void close() throws IOException {
+        asyncExecutor.shutdownNow();
     }
 }

@@ -8,8 +8,10 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.concurrent.FutureCallback;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
+import org.forkjoin.apikit.JsonConvert;
 import org.forkjoin.apikit.client.Callback;
 import org.forkjoin.apikit.core.Result;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.http.MediaType;
 
 import java.io.IOException;
@@ -28,8 +30,11 @@ public class ApacheHttpClientAdapter extends AbstractHttpClientAdapter {
     public static final String CHARSET_PARAMETER_NAME = "charset";
     private final CloseableHttpAsyncClient httpClient;// = HttpAsyncClients.createDefault();
 
-    public ApacheHttpClientAdapter(String serverUrl, String proxy, int port) {
-        super(serverUrl);
+    public ApacheHttpClientAdapter(
+            String serverUrl, String proxy, int port,
+            ConversionService conversionService, JsonConvert jsonConvert
+    ) {
+        super(serverUrl, conversionService, jsonConvert);
         if (proxy != null) {
             httpClient = HttpAsyncClientBuilder.create().setProxy(new HttpHost(proxy, port)).build();
         } else {
@@ -38,8 +43,20 @@ public class ApacheHttpClientAdapter extends AbstractHttpClientAdapter {
         httpClient.start();
     }
 
+    public ApacheHttpClientAdapter(String serverUrl, String proxy, int port) {
+        this(serverUrl, proxy, port, null, null);
+    }
+
+    public ApacheHttpClientAdapter(String serverUrl, ConversionService conversionService) {
+        this(serverUrl, null, 0, conversionService, null);
+    }
+
+    public ApacheHttpClientAdapter(String serverUrl, ConversionService conversionService, JsonConvert jsonConvert) {
+        this(serverUrl, null, 0, conversionService, jsonConvert);
+    }
+
     public ApacheHttpClientAdapter(String serverUrl) {
-        this(serverUrl, null, 0);
+        this(serverUrl, null, 0, null, null);
     }
 
     public <T> Result<T> request(String method, String uri, List<Map.Entry<String, Object>> form, Type type, boolean isAccount) {
@@ -47,7 +64,6 @@ public class ApacheHttpClientAdapter extends AbstractHttpClientAdapter {
             final AtomicReference<Result<T>> resultRef = new AtomicReference<>(null);
             final CountDownLatch latch = new CountDownLatch(1);
             requestAsync(method, uri, form, type, isAccount, new Callback<T>() {
-                @Override
                 public void call(Result<T> t) {
                     resultRef.set(t);
                     latch.countDown();

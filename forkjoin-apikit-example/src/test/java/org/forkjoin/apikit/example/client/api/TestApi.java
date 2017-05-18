@@ -1,5 +1,7 @@
 package org.forkjoin.apikit.example.client.api;
 
+import org.forkjoin.apikit.example.client.model.TestObjectList;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 import org.forkjoin.apikit.core.*;
 import org.forkjoin.apikit.example.client.form.TestForm;
@@ -24,9 +26,77 @@ public class TestApi {
 	}
 
 	/**
+	 * 
+	 *
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>testObjectList</b>
+	 * <ul>
+	 * <li><b>Form:</b>TestForm&lt;User&gt;testObjectList</li>
+	 * <li><b>Model:</b> TestObjectList&lt;User&gt;</li>
+	 * </ul>
+	 * </div>
+	 * @see TestObjectList&lt;User&gt;
+	 * @see TestForm&lt;User&gt;
+
+	 */
+	public TestObjectList<User> testObjectListData(TestForm<User> testForm) {
+		Result<TestObjectList<User>> result = testObjectList(testForm);
+		if (!result.isSuccess()) {
+			Exception ex = result.getException();
+			if (ex != null) {
+				throw new RuntimeException(ex.getMessage(), ex);
+			} else {
+				throw new RuntimeException(result.toString());
+			}
+		}
+		return result.getData();
+	}
+
+	/**
+	 * 
+	 *
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>testObjectList</b>
+	 * <ul>
+	 * <li><b>Form:</b>TestForm&lt;User&gt;testObjectList</li>
+	 * <li><b>Model:</b> TestObjectList&lt;User&gt;</li>
+	 * </ul>
+	 * </div>
+	 * @see TestObjectList&lt;User&gt;
+	 * @see TestForm&lt;User&gt;
+
+	 */
+	public Result<TestObjectList<User>> testObjectList(TestForm<User> testForm) {
+		Map<String, Object> _uriVariables = new HashMap<>();
+		String _url = ApiUtils.expandUriComponent("testObjectList", _uriVariables);
+
+		List<Entry<String, Object>> _form = testForm.encode("", new ArrayList<Entry<String, Object>>());
+		return httpClientAdapter.request("POST", _url, _form, _0Type, false);
+	}
+
+	/**
+	 * 
+	 *
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>testObjectList</b>
+	 * <ul>
+	 * <li><b>Form:</b>TestForm&lt;User&gt;testObjectList</li>
+	 * <li><b>Model:</b> TestObjectList&lt;User&gt;</li>
+	 * </ul>
+	 * </div>
+	 * @see TestObjectList&lt;User&gt;
+	 * @see TestForm&lt;User&gt;
+
+	 */
+	public Future<?> testObjectList(TestForm<User> testForm, Callback<TestObjectList<User>> callable) {
+		Map<String, Object> _uriVariables = new HashMap<>();
+		String _url = ApiUtils.expandUriComponent("testObjectList", _uriVariables);
+
+		List<Entry<String, Object>> _form = testForm.encode("", new ArrayList<Entry<String, Object>>());
+		return httpClientAdapter.requestAsync("POST", _url, _form, _0Type, false, callable);
+	}
+
+	/**
 	 * 添加
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test/</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test</b>
 	 * <ul>
 	 * <li><b>Form:</b>TestForm&lt;User&gt;create</li>
 	 * <li><b>Model:</b> TestObject&lt;User&gt;</li>
@@ -52,7 +122,7 @@ public class TestApi {
 	/**
 	 * 添加
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test/</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test</b>
 	 * <ul>
 	 * <li><b>Form:</b>TestForm&lt;User&gt;create</li>
 	 * <li><b>Model:</b> TestObject&lt;User&gt;</li>
@@ -64,16 +134,16 @@ public class TestApi {
 	 */
 	public Result<TestObject<User>> create(TestForm<User> testForm) {
 		Map<String, Object> _uriVariables = new HashMap<>();
-		String _url = ApiUtils.expandUriComponent("test/", _uriVariables);
+		String _url = ApiUtils.expandUriComponent("test", _uriVariables);
 
 		List<Entry<String, Object>> _form = testForm.encode("", new ArrayList<Entry<String, Object>>());
-		return httpClientAdapter.request("POST", _url, _form, _0Type, false);
+		return httpClientAdapter.request("POST", _url, _form, _1Type, false);
 	}
 
 	/**
 	 * 添加
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test/</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test</b>
 	 * <ul>
 	 * <li><b>Form:</b>TestForm&lt;User&gt;create</li>
 	 * <li><b>Model:</b> TestObject&lt;User&gt;</li>
@@ -85,10 +155,10 @@ public class TestApi {
 	 */
 	public Future<?> create(TestForm<User> testForm, Callback<TestObject<User>> callable) {
 		Map<String, Object> _uriVariables = new HashMap<>();
-		String _url = ApiUtils.expandUriComponent("test/", _uriVariables);
+		String _url = ApiUtils.expandUriComponent("test", _uriVariables);
 
 		List<Entry<String, Object>> _form = testForm.encode("", new ArrayList<Entry<String, Object>>());
-		return httpClientAdapter.requestAsync("POST", _url, _form, _0Type, false, callable);
+		return httpClientAdapter.requestAsync("POST", _url, _form, _1Type, false, callable);
 	}
 
 	/**
@@ -135,7 +205,7 @@ public class TestApi {
 		_uriVariables.put("id", id);
 		String _url = ApiUtils.expandUriComponent("test/{id}", _uriVariables);
 
-		return httpClientAdapter.request("GET", _url, null, _1Type, false);
+		return httpClientAdapter.request("GET", _url, null, _2Type, false);
 	}
 
 	/**
@@ -156,13 +226,13 @@ public class TestApi {
 		_uriVariables.put("id", id);
 		String _url = ApiUtils.expandUriComponent("test/{id}", _uriVariables);
 
-		return httpClientAdapter.requestAsync("GET", _url, null, _1Type, false, callable);
+		return httpClientAdapter.requestAsync("GET", _url, null, _2Type, false, callable);
 	}
 
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test/</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test</b>
 	 * <ul>
 	 * <li><b>Form:</b>TestForm&lt;User&gt;update</li>
 	 * <li><b>Model:</b> TestObject&lt;User&gt;</li>
@@ -188,7 +258,7 @@ public class TestApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test/</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test</b>
 	 * <ul>
 	 * <li><b>Form:</b>TestForm&lt;User&gt;update</li>
 	 * <li><b>Model:</b> TestObject&lt;User&gt;</li>
@@ -200,16 +270,16 @@ public class TestApi {
 	 */
 	public Result<TestObject<User>> update(TestForm<User> testForm) {
 		Map<String, Object> _uriVariables = new HashMap<>();
-		String _url = ApiUtils.expandUriComponent("test/", _uriVariables);
+		String _url = ApiUtils.expandUriComponent("test", _uriVariables);
 
 		List<Entry<String, Object>> _form = testForm.encode("", new ArrayList<Entry<String, Object>>());
-		return httpClientAdapter.request("PUT", _url, _form, _2Type, false);
+		return httpClientAdapter.request("PUT", _url, _form, _3Type, false);
 	}
 
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test/</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test</b>
 	 * <ul>
 	 * <li><b>Form:</b>TestForm&lt;User&gt;update</li>
 	 * <li><b>Model:</b> TestObject&lt;User&gt;</li>
@@ -221,16 +291,16 @@ public class TestApi {
 	 */
 	public Future<?> update(TestForm<User> testForm, Callback<TestObject<User>> callable) {
 		Map<String, Object> _uriVariables = new HashMap<>();
-		String _url = ApiUtils.expandUriComponent("test/", _uriVariables);
+		String _url = ApiUtils.expandUriComponent("test", _uriVariables);
 
 		List<Entry<String, Object>> _form = testForm.encode("", new ArrayList<Entry<String, Object>>());
-		return httpClientAdapter.requestAsync("PUT", _url, _form, _2Type, false, callable);
+		return httpClientAdapter.requestAsync("PUT", _url, _form, _3Type, false, callable);
 	}
 
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test/</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test</b>
 	 * <ul>
 	 * <li><b>Form:</b>TestForm&lt;User&gt;patchUpdate</li>
 	 * <li><b>Model:</b> TestObject&lt;User&gt;</li>
@@ -256,7 +326,7 @@ public class TestApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test/</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test</b>
 	 * <ul>
 	 * <li><b>Form:</b>TestForm&lt;User&gt;patchUpdate</li>
 	 * <li><b>Model:</b> TestObject&lt;User&gt;</li>
@@ -268,16 +338,16 @@ public class TestApi {
 	 */
 	public Result<TestObject<User>> patchUpdate(TestForm<User> testForm) {
 		Map<String, Object> _uriVariables = new HashMap<>();
-		String _url = ApiUtils.expandUriComponent("test/", _uriVariables);
+		String _url = ApiUtils.expandUriComponent("test", _uriVariables);
 
 		List<Entry<String, Object>> _form = testForm.encode("", new ArrayList<Entry<String, Object>>());
-		return httpClientAdapter.request("PATCH", _url, _form, _3Type, false);
+		return httpClientAdapter.request("PATCH", _url, _form, _4Type, false);
 	}
 
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test/</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test</b>
 	 * <ul>
 	 * <li><b>Form:</b>TestForm&lt;User&gt;patchUpdate</li>
 	 * <li><b>Model:</b> TestObject&lt;User&gt;</li>
@@ -289,10 +359,10 @@ public class TestApi {
 	 */
 	public Future<?> patchUpdate(TestForm<User> testForm, Callback<TestObject<User>> callable) {
 		Map<String, Object> _uriVariables = new HashMap<>();
-		String _url = ApiUtils.expandUriComponent("test/", _uriVariables);
+		String _url = ApiUtils.expandUriComponent("test", _uriVariables);
 
 		List<Entry<String, Object>> _form = testForm.encode("", new ArrayList<Entry<String, Object>>());
-		return httpClientAdapter.requestAsync("PATCH", _url, _form, _3Type, false, callable);
+		return httpClientAdapter.requestAsync("PATCH", _url, _form, _4Type, false, callable);
 	}
 
 	/**
@@ -339,7 +409,7 @@ public class TestApi {
 		_uriVariables.put("id", id);
 		String _url = ApiUtils.expandUriComponent("test/{id}", _uriVariables);
 
-		return httpClientAdapter.request("DELETE", _url, null, _4Type, false);
+		return httpClientAdapter.request("DELETE", _url, null, _5Type, false);
 	}
 
 	/**
@@ -360,7 +430,7 @@ public class TestApi {
 		_uriVariables.put("id", id);
 		String _url = ApiUtils.expandUriComponent("test/{id}", _uriVariables);
 
-		return httpClientAdapter.requestAsync("DELETE", _url, null, _4Type, false, callable);
+		return httpClientAdapter.requestAsync("DELETE", _url, null, _5Type, false, callable);
 	}
 
 	/**
@@ -407,7 +477,7 @@ public class TestApi {
 		_uriVariables.put("id", id);
 		String _url = ApiUtils.expandUriComponent("tests/{id}", _uriVariables);
 
-		return httpClientAdapter.request("DELETE", _url, null, _5Type, false);
+		return httpClientAdapter.request("DELETE", _url, null, _6Type, false);
 	}
 
 	/**
@@ -428,7 +498,7 @@ public class TestApi {
 		_uriVariables.put("id", id);
 		String _url = ApiUtils.expandUriComponent("tests/{id}", _uriVariables);
 
-		return httpClientAdapter.requestAsync("DELETE", _url, null, _5Type, false, callable);
+		return httpClientAdapter.requestAsync("DELETE", _url, null, _6Type, false, callable);
 	}
 
 	/**
@@ -480,7 +550,7 @@ public class TestApi {
 		_uriVariables.put("name", name);
 		String _url = ApiUtils.expandUriComponent("search/{id}/{name}", _uriVariables);
 
-		return httpClientAdapter.request("GET", _url, null, _6Type, false);
+		return httpClientAdapter.request("GET", _url, null, _7Type, false);
 	}
 
 	/**
@@ -504,7 +574,7 @@ public class TestApi {
 		_uriVariables.put("name", name);
 		String _url = ApiUtils.expandUriComponent("search/{id}/{name}", _uriVariables);
 
-		return httpClientAdapter.requestAsync("GET", _url, null, _6Type, false, callable);
+		return httpClientAdapter.requestAsync("GET", _url, null, _7Type, false, callable);
 	}
 
 	/**
@@ -551,7 +621,7 @@ public class TestApi {
 		_uriVariables.put("name", name);
 		String _url = ApiUtils.expandUriComponent("testString/{name}", _uriVariables);
 
-		return httpClientAdapter.request("GET", _url, null, _7Type, false);
+		return httpClientAdapter.request("GET", _url, null, _8Type, false);
 	}
 
 	/**
@@ -572,7 +642,7 @@ public class TestApi {
 		_uriVariables.put("name", name);
 		String _url = ApiUtils.expandUriComponent("testString/{name}", _uriVariables);
 
-		return httpClientAdapter.requestAsync("GET", _url, null, _7Type, false, callable);
+		return httpClientAdapter.requestAsync("GET", _url, null, _8Type, false, callable);
 	}
 
 	/**
@@ -624,7 +694,7 @@ public class TestApi {
 		_uriVariables.put("age", age);
 		String _url = ApiUtils.expandUriComponent("testString1/{name}/{age}", _uriVariables);
 
-		return httpClientAdapter.request("GET", _url, null, _8Type, false);
+		return httpClientAdapter.request("GET", _url, null, _9Type, false);
 	}
 
 	/**
@@ -648,21 +718,23 @@ public class TestApi {
 		_uriVariables.put("age", age);
 		String _url = ApiUtils.expandUriComponent("testString1/{name}/{age}", _uriVariables);
 
-		return httpClientAdapter.requestAsync("GET", _url, null, _8Type, false, callable);
+		return httpClientAdapter.requestAsync("GET", _url, null, _9Type, false, callable);
 	}
 
 	private static final ApiType _0Type = ApiUtils.type(Result.class,
-			ApiUtils.type(TestObject.class, ApiUtils.type(User.class)));
+			ApiUtils.type(TestObjectList.class, ApiUtils.type(User.class)));
 	private static final ApiType _1Type = ApiUtils.type(Result.class,
 			ApiUtils.type(TestObject.class, ApiUtils.type(User.class)));
 	private static final ApiType _2Type = ApiUtils.type(Result.class,
 			ApiUtils.type(TestObject.class, ApiUtils.type(User.class)));
 	private static final ApiType _3Type = ApiUtils.type(Result.class,
 			ApiUtils.type(TestObject.class, ApiUtils.type(User.class)));
-	private static final ApiType _4Type = ApiUtils.type(Result.class, ApiUtils.type(Boolean.class));
-	private static final ApiType _5Type = ApiUtils.type(Result.class, ApiUtils.type(Integer.class));
-	private static final ApiType _6Type = ApiUtils.type(Result.class,
+	private static final ApiType _4Type = ApiUtils.type(Result.class,
 			ApiUtils.type(TestObject.class, ApiUtils.type(User.class)));
-	private static final ApiType _7Type = ApiUtils.type(Result.class, ApiUtils.type(String.class));
+	private static final ApiType _5Type = ApiUtils.type(Result.class, ApiUtils.type(Boolean.class));
+	private static final ApiType _6Type = ApiUtils.type(Result.class, ApiUtils.type(Integer.class));
+	private static final ApiType _7Type = ApiUtils.type(Result.class,
+			ApiUtils.type(TestObject.class, ApiUtils.type(User.class)));
 	private static final ApiType _8Type = ApiUtils.type(Result.class, ApiUtils.type(String.class));
+	private static final ApiType _9Type = ApiUtils.type(Result.class, ApiUtils.type(String.class));
 }

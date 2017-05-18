@@ -26,7 +26,7 @@ public class BaseApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>base/</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>base</b>
 	 * <ul>
 	 * <li><b>Form:</b>TestForm&lt;User&gt;create</li>
 	 * <li><b>Form:</b>Objectcreate</li>
@@ -55,7 +55,7 @@ public class BaseApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>base/</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>base</b>
 	 * <ul>
 	 * <li><b>Form:</b>TestForm&lt;User&gt;create</li>
 	 * <li><b>Form:</b>Objectcreate</li>
@@ -70,7 +70,7 @@ public class BaseApi {
 	 */
 	public Result<java.util.ArrayList<TestObject<User>>> create(TestForm<User> testForm) {
 		Map<String, Object> _uriVariables = new HashMap<>();
-		String _url = ApiUtils.expandUriComponent("base/", _uriVariables);
+		String _url = ApiUtils.expandUriComponent("base", _uriVariables);
 
 		List<Entry<String, Object>> _form = testForm.encode("", new ArrayList<Entry<String, Object>>());
 		return httpClientAdapter.request("POST", _url, _form, _0Type, true);
@@ -79,7 +79,7 @@ public class BaseApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>base/</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>base</b>
 	 * <ul>
 	 * <li><b>Form:</b>TestForm&lt;User&gt;create</li>
 	 * <li><b>Form:</b>Objectcreate</li>
@@ -94,7 +94,7 @@ public class BaseApi {
 	 */
 	public Future<?> create(TestForm<User> testForm, Callback<java.util.ArrayList<TestObject<User>>> callable) {
 		Map<String, Object> _uriVariables = new HashMap<>();
-		String _url = ApiUtils.expandUriComponent("base/", _uriVariables);
+		String _url = ApiUtils.expandUriComponent("base", _uriVariables);
 
 		List<Entry<String, Object>> _form = testForm.encode("", new ArrayList<Entry<String, Object>>());
 		return httpClientAdapter.requestAsync("POST", _url, _form, _0Type, true, callable);
@@ -251,8 +251,10 @@ public class BaseApi {
 		return httpClientAdapter.requestAsync("GET", _url, _form, _2Type, true, callable);
 	}
 
-	private static final ApiType _0Type = ApiUtils.type(Result.class,
-			ApiUtils.type(TestObject.class, ApiUtils.type(User.class)));
+	private static final ApiType _0Type = ApiUtils.type(
+			Result.class,
+			ApiUtils.type(java.util.ArrayList.class, TestObject.class,
+					ApiUtils.type(java.util.ArrayList.class, User.class)));
 	private static final ApiType _1Type = ApiUtils.type(Result.class, ApiUtils.type(Void.class));
 	private static final ApiType _2Type = ApiUtils.type(Result.class, ApiUtils.type(User.class));
 }

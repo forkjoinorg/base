@@ -1,5 +1,6 @@
 'use strict';
 
+import TestObjectList from './../model/TestObjectList'
 import TestForm from './../form/TestForm'
 import TestObject from './../model/TestObject'
 import User from './../model/User'
@@ -14,9 +15,31 @@ class TestApi extends AbstractApi {
 
 
    /**
+    * 
+    *
+    * <div class='http-info'>http 说明：<b>Api Url:</b> <b>testObjectList</b>
+    * <ul>
+    * <li><b>Form:</b>TestFormtestObjectList</li>
+    * <li><b>Model:</b> TestObjectList</li>
+    * </ul>
+    * </div>
+    * @see TestObjectList
+    * @see TestForm
+
+    */
+    testObjectList(testForm:TestForm):Promise<TestObjectList> {
+        var _path = null;
+        return super._request(
+                    "POST", "testObjectList", _path, testForm
+                );
+    }
+
+
+
+   /**
     * 添加
     *
-    * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test/</b>
+    * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test</b>
     * <ul>
     * <li><b>Form:</b>TestFormcreate</li>
     * <li><b>Model:</b> TestObject</li>
@@ -29,7 +52,7 @@ class TestApi extends AbstractApi {
     create(testForm:TestForm):Promise<TestObject> {
         var _path = null;
         return super._request(
-                    "POST", "test/", _path, testForm
+                    "POST", "test", _path, testForm
                 );
     }
 
@@ -61,7 +84,7 @@ class TestApi extends AbstractApi {
    /**
     * 
     *
-    * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test/</b>
+    * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test</b>
     * <ul>
     * <li><b>Form:</b>TestFormupdate</li>
     * <li><b>Model:</b> TestObject</li>
@@ -74,7 +97,7 @@ class TestApi extends AbstractApi {
     update(testForm:TestForm):Promise<TestObject> {
         var _path = null;
         return super._request(
-                    "PUT", "test/", _path, testForm
+                    "PUT", "test", _path, testForm
                 );
     }
 
@@ -83,7 +106,7 @@ class TestApi extends AbstractApi {
    /**
     * 
     *
-    * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test/</b>
+    * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test</b>
     * <ul>
     * <li><b>Form:</b>TestFormpatchUpdate</li>
     * <li><b>Model:</b> TestObject</li>
@@ -96,7 +119,7 @@ class TestApi extends AbstractApi {
     patchUpdate(testForm:TestForm):Promise<TestObject> {
         var _path = null;
         return super._request(
-                    "PATCH", "test/", _path, testForm
+                    "PATCH", "test", _path, testForm
                 );
     }
 

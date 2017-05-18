@@ -1,6 +1,7 @@
 package org.forkjoin.apikit.wrapper;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.forkjoin.apikit.AnalyseException;
 import org.forkjoin.apikit.Context;
 import org.forkjoin.apikit.Utils;
 import org.forkjoin.apikit.info.AnnotationInfo;
@@ -144,49 +145,6 @@ public class JavaMessageWrapper extends JavaWrapper<MessageInfo> {
         return sb.toString();
     }
 
-    public String getDecodeCode(String start) {
-        StringBuilder sb = new StringBuilder();
-        for (PropertyInfo attr : moduleInfo.getProperties()) {
-            sb.append('\n');
-            TypeInfo typeInfo = attr.getTypeInfo();
-            String name = attr.getName();
-            if (typeInfo.isOtherType()) {
-//                List<TypeInfo> typeArguments = typeInfo.getTypeArguments();
-                if (typeInfo.isArray()) {
-                    if (typeInfo.isOtherType()) {
-                        sb.append(start).append(" if (").append(name).append(" != null && (!").append(name).append(".isEmpty())) {\n");
-                        sb.append(start).append("for (int i = 0; i < ").append(name).append(".size(); i++) {\n");
-                        sb.append(start).append("    ").append(name).append(".get(i).encode(parent + \"")
-                                .append(name).append("\" + \"[\" + i + \"].\", $list);\n");
-                        sb.append(start).append("    }\n");
-                        sb.append(start).append("}\n");
-                    } else {
-                        sb.append(start).append(" if (").append(name).append(" != null && (!").append(name).append(".isEmpty())) {\n");
-                        sb.append(start).append("for (int i = 0; i < ").append(name).append(".size(); i++) {\n");
-                        sb.append("$list.add(new SimpleImmutableEntry<String, Object>(parent + \"")
-                                .append(name).append("\", ")
-                                .append(name)
-                                .append(".get(i)));\n");
-                        sb.append(start).append("    }\n");
-                        sb.append(start).append("}\n");
-                    }
-                } else {
-                    sb.append(start).append(" if (").append(name).append(" != null) {\n");
-                    sb.append(start).append("    ").append(name).append(".encode(parent + \"").append(name).append(".\", $list);");
-                    sb.append(start).append("}\n");
-                }
-            } else {
-                if (typeInfo.getType().isHasNull()) {
-                    sb.append(start).append("if (").append(name).append(" != null) {\n");
-                    getEncodeCodeItemBase(start, sb, name);
-                    sb.append(start).append("}\n");
-                } else {
-                    getEncodeCodeItemBase(start, sb, name);
-                }
-            }
-        }
-        return sb.toString();
-    }
 
     public String getEncodeCode(String start) {
         StringBuilder sb = new StringBuilder();
@@ -194,6 +152,14 @@ public class JavaMessageWrapper extends JavaWrapper<MessageInfo> {
             sb.append('\n');
             TypeInfo typeInfo = attr.getTypeInfo();
             String name = attr.getName();
+            if (typeInfo.isList()) {
+                if (CollectionUtils.isEmpty(typeInfo.getTypeArguments())) {
+                    throw new AnalyseException("List 类型参数不明确:" + attr.getTypeInfo());
+                }
+                TypeInfo childTypeInfo = typeInfo.getTypeArguments().get(0);
+                typeInfo = childTypeInfo.clone();
+                typeInfo.setArray(true);
+            }
             if (typeInfo.isOtherType()) {
 //                List<TypeInfo> typeArguments = typeInfo.getTypeArguments();
                 if (typeInfo.isArray()) {

@@ -55,6 +55,9 @@ class TestForm {
 
     users:User[];
 
+	/**
+	 * 表单模式不支持泛型
+	 */
     generics:Object[];
 
     genericObjs:TestObject[];
@@ -66,6 +69,33 @@ class TestForm {
     generic:Object;
     constructor() {
 
+    }
+
+    formObject({id,booleanValue,intValue,longValue,floatValue,doubleValue,stringValue,bytesValue,regDate,booleanValueArray,intValueArray,longValueArray,floatValueArray,doubleValueArray,stringValueArray,regDateArray,user,users,generics,genericObjs,genericUsers,genericObj,generic}):TestForm{
+        this.id = id;
+        this.booleanValue = booleanValue;
+        this.intValue = intValue;
+        this.longValue = longValue;
+        this.floatValue = floatValue;
+        this.doubleValue = doubleValue;
+        this.stringValue = stringValue;
+        this.bytesValue = bytesValue;
+        this.regDate = regDate;
+        this.booleanValueArray = booleanValueArray;
+        this.intValueArray = intValueArray;
+        this.longValueArray = longValueArray;
+        this.floatValueArray = floatValueArray;
+        this.doubleValueArray = doubleValueArray;
+        this.stringValueArray = stringValueArray;
+        this.regDateArray = regDateArray;
+        this.user = user;
+        this.users = users;
+        this.generics = generics;
+        this.genericObjs = genericObjs;
+        this.genericUsers = genericUsers;
+        this.genericObj = genericObj;
+        this.generic = generic;
+        return this;
     }
 
     static of({id,booleanValue,intValue,longValue,floatValue,doubleValue,stringValue,bytesValue,regDate,booleanValueArray,intValueArray,longValueArray,floatValueArray,doubleValueArray,stringValueArray,regDateArray,user,users,generics,genericObjs,genericUsers,genericObj,generic}):TestForm{

@@ -149,6 +149,10 @@ public class JsonUtils {
     }
 
     public static ObjectMapper create(boolean isNoDefault) {
+        return create(isNoDefault, FORMAT_PATTERN);
+    }
+
+    public static ObjectMapper create(boolean isNoDefault,String dateFormat) {
         ObjectMapper mapper = new ObjectMapper();
 
         mapper.registerModule(new GuavaModule());
@@ -161,10 +165,11 @@ public class JsonUtils {
 
         mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat(FORMAT_PATTERN);
-        dateFormat.setLenient(false);
-        mapper.setDateFormat(dateFormat);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
+        simpleDateFormat.setLenient(false);
+        mapper.setDateFormat(simpleDateFormat);
         return mapper;
     }
+
 
 }

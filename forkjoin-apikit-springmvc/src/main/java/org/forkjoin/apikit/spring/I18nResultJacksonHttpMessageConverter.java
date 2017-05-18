@@ -32,14 +32,9 @@ public class I18nResultJacksonHttpMessageConverter extends MappingJackson2HttpMe
             ResultUtils.handleI18n((I18nResult) o, messageAccessor);
             // {"status":1,"msg":"手机号已经被使用!","data":null}
         }
-        JsonEncoding encoding = getJsonEncoding(outputMessage.getHeaders()
-                .getContentType());
+        JsonEncoding encoding = getJsonEncoding(outputMessage.getHeaders().getContentType());
         HttpHeaders headers = outputMessage.getHeaders();
-        headers.set(HttpHeaders.CONTENT_TYPE, headers.getContentType()
-                .toString() + ";charset=" + encoding.getJavaName());
-//        headers.set("Pragma", "No-cache");
-//        headers.set("Cache-Control", "no-cache");
-//        headers.set("Expires", "0");
+        headers.set(HttpHeaders.CONTENT_TYPE, headers.getContentType().toString() + ";charset=" + encoding.getJavaName());
         super.writeInternal(o, outputMessage);
         if (log.isDebugEnabled()) {
             String serialize = JsonUtils.serialize(o);

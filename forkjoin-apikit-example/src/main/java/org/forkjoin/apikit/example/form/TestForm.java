@@ -51,6 +51,9 @@ public class TestForm<T> {
     private User user;
     private User[] users;
 
+    /**
+     * 表单模式不支持泛型
+     */
     private T[] generics;
 
     private TestObject<T>[] genericObjs;

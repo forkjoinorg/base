@@ -1,11 +1,9 @@
 package org.forkjoin.apikit.spring;
 
 
-import org.apache.commons.lang3.StringUtils;
 import org.forkjoin.apikit.spring.utils.DateTimeUtils;
 import org.springframework.core.convert.converter.Converter;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -13,28 +11,24 @@ import java.util.Date;
 /**
  *
  */
-public class DateConverter implements Converter<String, Date> {
+public class DateToStringConverter implements Converter<Date, String> {
     private String format;
 
-    public DateConverter() {
+    public DateToStringConverter() {
         this(DateTimeUtils.FORMAT);
     }
 
-    public DateConverter(String format) {
+    public DateToStringConverter(String format) {
         this.format = format;
     }
 
     @Override
-    public Date convert(String source) {
-        if (StringUtils.isBlank(source)) {
+    public String convert(Date source) {
+        if (source == null) {
             return null;
         }
         SimpleDateFormat dateFormat = new SimpleDateFormat(format);
         dateFormat.setLenient(false);
-        try {
-            return dateFormat.parse(source);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        return dateFormat.format(source);
     }
 }

@@ -61,6 +61,9 @@ public class TestForm<T extends ApiMessage> implements ApiMessage {
 
 	private java.util.ArrayList<User> users;
 
+	/**
+	 * 表单模式不支持泛型
+	 */
 	private java.util.ArrayList<T> generics;
 
 	private java.util.ArrayList<TestObject<T>> genericObjs;
@@ -261,10 +264,16 @@ public class TestForm<T extends ApiMessage> implements ApiMessage {
 		this.users = users;
 	}
 
+	/**
+	 * 表单模式不支持泛型
+	 */
 	public java.util.ArrayList<T> getGenerics() {
 		return generics;
 	}
 
+	/**
+	 * 表单模式不支持泛型
+	 */
 	public void setGenerics(java.util.ArrayList<T> generics) {
 		this.generics = generics;
 	}
@@ -357,6 +366,9 @@ public class TestForm<T extends ApiMessage> implements ApiMessage {
 		this.users.add(users);
 	}
 
+	/**
+	 * 表单模式不支持泛型
+	 */
 	public void addGenerics(T generics) {
 		if (this.generics == null) {
 			this.generics = new java.util.ArrayList<T>();

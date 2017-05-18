@@ -16,7 +16,7 @@ class BaseApi extends AbstractApi {
    /**
     * 
     *
-    * <div class='http-info'>http 说明：<b>Api Url:</b> <b>base/</b>
+    * <div class='http-info'>http 说明：<b>Api Url:</b> <b>base</b>
     * <ul>
     * <li><b>Form:</b>TestFormcreate</li>
     * <li><b>Model:</b> TestObject[]</li>
@@ -30,7 +30,7 @@ class BaseApi extends AbstractApi {
     create(testForm:TestForm):Promise<TestObject[]> {
         var _path = null;
         return super._request(
-                    "POST", "base/", _path, testForm
+                    "POST", "base", _path, testForm
                 );
     }
 
