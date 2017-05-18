@@ -1,22 +1,19 @@
 package org.forkjoin.apikit.example.client.api;
 
-import org.forkjoin.apikit.example.client.model.TestObjectList;
-import org.springframework.beans.BeanUtils;
-import org.springframework.web.bind.annotation.*;
-import org.forkjoin.apikit.core.*;
-import org.forkjoin.apikit.example.client.form.TestForm;
-import org.forkjoin.apikit.example.client.model.TestObject;
-import org.forkjoin.apikit.example.client.model.User;
-import java.util.List;
-
 import java.util.*;
-import java.util.concurrent.Future;
 import java.util.Map.Entry;
+import java.util.concurrent.Future;
 
 import org.forkjoin.apikit.client.*;
+import org.forkjoin.apikit.core.Result;
+
+import org.forkjoin.apikit.example.client.form.TestForm;
+import org.forkjoin.apikit.example.client.model.TestObject;
+import org.forkjoin.apikit.example.client.model.TestObjectList;
+import org.forkjoin.apikit.example.client.model.User;
 
 /**
- * @author   zuoge85 on 15/6/11.
+ * @author  zuoge85 on 15/6/11.
  */
 public class TestApi {
 	private HttpClientAdapter httpClientAdapter;

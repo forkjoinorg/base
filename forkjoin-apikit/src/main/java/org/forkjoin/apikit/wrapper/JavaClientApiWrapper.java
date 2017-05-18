@@ -1,15 +1,11 @@
 package org.forkjoin.apikit.wrapper;
 
 import org.forkjoin.apikit.Context;
-import org.forkjoin.apikit.info.AnnotationInfo;
-import org.forkjoin.apikit.info.ApiInfo;
-import org.forkjoin.apikit.info.ApiMethodInfo;
-import org.forkjoin.apikit.info.ApiMethodParamInfo;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.forkjoin.apikit.info.*;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 
 //import org.forkjoin.spring.annotation.Account;
 //import org.forkjoin.spring.annotation.AccountParam;
@@ -20,6 +16,8 @@ import java.util.List;
 public class JavaClientApiWrapper extends JavaApiWrapper {
 
     private boolean isAnnotations = false;
+    private TreeSet<String> importSet = new TreeSet<>();
+
     public JavaClientApiWrapper(Context context, ApiInfo moduleInfo, String rootPackage) {
         super(context, moduleInfo, rootPackage);
     }
@@ -31,16 +29,49 @@ public class JavaClientApiWrapper extends JavaApiWrapper {
 
     @Override
     public void init() {
-        addExclude("org.forkjoin.apikit.spring.Result");
-        addExclude("org.springframework.web.bind.annotation.PathVariable");
-        addExclude("javax.validation");
-        addExclude("org.hibernate.validator");
-        addExclude("org.forkjoin.apikit.core.Account");
-        addExclude("org.forkjoin.apikit.core.ActionType");
-        addExclude("org.forkjoin.apikit.core.Api");
-        addExclude("org.forkjoin.apikit.core.ApiMethod");
-        super.init();
+//        addExclude("org.forkjoin.apikit.spring.Result");
+//        addExclude("org.springframework.web.bind.annotation.PathVariable");
+//        addExclude("javax.validation");
+//        addExclude("org.hibernate.validator");
+//        addExclude("org.forkjoin.apikit.core.Account");
+//        addExclude("org.forkjoin.apikit.core.ActionType");
+//        addExclude("org.forkjoin.apikit.core.Api");
+//        addExclude("org.forkjoin.apikit.core.ApiMethod");
+        initImport();
     }
+
+    @Override
+    public void initImport() {
+        ArrayList<ApiMethodInfo> methodInfos = moduleInfo.getMethodInfos();
+        for (int i = 0; i < methodInfos.size(); i++) {
+            ApiMethodInfo apiMethodInfo = methodInfos.get(i);
+            addImport(apiMethodInfo.getResultType());
+
+            ArrayList<ApiMethodParamInfo> params = apiMethodInfo.getParams();
+            for (int j = 0; j < params.size(); j++) {
+                ApiMethodParamInfo apiMethodParamInfo = params.get(j);
+                if (apiMethodParamInfo.isFormParam() || apiMethodParamInfo.isPathVariable()) {
+                    addImport(apiMethodParamInfo.getTypeInfo());
+                }
+            }
+        }
+        for (String classFullName : importSet) {
+            addImport(classFullName);
+        }
+    }
+
+    private void addImport(TypeInfo type) {
+        if (type.isInside()) {
+            String classFullName = getFullName(type);
+            importSet.add(classFullName);
+            List<TypeInfo> typeArguments = type.getTypeArguments();
+            for (int i = 0; i < typeArguments.size(); i++) {
+                TypeInfo typeInfo = typeArguments.get(i);
+                addImport(typeInfo);
+            }
+        }
+    }
+
 
     public String asyncParams(ApiMethodInfo method) {
         String params = params(method);
@@ -65,7 +96,7 @@ public class JavaClientApiWrapper extends JavaApiWrapper {
         ArrayList<ApiMethodParamInfo> params = method.getParams();
         for (int i = 0; i < params.size(); i++) {
             ApiMethodParamInfo attributeInfo = params.get(i);
-            if(attributeInfo.isFormParam() || attributeInfo.isPathVariable()){
+            if (attributeInfo.isFormParam() || attributeInfo.isPathVariable()) {
                 if (sb.length() > 0) {
                     sb.append(", ");
                 }
@@ -84,7 +115,7 @@ public class JavaClientApiWrapper extends JavaApiWrapper {
         ArrayList<ApiMethodParamInfo> params = method.getParams();
         for (int i = 0; i < params.size(); i++) {
             ApiMethodParamInfo attributeInfo = params.get(i);
-            if(attributeInfo.isFormParam() || attributeInfo.isPathVariable()){
+            if (attributeInfo.isFormParam() || attributeInfo.isPathVariable()) {
                 if (sb.length() > 0) {
                     sb.append(", ");
                 }

@@ -2,6 +2,7 @@ package org.forkjoin.apikit.example.client;
 
 import org.forkjoin.apikit.client.HttpClientAdapter;
 
+import org.forkjoin.apikit.example.client.api.AccountApi;
 import org.forkjoin.apikit.example.client.api.BaseApi;
 import org.forkjoin.apikit.example.client.api.TestApi;
 
@@ -26,17 +27,22 @@ public class ApiManager {
 	private HttpClientAdapter httpClientAdapter;
 
 	/**
+	 * @author  zuoge85 on 15/6/11.
+	 */
+	public final AccountApi accountApi;
+	/**
 	 * @author   zuoge85 on 15/6/11.
 	 */
 	public final BaseApi baseApi;
 	/**
-	 * @author   zuoge85 on 15/6/11.
+	 * @author  zuoge85 on 15/6/11.
 	 */
 	public final TestApi testApi;
 
 	public ApiManager(HttpClientAdapter httpClientAdapter) {
 		this.httpClientAdapter = httpClientAdapter;
 
+		accountApi = new AccountApi(httpClientAdapter);
 		baseApi = new BaseApi(httpClientAdapter);
 		testApi = new TestApi(httpClientAdapter);
 	}

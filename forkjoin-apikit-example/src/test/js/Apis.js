@@ -1,10 +1,12 @@
 'use strict';
 
+import AccountApi  from './api/AccountApi';
 import BaseApi  from './api/BaseApi';
 import TestApi  from './api/TestApi';
 import ApiUtils from "./ApiUtils";
 
 class Apis {
+    accountApi:AccountApi;
     baseApi:BaseApi;
     testApi:TestApi;
     _xhrArray:XMLHttpRequest[];
@@ -22,6 +24,8 @@ class Apis {
     constructor() {
         this._xhrArray = [];
         let _xhrHandler = this._xhrHandler.bind(this);
+        this.accountApi = new AccountApi();
+        this.accountApi._initNet(_xhrHandler);
         this.baseApi = new BaseApi();
         this.baseApi._initNet(_xhrHandler);
         this.testApi = new TestApi();

@@ -1,17 +1,15 @@
 package org.forkjoin.apikit.example.client.api;
 
-import org.springframework.web.bind.annotation.*;
-import java.lang.Object;
-import org.forkjoin.apikit.core.*;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.concurrent.Future;
+
+import org.forkjoin.apikit.client.*;
+import org.forkjoin.apikit.core.Result;
+
 import org.forkjoin.apikit.example.client.form.TestForm;
 import org.forkjoin.apikit.example.client.model.TestObject;
 import org.forkjoin.apikit.example.client.model.User;
-
-import java.util.*;
-import java.util.concurrent.Future;
-import java.util.Map.Entry;
-
-import org.forkjoin.apikit.client.*;
 
 /**
  * @author   zuoge85 on 15/6/11.

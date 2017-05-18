@@ -5,13 +5,15 @@
 <!--#set(ApiMethodParamInfo param)-->
 package $!{utils.getPack()};
 
-$!{utils.imports}
-
 import java.util.*;
-import java.util.concurrent.Future;
 import java.util.Map.Entry;
+import java.util.concurrent.Future;
 
 import org.forkjoin.apikit.client.*;
+import org.forkjoin.apikit.core.Result;
+
+$!{utils.imports}
+
 
 /**
 $!{utils.comment(" * ")}
