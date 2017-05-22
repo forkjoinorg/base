@@ -10,6 +10,11 @@
 	<packaging>jar</packaging>
 	<dependencies>
 		<dependency>
+			<groupId>org.forkjoin</groupId>
+			<artifactId>forkjoin-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
             <groupId>com.github.httl</groupId>
             <artifactId>httl</artifactId>
         </dependency>

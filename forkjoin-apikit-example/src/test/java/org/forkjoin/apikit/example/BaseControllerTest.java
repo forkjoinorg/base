@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @SpringBootTest(classes = ExampleApplication.class)
 //@ActiveProfiles("remote")
 @ActiveProfiles("mock")
-public class BaseControllerTest {
+public abstract class BaseControllerTest {
 
     @Autowired
     protected ApiManager apiManager;

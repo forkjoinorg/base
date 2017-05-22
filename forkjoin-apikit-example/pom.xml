@@ -11,7 +11,6 @@
     <properties>
         <mainClass>org.forkjoin.apikit.example.ExampleApplication</mainClass>
     </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.forkjoin</groupId>
