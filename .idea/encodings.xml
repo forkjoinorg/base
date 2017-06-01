@@ -3,12 +3,12 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/forkjoin-apikit" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/forkjoin-apikit-client" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/forkjoin-apikit-core" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/forkjoin-apikit-example" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/forkjoin-apikit-springmvc" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/forkjoin-core" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/forkjoin-jdbckit" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/forkjoin-jdbckit-core" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

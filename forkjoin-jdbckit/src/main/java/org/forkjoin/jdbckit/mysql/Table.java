@@ -137,7 +137,7 @@ public class Table {
                 oneKey = true;
                 keyColumn = keyColumns.get(0);
             } else if (keyColumns.size() > 1) {
-                // throw new IllegalArgumentException("暂时不支持多主键:"+name);
+                // throw new IllegalArgumentException("暂时不支持多主键:"+value);
                 oneKey = false;
                 keyColumn = null;
             } else {

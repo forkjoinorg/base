@@ -39,6 +39,17 @@ public class UniqueIndex {
         }
         return sb.toString();
     }
+
+    public String toFieldsConstantNameArgs() {
+        StringBuilder sb = new StringBuilder();
+        for (Field field : fields) {
+            if(sb.length() > 0){
+                sb.append(" ,");
+            }
+            sb.append(StringEscapeUtils.escapeJava(NameUtils.toConstantName(field.fieldName)));
+        }
+        return sb.toString();
+    }
     public String getIndexName() {
         return indexName;
     }

@@ -21,6 +21,23 @@ public class NameUtils {
 		}
 		return sb.toString();
 	}
+
+	/**
+	 * 吧驼峰和下划线间隔的 名字转换成 下划线间隔的常量
+	 */
+	public static final String toConstantName(String str){
+		StringBuilder sb=new StringBuilder();
+		int len = str.codePointCount(0, str.length());
+		for (int i = 0; i < len; i++) {
+			int code = str.codePointAt(i);
+			if(Character.isUpperCase(code)){
+				sb.append("_");
+			}
+			sb.appendCodePoint(Character.toUpperCase(code));
+		}
+		return sb.toString();
+	}
+
 	public static final String toFieldName(String str){
 		StringBuilder sb=new StringBuilder();
 		boolean isUp=false;

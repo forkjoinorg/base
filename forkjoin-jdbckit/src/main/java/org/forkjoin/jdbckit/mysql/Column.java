@@ -33,7 +33,7 @@ public class Column {
     }
 
     public String getConstantName() {
-        return name.toUpperCase();
+        return NameUtils.toConstantName(name);
     }
 
     public String getFieldName() {
@@ -360,7 +360,7 @@ public class Column {
 
     @Override
     public String toString() {
-        return "Column [name=" + name + ", remark=" + remark + ", typeName="
+        return "Column [value=" + name + ", remark=" + remark + ", typeName="
                 + typeName + ", type=" + type + ", autoIncrement="
                 + autoIncrement + ", nullable=" + nullable + ", size=" + size
                 + ", isUnique=" + isUnique + ", mapClassName=" + mapClassName
