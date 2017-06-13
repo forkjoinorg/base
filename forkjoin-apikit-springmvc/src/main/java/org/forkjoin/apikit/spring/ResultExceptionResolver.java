@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolv
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @author zuoge85 on 15/4/18.
@@ -42,7 +43,10 @@ public class ResultExceptionResolver extends DefaultHandlerExceptionResolver
         return noJsonResolveException(request, response, handler, ex);
     }
 
-    private ModelAndView handlerJson(Exception ex) {
+    private ModelAndView handlerJson(Throwable ex) {
+        if (ex instanceof ExecutionException) {
+            ex = ex.getCause();
+        }
         if (ex instanceof BindException) {
             BindingResult bindingResult = ((BindException) ex).getBindingResult();
             Result result = ResultUtils.transform(
@@ -54,7 +58,7 @@ public class ResultExceptionResolver extends DefaultHandlerExceptionResolver
             modelAndView.addObject(ResultUtils.RESULT_ATTRIBUTE_NAME, result);
             modelAndView.addObject("bindingResult", bindingResult);
             return modelAndView;
-        }else if (ex instanceof I18nValidationException) {
+        } else if (ex instanceof I18nValidationException) {
             I18nResult i18nResult = ((I18nValidationException) ex).getI18nResult();
             ResultUtils.handleI18n(i18nResult, messageAccessor);
 
@@ -78,7 +82,7 @@ public class ResultExceptionResolver extends DefaultHandlerExceptionResolver
         } else {
             String message = messageAccessor.getMessage("server.error",
                     new Object[]{ex.getMessage()});
-            log.error(message,ex);
+            log.error(message, ex);
 
             ModelAndView modelAndView = new ModelAndView();
             modelAndView.addObject(

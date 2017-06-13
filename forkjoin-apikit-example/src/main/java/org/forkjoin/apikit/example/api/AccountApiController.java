@@ -3,6 +3,7 @@ package org.forkjoin.apikit.example.api;
 import org.forkjoin.apikit.core.Account;
 import org.forkjoin.apikit.core.Api;
 import org.forkjoin.apikit.core.Result;
+import org.forkjoin.apikit.example.ExampleAccount;
 import org.forkjoin.apikit.example.model.User;
 import org.forkjoin.apikit.example.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class AccountApiController {
      * 测试需要登录
      */
     @RequestMapping(value = "account/testLogin", method = {RequestMethod.POST})
-    public Result<Void> testLogin() throws Exception {
+    public Result<Void> testLogin(ExampleAccount account) throws Exception {
         return Result.createSuccess();
     }
 

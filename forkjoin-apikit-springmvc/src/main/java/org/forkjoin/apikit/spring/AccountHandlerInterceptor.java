@@ -16,14 +16,13 @@ import javax.servlet.http.HttpServletResponse;
 public abstract class AccountHandlerInterceptor<T> extends HandlerInterceptorAdapter {
     public static final String ACCOUNT_REQUEST_ATTRIBUTE = AccountParamArgumentResolver.class.getName() + "ACCOUNT_REQUEST_ATTRIBUTE";
     private static final Logger log = LoggerFactory.getLogger(AccountHandlerInterceptor.class);
-    public static final String ACCOUNT_TOKEN_HEADER_NAME = "accountToken";
+    public static final String ACCOUNT_TOKEN_HEADER_NAME = "authorization";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (log.isDebugEnabled()) {
             log.debug("request:{}", RequestUtils.dump(request));
         }
-
 
         if (handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
@@ -45,9 +44,9 @@ public abstract class AccountHandlerInterceptor<T> extends HandlerInterceptorAda
         return super.preHandle(request, response, handler);
     }
 
-    protected boolean check(HandlerMethod handlerMethod, T t) {
+    protected boolean check(HandlerMethod handlerMethod, T t) throws Exception {
         return true;
     }
 
-    protected abstract T getAccountObject(HttpServletRequest request);
+    protected abstract T getAccountObject(HttpServletRequest request) throws Exception;
 }

@@ -36,9 +36,7 @@ public class Order {
 			@Override
 			public void toSql(StringBuilder sb) {
 				sb.append(" ORDER BY ");
-				sb.append('`');
 				sb.append(name);
-				sb.append('`');
 				if (isDesc) {
 					sb.append(" DESC");
 				}else{
