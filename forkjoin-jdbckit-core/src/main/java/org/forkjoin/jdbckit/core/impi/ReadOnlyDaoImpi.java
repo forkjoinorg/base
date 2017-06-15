@@ -1,6 +1,7 @@
 package org.forkjoin.jdbckit.core.impi;
 
 import com.google.common.collect.Lists;
+import org.forkjoin.apikit.core.PageResult;
 import org.forkjoin.jdbckit.core.*;
 import org.forkjoin.jdbckit.core.select.Select;
 import org.slf4j.Logger;
@@ -191,7 +192,7 @@ public class ReadOnlyDaoImpi<T extends EntityObject, K extends KeyObject>
                                     while (rs.next()) {
                                         list.add(rowMapper.mapRow(rs, rowNum++));
                                     }
-                                    pageResult.setValue(list);
+                                    pageResult.setData(list);
                                     return pageResult;
                                 } finally {
                                     JdbcUtils.closeResultSet(rs);

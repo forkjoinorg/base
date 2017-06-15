@@ -372,84 +372,84 @@ public class TestObject<T extends ApiMessage> implements ApiMessage {
 	}
 
 	@Override
-	public List<Entry<String, Object>> encode(String parent, List<Entry<String, Object>> $list) {
+	public List<Entry<String, Object>> encode(String $parent, List<Entry<String, Object>> $list) {
 
 		if (id != null) {
-			$list.add(new SimpleImmutableEntry<String, Object>(parent + "id", id));
+			$list.add(new SimpleImmutableEntry<String, Object>($parent + "id", id));
 		}
 
-		$list.add(new SimpleImmutableEntry<String, Object>(parent + "booleanValue", booleanValue));
+		$list.add(new SimpleImmutableEntry<String, Object>($parent + "booleanValue", booleanValue));
 
-		$list.add(new SimpleImmutableEntry<String, Object>(parent + "intValue", intValue));
+		$list.add(new SimpleImmutableEntry<String, Object>($parent + "intValue", intValue));
 
-		$list.add(new SimpleImmutableEntry<String, Object>(parent + "longValue", longValue));
+		$list.add(new SimpleImmutableEntry<String, Object>($parent + "longValue", longValue));
 
-		$list.add(new SimpleImmutableEntry<String, Object>(parent + "floatValue", floatValue));
+		$list.add(new SimpleImmutableEntry<String, Object>($parent + "floatValue", floatValue));
 
-		$list.add(new SimpleImmutableEntry<String, Object>(parent + "doubleValue", doubleValue));
+		$list.add(new SimpleImmutableEntry<String, Object>($parent + "doubleValue", doubleValue));
 
 		if (stringValue != null) {
-			$list.add(new SimpleImmutableEntry<String, Object>(parent + "stringValue", stringValue));
+			$list.add(new SimpleImmutableEntry<String, Object>($parent + "stringValue", stringValue));
 		}
 
-		$list.add(new SimpleImmutableEntry<String, Object>(parent + "bytesValue", bytesValue));
+		$list.add(new SimpleImmutableEntry<String, Object>($parent + "bytesValue", bytesValue));
 
 		if (regDate != null) {
-			$list.add(new SimpleImmutableEntry<String, Object>(parent + "regDate", regDate));
+			$list.add(new SimpleImmutableEntry<String, Object>($parent + "regDate", regDate));
 		}
 
-		$list.add(new SimpleImmutableEntry<String, Object>(parent + "booleanValueArray", booleanValueArray));
+		$list.add(new SimpleImmutableEntry<String, Object>($parent + "booleanValueArray", booleanValueArray));
 
-		$list.add(new SimpleImmutableEntry<String, Object>(parent + "intValueArray", intValueArray));
+		$list.add(new SimpleImmutableEntry<String, Object>($parent + "intValueArray", intValueArray));
 
-		$list.add(new SimpleImmutableEntry<String, Object>(parent + "longValueArray", longValueArray));
+		$list.add(new SimpleImmutableEntry<String, Object>($parent + "longValueArray", longValueArray));
 
-		$list.add(new SimpleImmutableEntry<String, Object>(parent + "floatValueArray", floatValueArray));
+		$list.add(new SimpleImmutableEntry<String, Object>($parent + "floatValueArray", floatValueArray));
 
-		$list.add(new SimpleImmutableEntry<String, Object>(parent + "doubleValueArray", doubleValueArray));
+		$list.add(new SimpleImmutableEntry<String, Object>($parent + "doubleValueArray", doubleValueArray));
 
 		if (stringValueArray != null) {
-			$list.add(new SimpleImmutableEntry<String, Object>(parent + "stringValueArray", stringValueArray));
+			$list.add(new SimpleImmutableEntry<String, Object>($parent + "stringValueArray", stringValueArray));
 		}
 
 		if (regDateArray != null) {
-			$list.add(new SimpleImmutableEntry<String, Object>(parent + "regDateArray", regDateArray));
+			$list.add(new SimpleImmutableEntry<String, Object>($parent + "regDateArray", regDateArray));
 		}
 
 		if (user != null) {
-			user.encode(parent + "user.", $list);
+			user.encode($parent + "user.", $list);
 		}
 
 		if (users != null && (!users.isEmpty())) {
 			for (int i = 0; i < users.size(); i++) {
-				users.get(i).encode(parent + "users" + "[" + i + "].", $list);
+				users.get(i).encode($parent + "users" + "[" + i + "].", $list);
 			}
 		}
 
 		if (generics != null && (!generics.isEmpty())) {
 			for (int i = 0; i < generics.size(); i++) {
-				generics.get(i).encode(parent + "generics" + "[" + i + "].", $list);
+				generics.get(i).encode($parent + "generics" + "[" + i + "].", $list);
 			}
 		}
 
 		if (genericObjs != null && (!genericObjs.isEmpty())) {
 			for (int i = 0; i < genericObjs.size(); i++) {
-				genericObjs.get(i).encode(parent + "genericObjs" + "[" + i + "].", $list);
+				genericObjs.get(i).encode($parent + "genericObjs" + "[" + i + "].", $list);
 			}
 		}
 
 		if (genericUsers != null && (!genericUsers.isEmpty())) {
 			for (int i = 0; i < genericUsers.size(); i++) {
-				genericUsers.get(i).encode(parent + "genericUsers" + "[" + i + "].", $list);
+				genericUsers.get(i).encode($parent + "genericUsers" + "[" + i + "].", $list);
 			}
 		}
 
 		if (genericObj != null) {
-			genericObj.encode(parent + "genericObj.", $list);
+			genericObj.encode($parent + "genericObj.", $list);
 		}
 
 		if (generic != null) {
-			generic.encode(parent + "generic.", $list);
+			generic.encode($parent + "generic.", $list);
 		}
 
 		return $list;

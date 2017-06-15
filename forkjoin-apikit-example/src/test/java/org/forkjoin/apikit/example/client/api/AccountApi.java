@@ -5,8 +5,8 @@ import java.util.Map.Entry;
 import java.util.concurrent.Future;
 
 import org.forkjoin.apikit.client.*;
-import org.forkjoin.apikit.core.Result;
 
+import org.forkjoin.apikit.core.Result;
 import org.forkjoin.apikit.example.client.model.User;
 
 /**
@@ -58,7 +58,7 @@ public class AccountApi {
 		Map<String, Object> _uriVariables = new HashMap<>();
 		String _url = ApiUtils.expandUriComponent("account/login", _uriVariables);
 
-		return httpClientAdapter.request("POST", _url, null, _0Type, false);
+		return httpClientAdapter.<Result<String>, String> request("POST", _url, null, _0Type, false);
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class AccountApi {
 	 * @see String
 
 	 */
-	public Future<?> login(Callback<String> callable) {
+	public Future<?> login(Callback<Result<String>, String> callable) {
 		Map<String, Object> _uriVariables = new HashMap<>();
 		String _url = ApiUtils.expandUriComponent("account/login", _uriVariables);
 
@@ -84,6 +84,7 @@ public class AccountApi {
 	 *
 	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>account/testLogin</b>
 	 * <ul>
+	 * <li><b>Form:</b>ExampleAccounttestLogin</li>
 	 * <li><b>Model:</b> void</li>
 	 * <li>需要登录</li>
 	 * </ul>
@@ -108,6 +109,7 @@ public class AccountApi {
 	 *
 	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>account/testLogin</b>
 	 * <ul>
+	 * <li><b>Form:</b>ExampleAccounttestLogin</li>
 	 * <li><b>Model:</b> void</li>
 	 * <li>需要登录</li>
 	 * </ul>
@@ -118,7 +120,7 @@ public class AccountApi {
 		Map<String, Object> _uriVariables = new HashMap<>();
 		String _url = ApiUtils.expandUriComponent("account/testLogin", _uriVariables);
 
-		return httpClientAdapter.request("POST", _url, null, _1Type, true);
+		return httpClientAdapter.<Result<Void>, Void> request("POST", _url, null, _1Type, true);
 	}
 
 	/**
@@ -126,13 +128,14 @@ public class AccountApi {
 	 *
 	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>account/testLogin</b>
 	 * <ul>
+	 * <li><b>Form:</b>ExampleAccounttestLogin</li>
 	 * <li><b>Model:</b> void</li>
 	 * <li>需要登录</li>
 	 * </ul>
 	 * </div>
 
 	 */
-	public Future<?> testLogin(Callback<Void> callable) {
+	public Future<?> testLogin(Callback<Result<Void>, Void> callable) {
 		Map<String, Object> _uriVariables = new HashMap<>();
 		String _url = ApiUtils.expandUriComponent("account/testLogin", _uriVariables);
 
@@ -178,7 +181,7 @@ public class AccountApi {
 		Map<String, Object> _uriVariables = new HashMap<>();
 		String _url = ApiUtils.expandUriComponent("baseUrl/testNotLogin", _uriVariables);
 
-		return httpClientAdapter.request("GET", _url, null, _2Type, false);
+		return httpClientAdapter.<Result<User>, User> request("GET", _url, null, _2Type, false);
 	}
 
 	/**
@@ -192,7 +195,7 @@ public class AccountApi {
 	 * @see User
 
 	 */
-	public Future<?> testNotLogin(Callback<User> callable) {
+	public Future<?> testNotLogin(Callback<Result<User>, User> callable) {
 		Map<String, Object> _uriVariables = new HashMap<>();
 		String _url = ApiUtils.expandUriComponent("baseUrl/testNotLogin", _uriVariables);
 

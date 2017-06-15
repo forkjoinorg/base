@@ -22,7 +22,11 @@ public class JdtAnalyse implements Analyse {
 
     @Override
     public ModuleInfo analyse(String code, String packageName) {
-        JdtInfo jdtInfo = new JdtInfo(code, packageName);
+        JdtInfo jdtInfo = JdtInfo.parser(code, packageName);
+        if(jdtInfo == null){
+            return null;
+        }
+
 
         ModuleType moduleType = analyseType(jdtInfo);
 

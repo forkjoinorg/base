@@ -25,12 +25,12 @@ public interface HttpClientAdapter {
     /**
      * @param form 可能为空
      */
-    <T> Result<T> request(String method, String uri, List<Entry<String, Object>> form, Type type, boolean isAccount);
+    <R extends Result<T>, T> R request(String method, String uri, List<Entry<String, Object>> form, Type type, boolean isAccount);
 
     /**
      * @param form 可能为空
      */
-    <T> Future<?> requestAsync(String method, String uri, List<Entry<String, Object>> form, Type type, boolean isAccount, Callback<T> callable);
+    <R extends Result<T>, T> Future<?> requestAsync(String method, String uri, List<Entry<String, Object>> form, Type type, boolean isAccount, Callback<R,T> callable);
 
     void close() throws IOException;
 }

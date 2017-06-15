@@ -73,6 +73,7 @@ public class ExampleContext extends WebMvcConfigurerAdapter {
         I18nResultJacksonHttpMessageConverter converter = new I18nResultJacksonHttpMessageConverter();
         converter.setEncoding(JsonEncoding.UTF8);
         converter.setObjectMapper(objectMapper());
+        converter.setTransformToResult(true);
         return converter;
     }
 

@@ -5,6 +5,6 @@ import org.forkjoin.apikit.core.Result;
 /**
  * @author zuoge85@gmail.com on 2016/11/23.
  */
-public interface Callback<T> {
-    void call(Result<T> t);
+public interface Callback<R extends Result, T> {
+    void call(T t, R r);
 }

@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpHeaders;
 
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -118,7 +119,7 @@ public abstract class AbstractHttpClientAdapter implements HttpClientAdapter {
     }
 
 
-    protected <T> Result<T> handlerResult(Type type, boolean isSuccess, String json, Exception ex) {
+    protected <R extends Result<T>, T> R handlerResult(Type type, boolean isSuccess, String json, Exception ex) {
         if (isSuccess) {
             log.debug("解析json:{},type:{}", json, type);
             if (jsonConvert != null) {
@@ -126,10 +127,18 @@ public abstract class AbstractHttpClientAdapter implements HttpClientAdapter {
             }
             return JsonUtils.deserialize(json, type);
         } else {
-            return Result.createError(ex);
+            ParameterizedType parameterizedType = (ParameterizedType) type;
+            Class<R> rawType = (Class<R>) parameterizedType.getRawType();
+            try {
+                R result = rawType.newInstance();
+                result.setException(ex);
+                result.setStatus(Result.ERROR);
+                return result;
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
-
 
     public String getSuffix() {
         return suffix;

@@ -2,6 +2,7 @@ package org.forkjoin.jdbckit.core;
 
 
 import com.google.common.collect.Lists;
+import org.forkjoin.apikit.core.PageResult;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.ConnectionCallback;
@@ -55,7 +56,7 @@ public class MysqlJdbcDaoSupport extends org.springframework.jdbc.core.support.J
 	 * SELECT %s FROM `activity` WHERE id=?
 	 * 这个查询为了简单,但是比较耦合
 	 */
-	protected <T> PageResult<T> fastQueryPage(final String sql,final RowMapper<T> rowMapper,final int page,final int pageSize,final Object ...objs){
+	protected <T> PageResult<T> fastQueryPage(final String sql, final RowMapper<T> rowMapper, final int page, final int pageSize, final Object ...objs){
 		return getJdbcTemplate().execute(new ConnectionCallback<PageResult<T>>() {
             @Override
             public PageResult<T> doInConnection(Connection con) throws SQLException, DataAccessException {
@@ -91,7 +92,7 @@ public class MysqlJdbcDaoSupport extends org.springframework.jdbc.core.support.J
                     while (rs.next()) {
                         list.add(rowMapper.mapRow(rs, rowNum++));
                     }
-                    pageResult.setValue(list);
+                    pageResult.setData(list);
                     return pageResult;
                 } finally {
                     JdbcUtils.closeResultSet(rs);

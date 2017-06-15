@@ -155,7 +155,8 @@ public class JsonUtils {
     public static ObjectMapper create(boolean isNoDefault,String dateFormat) {
         ObjectMapper mapper = new ObjectMapper();
 
-        mapper.registerModule(new GuavaModule());
+        mapper.configure(MapperFeature.PROPAGATE_TRANSIENT_MARKER, true);
+//        mapper.registerModule(new GuavaModule());
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, true);
 

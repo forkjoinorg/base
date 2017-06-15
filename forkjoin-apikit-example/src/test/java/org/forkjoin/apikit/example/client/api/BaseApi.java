@@ -5,8 +5,8 @@ import java.util.Map.Entry;
 import java.util.concurrent.Future;
 
 import org.forkjoin.apikit.client.*;
-import org.forkjoin.apikit.core.Result;
 
+import org.forkjoin.apikit.core.Result;
 import org.forkjoin.apikit.example.client.form.TestForm;
 import org.forkjoin.apikit.example.client.model.TestObject;
 import org.forkjoin.apikit.example.client.model.User;
@@ -34,7 +34,6 @@ public class BaseApi {
 	 * </div>
 	 * @see java.util.ArrayList&lt;TestObject&lt;User&gt;&gt;
 	 * @see TestForm&lt;User&gt;
-	 * @see Object
 
 	 */
 	public java.util.ArrayList<TestObject<User>> createData(TestForm<User> testForm) {
@@ -63,7 +62,6 @@ public class BaseApi {
 	 * </div>
 	 * @see java.util.ArrayList&lt;TestObject&lt;User&gt;&gt;
 	 * @see TestForm&lt;User&gt;
-	 * @see Object
 
 	 */
 	public Result<java.util.ArrayList<TestObject<User>>> create(TestForm<User> testForm) {
@@ -71,7 +69,9 @@ public class BaseApi {
 		String _url = ApiUtils.expandUriComponent("base", _uriVariables);
 
 		List<Entry<String, Object>> _form = testForm.encode("", new ArrayList<Entry<String, Object>>());
-		return httpClientAdapter.request("POST", _url, _form, _0Type, true);
+		return httpClientAdapter
+				.<Result<java.util.ArrayList<TestObject<User>>>, java.util.ArrayList<TestObject<User>>> request("POST",
+						_url, _form, _0Type, true);
 	}
 
 	/**
@@ -87,10 +87,10 @@ public class BaseApi {
 	 * </div>
 	 * @see java.util.ArrayList&lt;TestObject&lt;User&gt;&gt;
 	 * @see TestForm&lt;User&gt;
-	 * @see Object
 
 	 */
-	public Future<?> create(TestForm<User> testForm, Callback<java.util.ArrayList<TestObject<User>>> callable) {
+	public Future<?> create(TestForm<User> testForm,
+			Callback<Result<java.util.ArrayList<TestObject<User>>>, java.util.ArrayList<TestObject<User>>> callable) {
 		Map<String, Object> _uriVariables = new HashMap<>();
 		String _url = ApiUtils.expandUriComponent("base", _uriVariables);
 
@@ -110,7 +110,6 @@ public class BaseApi {
 	 * </ul>
 	 * </div>
 	 * @see String
-	 * @see Object
 
 	 */
 	public Void getData(String id) {
@@ -138,7 +137,6 @@ public class BaseApi {
 	 * </ul>
 	 * </div>
 	 * @see String
-	 * @see Object
 
 	 */
 	public Result<Void> get(String id) {
@@ -146,7 +144,7 @@ public class BaseApi {
 		_uriVariables.put("id", id);
 		String _url = ApiUtils.expandUriComponent("base/{id}", _uriVariables);
 
-		return httpClientAdapter.request("POST", _url, null, _1Type, true);
+		return httpClientAdapter.<Result<Void>, Void> request("POST", _url, null, _1Type, true);
 	}
 
 	/**
@@ -161,10 +159,9 @@ public class BaseApi {
 	 * </ul>
 	 * </div>
 	 * @see String
-	 * @see Object
 
 	 */
-	public Future<?> get(String id, Callback<Void> callable) {
+	public Future<?> get(String id, Callback<Result<Void>, Void> callable) {
 		Map<String, Object> _uriVariables = new HashMap<>();
 		_uriVariables.put("id", id);
 		String _url = ApiUtils.expandUriComponent("base/{id}", _uriVariables);
@@ -185,7 +182,6 @@ public class BaseApi {
 	 * </div>
 	 * @see User
 	 * @see User
-	 * @see Object
 
 	 */
 	public User createData(User user) {
@@ -214,7 +210,6 @@ public class BaseApi {
 	 * </div>
 	 * @see User
 	 * @see User
-	 * @see Object
 
 	 */
 	public Result<User> create(User user) {
@@ -222,7 +217,7 @@ public class BaseApi {
 		String _url = ApiUtils.expandUriComponent("baseUrl/", _uriVariables);
 
 		List<Entry<String, Object>> _form = user.encode("", new ArrayList<Entry<String, Object>>());
-		return httpClientAdapter.request("GET", _url, _form, _2Type, true);
+		return httpClientAdapter.<Result<User>, User> request("GET", _url, _form, _2Type, true);
 	}
 
 	/**
@@ -238,10 +233,9 @@ public class BaseApi {
 	 * </div>
 	 * @see User
 	 * @see User
-	 * @see Object
 
 	 */
-	public Future<?> create(User user, Callback<User> callable) {
+	public Future<?> create(User user, Callback<Result<User>, User> callable) {
 		Map<String, Object> _uriVariables = new HashMap<>();
 		String _url = ApiUtils.expandUriComponent("baseUrl/", _uriVariables);
 

@@ -1,7 +1,6 @@
 package org.forkjoin.apikit.impl;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jdt.core.dom.*;
 import org.forkjoin.apikit.AnalyseException;
 import org.forkjoin.apikit.core.Account;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -30,7 +30,7 @@ public class JdtApiAnalyse extends JdtAbstractModuleAnalyse {
     public ModuleInfo analyse() {
         ApiInfo apiInfo = new ApiInfo();
         initModuleInfo(apiInfo);
-        apiInfo.setName(apiInfo.getName().replace("Controller",""));
+        apiInfo.setName(apiInfo.getName().replace("Controller", ""));
 
         MethodDeclaration[] methods = jdtInfo.getType().getMethods();
         for (MethodDeclaration method : methods) {
@@ -144,19 +144,67 @@ public class JdtApiAnalyse extends JdtAbstractModuleAnalyse {
         if (resultType == null) {
             throw new AnalyseException("返回类型不能为空!" + method.getReturnType2());
         }
-        if (!Result.class.getName().equals(resultType.getFullName())) {
-            throw new AnalyseException("现在的版本返回类型必须是!" + Result.class.getName());
-        }
-        if (CollectionUtils.isEmpty(resultType.getTypeArguments())) {
-            throw new AnalyseException("反正类型不存在！!" + resultType);
-        }
+
+
         /**
          * 真真正正的返回类型
          */
-        TypeInfo realResultType = resultType.getTypeArguments().get(0);
-        apiMethodInfo.setResultType(realResultType);
+        Class<?> cls = null;
+        try {
+            cls = resultType.toClass();
+        } catch (ClassNotFoundException ignored) {
+        }
+        if (cls == null || !Result.class.isAssignableFrom(cls)) {
+            apiMethodInfo.setResultType(resultType);
+            TypeInfo resultWrappedType = new TypeInfo(
+                    TypeInfo.Type.OTHER,
+                    Result.class.getPackage().getName(),
+                    Result.class.getSimpleName(),
+                    false,
+                    Collections.singletonList(resultType),
+                    false, true
+            );
+
+            apiMethodInfo.setResultWrappedType(resultWrappedType);
+            apiMethodInfo.setResultDataType(resultType);
+        } else {
+            if (CollectionUtils.isEmpty(resultType.getTypeArguments())) {
+                throw new AnalyseException("类型不存在！!" + resultType);
+            }
+            if (resultType.getTypeArguments().size() != 1) {
+                throw new AnalyseException("返回参数的类型变量数只能是1！!" + resultType);
+            }
+            TypeInfo realResultType = resultType.getTypeArguments().get(0);
+            apiMethodInfo.setResultType(realResultType);
+            apiMethodInfo.setResultWrappedType(resultType);
+
+            if (cls.equals(Result.class)) {
+                apiMethodInfo.setResultDataType(realResultType);
+            } else {
+                java.lang.reflect.Type type = getResultGenericSuperclass(cls);
+                TypeInfo typeInfo = jdtInfo.form(type);
+                if (typeInfo.getTypeArguments().size() != 1) {
+                    throw new AnalyseException("Result子类 类型变量数只能是1！!" + resultType);
+                }
+
+
+                TypeInfo resultDataType = typeInfo.getTypeArguments().get(0).replaceGeneric(realResultType);
+                apiMethodInfo.setResultDataType(
+                        resultDataType
+                );
+            }
+        }
     }
 
+    private static java.lang.reflect.Type getResultGenericSuperclass(Class<?> cls) {
+        Class<?> superclass = cls.getSuperclass();
+        if (superclass.equals(Result.class)) {
+            java.lang.reflect.Type genericSuperclass = cls.getGenericSuperclass();
+            return genericSuperclass;
+        } else {
+            return getResultGenericSuperclass(superclass);
+        }
+    }
 
     /**
      * 处理函数参数

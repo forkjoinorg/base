@@ -1,5 +1,6 @@
 package org.forkjoin.jdbckit.core.impi;
 
+import org.forkjoin.apikit.core.PageResult;
 import org.forkjoin.jdbckit.core.*;
 import org.forkjoin.jdbckit.core.identifier.Field;
 import org.forkjoin.jdbckit.core.select.Select;

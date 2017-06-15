@@ -59,13 +59,15 @@ public class ApacheHttpClientAdapter extends AbstractHttpClientAdapter {
         this(serverUrl, null, 0, null, null);
     }
 
-    public <T> Result<T> request(String method, String uri, List<Map.Entry<String, Object>> form, Type type, boolean isAccount) {
+    public <R extends Result<T>, T> R request(
+            String method, String uri, List<Map.Entry<String, Object>> form, Type type, boolean isAccount
+    ) {
         try {
-            final AtomicReference<Result<T>> resultRef = new AtomicReference<>(null);
+            final AtomicReference<R> resultRef = new AtomicReference<>(null);
             final CountDownLatch latch = new CountDownLatch(1);
-            requestAsync(method, uri, form, type, isAccount, new Callback<T>() {
-                public void call(Result<T> t) {
-                    resultRef.set(t);
+            requestAsync(method, uri, form, type, isAccount, new Callback<R, T>() {
+                public void call(T t, R r) {
+                    resultRef.set(r);
                     latch.countDown();
                 }
             }).get();
@@ -77,7 +79,10 @@ public class ApacheHttpClientAdapter extends AbstractHttpClientAdapter {
         }
     }
 
-    public <T> Future<?> requestAsync(String method, String uri, List<Map.Entry<String, Object>> form, final Type type, boolean isAccount, final Callback<T> callable) {
+    public <R extends Result<T>, T> Future<?> requestAsync(
+            String method, String uri, List<Map.Entry<String, Object>> form,
+            final Type type, boolean isAccount, final Callback<R, T> callable
+    ) {
         final String url = createUrl(uri);
         HttpUriRequest request = createRequest(method, form, isAccount, url);
 
@@ -98,29 +103,29 @@ public class ApacheHttpClientAdapter extends AbstractHttpClientAdapter {
 
                     if (contentType.startsWith(MediaType.APPLICATION_JSON_VALUE)) {
                         content = IOUtils.toString(entity.getContent(), charset);
-                        Result<T> objectResult = handlerResult(type, true, content, null);
-                        callable.call(objectResult);
+                        R objectResult = ApacheHttpClientAdapter.this.<R, T>handlerResult(type, true, content, null);
+                        callable.call(objectResult.getData(), objectResult);
                     } else {
                         content = IOUtils.toString(entity.getContent(), charset);
-                        Result<T> objectResult = handlerResult(type, false, content, new RuntimeException("错误的类型:" + contentType + ",content:" + content));
-                        callable.call(objectResult);
+                        R objectResult = ApacheHttpClientAdapter.this.<R, T>handlerResult(type, false, content, new RuntimeException("错误的类型:" + contentType + ",content:" + content));
+                        callable.call(objectResult.getData(), objectResult);
                     }
                 } catch (Exception ex) {
-                    Result<T> objectResult = handlerResult(type, false, null, ex);
-                    callable.call(objectResult);
+                    R objectResult = ApacheHttpClientAdapter.this.<R, T>handlerResult(type, false, null, ex);
+                    callable.call(objectResult.getData(), objectResult);
                 }
             }
 
             @Override
             public void failed(Exception ex) {
-                Result<T> objectResult = handlerResult(type, false, null, ex);
-                callable.call(objectResult);
+                R objectResult = ApacheHttpClientAdapter.this.<R, T>handlerResult(type, false, null, ex);
+                callable.call(objectResult.getData(), objectResult);
             }
 
             @Override
             public void cancelled() {
-                Result<T> objectResult = handlerResult(type, false, null, new RuntimeException("连接被取消"));
-                callable.call(objectResult);
+                R objectResult = ApacheHttpClientAdapter.this.<R, T>handlerResult(type, false, null, new RuntimeException("连接被取消"));
+                callable.call(objectResult.getData(), objectResult);
             }
         });
     }

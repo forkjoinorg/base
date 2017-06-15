@@ -11,55 +11,31 @@ api kit 是一个根据spring mvc 生成http RESTful 客户端 sdk 和doc 的工
 
 ------------------------------------------------------------
 
-## 2.0 可以使用
 
-1. 去掉专门的配置文件模式，转而使用项目内java 文件识别
-2. api 现在直接读取控制获取相关信息
-3. java 客户端和 es 客户端生成已经可用
-4. 返回值可以是数组
-
-
-## 2.0 计划完成情况
-
-2015.12.10 完成api 和message 解析
-
-## 需要完成部分
-
-1. 安卓客户端部分的测试
-2. ios sdk生成部分
-3. 枚举支持
-
+下面是一个简易的js 调用例子:
+````javascript
+this.commons.apis.accountApi.login(LoginForm.form(
+    "123456", "13910831723"
+)).then((m: LoginRet) => {
+    
+}).default();
+````
 
 ***
 
-
-## apikit
-apikit 是一个生成http restfull 客户端和服务器接口的工具
-
-1. 生成spring mvc 相关控制器 和form model
-2. 生成 swift android javase 相关api 接口
-3. 类似json rpc，但是不同于jsonrpc
-
-apikit 带来的特点
-
-1. 统一的接口定义，告别前后端对协议，显著减少前端编码
-2. 统一的接口定义文档，根据注释生成标准的javadoc 文档，告别文档的不统一或者和代码脱节等问题
-3. 强制前端根据接口修改代码
-4. 提高api 开发效率
-4. 标准的http restfull
 
 
 ## jdbckit
 jdbckit 是一个生成简单对象映射的工具（spring jdbc template）
 
 1. 生成简单对象，映射和简单的多条件查询
-2. 不支持join和表关系
-3. 支持 字段映射成json 和xml
+2. 支持 字段映射成json 和xml
+3. 强类型复杂查询
 
-jdbckit 带来的好处
+jdbckit 优点
 
 1. 简单
-2. join效率问题，几乎所有sql 中间件都不能很好处理 join
+2. 强类型
 
 
 
@@ -71,5 +47,5 @@ jdbckit 带来的好处
 <dependency>
     <groupId>org.forkjoin</groupId>
     <artifactId>forkjoin-apikit</artifactId>
-    <version>2.0.3</version>
+    <version>2.1.1</version>
 </dependency>

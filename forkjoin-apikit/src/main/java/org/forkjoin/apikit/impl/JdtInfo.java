@@ -1,5 +1,6 @@
 package org.forkjoin.apikit.impl;
 
+import org.apache.commons.lang3.ClassUtils;
 import org.eclipse.jdt.core.dom.*;
 import org.forkjoin.apikit.AnalyseException;
 import org.forkjoin.apikit.Utils;
@@ -7,6 +8,7 @@ import org.forkjoin.apikit.info.Import;
 import org.forkjoin.apikit.info.ImportsInfo;
 import org.forkjoin.apikit.info.TypeInfo;
 
+import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +16,30 @@ import java.util.List;
  * @author zuoge85 on 15/12/8.
  */
 public class JdtInfo {
+    public static final JdtInfo parser(String code, String packageName) {
+        ASTParser parser = ASTParser.newParser(AST.JLS8);
+        parser.setKind(ASTParser.K_COMPILATION_UNIT);
+        parser.setSource(code.toCharArray());
+        CompilationUnit node = (CompilationUnit) parser.createAST(null);
+
+        String sourcePackage = node.getPackage().getName().getFullyQualifiedName();
+        sourcePackage = sourcePackage.substring(0, sourcePackage.length() - packageName.length());
+
+
+        List types = node.types();
+        if (types.size() != 1) {
+//            throw new AnalyseException("错误的类型，现在只支持一个文件单个类:");
+            return null;
+        }
+
+        TypeDeclaration type = (TypeDeclaration) types.get(0);
+
+        JdtInfo jdtInfo = new JdtInfo(node, type, sourcePackage, packageName);
+        jdtInfo.analyseImports();
+        jdtInfo.analyseTypeParameters();
+        return jdtInfo;
+    }
+
     protected CompilationUnit node;
     protected TypeDeclaration type;
     protected String name;
@@ -24,29 +50,14 @@ public class JdtInfo {
     private String sourcePackage;
     private List<String> typeParameters = new ArrayList<>();
 
-    public JdtInfo(String code, String packageName) {
+    private JdtInfo(CompilationUnit node, TypeDeclaration type, String sourcePackage, String packageName) {
+        this.node = node;
+        this.type = type;
+        this.sourcePackage = sourcePackage;
         this.packageName = packageName;
-
-        ASTParser parser = ASTParser.newParser(AST.JLS8);
-        parser.setKind(ASTParser.K_COMPILATION_UNIT);
-        parser.setSource(code.toCharArray());
-        node = (CompilationUnit) parser.createAST(null);
-
-        sourcePackage = node.getPackage().getName().getFullyQualifiedName();
-        sourcePackage = sourcePackage.substring(0, sourcePackage.length() - packageName.length());
-
-
-        List types = node.types();
-        if (types.size() != 1) {
-            throw new AnalyseException("错误的类型，现在只支持一个文件单个类:");
-        }
-
-        type = (TypeDeclaration) types.get(0);
-
-        analyseImports();
-        analyseTypeParameters();
         this.name = type.getName().getFullyQualifiedName();
     }
+
 
     private void analyseTypeParameters() {
         for (Object o : type.typeParameters()) {
@@ -69,6 +80,13 @@ public class JdtInfo {
      */
     public String getFullTypeName(Name typeName) {
         return getTypeName(typeName).getFullName();
+    }
+
+    public Import getTypeName(Class cls) {
+        return newImport(
+                cls.getPackage().getName(),
+                cls.getSimpleName(), false
+        );
     }
 
     public Import getTypeName(Name typeName) {
@@ -143,6 +161,38 @@ public class JdtInfo {
         }
     }
 
+    public TypeInfo form(java.lang.reflect.Type type) {
+        if (type instanceof Class) {
+            Class cls = (Class) type;
+            if (ClassUtils.isPrimitiveOrWrapper(cls)) {
+                return TypeInfo.formBaseType(cls.getName(), false);
+            } else if (cls.isArray()) {
+                TypeInfo typeInfo = form(cls.getComponentType());
+                typeInfo.setArray(true);
+                return typeInfo;
+            } else {
+                Import anImport = getTypeName(cls);
+                return TypeInfo.formImport(anImport, false);
+            }
+        } else if (type instanceof java.lang.reflect.ParameterizedType) {
+            java.lang.reflect.ParameterizedType paramType = (java.lang.reflect.ParameterizedType) type;
+            Class rawType = (Class) paramType.getRawType();
+
+            TypeInfo typeInfo = form(rawType);
+            java.lang.reflect.Type[] arguments = paramType.getActualTypeArguments();
+            for (java.lang.reflect.Type typeArgument : arguments) {
+                TypeInfo typeArgumentInfo = form(typeArgument);
+                typeInfo.addArguments(typeArgumentInfo);
+            }
+            return typeInfo;
+        } else if (type instanceof java.lang.reflect.TypeVariable) {
+            TypeVariable typeVar = (TypeVariable) type;
+            TypeInfo typeInfo = TypeInfo.formGeneric(typeVar.getName(), false);
+            return typeInfo;
+        }
+        throw new AnalyseException("暂时不支持的类型，分析失败:" + type);
+    }
+
 
     public TypeInfo analyseType(Name typeName) {
         Import anImport = getTypeName(typeName);
@@ -191,24 +241,6 @@ public class JdtInfo {
         }
         return null;
     }
-
-//    public static SupportType from(
-//            Config config, String name, String packageName,
-//            AttributeType type, boolean isArray
-//    ) {
-//        boolean isApiType = false;
-//        if (packageName != null) {
-//            String rootPackage = config.getRootPackage();
-//            if (packageName.startsWith(rootPackage)) {
-//                isApiType = true;
-//                packageName = packageName.substring(rootPackage.length());
-//                if (packageName.startsWith(".")) {
-//                    packageName = packageName.substring(1);
-//                }
-//            }
-//        }
-//        return new SupportType(type, packageName, name, isArray, isApiType);
-//    }
 
 
     public List<String> getTypeParameters() {

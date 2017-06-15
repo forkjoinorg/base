@@ -6,6 +6,7 @@ import java.util.concurrent.Future;
 
 import org.forkjoin.apikit.client.*;
 
+import org.forkjoin.apikit.core.PageResult;
 import org.forkjoin.apikit.core.Result;
 import org.forkjoin.apikit.example.client.form.TestForm;
 import org.forkjoin.apikit.example.client.model.TestObject;
@@ -15,17 +16,17 @@ import org.forkjoin.apikit.example.client.model.User;
 /**
  * @author  zuoge85 on 15/6/11.
  */
-public class TestApi {
+public class TestNoResultApi {
 	private HttpClientAdapter httpClientAdapter;
 
-	public TestApi(HttpClientAdapter httpClientAdapter) {
+	public TestNoResultApi(HttpClientAdapter httpClientAdapter) {
 		this.httpClientAdapter = httpClientAdapter;
 	}
 
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>testObjectList</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/testObjectList</b>
 	 * <ul>
 	 * <li><b>Form:</b>TestForm&lt;User&gt;testObjectList</li>
 	 * <li><b>Model:</b> TestObjectList&lt;User&gt;</li>
@@ -51,7 +52,7 @@ public class TestApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>testObjectList</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/testObjectList</b>
 	 * <ul>
 	 * <li><b>Form:</b>TestForm&lt;User&gt;testObjectList</li>
 	 * <li><b>Model:</b> TestObjectList&lt;User&gt;</li>
@@ -63,7 +64,7 @@ public class TestApi {
 	 */
 	public Result<TestObjectList<User>> testObjectList(TestForm<User> testForm) {
 		Map<String, Object> _uriVariables = new HashMap<>();
-		String _url = ApiUtils.expandUriComponent("testObjectList", _uriVariables);
+		String _url = ApiUtils.expandUriComponent("noResult/testObjectList", _uriVariables);
 
 		List<Entry<String, Object>> _form = testForm.encode("", new ArrayList<Entry<String, Object>>());
 		return httpClientAdapter.<Result<TestObjectList<User>>, TestObjectList<User>> request("POST", _url, _form,
@@ -73,7 +74,7 @@ public class TestApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>testObjectList</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/testObjectList</b>
 	 * <ul>
 	 * <li><b>Form:</b>TestForm&lt;User&gt;testObjectList</li>
 	 * <li><b>Model:</b> TestObjectList&lt;User&gt;</li>
@@ -86,7 +87,7 @@ public class TestApi {
 	public Future<?> testObjectList(TestForm<User> testForm,
 			Callback<Result<TestObjectList<User>>, TestObjectList<User>> callable) {
 		Map<String, Object> _uriVariables = new HashMap<>();
-		String _url = ApiUtils.expandUriComponent("testObjectList", _uriVariables);
+		String _url = ApiUtils.expandUriComponent("noResult/testObjectList", _uriVariables);
 
 		List<Entry<String, Object>> _form = testForm.encode("", new ArrayList<Entry<String, Object>>());
 		return httpClientAdapter.requestAsync("POST", _url, _form, _0Type, false, callable);
@@ -95,7 +96,7 @@ public class TestApi {
 	/**
 	 * 添加
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/test</b>
 	 * <ul>
 	 * <li><b>Form:</b>TestForm&lt;User&gt;create</li>
 	 * <li><b>Model:</b> TestObject&lt;User&gt;</li>
@@ -121,7 +122,7 @@ public class TestApi {
 	/**
 	 * 添加
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/test</b>
 	 * <ul>
 	 * <li><b>Form:</b>TestForm&lt;User&gt;create</li>
 	 * <li><b>Model:</b> TestObject&lt;User&gt;</li>
@@ -133,7 +134,7 @@ public class TestApi {
 	 */
 	public Result<TestObject<User>> create(TestForm<User> testForm) {
 		Map<String, Object> _uriVariables = new HashMap<>();
-		String _url = ApiUtils.expandUriComponent("test", _uriVariables);
+		String _url = ApiUtils.expandUriComponent("noResult/test", _uriVariables);
 
 		List<Entry<String, Object>> _form = testForm.encode("", new ArrayList<Entry<String, Object>>());
 		return httpClientAdapter.<Result<TestObject<User>>, TestObject<User>> request("POST", _url, _form, _1Type,
@@ -143,7 +144,7 @@ public class TestApi {
 	/**
 	 * 添加
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/test</b>
 	 * <ul>
 	 * <li><b>Form:</b>TestForm&lt;User&gt;create</li>
 	 * <li><b>Model:</b> TestObject&lt;User&gt;</li>
@@ -155,7 +156,7 @@ public class TestApi {
 	 */
 	public Future<?> create(TestForm<User> testForm, Callback<Result<TestObject<User>>, TestObject<User>> callable) {
 		Map<String, Object> _uriVariables = new HashMap<>();
-		String _url = ApiUtils.expandUriComponent("test", _uriVariables);
+		String _url = ApiUtils.expandUriComponent("noResult/test", _uriVariables);
 
 		List<Entry<String, Object>> _form = testForm.encode("", new ArrayList<Entry<String, Object>>());
 		return httpClientAdapter.requestAsync("POST", _url, _form, _1Type, false, callable);
@@ -164,7 +165,7 @@ public class TestApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test/{id}</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/test/{id}</b>
 	 * <ul>
 	 * <li><b>PathVariable:</b> String id</li>
 	 * <li><b>Model:</b> TestObject&lt;User&gt;</li>
@@ -190,7 +191,7 @@ public class TestApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test/{id}</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/test/{id}</b>
 	 * <ul>
 	 * <li><b>PathVariable:</b> String id</li>
 	 * <li><b>Model:</b> TestObject&lt;User&gt;</li>
@@ -203,7 +204,7 @@ public class TestApi {
 	public Result<TestObject<User>> get(String id) {
 		Map<String, Object> _uriVariables = new HashMap<>();
 		_uriVariables.put("id", id);
-		String _url = ApiUtils.expandUriComponent("test/{id}", _uriVariables);
+		String _url = ApiUtils.expandUriComponent("noResult/test/{id}", _uriVariables);
 
 		return httpClientAdapter.<Result<TestObject<User>>, TestObject<User>> request("GET", _url, null, _2Type, false);
 	}
@@ -211,7 +212,7 @@ public class TestApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test/{id}</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/test/{id}</b>
 	 * <ul>
 	 * <li><b>PathVariable:</b> String id</li>
 	 * <li><b>Model:</b> TestObject&lt;User&gt;</li>
@@ -224,7 +225,7 @@ public class TestApi {
 	public Future<?> get(String id, Callback<Result<TestObject<User>>, TestObject<User>> callable) {
 		Map<String, Object> _uriVariables = new HashMap<>();
 		_uriVariables.put("id", id);
-		String _url = ApiUtils.expandUriComponent("test/{id}", _uriVariables);
+		String _url = ApiUtils.expandUriComponent("noResult/test/{id}", _uriVariables);
 
 		return httpClientAdapter.requestAsync("GET", _url, null, _2Type, false, callable);
 	}
@@ -232,7 +233,7 @@ public class TestApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/test</b>
 	 * <ul>
 	 * <li><b>Form:</b>TestForm&lt;User&gt;update</li>
 	 * <li><b>Model:</b> TestObject&lt;User&gt;</li>
@@ -258,7 +259,7 @@ public class TestApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/test</b>
 	 * <ul>
 	 * <li><b>Form:</b>TestForm&lt;User&gt;update</li>
 	 * <li><b>Model:</b> TestObject&lt;User&gt;</li>
@@ -270,7 +271,7 @@ public class TestApi {
 	 */
 	public Result<TestObject<User>> update(TestForm<User> testForm) {
 		Map<String, Object> _uriVariables = new HashMap<>();
-		String _url = ApiUtils.expandUriComponent("test", _uriVariables);
+		String _url = ApiUtils.expandUriComponent("noResult/test", _uriVariables);
 
 		List<Entry<String, Object>> _form = testForm.encode("", new ArrayList<Entry<String, Object>>());
 		return httpClientAdapter
@@ -280,7 +281,7 @@ public class TestApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/test</b>
 	 * <ul>
 	 * <li><b>Form:</b>TestForm&lt;User&gt;update</li>
 	 * <li><b>Model:</b> TestObject&lt;User&gt;</li>
@@ -292,7 +293,7 @@ public class TestApi {
 	 */
 	public Future<?> update(TestForm<User> testForm, Callback<Result<TestObject<User>>, TestObject<User>> callable) {
 		Map<String, Object> _uriVariables = new HashMap<>();
-		String _url = ApiUtils.expandUriComponent("test", _uriVariables);
+		String _url = ApiUtils.expandUriComponent("noResult/test", _uriVariables);
 
 		List<Entry<String, Object>> _form = testForm.encode("", new ArrayList<Entry<String, Object>>());
 		return httpClientAdapter.requestAsync("PUT", _url, _form, _3Type, false, callable);
@@ -301,7 +302,7 @@ public class TestApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/test</b>
 	 * <ul>
 	 * <li><b>Form:</b>TestForm&lt;User&gt;patchUpdate</li>
 	 * <li><b>Model:</b> TestObject&lt;User&gt;</li>
@@ -327,7 +328,7 @@ public class TestApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/test</b>
 	 * <ul>
 	 * <li><b>Form:</b>TestForm&lt;User&gt;patchUpdate</li>
 	 * <li><b>Model:</b> TestObject&lt;User&gt;</li>
@@ -339,7 +340,7 @@ public class TestApi {
 	 */
 	public Result<TestObject<User>> patchUpdate(TestForm<User> testForm) {
 		Map<String, Object> _uriVariables = new HashMap<>();
-		String _url = ApiUtils.expandUriComponent("test", _uriVariables);
+		String _url = ApiUtils.expandUriComponent("noResult/test", _uriVariables);
 
 		List<Entry<String, Object>> _form = testForm.encode("", new ArrayList<Entry<String, Object>>());
 		return httpClientAdapter.<Result<TestObject<User>>, TestObject<User>> request("PATCH", _url, _form, _4Type,
@@ -349,7 +350,7 @@ public class TestApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/test</b>
 	 * <ul>
 	 * <li><b>Form:</b>TestForm&lt;User&gt;patchUpdate</li>
 	 * <li><b>Model:</b> TestObject&lt;User&gt;</li>
@@ -361,7 +362,7 @@ public class TestApi {
 	 */
 	public Future<?> patchUpdate(TestForm<User> testForm, Callback<Result<TestObject<User>>, TestObject<User>> callable) {
 		Map<String, Object> _uriVariables = new HashMap<>();
-		String _url = ApiUtils.expandUriComponent("test", _uriVariables);
+		String _url = ApiUtils.expandUriComponent("noResult/test", _uriVariables);
 
 		List<Entry<String, Object>> _form = testForm.encode("", new ArrayList<Entry<String, Object>>());
 		return httpClientAdapter.requestAsync("PATCH", _url, _form, _4Type, false, callable);
@@ -370,7 +371,7 @@ public class TestApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test/{id}</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/test/{id}</b>
 	 * <ul>
 	 * <li><b>PathVariable:</b> String id</li>
 	 * <li><b>Model:</b> boolean</li>
@@ -396,7 +397,7 @@ public class TestApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test/{id}</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/test/{id}</b>
 	 * <ul>
 	 * <li><b>PathVariable:</b> String id</li>
 	 * <li><b>Model:</b> boolean</li>
@@ -409,7 +410,7 @@ public class TestApi {
 	public Result<Boolean> delete(String id) {
 		Map<String, Object> _uriVariables = new HashMap<>();
 		_uriVariables.put("id", id);
-		String _url = ApiUtils.expandUriComponent("test/{id}", _uriVariables);
+		String _url = ApiUtils.expandUriComponent("noResult/test/{id}", _uriVariables);
 
 		return httpClientAdapter.<Result<Boolean>, Boolean> request("DELETE", _url, null, _5Type, false);
 	}
@@ -417,7 +418,7 @@ public class TestApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test/{id}</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/test/{id}</b>
 	 * <ul>
 	 * <li><b>PathVariable:</b> String id</li>
 	 * <li><b>Model:</b> boolean</li>
@@ -430,7 +431,7 @@ public class TestApi {
 	public Future<?> delete(String id, Callback<Result<Boolean>, Boolean> callable) {
 		Map<String, Object> _uriVariables = new HashMap<>();
 		_uriVariables.put("id", id);
-		String _url = ApiUtils.expandUriComponent("test/{id}", _uriVariables);
+		String _url = ApiUtils.expandUriComponent("noResult/test/{id}", _uriVariables);
 
 		return httpClientAdapter.requestAsync("DELETE", _url, null, _5Type, false, callable);
 	}
@@ -438,7 +439,7 @@ public class TestApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>tests/{id}</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/tests/{id}</b>
 	 * <ul>
 	 * <li><b>PathVariable:</b> List&lt;String&gt; id</li>
 	 * <li><b>Model:</b> int</li>
@@ -464,7 +465,7 @@ public class TestApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>tests/{id}</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/tests/{id}</b>
 	 * <ul>
 	 * <li><b>PathVariable:</b> List&lt;String&gt; id</li>
 	 * <li><b>Model:</b> int</li>
@@ -477,7 +478,7 @@ public class TestApi {
 	public Result<Integer> deletes(List<String> id) {
 		Map<String, Object> _uriVariables = new HashMap<>();
 		_uriVariables.put("id", id);
-		String _url = ApiUtils.expandUriComponent("tests/{id}", _uriVariables);
+		String _url = ApiUtils.expandUriComponent("noResult/tests/{id}", _uriVariables);
 
 		return httpClientAdapter.<Result<Integer>, Integer> request("DELETE", _url, null, _6Type, false);
 	}
@@ -485,7 +486,7 @@ public class TestApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>tests/{id}</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/tests/{id}</b>
 	 * <ul>
 	 * <li><b>PathVariable:</b> List&lt;String&gt; id</li>
 	 * <li><b>Model:</b> int</li>
@@ -498,7 +499,7 @@ public class TestApi {
 	public Future<?> deletes(List<String> id, Callback<Result<Integer>, Integer> callable) {
 		Map<String, Object> _uriVariables = new HashMap<>();
 		_uriVariables.put("id", id);
-		String _url = ApiUtils.expandUriComponent("tests/{id}", _uriVariables);
+		String _url = ApiUtils.expandUriComponent("noResult/tests/{id}", _uriVariables);
 
 		return httpClientAdapter.requestAsync("DELETE", _url, null, _6Type, false, callable);
 	}
@@ -506,7 +507,7 @@ public class TestApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>search/{id}/{name}</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/search/{id}/{name}</b>
 	 * <ul>
 	 * <li><b>PathVariable:</b> String id</li>
 	 * <li><b>PathVariable:</b> String name</li>
@@ -534,7 +535,7 @@ public class TestApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>search/{id}/{name}</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/search/{id}/{name}</b>
 	 * <ul>
 	 * <li><b>PathVariable:</b> String id</li>
 	 * <li><b>PathVariable:</b> String name</li>
@@ -550,7 +551,7 @@ public class TestApi {
 		Map<String, Object> _uriVariables = new HashMap<>();
 		_uriVariables.put("id", id);
 		_uriVariables.put("name", name);
-		String _url = ApiUtils.expandUriComponent("search/{id}/{name}", _uriVariables);
+		String _url = ApiUtils.expandUriComponent("noResult/search/{id}/{name}", _uriVariables);
 
 		return httpClientAdapter.<Result<TestObject<User>>, TestObject<User>> request("GET", _url, null, _7Type, false);
 	}
@@ -558,7 +559,7 @@ public class TestApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>search/{id}/{name}</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/search/{id}/{name}</b>
 	 * <ul>
 	 * <li><b>PathVariable:</b> String id</li>
 	 * <li><b>PathVariable:</b> String name</li>
@@ -574,7 +575,7 @@ public class TestApi {
 		Map<String, Object> _uriVariables = new HashMap<>();
 		_uriVariables.put("id", id);
 		_uriVariables.put("name", name);
-		String _url = ApiUtils.expandUriComponent("search/{id}/{name}", _uriVariables);
+		String _url = ApiUtils.expandUriComponent("noResult/search/{id}/{name}", _uriVariables);
 
 		return httpClientAdapter.requestAsync("GET", _url, null, _7Type, false, callable);
 	}
@@ -582,7 +583,7 @@ public class TestApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>testString/{name}</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/testString/{name}</b>
 	 * <ul>
 	 * <li><b>PathVariable:</b> String name</li>
 	 * <li><b>Model:</b> String</li>
@@ -608,7 +609,7 @@ public class TestApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>testString/{name}</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/testString/{name}</b>
 	 * <ul>
 	 * <li><b>PathVariable:</b> String name</li>
 	 * <li><b>Model:</b> String</li>
@@ -621,7 +622,7 @@ public class TestApi {
 	public Result<String> testString(String name) {
 		Map<String, Object> _uriVariables = new HashMap<>();
 		_uriVariables.put("name", name);
-		String _url = ApiUtils.expandUriComponent("testString/{name}", _uriVariables);
+		String _url = ApiUtils.expandUriComponent("noResult/testString/{name}", _uriVariables);
 
 		return httpClientAdapter.<Result<String>, String> request("GET", _url, null, _8Type, false);
 	}
@@ -629,7 +630,7 @@ public class TestApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>testString/{name}</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/testString/{name}</b>
 	 * <ul>
 	 * <li><b>PathVariable:</b> String name</li>
 	 * <li><b>Model:</b> String</li>
@@ -642,7 +643,7 @@ public class TestApi {
 	public Future<?> testString(String name, Callback<Result<String>, String> callable) {
 		Map<String, Object> _uriVariables = new HashMap<>();
 		_uriVariables.put("name", name);
-		String _url = ApiUtils.expandUriComponent("testString/{name}", _uriVariables);
+		String _url = ApiUtils.expandUriComponent("noResult/testString/{name}", _uriVariables);
 
 		return httpClientAdapter.requestAsync("GET", _url, null, _8Type, false, callable);
 	}
@@ -650,7 +651,7 @@ public class TestApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>testString1/{name}/{age}</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/testString1/{name}/{age}</b>
 	 * <ul>
 	 * <li><b>PathVariable:</b> String name</li>
 	 * <li><b>PathVariable:</b> String age</li>
@@ -678,7 +679,7 @@ public class TestApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>testString1/{name}/{age}</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/testString1/{name}/{age}</b>
 	 * <ul>
 	 * <li><b>PathVariable:</b> String name</li>
 	 * <li><b>PathVariable:</b> String age</li>
@@ -694,7 +695,7 @@ public class TestApi {
 		Map<String, Object> _uriVariables = new HashMap<>();
 		_uriVariables.put("name", name);
 		_uriVariables.put("age", age);
-		String _url = ApiUtils.expandUriComponent("testString1/{name}/{age}", _uriVariables);
+		String _url = ApiUtils.expandUriComponent("noResult/testString1/{name}/{age}", _uriVariables);
 
 		return httpClientAdapter.<Result<String>, String> request("GET", _url, null, _9Type, false);
 	}
@@ -702,7 +703,7 @@ public class TestApi {
 	/**
 	 * 
 	 *
-	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>testString1/{name}/{age}</b>
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/testString1/{name}/{age}</b>
 	 * <ul>
 	 * <li><b>PathVariable:</b> String name</li>
 	 * <li><b>PathVariable:</b> String age</li>
@@ -718,9 +719,69 @@ public class TestApi {
 		Map<String, Object> _uriVariables = new HashMap<>();
 		_uriVariables.put("name", name);
 		_uriVariables.put("age", age);
-		String _url = ApiUtils.expandUriComponent("testString1/{name}/{age}", _uriVariables);
+		String _url = ApiUtils.expandUriComponent("noResult/testString1/{name}/{age}", _uriVariables);
 
 		return httpClientAdapter.requestAsync("GET", _url, null, _9Type, false, callable);
+	}
+
+	/**
+	 * 
+	 *
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/page</b>
+	 * <ul>
+	 * <li><b>Model:</b> TestObject</li>
+	 * </ul>
+	 * </div>
+	 * @see TestObject
+
+	 */
+	public List<TestObject> pageData() {
+		PageResult<TestObject> result = page();
+		if (!result.isSuccess()) {
+			Exception ex = result.getException();
+			if (ex != null) {
+				throw new RuntimeException(ex.getMessage(), ex);
+			} else {
+				throw new RuntimeException(result.toString());
+			}
+		}
+		return result.getData();
+	}
+
+	/**
+	 * 
+	 *
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/page</b>
+	 * <ul>
+	 * <li><b>Model:</b> TestObject</li>
+	 * </ul>
+	 * </div>
+	 * @see TestObject
+
+	 */
+	public PageResult<TestObject> page() {
+		Map<String, Object> _uriVariables = new HashMap<>();
+		String _url = ApiUtils.expandUriComponent("noResult/page", _uriVariables);
+
+		return httpClientAdapter.<PageResult<TestObject>, List<TestObject>> request("GET", _url, null, _10Type, false);
+	}
+
+	/**
+	 * 
+	 *
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/page</b>
+	 * <ul>
+	 * <li><b>Model:</b> TestObject</li>
+	 * </ul>
+	 * </div>
+	 * @see TestObject
+
+	 */
+	public Future<?> page(Callback<PageResult<TestObject>, List<TestObject>> callable) {
+		Map<String, Object> _uriVariables = new HashMap<>();
+		String _url = ApiUtils.expandUriComponent("noResult/page", _uriVariables);
+
+		return httpClientAdapter.requestAsync("GET", _url, null, _10Type, false, callable);
 	}
 
 	private static final ApiType _0Type = ApiUtils.type(Result.class,
@@ -739,4 +800,5 @@ public class TestApi {
 			ApiUtils.type(TestObject.class, ApiUtils.type(User.class)));
 	private static final ApiType _8Type = ApiUtils.type(Result.class, ApiUtils.type(String.class));
 	private static final ApiType _9Type = ApiUtils.type(Result.class, ApiUtils.type(String.class));
+	private static final ApiType _10Type = ApiUtils.type(PageResult.class, ApiUtils.type(TestObject.class));
 }

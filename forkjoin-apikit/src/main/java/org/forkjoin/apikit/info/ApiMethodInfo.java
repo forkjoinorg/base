@@ -26,7 +26,9 @@ public class ApiMethodInfo {
     private ArrayList<ApiMethodParamInfo> pathParams = new ArrayList<>();
     private ArrayList<ApiMethodParamInfo> formParams = new ArrayList<>();
 
+    private TypeInfo resultWrappedType;
     private TypeInfo resultType;
+    private TypeInfo resultDataType;
     private JavadocInfo comment;
 
     private List<AnnotationInfo> annotations = new ArrayList<>();
@@ -148,6 +150,23 @@ public class ApiMethodInfo {
         this.index = index;
     }
 
+
+    public TypeInfo getResultWrappedType() {
+        return resultWrappedType;
+    }
+
+    public void setResultWrappedType(TypeInfo resultWrappedType) {
+        this.resultWrappedType = resultWrappedType;
+    }
+
+    public TypeInfo getResultDataType() {
+        return resultDataType;
+    }
+
+    public void setResultDataType(TypeInfo resultDataType) {
+        this.resultDataType = resultDataType;
+    }
+
     @Override
     public String toString() {
         return "ApiMethodInfo{" +
@@ -159,7 +178,9 @@ public class ApiMethodInfo {
                 ", params=" + params +
                 ", pathParams=" + pathParams +
                 ", formParams=" + formParams +
+                ", resultWrappedType=" + resultWrappedType +
                 ", resultType=" + resultType +
+                ", resultDataType=" + resultDataType +
                 ", comment=" + comment +
                 ", annotations=" + annotations +
                 ", file='" + file + '\'' +

@@ -46,7 +46,6 @@ public class MockHttpClientAdapter extends AbstractHttpClientAdapter {
 
     private final ExecutorService asyncExecutor;
 
-
     @Autowired
     protected WebApplicationContext context;
 
@@ -86,23 +85,28 @@ public class MockHttpClientAdapter extends AbstractHttpClientAdapter {
     }
 
     @Override
-    public <T> Result<T> request(String method, String uri, List<Map.Entry<String, Object>> form, Type type, boolean isAccount) {
+    public <R extends Result<T>, T> R request(String method, String uri, List<Map.Entry<String, Object>> form, Type type, boolean isAccount) {
         try {
-            return innerRequest(method, uri, form, isAccount, type, null);
+            return this.<R,T>innerRequest(method, uri, form, isAccount, type, null);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public <T> Future<?> requestAsync(final String method, final String uri, final List<Map.Entry<String, Object>> form, final Type type, final boolean isAccount, final Callback<T> callable) {
+    public <R extends Result<T>, T> Future<?> requestAsync(
+            final String method, final String uri,
+            final List<Map.Entry<String, Object>> form,
+            final Type type, final boolean isAccount,
+            final Callback<R,T> callable
+    ) {
         try {
             /**
              * io 没真的异步，嘿嘿测试用
              */
-            return asyncExecutor.submit(new Callable<Result<T>>() {
+            return asyncExecutor.submit(new Callable<R>() {
                 @Override
-                public Result<T> call() throws Exception {
+                public R call() throws Exception {
                     return innerRequest(method, uri, form, isAccount, type, callable);
                 }
             });
@@ -111,9 +115,9 @@ public class MockHttpClientAdapter extends AbstractHttpClientAdapter {
         }
     }
 
-    private <T> Result<T> innerRequest(String method, String uri,
+    private <R extends Result<T>, T> R innerRequest(String method, String uri,
                                        List<Map.Entry<String, Object>> form,
-                                       boolean isAccount, Type type, Callback<T> callable) throws Exception {
+                                       boolean isAccount, Type type, Callback<R,T> callable) throws Exception {
         MockHttpServletRequestBuilder requestBuilder = create(method,
                 createUrl(uri));
 
@@ -138,10 +142,9 @@ public class MockHttpClientAdapter extends AbstractHttpClientAdapter {
 
         String contentAsString = mvcResult.getResponse().getContentAsString();
 
-
-        Result<T> objectResult = handlerResult(type, true, contentAsString, null);
+        R objectResult = this.<R,T>handlerResult(type, true, contentAsString, null);
         if (callable != null) {
-            callable.call(objectResult);
+            callable.call(objectResult.getData(), objectResult);
         }
         return objectResult;
     }

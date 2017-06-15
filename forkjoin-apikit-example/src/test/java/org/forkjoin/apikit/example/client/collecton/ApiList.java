@@ -37,11 +37,11 @@ public class ApiList<T extends ApiMessage> implements ApiMessage {
 	}
 
 	@Override
-	public List<Entry<String, Object>> encode(String parent, List<Entry<String, Object>> $list) {
+	public List<Entry<String, Object>> encode(String $parent, List<Entry<String, Object>> $list) {
 
 		if (list != null && (!list.isEmpty())) {
 			for (int i = 0; i < list.size(); i++) {
-				list.get(i).encode(parent + "list" + "[" + i + "].", $list);
+				list.get(i).encode($parent + "list" + "[" + i + "].", $list);
 			}
 		}
 

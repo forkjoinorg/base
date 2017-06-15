@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * @author zuoge85 on 15/6/9.
  */
-public interface BaseDao<T extends EntityObject, K extends KeyObject> extends ReadOnlyDao<T, K> {
+public interface  BaseDao<T extends EntityObject, K extends KeyObject> extends ReadOnlyDao<T, K> {
     long insert(T t);
 
     long replace(T t);

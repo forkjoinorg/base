@@ -47,11 +47,14 @@ public class JavaClientApiWrapper extends JavaApiWrapper {
             ApiMethodInfo apiMethodInfo = methodInfos.get(i);
             addImport(apiMethodInfo.getResultType());
 
+            importSet.add(apiMethodInfo.getResultWrappedType().getFullName());
+
             ArrayList<ApiMethodParamInfo> params = apiMethodInfo.getParams();
             for (int j = 0; j < params.size(); j++) {
                 ApiMethodParamInfo apiMethodParamInfo = params.get(j);
                 if (apiMethodParamInfo.isFormParam() || apiMethodParamInfo.isPathVariable()) {
-                    addImport(apiMethodParamInfo.getTypeInfo());
+                    TypeInfo typeInfo = apiMethodParamInfo.getTypeInfo();
+                    addImport(typeInfo);
                 }
             }
         }
@@ -61,14 +64,14 @@ public class JavaClientApiWrapper extends JavaApiWrapper {
     }
 
     private void addImport(TypeInfo type) {
+        String classFullName = getFullName(type);
         if (type.isInside()) {
-            String classFullName = getFullName(type);
             importSet.add(classFullName);
-            List<TypeInfo> typeArguments = type.getTypeArguments();
-            for (int i = 0; i < typeArguments.size(); i++) {
-                TypeInfo typeInfo = typeArguments.get(i);
-                addImport(typeInfo);
-            }
+        }
+        List<TypeInfo> typeArguments = type.getTypeArguments();
+        for (int i = 0; i < typeArguments.size(); i++) {
+            TypeInfo typeInfo = typeArguments.get(i);
+            addImport(typeInfo);
         }
     }
 
@@ -78,7 +81,7 @@ public class JavaClientApiWrapper extends JavaApiWrapper {
         if (params.length() > 0) {
             params += ", ";
         }
-        return params + "Callback<" + result(method) + "> callable";
+        return params + "Callback<"+method.getResultWrappedType().getName()+"<"+result(method)+">," + resultData(method) + "> callable";
     }
 
     public String asyncReuestCallbackParams(ApiMethodInfo method) {

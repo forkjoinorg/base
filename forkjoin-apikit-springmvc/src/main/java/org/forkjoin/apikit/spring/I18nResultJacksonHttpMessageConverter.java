@@ -1,6 +1,7 @@
 package org.forkjoin.apikit.spring;
 
 import com.fasterxml.jackson.core.JsonEncoding;
+import org.forkjoin.apikit.core.Result;
 import org.forkjoin.apikit.spring.utils.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 
 /**
  * @author zuoge85 on 15/4/18.
@@ -23,10 +25,15 @@ public class I18nResultJacksonHttpMessageConverter extends MappingJackson2HttpMe
 
     private MessageSourceAccessor messageAccessor;
     private JsonEncoding encoding = JsonEncoding.UTF8;
+    /**
+     * 是否吧非Result 对象转换成Result包装对象
+     */
+    private boolean transformToResult = false;
+
+
 
     @Override
-    @SuppressWarnings("unchecked")
-    protected void writeInternal(Object o, HttpOutputMessage outputMessage)
+    protected void writeInternal(Object o, Type type, HttpOutputMessage outputMessage)
             throws IOException, HttpMessageNotWritableException {
         if (o instanceof I18nResult) {
             ResultUtils.handleI18n((I18nResult) o, messageAccessor);
@@ -34,15 +41,21 @@ public class I18nResultJacksonHttpMessageConverter extends MappingJackson2HttpMe
         }
         JsonEncoding encoding = getJsonEncoding(outputMessage.getHeaders().getContentType());
         HttpHeaders headers = outputMessage.getHeaders();
+
         headers.set(HttpHeaders.CONTENT_TYPE, headers.getContentType().toString() + ";charset=" + encoding.getJavaName());
-        super.writeInternal(o, outputMessage);
+
+
+        if(transformToResult && !(o instanceof Result)){
+            o = Result.createSuccess(o);
+        }
+        super.writeInternal(o,type, outputMessage);
         if (log.isDebugEnabled()) {
             String serialize = JsonUtils.serialize(o);
             log.debug("响应:{}", serialize.substring(0, Math.min(serialize.length(), 64)));
         }
     }
 
-
+    @Override
     protected boolean canWrite(MediaType mediaType) {
         if (mediaType == null || MediaType.ALL.equals(mediaType)) {
             return true;
@@ -70,5 +83,19 @@ public class I18nResultJacksonHttpMessageConverter extends MappingJackson2HttpMe
 
     protected JsonEncoding getJsonEncoding(MediaType contentType) {
         return encoding;
+    }
+
+    /**
+     * 是否吧非Result 对象转换成Result包装对象
+     */
+    public boolean isTransformToResult() {
+        return transformToResult;
+    }
+
+    /**
+     * 是否吧非Result 对象转换成Result包装对象
+     */
+    public void setTransformToResult(boolean transformToResult) {
+        this.transformToResult = transformToResult;
     }
 }

@@ -79,12 +79,21 @@ public class Result<T> {
     private T data;
     /**返回消息map,一眼封装参数错误*/
     private Map<String,Object> msgMap;
-    private Exception exception;
+
+    private transient Exception exception;
 
     public Result() {
 
     }
 
+    public Result(int status) {
+        this.status = status;
+    }
+
+    public Result(int status,T data) {
+        this.status = status;
+        this.data = data;
+    }
 
     public Result(int status, String msg, T data) {
         this.status = status;

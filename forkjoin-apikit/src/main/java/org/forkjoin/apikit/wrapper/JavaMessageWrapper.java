@@ -146,7 +146,7 @@ public class JavaMessageWrapper extends JavaWrapper<MessageInfo> {
     }
 
 
-    public String getEncodeCode(String start) {
+    public String getEncodeCode(String start, String parentName) {
         StringBuilder sb = new StringBuilder();
         for (PropertyInfo attr : moduleInfo.getProperties()) {
             sb.append('\n');
@@ -166,14 +166,14 @@ public class JavaMessageWrapper extends JavaWrapper<MessageInfo> {
                     if (typeInfo.isOtherType()) {
                         sb.append(start).append(" if (").append(name).append(" != null && (!").append(name).append(".isEmpty())) {\n");
                         sb.append(start).append("for (int i = 0; i < ").append(name).append(".size(); i++) {\n");
-                        sb.append(start).append("    ").append(name).append(".get(i).encode(parent + \"")
+                        sb.append(start).append("    ").append(name).append(".get(i).encode(").append(parentName).append(" + \"")
                                 .append(name).append("\" + \"[\" + i + \"].\", $list);\n");
                         sb.append(start).append("    }\n");
                         sb.append(start).append("}\n");
                     } else {
                         sb.append(start).append(" if (").append(name).append(" != null && (!").append(name).append(".isEmpty())) {\n");
                         sb.append(start).append("for (int i = 0; i < ").append(name).append(".size(); i++) {\n");
-                        sb.append("$list.add(new SimpleImmutableEntry<String, Object>(parent + \"")
+                        sb.append("$list.add(new SimpleImmutableEntry<String, Object>(" + parentName + " + \"")
                                 .append(name).append("\", ")
                                 .append(name)
                                 .append(".get(i)));\n");
@@ -182,16 +182,16 @@ public class JavaMessageWrapper extends JavaWrapper<MessageInfo> {
                     }
                 } else {
                     sb.append(start).append(" if (").append(name).append(" != null) {\n");
-                    sb.append(start).append("    ").append(name).append(".encode(parent + \"").append(name).append(".\", $list);");
+                    sb.append(start).append("    ").append(name).append(".encode(").append(parentName).append(" + \"").append(name).append(".\", $list);");
                     sb.append(start).append("}\n");
                 }
             } else {
                 if (typeInfo.getType().isHasNull()) {
                     sb.append(start).append("if (").append(name).append(" != null) {\n");
-                    getEncodeCodeItemBase(start, sb, name);
+                    getEncodeCodeItemBase(start, sb, name, parentName);
                     sb.append(start).append("}\n");
                 } else {
-                    getEncodeCodeItemBase(start, sb, name);
+                    getEncodeCodeItemBase(start, sb, name, parentName);
                 }
             }
         }
@@ -214,10 +214,11 @@ public class JavaMessageWrapper extends JavaWrapper<MessageInfo> {
     /**
      * 基本类型
      */
-    private void getEncodeCodeItemBase(String start, StringBuilder sb, String name) {
+    private void getEncodeCodeItemBase(String start, StringBuilder sb, String name, String parentName) {
         sb.append(start)
                 .append("    ")
-                .append("$list.add(new SimpleImmutableEntry<String, Object>(parent + \"")
+                .append("$list.add(new SimpleImmutableEntry<String, Object>(")
+                .append(parentName).append(" + \"")
                 .append(name).append("\",")
                 .append(name)
                 .append("));\n");

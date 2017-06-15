@@ -39,6 +39,13 @@ public class JavaApiWrapper extends JavaWrapper<ApiInfo> {
         return sb.toString();
     }
 
+    public String resultData(ApiMethodInfo method) {
+        StringBuilder sb = new StringBuilder();
+        TypeInfo resultType = method.getResultDataType();
+        sb.append(toJavaTypeString(resultType, true, true));
+        return sb.toString();
+    }
+
     public String resultClass(ApiMethodInfo method) {
         StringBuilder sb = new StringBuilder();
         TypeInfo resultType = method.getResultType();
@@ -145,9 +152,11 @@ public class JavaApiWrapper extends JavaWrapper<ApiInfo> {
 
         for (ApiMethodParamInfo attributeInfo : method.getParams()) {
             if (attributeInfo.getTypeInfo().getType() != TypeInfo.Type.VOID) {
-                sb.append(start).append("@see ").append(
-                        StringEscapeUtils.escapeHtml4(toJavaTypeString(attributeInfo.getTypeInfo(), false, true))
-                ).append("\n");
+                if (attributeInfo.isFormParam() || attributeInfo.isPathVariable()) {
+                    sb.append(start).append("@see ").append(
+                            StringEscapeUtils.escapeHtml4(toJavaTypeString(attributeInfo.getTypeInfo(), false, true))
+                    ).append("\n");
+                }
             }
         }
 
@@ -201,7 +210,7 @@ public class JavaApiWrapper extends JavaWrapper<ApiInfo> {
 
     public String resultTypeString(ApiMethodInfo method, String start) {
         StringBuilder sb = new StringBuilder(start);
-        sb.append("private static final ApiType _").append(method.getIndex()).append("Type = ApiUtils.type(Result.class, ");
+        sb.append("private static final ApiType _").append(method.getIndex()).append("Type = ApiUtils.type("+method.getResultWrappedType().getName()+".class, ");
         resultTypeString(sb, method.getResultType());
         sb.append(");");
         return sb.toString();

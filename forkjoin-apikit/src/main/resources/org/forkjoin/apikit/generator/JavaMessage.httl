@@ -81,8 +81,8 @@ $!{utils.formatComment(attr.comment,"	 * ")}
 
 
 	@Override
-	public List<Entry<String, Object>> encode(String parent, List<Entry<String, Object>> $list) {
-		$!{utils.getEncodeCode("        ")}
+	public List<Entry<String, Object>> encode(String $parent, List<Entry<String, Object>> $list) {
+		$!{utils.getEncodeCode("        ", "$parent")}
 		return $list;
     }
 

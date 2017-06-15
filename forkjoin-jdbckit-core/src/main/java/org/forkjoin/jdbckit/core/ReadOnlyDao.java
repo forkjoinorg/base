@@ -1,5 +1,6 @@
 package org.forkjoin.jdbckit.core;
 
+import org.forkjoin.apikit.core.PageResult;
 import org.forkjoin.jdbckit.core.identifier.Field;
 import org.forkjoin.jdbckit.core.select.Select;
 import org.springframework.jdbc.core.RowMapper;
@@ -7,6 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 import java.util.List;
 
 /**
+ * 页码都是 1 开始
  * @author zuoge85 on 15/6/9.
  */
 public interface ReadOnlyDao<T extends EntityObject, K extends KeyObject> {

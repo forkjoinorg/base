@@ -5,9 +5,7 @@ import org.forkjoin.apikit.AnalyseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * 类型信息
@@ -22,6 +20,9 @@ public class TypeInfo implements Cloneable{
     private String name;
     private boolean isArray;
     private List<TypeInfo> typeArguments = new ArrayList<>();
+    /**
+     * 是否包内
+     */
     private boolean isInside = false;
     /**
      * 是否是泛型
@@ -31,8 +32,30 @@ public class TypeInfo implements Cloneable{
     private TypeInfo() {
     }
 
+    public TypeInfo(Type type, String packageName, String name, boolean isArray, List<TypeInfo> typeArguments, boolean isInside, boolean isGeneric) {
+        this.type = type;
+        this.packageName = packageName;
+        this.name = name;
+        this.isArray = isArray;
+        this.typeArguments = typeArguments;
+        this.isInside = isInside;
+        this.isGeneric = isGeneric;
+    }
+
     public void addArguments(TypeInfo typeInfo) {
         typeArguments.add(typeInfo);
+    }
+
+
+    public TypeInfo replaceGeneric(TypeInfo realResultType) {
+        if(this.isGeneric){
+            return realResultType;
+        }else{
+            for (ListIterator<TypeInfo> iterator = typeArguments.listIterator(); iterator.hasNext(); ) {
+                iterator.set(iterator.next().replaceGeneric(realResultType));
+            }
+        }
+        return this;
     }
 
     public static TypeInfo formGeneric(String name, boolean isArray) {
@@ -163,6 +186,15 @@ public class TypeInfo implements Cloneable{
         return type == Type.OTHER;
     }
 
+    public Class<?> toClass() throws ClassNotFoundException {
+        if(type.isBaseType()){
+            return type.toClass();
+        }else{
+            return Class.forName(getFullName());
+        }
+    }
+
+
 
     /**
      * 0. void *(只在api返回值)*
@@ -211,6 +243,20 @@ public class TypeInfo implements Cloneable{
                 .put(Date.class.getName(), DATE)
                 .build();
 
+        private static final ImmutableMap<Type, Class> classMap = ImmutableMap.<Type, Class>builder()
+                .put(VOID, Void.class)
+                .put(BOOLEAN,Boolean.class)
+                .put(BYTE,Byte.class)
+                .put(SHORT,Short.class)
+                .put(INT,Integer.class)
+                .put(LONG,Long.class)
+                .put(FLOAT,Float.class)
+                .put(DOUBLE,Double.class)
+
+
+                .put(STRING,String.class)
+                .put(DATE, Date.class)
+                .build();
 
         public static boolean isHasNull(Type type) {
             return type == STRING || type == DATE ||
@@ -229,6 +275,9 @@ public class TypeInfo implements Cloneable{
             return isBaseType(this);
         }
 
+        public Class toClass() {
+            return classMap.get(this);
+        }
 
         public static Type form(String name) {
             Type type = typeMap.get(name);

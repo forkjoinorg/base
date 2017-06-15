@@ -64,6 +64,8 @@ public class Manager {
                     } else {
                         log.info("分析完毕一个,不存在module:{}", f.getName());
                     }
+                } catch (AnalyseException ae) {
+                    log.error("分析一个文件错误,file:{}", f.getAbsolutePath(), ae);
                 } catch (IOException e) {
                     throw new RuntimeException("分析文件错误！", e);
                 }
