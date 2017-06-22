@@ -9,13 +9,16 @@ import org.forkjoin.apikit.info.MessageInfo;
 import org.forkjoin.apikit.info.PropertyInfo;
 import org.forkjoin.apikit.info.TypeInfo;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 
 /**
  * @author zuoge85 on 15/6/14.
  */
 public class JavaMessageWrapper extends JavaWrapper<MessageInfo> {
     private boolean isAnnotations = false;
+    private TreeSet<String> importSet = new TreeSet<>();
 
     public JavaMessageWrapper(Context context, MessageInfo messageInfo, String rootPackage) {
         super(context, messageInfo, rootPackage);
@@ -29,12 +32,31 @@ public class JavaMessageWrapper extends JavaWrapper<MessageInfo> {
 
     @Override
     public void init() {
-        addExclude("javax.validation");
-        addExclude("org.hibernate.validator");
-        addExclude("org.forkjoin.apikit.core.Message");
-        super.init();
+        initImport();
     }
 
+    @Override
+    public void initImport() {
+        ArrayList<PropertyInfo> properties = moduleInfo.getProperties();
+        for (PropertyInfo propertyInfo : properties) {
+            addImport(propertyInfo.getTypeInfo());
+        }
+        for (String classFullName : importSet) {
+            addImport(classFullName);
+        }
+    }
+
+    private void addImport(TypeInfo type) {
+        String classFullName = getFullName(type);
+        if (type.isInside()) {
+            importSet.add(classFullName);
+        }
+        List<TypeInfo> typeArguments = type.getTypeArguments();
+        for (int i = 0; i < typeArguments.size(); i++) {
+            TypeInfo typeInfo = typeArguments.get(i);
+            addImport(typeInfo);
+        }
+    }
 
     public String typeParameters() {
         List<String> typeParameters = moduleInfo.getTypeParameters();

@@ -1,5 +1,6 @@
 'use strict';
 
+import TestForm from './../form/TestForm'
 
 
 import User from './User'
@@ -9,6 +10,8 @@ import User from './User'
  * @author  zuoge85 on 15/6/17.
 */
 class TestObject {
+
+    testForm:TestForm;
 
     id:String;
 
@@ -64,7 +67,8 @@ class TestObject {
 
     }
 
-    formObject({id,booleanValue,intValue,longValue,floatValue,doubleValue,stringValue,bytesValue,regDate,booleanValueArray,intValueArray,longValueArray,floatValueArray,doubleValueArray,stringValueArray,regDateArray,user,users,generics,genericObjs,genericUsers,genericObj,generic}):TestObject{
+    formObject({testForm,id,booleanValue,intValue,longValue,floatValue,doubleValue,stringValue,bytesValue,regDate,booleanValueArray,intValueArray,longValueArray,floatValueArray,doubleValueArray,stringValueArray,regDateArray,user,users,generics,genericObjs,genericUsers,genericObj,generic}):TestObject{
+        this.testForm = testForm;
         this.id = id;
         this.booleanValue = booleanValue;
         this.intValue = intValue;
@@ -91,12 +95,12 @@ class TestObject {
         return this;
     }
 
-    static of({id,booleanValue,intValue,longValue,floatValue,doubleValue,stringValue,bytesValue,regDate,booleanValueArray,intValueArray,longValueArray,floatValueArray,doubleValueArray,stringValueArray,regDateArray,user,users,generics,genericObjs,genericUsers,genericObj,generic}):TestObject{
-        return new TestObject().formObject({id,booleanValue,intValue,longValue,floatValue,doubleValue,stringValue,bytesValue,regDate,booleanValueArray,intValueArray,longValueArray,floatValueArray,doubleValueArray,stringValueArray,regDateArray,user,users,generics,genericObjs,genericUsers,genericObj,generic});
+    static of({testForm,id,booleanValue,intValue,longValue,floatValue,doubleValue,stringValue,bytesValue,regDate,booleanValueArray,intValueArray,longValueArray,floatValueArray,doubleValueArray,stringValueArray,regDateArray,user,users,generics,genericObjs,genericUsers,genericObj,generic}):TestObject{
+        return new TestObject().formObject({testForm,id,booleanValue,intValue,longValue,floatValue,doubleValue,stringValue,bytesValue,regDate,booleanValueArray,intValueArray,longValueArray,floatValueArray,doubleValueArray,stringValueArray,regDateArray,user,users,generics,genericObjs,genericUsers,genericObj,generic});
     }
 
-    static form(id:String,booleanValue:Boolean,intValue:Number,longValue:Number,floatValue:Number,doubleValue:Number,stringValue:String,bytesValue:Number[],regDate:Date,booleanValueArray:Boolean[],intValueArray:Number[],longValueArray:Number[],floatValueArray:Number[],doubleValueArray:Number[],stringValueArray:String[],regDateArray:Date[],user:User,users:User[],generics:Object[],genericObjs:TestObject[],genericUsers:TestObject[],genericObj:TestObject,generic:Object):TestObject{
-        return new TestObject().formObject({id,booleanValue,intValue,longValue,floatValue,doubleValue,stringValue,bytesValue,regDate,booleanValueArray,intValueArray,longValueArray,floatValueArray,doubleValueArray,stringValueArray,regDateArray,user,users,generics,genericObjs,genericUsers,genericObj,generic});
+    static form(testForm:TestForm,id:String,booleanValue:Boolean,intValue:Number,longValue:Number,floatValue:Number,doubleValue:Number,stringValue:String,bytesValue:Number[],regDate:Date,booleanValueArray:Boolean[],intValueArray:Number[],longValueArray:Number[],floatValueArray:Number[],doubleValueArray:Number[],stringValueArray:String[],regDateArray:Date[],user:User,users:User[],generics:Object[],genericObjs:TestObject[],genericUsers:TestObject[],genericObj:TestObject,generic:Object):TestObject{
+        return new TestObject().formObject({testForm,id,booleanValue,intValue,longValue,floatValue,doubleValue,stringValue,bytesValue,regDate,booleanValueArray,intValueArray,longValueArray,floatValueArray,doubleValueArray,stringValueArray,regDateArray,user,users,generics,genericObjs,genericUsers,genericObj,generic});
     }
 }
 

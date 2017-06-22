@@ -1,5 +1,6 @@
 package org.forkjoin.apikit.example;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.forkjoin.apikit.spring.*;
@@ -10,6 +11,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -55,7 +57,9 @@ public class ExampleContext extends WebMvcConfigurerAdapter {
         /**
          * 第一个参数为true ，表示生成的json不生成是java 默认值的字段，这样可能和一些语言客户端冲突，请小心
          */
-        return JsonUtils.create(true, DATE_FORMAT);
+        ObjectMapper mapper = JsonUtils.create(false, DATE_FORMAT);
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        return mapper;
     }
 
     @Bean
@@ -73,8 +77,12 @@ public class ExampleContext extends WebMvcConfigurerAdapter {
         I18nResultJacksonHttpMessageConverter converter = new I18nResultJacksonHttpMessageConverter();
         converter.setEncoding(JsonEncoding.UTF8);
         converter.setObjectMapper(objectMapper());
-        converter.setTransformToResult(true);
         return converter;
+    }
+
+    @Bean
+    public I18NResultResponseBodyAdvice responseBodyAdvice() {
+        return new I18NResultResponseBodyAdvice();
     }
 
     @Override

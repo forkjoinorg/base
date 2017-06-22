@@ -9,6 +9,7 @@ import org.forkjoin.apikit.example.client.model.TestObject;
 import org.forkjoin.apikit.example.client.model.TestObjectList;
 import org.forkjoin.apikit.example.client.model.User;
 import org.junit.Assert;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 
 import java.util.*;
@@ -23,15 +24,18 @@ public class AccountApiControllerTest extends BaseControllerTest {
     public static final String CHARSET_NAME = "utf8";
 
     @Test
-    public void testStringData() {
-
+    public void testNotLoginData() {
         /**
          * 未登陆
          */
+        httpClientAdapter.setAccountToken(null);
         apiManager.accountApi.testNotLoginData();
         Result<Void> result = apiManager.accountApi.testLogin();
         Assert.assertEquals(result.getStatus(), Result.ACCOUNT_ERROR);
+    }
 
+    @Test
+    public void testLoginData() {
         /**
          * 登陆
          */

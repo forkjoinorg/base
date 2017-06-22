@@ -1,11 +1,12 @@
 package org.forkjoin.apikit.example;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.forkjoin.apikit.JacksonJsonConvert;
-import org.forkjoin.apikit.JsonConvert;
 import org.forkjoin.apikit.client.HttpClientAdapter;
+import org.forkjoin.apikit.client.OkHttpClientAdapter;
+import org.forkjoin.apikit.client.core.JacksonJsonConvert;
+import org.forkjoin.apikit.client.core.JsonConvert;
+import org.forkjoin.apikit.client.core.TypeConvert;
 import org.forkjoin.apikit.example.client.ApiManager;
-import org.forkjoin.apikit.spring.client.ApacheHttpClientAdapter;
 import org.forkjoin.apikit.spring.client.MockHttpClientAdapter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -21,7 +22,6 @@ import org.springframework.core.convert.ConversionService;
 @Configuration
 @ComponentScan
 public class TestsContext {
-
     @Bean
     public ApiManager apiManager(HttpClientAdapter httpClientAdapter) {
         return new ApiManager(httpClientAdapter);
@@ -29,18 +29,26 @@ public class TestsContext {
 
     @Profile("mock")
     @Bean(destroyMethod = "close")
-    public HttpClientAdapter mockHttpClientAdapter(ConversionService conversionService, JsonConvert jsonConvert) {
-        return new MockHttpClientAdapter(
-                "http://127.0.0.1:8080/v1/", conversionService, jsonConvert
-        );
+    public HttpClientAdapter mockHttpClientAdapter(TypeConvert typeConvert, JsonConvert jsonConvert) {
+        return new MockHttpClientAdapter("http://127.0.0.1:8080/v1/", typeConvert, jsonConvert);
     }
 
     @Profile("remote")
     @Bean(destroyMethod = "close")
-    public HttpClientAdapter remoteHttpClientAdapter(ConversionService conversionService, JsonConvert jsonConvert) {
-        return new ApacheHttpClientAdapter(
-                "http://127.0.0.1:8080/v1/", conversionService, jsonConvert
+    public HttpClientAdapter remoteHttpClientAdapter(TypeConvert typeConvert, JsonConvert jsonConvert) {
+        return new OkHttpClientAdapter(
+                "http://127.0.0.1:8080/v1/", typeConvert, jsonConvert
         );
+    }
+
+    @Bean
+    public TypeConvert typeConvert(final ConversionService conversionService) {
+        return new TypeConvert() {
+            @Override
+            public String convert(Object source) {
+                return conversionService.convert(source, String.class);
+            }
+        };
     }
 
     @Bean

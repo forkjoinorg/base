@@ -7,4 +7,5 @@ package org.forkjoin.apikit;
  */
 public interface Generator {
     void generate(Context context) throws Exception;
+    String getOutPath();
 }

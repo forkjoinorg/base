@@ -5,9 +5,8 @@ import org.forkjoin.apikit.Context;
 import org.forkjoin.apikit.Manager;
 import org.forkjoin.apikit.ObjectFactory;
 import org.forkjoin.apikit.generator.JavaClientGenerator;
-import org.forkjoin.apikit.generator.JavaScriptGenerator;
-import org.forkjoin.apikit.generator.ServerGenerator;
 import org.forkjoin.apikit.impl.JdtAnalyse;
+import org.forkjoin.apikit.jgit.GitGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,18 +54,44 @@ public class ApiBuilderMain {
 //            manager.generate(generator);
 //        }
 
-        {
-            JavaClientGenerator generator = new JavaClientGenerator();
-            generator.setOutPath(javaClientDir.getAbsolutePath());
-            generator.setVersion(version);
-            generator.setRootPackage("org.forkjoin.apikit.example.client");
-            manager.generate(generator);
-        }
+//        {
+//            JavaClientGenerator generator = new JavaClientGenerator();
+//            generator.setOutPath(javaClientDir.getAbsolutePath());
+//            generator.setVersion(version);
+//            generator.setRootPackage("org.forkjoin.apikit.example.client");
+//            manager.generate(generator);
+//        }
+//
+//
+//
+//
+//        {
+//            JavaScriptGenerator generator = new JavaScriptGenerator();
+//            generator.setOutPath(jsClientDir.getAbsolutePath());
+//            generator.setVersion(version);
+//            manager.generate(generator);
+//        }
 
         {
-            JavaScriptGenerator generator = new JavaScriptGenerator();
-            generator.setOutPath(jsClientDir.getAbsolutePath());
+            GitGenerator gitGenerator = new GitGenerator();
+
+            JavaClientGenerator generator = new JavaClientGenerator();
+//            generator.setOutPath(new File(temp.toFile(), srcPath).getAbsolutePath());
             generator.setVersion(version);
+            String rootPackage = "org.forkjoin.apikit.example.client";
+            generator.setRootPackage(rootPackage);
+
+            gitGenerator.setGenerator(generator);
+            gitGenerator.setGitUrl("https://code.aliyun.com/lipscoffee/cloud-sdk.git");
+            gitGenerator.setGitUser("zuoge85");
+            gitGenerator.setGetPassword("sbfgfg03423");
+            gitGenerator.setGitEmail("zuoge85@gmail.com");
+            gitGenerator.setGitName("小草");
+
+            gitGenerator.setSrcUri("javasdk/src/mian/java");
+            gitGenerator.setDeleteUri(rootPackage.replace(".", "/"));
+            gitGenerator.setGitBranch("master");
+
             manager.generate(generator);
         }
     }

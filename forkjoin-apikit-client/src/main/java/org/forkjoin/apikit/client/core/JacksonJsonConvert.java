@@ -1,4 +1,4 @@
-package org.forkjoin.apikit;
+package org.forkjoin.apikit.client.core;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -25,10 +25,6 @@ public class I18nResultJacksonHttpMessageConverter extends MappingJackson2HttpMe
 
     private MessageSourceAccessor messageAccessor;
     private JsonEncoding encoding = JsonEncoding.UTF8;
-    /**
-     * 是否吧非Result 对象转换成Result包装对象
-     */
-    private boolean transformToResult = false;
 
 
 
@@ -39,15 +35,11 @@ public class I18nResultJacksonHttpMessageConverter extends MappingJackson2HttpMe
             ResultUtils.handleI18n((I18nResult) o, messageAccessor);
             // {"status":1,"msg":"手机号已经被使用!","data":null}
         }
-        JsonEncoding encoding = getJsonEncoding(outputMessage.getHeaders().getContentType());
         HttpHeaders headers = outputMessage.getHeaders();
+        headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8.toString());
 
-        headers.set(HttpHeaders.CONTENT_TYPE, headers.getContentType().toString() + ";charset=" + encoding.getJavaName());
 
 
-        if(transformToResult && !(o instanceof Result)){
-            o = Result.createSuccess(o);
-        }
         super.writeInternal(o,type, outputMessage);
         if (log.isDebugEnabled()) {
             String serialize = JsonUtils.serialize(o);
@@ -56,17 +48,10 @@ public class I18nResultJacksonHttpMessageConverter extends MappingJackson2HttpMe
     }
 
     @Override
-    protected boolean canWrite(MediaType mediaType) {
-        if (mediaType == null || MediaType.ALL.equals(mediaType)) {
-            return true;
-        }
-        for (MediaType supportedMediaType : getSupportedMediaTypes()) {
-            if (supportedMediaType.isCompatibleWith(mediaType)) {
-                return true;
-            }
-        }
-        return false;
+    public boolean canWrite(Class<?> clazz, MediaType mediaType) {
+        return true;
     }
+
 
     @Override
     public void setMessageSource(MessageSource messageSource) {
@@ -81,21 +66,7 @@ public class I18nResultJacksonHttpMessageConverter extends MappingJackson2HttpMe
         return encoding;
     }
 
-    protected JsonEncoding getJsonEncoding(MediaType contentType) {
+    protected JsonEncoding getJsonEncoding() {
         return encoding;
-    }
-
-    /**
-     * 是否吧非Result 对象转换成Result包装对象
-     */
-    public boolean isTransformToResult() {
-        return transformToResult;
-    }
-
-    /**
-     * 是否吧非Result 对象转换成Result包装对象
-     */
-    public void setTransformToResult(boolean transformToResult) {
-        this.transformToResult = transformToResult;
     }
 }

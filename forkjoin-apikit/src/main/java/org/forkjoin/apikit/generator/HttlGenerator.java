@@ -15,24 +15,7 @@ import java.util.Map;
  */
 public abstract class HttlGenerator extends AbstractGenerator {
     private static final Logger log = LoggerFactory.getLogger(HttlGenerator.class);
-    protected String outPath;
-    protected String rootPackage;
 
-    public String getOutPath() {
-        return outPath;
-    }
-
-    public void setOutPath(String outPath) {
-        this.outPath = outPath;
-    }
-
-    public String getRootPackage() {
-        return rootPackage;
-    }
-
-    public void setRootPackage(String rootPackage) {
-        this.rootPackage = rootPackage;
-    }
 
     protected void executeModule(
             BuilderWrapper utils, String templPath, File file

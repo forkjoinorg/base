@@ -1,6 +1,6 @@
 package org.forkjoin.apikit.example.client.model;
 
-import java.util.Date;
+import org.forkjoin.apikit.example.client.form.TestForm;
 
 import org.forkjoin.apikit.core.*;
 
@@ -12,6 +12,8 @@ import java.util.AbstractMap.SimpleImmutableEntry;
  * @author  zuoge85 on 15/6/17.
  */
 public class TestObject<T extends ApiMessage> implements ApiMessage {
+
+	private TestForm testForm;
 
 	private String id;
 
@@ -67,14 +69,15 @@ public class TestObject<T extends ApiMessage> implements ApiMessage {
 	public TestObject() {
 	}
 
-	public TestObject(String id, boolean booleanValue, int intValue, long longValue, float floatValue,
-			double doubleValue, String stringValue, byte[] bytesValue, Date regDate,
+	public TestObject(TestForm testForm, String id, boolean booleanValue, int intValue, long longValue,
+			float floatValue, double doubleValue, String stringValue, byte[] bytesValue, Date regDate,
 			java.util.ArrayList<Boolean> booleanValueArray, java.util.ArrayList<Integer> intValueArray,
 			java.util.ArrayList<Long> longValueArray, java.util.ArrayList<Float> floatValueArray,
 			java.util.ArrayList<Double> doubleValueArray, java.util.ArrayList<String> stringValueArray,
 			java.util.ArrayList<Date> regDateArray, User user, java.util.ArrayList<User> users,
 			java.util.ArrayList<T> generics, java.util.ArrayList<TestObject<T>> genericObjs,
 			java.util.ArrayList<TestObject<User>> genericUsers, TestObject<T> genericObj, T generic) {
+		this.testForm = testForm;
 		this.id = id;
 		this.booleanValue = booleanValue;
 		this.intValue = intValue;
@@ -98,6 +101,14 @@ public class TestObject<T extends ApiMessage> implements ApiMessage {
 		this.genericUsers = genericUsers;
 		this.genericObj = genericObj;
 		this.generic = generic;
+	}
+
+	public TestForm getTestForm() {
+		return testForm;
+	}
+
+	public void setTestForm(TestForm testForm) {
+		this.testForm = testForm;
 	}
 
 	public String getId() {
@@ -374,6 +385,10 @@ public class TestObject<T extends ApiMessage> implements ApiMessage {
 	@Override
 	public List<Entry<String, Object>> encode(String $parent, List<Entry<String, Object>> $list) {
 
+		if (testForm != null) {
+			testForm.encode($parent + "testForm.", $list);
+		}
+
 		if (id != null) {
 			$list.add(new SimpleImmutableEntry<String, Object>($parent + "id", id));
 		}
@@ -457,19 +472,19 @@ public class TestObject<T extends ApiMessage> implements ApiMessage {
 
 	@Override
 	public String toString() {
-		return "TestObject [id=" + id + ",booleanValue=" + booleanValue + ",intValue=" + intValue + ",longValue="
-				+ longValue + ",floatValue=" + floatValue + ",doubleValue=" + doubleValue + ",stringValue="
-				+ stringValue + ",bytesValue=length:" + (bytesValue == null ? -1 : bytesValue.length) + ",regDate="
-				+ regDate + ",booleanValueArray=size:" + (booleanValueArray == null ? -1 : booleanValueArray.size())
-				+ ",intValueArray=size:" + (intValueArray == null ? -1 : intValueArray.size())
-				+ ",longValueArray=size:" + (longValueArray == null ? -1 : longValueArray.size())
-				+ ",floatValueArray=size:" + (floatValueArray == null ? -1 : floatValueArray.size())
-				+ ",doubleValueArray=size:" + (doubleValueArray == null ? -1 : doubleValueArray.size())
-				+ ",stringValueArray=size:" + (stringValueArray == null ? -1 : stringValueArray.size())
-				+ ",regDateArray=size:" + (regDateArray == null ? -1 : regDateArray.size()) + ",user=" + user
-				+ ",users=size:" + (users == null ? -1 : users.size()) + ",generics=size:"
-				+ (generics == null ? -1 : generics.size()) + ",genericObjs=size:"
-				+ (genericObjs == null ? -1 : genericObjs.size()) + ",genericUsers=size:"
+		return "TestObject [testForm=" + testForm + ",id=" + id + ",booleanValue=" + booleanValue + ",intValue="
+				+ intValue + ",longValue=" + longValue + ",floatValue=" + floatValue + ",doubleValue=" + doubleValue
+				+ ",stringValue=" + stringValue + ",bytesValue=length:" + (bytesValue == null ? -1 : bytesValue.length)
+				+ ",regDate=" + regDate + ",booleanValueArray=size:"
+				+ (booleanValueArray == null ? -1 : booleanValueArray.size()) + ",intValueArray=size:"
+				+ (intValueArray == null ? -1 : intValueArray.size()) + ",longValueArray=size:"
+				+ (longValueArray == null ? -1 : longValueArray.size()) + ",floatValueArray=size:"
+				+ (floatValueArray == null ? -1 : floatValueArray.size()) + ",doubleValueArray=size:"
+				+ (doubleValueArray == null ? -1 : doubleValueArray.size()) + ",stringValueArray=size:"
+				+ (stringValueArray == null ? -1 : stringValueArray.size()) + ",regDateArray=size:"
+				+ (regDateArray == null ? -1 : regDateArray.size()) + ",user=" + user + ",users=size:"
+				+ (users == null ? -1 : users.size()) + ",generics=size:" + (generics == null ? -1 : generics.size())
+				+ ",genericObjs=size:" + (genericObjs == null ? -1 : genericObjs.size()) + ",genericUsers=size:"
 				+ (genericUsers == null ? -1 : genericUsers.size()) + ",genericObj=" + genericObj + ",generic="
 				+ generic + ", ]";
 	}

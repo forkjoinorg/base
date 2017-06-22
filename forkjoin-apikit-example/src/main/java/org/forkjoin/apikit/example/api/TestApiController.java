@@ -23,6 +23,12 @@ import java.util.List;
 @RequestMapping(value = "v1")
 public class TestApiController {
 
+    @RequestMapping(value = "testVoid", method = {RequestMethod.POST})
+    @Account(false)
+    public void testVoid() throws Exception {
+
+    }
+
     @RequestMapping(value = "testObjectList", method = {RequestMethod.POST})
     @Account(false)
     public Result<TestObjectList<User>> testObjectList(@Valid TestForm<User> testForm) throws Exception {

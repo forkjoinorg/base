@@ -6,7 +6,7 @@ import org.forkjoin.apikit.info.MessageInfo;
 /**
  *
  */
-public abstract class AbstractGenerator implements Generator {
+public abstract class AbstractGenerator extends AbstractFileGenerator {
     protected Context context;
 
     private String version;

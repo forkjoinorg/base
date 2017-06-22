@@ -25,6 +25,63 @@ public class TestApi {
 	/**
 	 * 
 	 *
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>testVoid</b>
+	 * <ul>
+	 * <li><b>Model:</b> void</li>
+	 * </ul>
+	 * </div>
+
+	 */
+	public Void testVoidData() {
+		Result<Void> result = testVoid();
+		if (!result.isSuccess()) {
+			Exception ex = result.getException();
+			if (ex != null) {
+				throw new RuntimeException(ex.getMessage(), ex);
+			} else {
+				throw new RuntimeException(result.toString());
+			}
+		}
+		return result.getData();
+	}
+
+	/**
+	 * 
+	 *
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>testVoid</b>
+	 * <ul>
+	 * <li><b>Model:</b> void</li>
+	 * </ul>
+	 * </div>
+
+	 */
+	public Result<Void> testVoid() {
+		Map<String, Object> _uriVariables = new HashMap<>();
+		String _url = ApiUtils.expandUriComponent("testVoid", _uriVariables);
+
+		return httpClientAdapter.<Result<Void>, Void> request("POST", _url, null, _0Type, false);
+	}
+
+	/**
+	 * 
+	 *
+	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>testVoid</b>
+	 * <ul>
+	 * <li><b>Model:</b> void</li>
+	 * </ul>
+	 * </div>
+
+	 */
+	public Future<?> testVoid(Callback<Result<Void>, Void> callable) {
+		Map<String, Object> _uriVariables = new HashMap<>();
+		String _url = ApiUtils.expandUriComponent("testVoid", _uriVariables);
+
+		return httpClientAdapter.requestAsync("POST", _url, null, _0Type, false, callable);
+	}
+
+	/**
+	 * 
+	 *
 	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>testObjectList</b>
 	 * <ul>
 	 * <li><b>Form:</b>TestForm&lt;User&gt;testObjectList</li>
@@ -67,7 +124,7 @@ public class TestApi {
 
 		List<Entry<String, Object>> _form = testForm.encode("", new ArrayList<Entry<String, Object>>());
 		return httpClientAdapter.<Result<TestObjectList<User>>, TestObjectList<User>> request("POST", _url, _form,
-				_0Type, false);
+				_1Type, false);
 	}
 
 	/**
@@ -89,7 +146,7 @@ public class TestApi {
 		String _url = ApiUtils.expandUriComponent("testObjectList", _uriVariables);
 
 		List<Entry<String, Object>> _form = testForm.encode("", new ArrayList<Entry<String, Object>>());
-		return httpClientAdapter.requestAsync("POST", _url, _form, _0Type, false, callable);
+		return httpClientAdapter.requestAsync("POST", _url, _form, _1Type, false, callable);
 	}
 
 	/**
@@ -136,7 +193,7 @@ public class TestApi {
 		String _url = ApiUtils.expandUriComponent("test", _uriVariables);
 
 		List<Entry<String, Object>> _form = testForm.encode("", new ArrayList<Entry<String, Object>>());
-		return httpClientAdapter.<Result<TestObject<User>>, TestObject<User>> request("POST", _url, _form, _1Type,
+		return httpClientAdapter.<Result<TestObject<User>>, TestObject<User>> request("POST", _url, _form, _2Type,
 				false);
 	}
 
@@ -158,7 +215,7 @@ public class TestApi {
 		String _url = ApiUtils.expandUriComponent("test", _uriVariables);
 
 		List<Entry<String, Object>> _form = testForm.encode("", new ArrayList<Entry<String, Object>>());
-		return httpClientAdapter.requestAsync("POST", _url, _form, _1Type, false, callable);
+		return httpClientAdapter.requestAsync("POST", _url, _form, _2Type, false, callable);
 	}
 
 	/**
@@ -205,7 +262,7 @@ public class TestApi {
 		_uriVariables.put("id", id);
 		String _url = ApiUtils.expandUriComponent("test/{id}", _uriVariables);
 
-		return httpClientAdapter.<Result<TestObject<User>>, TestObject<User>> request("GET", _url, null, _2Type, false);
+		return httpClientAdapter.<Result<TestObject<User>>, TestObject<User>> request("GET", _url, null, _3Type, false);
 	}
 
 	/**
@@ -226,7 +283,7 @@ public class TestApi {
 		_uriVariables.put("id", id);
 		String _url = ApiUtils.expandUriComponent("test/{id}", _uriVariables);
 
-		return httpClientAdapter.requestAsync("GET", _url, null, _2Type, false, callable);
+		return httpClientAdapter.requestAsync("GET", _url, null, _3Type, false, callable);
 	}
 
 	/**
@@ -274,7 +331,7 @@ public class TestApi {
 
 		List<Entry<String, Object>> _form = testForm.encode("", new ArrayList<Entry<String, Object>>());
 		return httpClientAdapter
-				.<Result<TestObject<User>>, TestObject<User>> request("PUT", _url, _form, _3Type, false);
+				.<Result<TestObject<User>>, TestObject<User>> request("PUT", _url, _form, _4Type, false);
 	}
 
 	/**
@@ -295,7 +352,7 @@ public class TestApi {
 		String _url = ApiUtils.expandUriComponent("test", _uriVariables);
 
 		List<Entry<String, Object>> _form = testForm.encode("", new ArrayList<Entry<String, Object>>());
-		return httpClientAdapter.requestAsync("PUT", _url, _form, _3Type, false, callable);
+		return httpClientAdapter.requestAsync("PUT", _url, _form, _4Type, false, callable);
 	}
 
 	/**
@@ -342,7 +399,7 @@ public class TestApi {
 		String _url = ApiUtils.expandUriComponent("test", _uriVariables);
 
 		List<Entry<String, Object>> _form = testForm.encode("", new ArrayList<Entry<String, Object>>());
-		return httpClientAdapter.<Result<TestObject<User>>, TestObject<User>> request("PATCH", _url, _form, _4Type,
+		return httpClientAdapter.<Result<TestObject<User>>, TestObject<User>> request("PATCH", _url, _form, _5Type,
 				false);
 	}
 
@@ -364,7 +421,7 @@ public class TestApi {
 		String _url = ApiUtils.expandUriComponent("test", _uriVariables);
 
 		List<Entry<String, Object>> _form = testForm.encode("", new ArrayList<Entry<String, Object>>());
-		return httpClientAdapter.requestAsync("PATCH", _url, _form, _4Type, false, callable);
+		return httpClientAdapter.requestAsync("PATCH", _url, _form, _5Type, false, callable);
 	}
 
 	/**
@@ -411,7 +468,7 @@ public class TestApi {
 		_uriVariables.put("id", id);
 		String _url = ApiUtils.expandUriComponent("test/{id}", _uriVariables);
 
-		return httpClientAdapter.<Result<Boolean>, Boolean> request("DELETE", _url, null, _5Type, false);
+		return httpClientAdapter.<Result<Boolean>, Boolean> request("DELETE", _url, null, _6Type, false);
 	}
 
 	/**
@@ -432,7 +489,7 @@ public class TestApi {
 		_uriVariables.put("id", id);
 		String _url = ApiUtils.expandUriComponent("test/{id}", _uriVariables);
 
-		return httpClientAdapter.requestAsync("DELETE", _url, null, _5Type, false, callable);
+		return httpClientAdapter.requestAsync("DELETE", _url, null, _6Type, false, callable);
 	}
 
 	/**
@@ -479,7 +536,7 @@ public class TestApi {
 		_uriVariables.put("id", id);
 		String _url = ApiUtils.expandUriComponent("tests/{id}", _uriVariables);
 
-		return httpClientAdapter.<Result<Integer>, Integer> request("DELETE", _url, null, _6Type, false);
+		return httpClientAdapter.<Result<Integer>, Integer> request("DELETE", _url, null, _7Type, false);
 	}
 
 	/**
@@ -500,7 +557,7 @@ public class TestApi {
 		_uriVariables.put("id", id);
 		String _url = ApiUtils.expandUriComponent("tests/{id}", _uriVariables);
 
-		return httpClientAdapter.requestAsync("DELETE", _url, null, _6Type, false, callable);
+		return httpClientAdapter.requestAsync("DELETE", _url, null, _7Type, false, callable);
 	}
 
 	/**
@@ -552,7 +609,7 @@ public class TestApi {
 		_uriVariables.put("name", name);
 		String _url = ApiUtils.expandUriComponent("search/{id}/{name}", _uriVariables);
 
-		return httpClientAdapter.<Result<TestObject<User>>, TestObject<User>> request("GET", _url, null, _7Type, false);
+		return httpClientAdapter.<Result<TestObject<User>>, TestObject<User>> request("GET", _url, null, _8Type, false);
 	}
 
 	/**
@@ -576,7 +633,7 @@ public class TestApi {
 		_uriVariables.put("name", name);
 		String _url = ApiUtils.expandUriComponent("search/{id}/{name}", _uriVariables);
 
-		return httpClientAdapter.requestAsync("GET", _url, null, _7Type, false, callable);
+		return httpClientAdapter.requestAsync("GET", _url, null, _8Type, false, callable);
 	}
 
 	/**
@@ -623,7 +680,7 @@ public class TestApi {
 		_uriVariables.put("name", name);
 		String _url = ApiUtils.expandUriComponent("testString/{name}", _uriVariables);
 
-		return httpClientAdapter.<Result<String>, String> request("GET", _url, null, _8Type, false);
+		return httpClientAdapter.<Result<String>, String> request("GET", _url, null, _9Type, false);
 	}
 
 	/**
@@ -644,7 +701,7 @@ public class TestApi {
 		_uriVariables.put("name", name);
 		String _url = ApiUtils.expandUriComponent("testString/{name}", _uriVariables);
 
-		return httpClientAdapter.requestAsync("GET", _url, null, _8Type, false, callable);
+		return httpClientAdapter.requestAsync("GET", _url, null, _9Type, false, callable);
 	}
 
 	/**
@@ -696,7 +753,7 @@ public class TestApi {
 		_uriVariables.put("age", age);
 		String _url = ApiUtils.expandUriComponent("testString1/{name}/{age}", _uriVariables);
 
-		return httpClientAdapter.<Result<String>, String> request("GET", _url, null, _9Type, false);
+		return httpClientAdapter.<Result<String>, String> request("GET", _url, null, _10Type, false);
 	}
 
 	/**
@@ -720,23 +777,24 @@ public class TestApi {
 		_uriVariables.put("age", age);
 		String _url = ApiUtils.expandUriComponent("testString1/{name}/{age}", _uriVariables);
 
-		return httpClientAdapter.requestAsync("GET", _url, null, _9Type, false, callable);
+		return httpClientAdapter.requestAsync("GET", _url, null, _10Type, false, callable);
 	}
 
-	private static final ApiType _0Type = ApiUtils.type(Result.class,
-			ApiUtils.type(TestObjectList.class, ApiUtils.type(User.class)));
+	private static final ApiType _0Type = ApiUtils.type(Result.class, ApiUtils.type(Void.class));
 	private static final ApiType _1Type = ApiUtils.type(Result.class,
-			ApiUtils.type(TestObject.class, ApiUtils.type(User.class)));
+			ApiUtils.type(TestObjectList.class, ApiUtils.type(User.class)));
 	private static final ApiType _2Type = ApiUtils.type(Result.class,
 			ApiUtils.type(TestObject.class, ApiUtils.type(User.class)));
 	private static final ApiType _3Type = ApiUtils.type(Result.class,
 			ApiUtils.type(TestObject.class, ApiUtils.type(User.class)));
 	private static final ApiType _4Type = ApiUtils.type(Result.class,
 			ApiUtils.type(TestObject.class, ApiUtils.type(User.class)));
-	private static final ApiType _5Type = ApiUtils.type(Result.class, ApiUtils.type(Boolean.class));
-	private static final ApiType _6Type = ApiUtils.type(Result.class, ApiUtils.type(Integer.class));
-	private static final ApiType _7Type = ApiUtils.type(Result.class,
+	private static final ApiType _5Type = ApiUtils.type(Result.class,
 			ApiUtils.type(TestObject.class, ApiUtils.type(User.class)));
-	private static final ApiType _8Type = ApiUtils.type(Result.class, ApiUtils.type(String.class));
+	private static final ApiType _6Type = ApiUtils.type(Result.class, ApiUtils.type(Boolean.class));
+	private static final ApiType _7Type = ApiUtils.type(Result.class, ApiUtils.type(Integer.class));
+	private static final ApiType _8Type = ApiUtils.type(Result.class,
+			ApiUtils.type(TestObject.class, ApiUtils.type(User.class)));
 	private static final ApiType _9Type = ApiUtils.type(Result.class, ApiUtils.type(String.class));
+	private static final ApiType _10Type = ApiUtils.type(Result.class, ApiUtils.type(String.class));
 }

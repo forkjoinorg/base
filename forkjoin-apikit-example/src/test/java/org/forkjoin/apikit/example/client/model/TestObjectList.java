@@ -1,8 +1,5 @@
 package org.forkjoin.apikit.example.client.model;
 
-import java.util.Date;
-import java.util.List;
-
 import org.forkjoin.apikit.core.*;
 
 import java.util.*;

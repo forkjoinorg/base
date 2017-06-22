@@ -2,6 +2,7 @@ package org.forkjoin.apikit.example.model;
 
 
 import org.forkjoin.apikit.core.Message;
+import org.forkjoin.apikit.example.form.TestForm;
 
 import java.util.Date;
 
@@ -10,6 +11,7 @@ import java.util.Date;
  */
 @Message
 public class TestObject<T> {
+    private TestForm testForm;
     private String id;
     /**
      * 签名

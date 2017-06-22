@@ -17,6 +17,25 @@ class TestApi extends AbstractApi {
    /**
     * 
     *
+    * <div class='http-info'>http 说明：<b>Api Url:</b> <b>testVoid</b>
+    * <ul>
+    * <li><b>Model:</b> void</li>
+    * </ul>
+    * </div>
+
+    */
+    testVoid():Promise<void> {
+        var _path = null;
+        return super._request(
+                    "POST", "testVoid", _path, null
+                );
+    }
+
+
+
+   /**
+    * 
+    *
     * <div class='http-info'>http 说明：<b>Api Url:</b> <b>testObjectList</b>
     * <ul>
     * <li><b>Form:</b>TestFormtestObjectList</li>

@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="forkjoin-apikit" />
+        <module name="forkjoin-apikit-client" />
         <module name="forkjoin-apikit-core" />
         <module name="forkjoin-apikit-example" />
         <module name="forkjoin-apikit-springmvc" />
@@ -16,8 +17,9 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="forkjoin" target="1.7" />
+      <module name="base" target="1.7" />
       <module name="forkjoin-apikit" target="1.7" />
+      <module name="forkjoin-apikit-client" target="1.7" />
       <module name="forkjoin-apikit-core" target="1.7" />
       <module name="forkjoin-apikit-example" target="1.7" />
       <module name="forkjoin-apikit-springmvc" target="1.7" />

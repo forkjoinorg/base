@@ -23,7 +23,7 @@ public class TestNoResultApiControllerTest extends BaseControllerTest {
 
     @Test
     public void testStringData() {
-        String str = RandomStringUtils.random(ARRAY_MAX);
+        String str = RandomStringUtils.randomAlphanumeric(ARRAY_MAX);
         String result = apiManager.testNoResultApi.testStringData(str);
         Assert.assertEquals(str, result);
     }

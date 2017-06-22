@@ -2,7 +2,6 @@ package org.forkjoin.apikit.example.client.form;
 
 import org.forkjoin.apikit.example.client.model.TestObject;
 import org.forkjoin.apikit.example.client.model.User;
-import java.util.Date;
 
 import org.forkjoin.apikit.core.*;
 

@@ -22,6 +22,11 @@ public class TestApiControllerTest extends BaseControllerTest {
     public static final String CHARSET_NAME = "utf8";
 
     @Test
+    public void testVoid() {
+        apiManager.testApi.testVoid();
+    }
+
+    @Test
     public void testStringData() {
         String str = RandomStringUtils.random(ARRAY_MAX);
         String result = apiManager.testApi.testStringData(str);

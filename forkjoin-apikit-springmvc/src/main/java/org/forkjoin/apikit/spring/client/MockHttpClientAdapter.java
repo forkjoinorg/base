@@ -1,8 +1,9 @@
 package org.forkjoin.apikit.spring.client;
 
 import org.apache.commons.lang3.StringUtils;
-import org.forkjoin.apikit.JsonConvert;
 import org.forkjoin.apikit.client.Callback;
+import org.forkjoin.apikit.client.core.JsonConvert;
+import org.forkjoin.apikit.client.core.TypeConvert;
 import org.forkjoin.apikit.core.Result;
 import org.forkjoin.apikit.spring.AccountHandlerInterceptor;
 import org.forkjoin.apikit.spring.AccountRuntimeException;
@@ -41,7 +42,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 /**
  * @author zuoge85 on 15/6/18.
  */
-public class MockHttpClientAdapter extends AbstractHttpClientAdapter {
+public class MockHttpClientAdapter extends org.forkjoin.apikit.client.AbstractHttpClientAdapter {
     private static final Logger log = LoggerFactory.getLogger(MockHttpClientAdapter.class);
 
     private final ExecutorService asyncExecutor;
@@ -51,8 +52,8 @@ public class MockHttpClientAdapter extends AbstractHttpClientAdapter {
 
     protected MockMvc mvc;
 
-    public MockHttpClientAdapter(String serverUrl, ConversionService conversionService, JsonConvert jsonConvert) {
-        super(serverUrl, conversionService, jsonConvert);
+    public MockHttpClientAdapter(String serverUrl, TypeConvert typeConvert, JsonConvert jsonConvert) {
+        super(serverUrl, typeConvert, jsonConvert);
 
         asyncExecutor = ExecutorsUtils.newFixedThreadPool(32,
                 new Thread.UncaughtExceptionHandler() {
@@ -70,9 +71,6 @@ public class MockHttpClientAdapter extends AbstractHttpClientAdapter {
                 });
     }
 
-    public MockHttpClientAdapter(String serverUrl, ConversionService conversionService) {
-        this(serverUrl, conversionService, null);
-    }
 
     public MockHttpClientAdapter(String serverUrl) {
         this(serverUrl, null, null);
@@ -87,7 +85,7 @@ public class MockHttpClientAdapter extends AbstractHttpClientAdapter {
     @Override
     public <R extends Result<T>, T> R request(String method, String uri, List<Map.Entry<String, Object>> form, Type type, boolean isAccount) {
         try {
-            return this.<R,T>innerRequest(method, uri, form, isAccount, type, null);
+            return this.<R, T>innerRequest(method, uri, form, isAccount, type, null);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -98,7 +96,7 @@ public class MockHttpClientAdapter extends AbstractHttpClientAdapter {
             final String method, final String uri,
             final List<Map.Entry<String, Object>> form,
             final Type type, final boolean isAccount,
-            final Callback<R,T> callable
+            final Callback<R, T> callable
     ) {
         try {
             /**
@@ -116,8 +114,8 @@ public class MockHttpClientAdapter extends AbstractHttpClientAdapter {
     }
 
     private <R extends Result<T>, T> R innerRequest(String method, String uri,
-                                       List<Map.Entry<String, Object>> form,
-                                       boolean isAccount, Type type, Callback<R,T> callable) throws Exception {
+                                                    List<Map.Entry<String, Object>> form,
+                                                    boolean isAccount, Type type, Callback<R, T> callable) throws Exception {
         MockHttpServletRequestBuilder requestBuilder = create(method,
                 createUrl(uri));
 
@@ -142,7 +140,7 @@ public class MockHttpClientAdapter extends AbstractHttpClientAdapter {
 
         String contentAsString = mvcResult.getResponse().getContentAsString();
 
-        R objectResult = this.<R,T>handlerResult(type, true, contentAsString, null);
+        R objectResult = this.<R, T>handlerResult(type, true, contentAsString, null);
         if (callable != null) {
             callable.call(objectResult.getData(), objectResult);
         }
