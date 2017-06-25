@@ -33,7 +33,7 @@ class AccountApi extends AbstractApi {
 
 
    /**
-    * 测试需要登录
+    * 测试需要登录5
     *
     * <div class='http-info'>http 说明：<b>Api Url:</b> <b>account/testLogin</b>
     * <ul>

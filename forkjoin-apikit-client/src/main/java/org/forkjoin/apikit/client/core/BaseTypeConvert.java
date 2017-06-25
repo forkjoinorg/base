@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class BaseTypeConvert implements TypeConvert {
 
-    public static final String FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final String FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
 
     private  String format = FORMAT;
 

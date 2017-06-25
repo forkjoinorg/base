@@ -1,7 +1,11 @@
 package org.forkjoin.apikit.jgit;
 
+import com.google.common.collect.Iterables;
+import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.LogCommand;
+import org.eclipse.jgit.api.RmCommand;
+import org.eclipse.jgit.api.Status;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -21,6 +25,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author zuoge85@gmail.com on 2017/6/22.
@@ -62,7 +67,12 @@ public class GitGenerator implements Generator {
             log.info("git clone 成功", tempDir.toAbsolutePath());
             log.info("git临时目录:{}", tempDir.toAbsolutePath());
 
-            generator.setOutPath(new File(tempDir.toFile(), srcUri).getAbsolutePath());
+            File src = new File(tempDir.toFile(), srcUri);
+            generator.setOutPath(src.getAbsolutePath());
+
+            File delFile = new File(src, deleteUri);
+            log.info("清理目录:{}", delFile.getAbsolutePath());
+            FileUtils.deleteDirectory(delFile);
 
             log.info("开始执行生成器");
             generator.generate(context);
@@ -70,21 +80,52 @@ public class GitGenerator implements Generator {
             DirCache dirCache = git.add().addFilepattern(".").call();
             log.info("添加文件: getEntryCount: {},dirCache:{}", dirCache.getEntryCount(), dirCache);
 
+
+            Set<String> missing = git.status().call().getMissing();
+
+            if(!missing.isEmpty()){
+                RmCommand rm = git.rm();
+                for (String missingFile : missing) {
+                    rm.addFilepattern(missingFile);
+                }
+                DirCache rmCache = rm.call();
+
+                log.info("删除文件: getEntryCount: {},dirCache:{}", rmCache.getEntryCount(), rmCache);
+            }
+
+
+            Status status = git.status().call();
+
+            boolean isChange = status.getAdded().size() > 0 ||
+                    status.getChanged().size() > 0 ||
+                    status.getMissing().size() > 0 ||
+                    status.getAdded().size() > 0 ||
+                    status.getModified().size() > 0 ||
+                    status.getRemoved().size() > 0;
+            if(!isChange){
+                log.info("未有改变，不提交:{}",status);
+                return;
+            }
+
             int version = getVersion(git);
             String message = String.format(commitTemplate, Integer.toString(version));
 
             log.info("开始提交！");
-            RevCommit revCommit = git.commit().setAuthor(gitName, gitEmail).setAll(true).setMessage(message).call();
+            RevCommit revCommit = git.commit().setAuthor(gitName, gitEmail).setMessage(message).call();
             log.info("提交结果:{}", revCommit);
 
             log.info("开始push:{}", revCommit);
+
+
+
+
             Iterable<PushResult> pushResults = git.push().setCredentialsProvider(cp).call();
 
-            log.info("push结果:{}", pushResults);
+            log.info("push结果:{}", Iterables.toString(pushResults));
+
+
         } finally {
-            if (tempDir != null) {
-                tempDir.toFile().delete();
-            }
+            FileUtils.deleteDirectory(tempDir.toFile());
         }
 
     }
@@ -93,8 +134,9 @@ public class GitGenerator implements Generator {
         LogCommand log = git.log();
         List<Ref> refs = git.branchList().call();
         Ref curRef = null;
+        String branch = "refs/heads/" + this.gitBranch;
         for (Ref ref : refs) {
-            if (ref.getName().equals(gitBranch)) {
+            if (ref.getName().equals(branch)) {
                 curRef = ref;
                 break;
             }

@@ -32,7 +32,7 @@ public class AccountApiController {
     }
 
     /**
-     * 测试需要登录
+     * 测试需要登录5
      */
     @RequestMapping(value = "account/testLogin", method = {RequestMethod.POST})
     public Result<Void> testLogin(ExampleAccount account) throws Exception {
