@@ -49,7 +49,7 @@ public class GitGenerator implements Generator {
     private String gitUrl;
     private String gitBranch = "master";
     private String srcUri;
-    private String deleteUri;
+    private List<String> deleteUris;
     private String commitTemplate = "更新SDK版本:%s";
 
 
@@ -70,9 +70,13 @@ public class GitGenerator implements Generator {
             File src = new File(tempDir.toFile(), srcUri);
             generator.setOutPath(src.getAbsolutePath());
 
-            File delFile = new File(src, deleteUri);
-            log.info("清理目录:{}", delFile.getAbsolutePath());
-            FileUtils.deleteDirectory(delFile);
+            if (deleteUris != null && !deleteUris.isEmpty()) {
+                for (String deleteUri : deleteUris) {
+                    File delFile = new File(src, deleteUri);
+                    log.info("清理目录:{}", delFile.getAbsolutePath());
+                    FileUtils.deleteDirectory(delFile);
+                }
+            }
 
             log.info("开始执行生成器");
             generator.generate(context);
@@ -83,7 +87,7 @@ public class GitGenerator implements Generator {
 
             Set<String> missing = git.status().call().getMissing();
 
-            if(!missing.isEmpty()){
+            if (!missing.isEmpty()) {
                 RmCommand rm = git.rm();
                 for (String missingFile : missing) {
                     rm.addFilepattern(missingFile);
@@ -102,8 +106,8 @@ public class GitGenerator implements Generator {
                     status.getAdded().size() > 0 ||
                     status.getModified().size() > 0 ||
                     status.getRemoved().size() > 0;
-            if(!isChange){
-                log.info("未有改变，不提交:{}",status);
+            if (!isChange) {
+                log.info("未有改变，不提交:{}", status);
                 return;
             }
 
@@ -115,8 +119,6 @@ public class GitGenerator implements Generator {
             log.info("提交结果:{}", revCommit);
 
             log.info("开始push:{}", revCommit);
-
-
 
 
             Iterable<PushResult> pushResults = git.push().setCredentialsProvider(cp).call();
@@ -208,12 +210,12 @@ public class GitGenerator implements Generator {
         this.srcUri = srcUri;
     }
 
-    public String getDeleteUri() {
-        return deleteUri;
+    public List<String> getDeleteUris() {
+        return deleteUris;
     }
 
-    public void setDeleteUri(String deleteUri) {
-        this.deleteUri = deleteUri;
+    public void setDeleteUris(List<String> deleteUris) {
+        this.deleteUris = deleteUris;
     }
 
     public String getCommitTemplate() {
@@ -263,7 +265,7 @@ public class GitGenerator implements Generator {
                 ", gitUrl='" + gitUrl + '\'' +
                 ", gitBranch='" + gitBranch + '\'' +
                 ", srcUri='" + srcUri + '\'' +
-                ", deleteUri='" + deleteUri + '\'' +
+                ", deleteUris='" + deleteUris + '\'' +
                 ", commitTemplate='" + commitTemplate + '\'' +
                 '}';
     }

@@ -12,7 +12,7 @@ import java.util.List;
  * @author zuoge85 on 15/6/9.
  */
 public abstract class AbstractReadOnlyDao<T extends EntityObject, K extends KeyObject>
-        extends JdbcDaoSupport implements ReadOnlyDao<T, K> {
+        extends AutowireNamedJdbcDaoSupport implements ReadOnlyDao<T, K> {
 
 
     @Override

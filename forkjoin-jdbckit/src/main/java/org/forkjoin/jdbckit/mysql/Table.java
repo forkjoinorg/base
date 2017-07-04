@@ -246,6 +246,9 @@ public class Table {
     }
 
     private String getToStringString(List<Column> list) {
+        if (list.isEmpty()) {
+            return "\"" + getClassName() + "[]" + "\"";
+        }
         StringBuilder sb = new StringBuilder("\"");
         sb.append(getClassName());
         sb.append("[");
@@ -262,7 +265,8 @@ public class Table {
             if (String.class.getSimpleName().equals(c.getClassName())) {
                 sb.append("(").append(c.getFieldName()).append(" == null ?\"null\":");
                 sb.append(c.getFieldName()).append(".substring(0, Math.min(");
-                sb.append(c.getFieldName()).append(".length(), 64)))");;
+                sb.append(c.getFieldName()).append(".length(), 64)))");
+                ;
             } else {
                 sb.append(c.getFieldName());
             }
@@ -341,14 +345,14 @@ public class Table {
     }
 
     public String getClassName() {
-        if(tablePrefix != null && name.startsWith(tablePrefix)){
+        if (tablePrefix != null && name.startsWith(tablePrefix)) {
             return NameUtils.toClassName(name.substring(tablePrefix.length()));
         }
         return NameUtils.toClassName(name);
     }
 
     public String getFieldName() {
-        if(tablePrefix != null && name.startsWith(tablePrefix)){
+        if (tablePrefix != null && name.startsWith(tablePrefix)) {
             return NameUtils.toFieldName(name.substring(tablePrefix.length()));
         }
         return NameUtils.toFieldName(name);

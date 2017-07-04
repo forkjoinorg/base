@@ -17,12 +17,17 @@ public class Builder {
     protected Generator generator;
 
     public Builder(File rootDir, DataSource ds, String packageName) throws Exception {
+        this(rootDir, ds, packageName, null);
+    }
+
+    public Builder(File rootDir, DataSource ds, String packageName, String jdbcDataSourceName) throws Exception {
         File dir = new File(rootDir, "src/main/java/");
         File resourcesDir = new File(rootDir, "src/main/resources/");
         log.info("代码路径:{}", dir.getAbsolutePath());
 
         Config config = new Config(dir, resourcesDir);
         config.setPack(packageName);
+        config.setJdbcDataSourceName(jdbcDataSourceName);
         Connection conn = null;
         try {
             conn = ds.getConnection();
@@ -34,13 +39,19 @@ public class Builder {
         }
     }
 
-    /**
-     */
     public void build() throws Exception {
         generator.objectCreate();
         generator.objectMetaCreate();
         //generator.daoCreate();
         generator.daoImplCreate();
+        generator.springXmlCreate();
+    }
+
+    public void readOnlyBuild() throws Exception {
+        generator.objectCreate();
+        generator.objectMetaCreate();
+        //generator.daoCreate();
+        generator.readOnlyDaoImplCreate();
         generator.springXmlCreate();
     }
 }

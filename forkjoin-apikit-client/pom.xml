@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.forkjoin</groupId>
         <artifactId>base</artifactId>
-        <version>2.1.3</version>
+        <version>2.1.4-SNAPSHOT</version>
     </parent>
     <artifactId>forkjoin-apikit-client</artifactId>
     <packaging>jar</packaging>

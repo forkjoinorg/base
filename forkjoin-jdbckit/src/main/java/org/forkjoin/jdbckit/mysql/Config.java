@@ -10,6 +10,8 @@ public class Config {
     private String daoPack = "dao";
     private String charset = "utf8";
     private String tablePrefix;
+    private String jdbcDataSourceName;
+
 
     private File dir;
     private File resourcesDir;
@@ -93,6 +95,28 @@ public class Config {
 
     public void setTablePrefix(String tablePrefix) {
         this.tablePrefix = tablePrefix;
+    }
+
+    public String getJdbcDataSourceName() {
+        return jdbcDataSourceName;
+    }
+
+    public void setJdbcDataSourceName(String jdbcDataSourceName) {
+        this.jdbcDataSourceName = jdbcDataSourceName;
+    }
+
+    @Override
+    public String toString() {
+        return "Config{" +
+                "pack='" + pack + '\'' +
+                ", objectPack='" + objectPack + '\'' +
+                ", daoPack='" + daoPack + '\'' +
+                ", charset='" + charset + '\'' +
+                ", tablePrefix='" + tablePrefix + '\'' +
+                ", jdbcDataSourceName='" + jdbcDataSourceName + '\'' +
+                ", dir=" + dir +
+                ", resourcesDir=" + resourcesDir +
+                '}';
     }
 }
 

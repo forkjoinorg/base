@@ -5,10 +5,17 @@
 <!--#set(String beanPack)-->
 package $!{implPack};
 
+<!--#if(jdbcDataSourceName)-->
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+<!--#end-->
 import org.forkjoin.jdbckit.core.impi.BaseDaoImpi;
 import $!{beanPack}.$!{t.className}DO;
 
 import org.springframework.stereotype.Component;
+
+import javax.sql.DataSource;
 
 @Component
 public class $!{t.className}Dao extends BaseDaoImpi<$!{t.className}DO,$!{t.className}DO.Key>  {
@@ -19,4 +26,13 @@ public class $!{t.className}Dao extends BaseDaoImpi<$!{t.className}DO,$!{t.class
 	public $!{t.className}DO get($!{t.keysParameters}) {
 		return get(new $!{t.className}DO.Key($!{t.methodParameters}));
 	}
+<!--#if(jdbcDataSourceName)-->
+
+	@Override
+	@Autowired
+    @Qualifier("$!{jdbcDataSourceName}")
+    public void setDataSource(DataSource dataSource) {
+        super.setDataSource(dataSource);
+    }
+<!--#end-->
 }

@@ -47,6 +47,7 @@ public class ReadOnlyDaoImplCreate {
 
                 context.put("daoPack", pack);
                 context.put("sql", new SqlUtils());
+                context.put("jdbcDataSourceName", config.getJdbcDataSourceName());
 
                 HttlUtils.render(
                         "/org/forkjoin/jdbckit/mysql/template/readOnlyDaoImpl.httl",

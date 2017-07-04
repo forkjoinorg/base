@@ -97,6 +97,8 @@ public class $!{t.className}DO extends EntityObject<$!{t.className}DO, $!{t.clas
             sb.append($!{c.getGetName()}());
 <!--            #end-->
             return sb.toString();
+<!--        #else(t.keyColumns.size ==0)-->
+            return null;
 <!--        #else-->
 <!--#set(Column c = t.keyColumns.get(0))-->
             return String.valueOf($!{c.getGetName()}());

@@ -79,7 +79,7 @@ public class ApiBuilderMain {
 //            gitGenerator.setGitName("小草");
 //
 //            gitGenerator.setSrcUri("javasdk/src/main/java");
-//            gitGenerator.setDeleteUri(rootPackage.replace(".", "/"));
+//            gitGenerator.setDeleteUris(rootPackage.replace(".", "/"));
 //            gitGenerator.setGitBranch("master");
 //
 //            manager.generate(gitGenerator);
