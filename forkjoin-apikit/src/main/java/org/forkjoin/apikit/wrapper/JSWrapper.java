@@ -41,34 +41,7 @@ public class JSWrapper<T extends ModuleInfo> extends BuilderWrapper<T> {
     }
 
 
-    public String getImports() {
-        return getImports(new HashSet<String>());
-    }
 
-    public String getImports(Set<String> containsSet) {
-        StringBuilder sb = new StringBuilder();
-        ImportsInfo imports = moduleInfo.getImports();
-        String moduleInfoPackageName = moduleInfo.getPackageName();
-        //自己的目录级别
-        int myLevel = moduleInfoPackageName.split(".").length + 1;
-        for (Import importItem : imports.getImports()) {
-            if (importItem.isInside()) {
-                //import {User} from './../form/User';
-                String packageName = importItem.getPackageName();
-
-                if (!containsSet.contains(importItem.getName())) {
-                    containsSet.add(importItem.getName());
-                    sb.append("import ")
-                            .append(importItem.getName())
-                            .append(" from './")
-                            .append(StringUtils.repeat("../", myLevel))
-                            .append(packageName.replace(".", "/")).append('/').append(importItem.getName()).append("'\n");
-
-                }
-            }
-        }
-        return sb.toString();
-    }
 
     public static String toTypeString(TypeInfo typeInfo) {
         StringBuilder sb = new StringBuilder();

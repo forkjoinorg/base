@@ -20,9 +20,7 @@ public abstract class AccountHandlerInterceptor<T> extends HandlerInterceptorAda
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (log.isDebugEnabled()) {
-            log.debug("request:{}", RequestUtils.dump(request));
-        }
+
 
         if (handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;

@@ -16,7 +16,7 @@ public class BuilderWrapper<T extends ModuleInfo> {
     protected T moduleInfo;
     private String rootPackage;
     private ArrayList<String> importExcludes = new ArrayList<>();
-    private ArrayList<String> imports = new ArrayList<>();
+    protected ArrayList<String> imports = new ArrayList<>();
     protected Context context;
 
     public BuilderWrapper(Context context, T moduleInfo, String rootPackage) {

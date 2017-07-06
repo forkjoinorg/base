@@ -9,6 +9,7 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.Ordered;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver;
@@ -39,7 +40,11 @@ public class ResultExceptionResolver extends DefaultHandlerExceptionResolver
             log.error("处理错误结果:{}", modelAndView);
             return modelAndView;
         }
-        log.error("处理错误:{},{}", ex.getMessage(), ex.getClass().getName(), ex);
+        if(ex instanceof HttpRequestMethodNotSupportedException){
+            log.error("处理错误:{},{}", ex.getMessage(), ex.getClass().getName());
+        }else{
+            log.error("处理错误:{},{}", ex.getMessage(), ex.getClass().getName(), ex);
+        }
         return noJsonResolveException(request, response, handler, ex);
     }
 

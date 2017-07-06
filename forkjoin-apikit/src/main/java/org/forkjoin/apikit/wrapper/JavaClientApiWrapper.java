@@ -29,14 +29,6 @@ public class JavaClientApiWrapper extends JavaApiWrapper {
 
     @Override
     public void init() {
-//        addExclude("org.forkjoin.apikit.spring.Result");
-//        addExclude("org.springframework.web.bind.annotation.PathVariable");
-//        addExclude("javax.validation");
-//        addExclude("org.hibernate.validator");
-//        addExclude("org.forkjoin.apikit.core.Account");
-//        addExclude("org.forkjoin.apikit.core.ActionType");
-//        addExclude("org.forkjoin.apikit.core.Api");
-//        addExclude("org.forkjoin.apikit.core.ApiMethod");
         initImport();
     }
 

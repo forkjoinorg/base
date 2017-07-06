@@ -25,7 +25,7 @@ public class JSMessageWrapper extends JSWrapper<MessageInfo> {
     public String getImports() {
         Set<String> containsSet = new HashSet<>();
 
-        StringBuilder sb = new StringBuilder(super.getImports(containsSet));
+        StringBuilder sb = new StringBuilder();
         //自己的目录级别
         int i = 0;
         for (PropertyInfo pro : moduleInfo.getProperties()) {

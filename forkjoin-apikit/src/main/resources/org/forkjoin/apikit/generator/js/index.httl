@@ -9,15 +9,7 @@ import $!{info.name} from './$!{info.packageName.replace('.','/')}/$!{info.name}
 import Apis from "./Apis";
 
 <!--#for(java.util.Map.Entry<String, Collection<MessageInfo>> pack : all)-->
-const ${pack.key}:{
-<!--    #for(info : pack.value)-->
-<!--        #if(!for.last)-->
-    $!{info.name}:$!{info.name},
-<!--        #else-->
-    $!{info.name}:$!{info.name}
-<!--        #end-->
-<!--    #end-->
-} = {
+const ${pack.key} = {
 <!--    #for(info : pack.value)-->
 <!--        #if(!for.last)-->
     $!{info.name}:$!{info.name},

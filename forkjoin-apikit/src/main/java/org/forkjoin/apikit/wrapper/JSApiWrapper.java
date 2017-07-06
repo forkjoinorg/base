@@ -3,14 +3,11 @@ package org.forkjoin.apikit.wrapper;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.forkjoin.apikit.Context;
-import org.forkjoin.apikit.info.ApiInfo;
-import org.forkjoin.apikit.info.ApiMethodInfo;
-import org.forkjoin.apikit.info.ApiMethodParamInfo;
-import org.forkjoin.apikit.info.TypeInfo;
+import org.forkjoin.apikit.info.*;
+import org.forkjoin.apikit.utils.ApiImport;
 import org.forkjoin.apikit.utils.CommentUtils;
 
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author zuoge85 on 15/6/14.
@@ -28,8 +25,12 @@ public class JSApiWrapper extends JSWrapper<ApiInfo> {
         //自己的目录级别
         int myLevel = moduleInfoPackageName.split(".").length + 1;
 
-        String imports = super.getImports();
-        return imports + "import AbstractApi from './" + StringUtils.repeat("../", myLevel) + "AbstractApi'\n";
+        String imports = getMethodImports();
+        return imports + "\nimport AbstractApi from './" + StringUtils.repeat("../", myLevel) + "AbstractApi'\n";
+    }
+
+    public String getMethodImports() {
+        return new ApiImport(this).toString();
     }
 
     public String getVersion() {
