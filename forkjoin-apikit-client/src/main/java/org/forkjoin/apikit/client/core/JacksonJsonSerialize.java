@@ -1,18 +1,16 @@
 package org.forkjoin.apikit.client.core;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 
 /**
  * @author zuoge85@gmail.com on 2017/5/17.
  */
-public class JacksonJsonConvert implements JsonConvert{
+public class JacksonJsonSerialize implements JsonSerialize {
     private ObjectMapper mapper = new ObjectMapper();
 
-    public JacksonJsonConvert(ObjectMapper mapper) {
+    public JacksonJsonSerialize(ObjectMapper mapper) {
         this.mapper = mapper;
     }
 
@@ -24,14 +22,11 @@ public class JacksonJsonConvert implements JsonConvert{
         this.mapper = mapper;
     }
 
+
     @Override
-    public <T> T deserialize(String json, final Type type) {
+    public String serialize(Object obj) {
         try {
-            return mapper.readValue(json, new TypeReference<Object>(){
-                public Type getType() {
-                    return type;
-                }
-            });
+            return mapper.writeValueAsString(obj);
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage(), e);
         }
