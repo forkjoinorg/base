@@ -57,6 +57,7 @@ public class GitGenerator implements Generator {
     public void generate(Context context) throws Exception {
         Path tempDir = Files.createTempDirectory("apikit-git");
         CredentialsProvider cp = new UsernamePasswordCredentialsProvider(gitUser, getPassword);
+        log.info("开始 git clone");
         try (Git git = Git.cloneRepository()
                 .setURI(gitUrl)
                 .setDirectory(tempDir.toFile())
@@ -64,7 +65,7 @@ public class GitGenerator implements Generator {
                 .setCredentialsProvider(cp)
                 .call()) {
 
-            log.info("git clone 成功", tempDir.toAbsolutePath());
+            log.info("git clone 成功");
             log.info("git临时目录:{}", tempDir.toAbsolutePath());
 
             File src = new File(tempDir.toFile(), srcUri);
