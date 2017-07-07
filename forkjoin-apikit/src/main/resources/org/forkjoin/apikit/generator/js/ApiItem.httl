@@ -20,7 +20,7 @@ $!{utils.formatBaseComment(method.comment,"    * ")}
     *
 $!{utils.requestComment(method,"    * ")}
     */
-    $!{method.name}($!{utils.params(method)}):Promise<$!{utils.resultTypeString(method)}> {
+    $!{method.name} = ($!{utils.params(method)}):Promise<$!{utils.resultTypeString(method)}> => {
         <!--#if(method.pathParams)-->
         var _path = {};
         <!--    #for(param : method.pathParams)-->
@@ -39,7 +39,7 @@ $!{utils.requestComment(method,"    * ")}
                     "$!{method.type.name()}", "$!{method.url}", _path, null
                 );
         <!--#end-->
-    }
+    };
 ##循环结束
 <!--#end-->
 }
