@@ -34,7 +34,8 @@ public class ReadOnlyDaoImpi<T extends EntityObject, K extends KeyObject>
 
     @Override
     public T get(K k) {
-        return getJdbcTemplate().queryForObject(entityMeta.getSelectByKeySql(), entityMeta.getRowMapper(), k.getQueryParams());
+        List<T> query = getJdbcTemplate().query(entityMeta.getSelectByKeySql(), entityMeta.getRowMapper(), k.getQueryParams());
+        return query == null || query.isEmpty() ? null : query.get(0);
     }
 
 
