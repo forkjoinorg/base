@@ -80,6 +80,13 @@ public final class $!{t.className}Meta extends EntityMeta<$!{t.className}DO ,$!{
     }
 
     @Override
+    public void setKey(T t, ResultSet rs) throws SQLException {
+<!--#for(c : t.keyColumns)-->
+        t.$!{c.setName}(rs.$!{c.resultGetMethod}("$!{c.dbName}"));
+<!--#end-->
+    }
+
+    @Override
     public int setPreparedStatement($!{t.className}DO t, PreparedStatement ps, int i, boolean isSetUnique) throws SQLException {
 <!--#for(c : t.allColumns)-->
         Object ${c.fieldName}Ptr;

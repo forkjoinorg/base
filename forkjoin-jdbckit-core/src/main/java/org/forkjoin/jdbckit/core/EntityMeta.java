@@ -7,6 +7,7 @@ import org.forkjoin.jdbckit.core.identifier.Table;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashMap;
@@ -28,6 +29,8 @@ public abstract class EntityMeta<T extends EntityObject, K extends KeyObject> {
     public abstract String getFastInsertValueItemsSql();
 
     public abstract String getUpdateSql();
+
+    public abstract void setKey(T t, ResultSet rs) throws SQLException;
 
     public abstract int setPreparedStatement(T t, PreparedStatement ps, int i, boolean isSetUnique) throws SQLException;
 

@@ -24,7 +24,6 @@ public abstract class AbstractBaseDao<T extends EntityObject, K extends KeyObjec
         this.entityMeta = entityMeta;
     }
 
-
     @Override
     public int insert(List<T> list) {
         for (T t : list) {
@@ -34,12 +33,12 @@ public abstract class AbstractBaseDao<T extends EntityObject, K extends KeyObjec
     }
 
     @Override
-    public boolean incrementUpdatePartial(final Field name0, final Object value0, final K key) {
+    public int incrementUpdatePartial(final Field name0, final Object value0, final K key) {
         return incrementUpdatePartial(Collections.singletonMap(name0, value0), key);
     }
 
     @Override
-    public boolean incrementUpdatePartial(
+    public int incrementUpdatePartial(
             final Field name0, final Object value0,
             final Field name1, final Object value1,
             final K key
@@ -51,7 +50,7 @@ public abstract class AbstractBaseDao<T extends EntityObject, K extends KeyObjec
     }
 
     @Override
-    public boolean incrementUpdatePartial(
+    public int incrementUpdatePartial(
             final Field name0, final Object value0,
             final Field name1, final Object value1,
             final Field name2, final Object value2,
@@ -64,7 +63,7 @@ public abstract class AbstractBaseDao<T extends EntityObject, K extends KeyObjec
     }
 
     @Override
-    public boolean incrementUpdatePartial(
+    public int incrementUpdatePartial(
             final Field name0, final Object value0,
             final Field name1, final Object value1,
             final Field name2, final Object value2,
@@ -83,15 +82,15 @@ public abstract class AbstractBaseDao<T extends EntityObject, K extends KeyObjec
     }
 
     @Override
-    public abstract boolean incrementUpdatePartial(final Map<Field, Object> m, final K key);
+    public abstract int incrementUpdatePartial(final Map<Field, Object> m, final K key);
 
     @Override
-    public boolean updatePartial(Field name, Object value, K key) {
+    public int updatePartial(Field name, Object value, K key) {
         return updatePartial(Collections.singletonMap(name, value), key);
     }
 
     @Override
-    public boolean updatePartial(
+    public int updatePartial(
             Field name0, Object value0,
             Field name1, Object value1,
             K key
@@ -103,7 +102,7 @@ public abstract class AbstractBaseDao<T extends EntityObject, K extends KeyObjec
     }
 
     @Override
-    public boolean updatePartial(
+    public int updatePartial(
             Field name0, Object value0,
             Field name1, Object value1,
             Field name2, Object value2,
@@ -121,7 +120,7 @@ public abstract class AbstractBaseDao<T extends EntityObject, K extends KeyObjec
 
 
     @Override
-    public boolean updatePartial(
+    public int updatePartial(
             Field name0, Object value0,
             Field name1, Object value1,
             Field name2, Object value2,
@@ -140,7 +139,7 @@ public abstract class AbstractBaseDao<T extends EntityObject, K extends KeyObjec
     }
 
     @Override
-    public abstract boolean updatePartial(Map<Field, Object> m, K key);
+    public abstract int updatePartial(Map<Field, Object> m, K key);
 
 //    public boolean updatePartial(String sql, ArrayList<Object> args);
 }

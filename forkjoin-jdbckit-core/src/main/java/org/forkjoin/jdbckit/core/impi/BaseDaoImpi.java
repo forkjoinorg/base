@@ -39,10 +39,10 @@ public class BaseDaoImpi<T extends EntityObject, K extends KeyObject>
     }
 
     @Override
-    public long replace(final T t) {
-        return getJdbcTemplate().execute(new ConnectionCallback<Long>() {
+    public boolean replace(final T t) {
+        return getJdbcTemplate().execute(new ConnectionCallback<Boolean>() {
             @Override
-            public Long doInConnection(Connection con) throws SQLException, DataAccessException {
+            public Boolean doInConnection(Connection con) throws SQLException, DataAccessException {
                 PreparedStatement ps = null;
                 ResultSet rs = null;
                 try {
@@ -53,14 +53,13 @@ public class BaseDaoImpi<T extends EntityObject, K extends KeyObject>
                     ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
                     entityMeta.setAllPreparedStatement(t, ps, 1);
-                    ps.execute();
+                    int updateCount = ps.executeUpdate();
 
-                    long key = 0;
                     rs = ps.getGeneratedKeys();
                     if (rs.next()) {
-                        key = rs.getLong(1);
+                        entityMeta.setKey(t, rs);
                     }
-                    return key;
+                    return updateCount > 0;
                 } catch (Exception e) {
                     log.error("sql错误{}", t, e);
                     throw e;
@@ -73,10 +72,10 @@ public class BaseDaoImpi<T extends EntityObject, K extends KeyObject>
     }
 
     @Override
-    public long insert(final T t) {
-        return getJdbcTemplate().execute(new ConnectionCallback<Long>() {
+    public void insert(final T t) {
+        getJdbcTemplate().execute(new ConnectionCallback<Void>() {
             @Override
-            public Long doInConnection(Connection con) throws SQLException, DataAccessException {
+            public Void doInConnection(Connection con) throws SQLException, DataAccessException {
                 PreparedStatement ps = null;
                 ResultSet rs = null;
                 try {
@@ -88,12 +87,11 @@ public class BaseDaoImpi<T extends EntityObject, K extends KeyObject>
 
                     entityMeta.setPreparedStatement(t, ps, 1, true);
                     ps.execute();
-                    long key = 0;
                     rs = ps.getGeneratedKeys();
                     if (rs.next()) {
-                        key = rs.getLong(1);
+                        entityMeta.setKey(t, rs);
                     }
-                    return key;
+                    return null;
                 } catch (Exception e) {
                     log.error("sql错误{}", t, e);
                     throw e;
@@ -106,10 +104,10 @@ public class BaseDaoImpi<T extends EntityObject, K extends KeyObject>
     }
 
     @Override
-    public boolean update(final T t) {
-        return getJdbcTemplate().execute(new ConnectionCallback<Boolean>() {
+    public int update(final T t) {
+        return getJdbcTemplate().execute(new ConnectionCallback<Integer>() {
             @Override
-            public Boolean doInConnection(Connection con) throws SQLException, DataAccessException {
+            public Integer doInConnection(Connection con) throws SQLException, DataAccessException {
                 PreparedStatement ps = null;
                 try {
                     if (log.isDebugEnabled()) {
@@ -121,7 +119,7 @@ public class BaseDaoImpi<T extends EntityObject, K extends KeyObject>
                     i = entityMeta.setPreparedStatement(t, ps, i, true);
                     //设置 WHERE
                     entityMeta.setPreparedStatementKeys(t, ps, i);
-                    return ps.executeUpdate() > 0;
+                    return ps.executeUpdate();
                 } catch (Exception e) {
                     log.error("sql错误", e);
                     throw e;
@@ -133,10 +131,10 @@ public class BaseDaoImpi<T extends EntityObject, K extends KeyObject>
     }
 
     @Override
-    public boolean del(final K key) {
-        return getJdbcTemplate().execute(new ConnectionCallback<Boolean>() {
+    public int del(final K key) {
+        return getJdbcTemplate().execute(new ConnectionCallback<Integer>() {
             @Override
-            public Boolean doInConnection(Connection con) throws SQLException, DataAccessException {
+            public Integer doInConnection(Connection con) throws SQLException, DataAccessException {
                 PreparedStatement ps = null;
                 try {
                     if (log.isDebugEnabled()) {
@@ -144,7 +142,7 @@ public class BaseDaoImpi<T extends EntityObject, K extends KeyObject>
                     }
                     ps = con.prepareStatement(entityMeta.getKeyDeleteSql());
                     entityMeta.setKeyPreparedStatement(key, ps, 1);
-                    return ps.executeUpdate() > 0;
+                    return ps.executeUpdate();
                 } catch (Exception e) {
                     log.error("sql错误", e);
                     throw e;
@@ -156,10 +154,10 @@ public class BaseDaoImpi<T extends EntityObject, K extends KeyObject>
     }
 
     @Override
-    public boolean del(final Field key0, final Object value0) {
-        return getJdbcTemplate().execute(new ConnectionCallback<Boolean>() {
+    public int del(final Field key0, final Object value0) {
+        return getJdbcTemplate().execute(new ConnectionCallback<Integer>() {
             @Override
-            public Boolean doInConnection(Connection con) throws SQLException, DataAccessException {
+            public Integer doInConnection(Connection con) throws SQLException, DataAccessException {
                 PreparedStatement ps = null;
                 try {
                     String tableName = entityMeta.getDbTableName().toString();
@@ -171,7 +169,7 @@ public class BaseDaoImpi<T extends EntityObject, K extends KeyObject>
                     ps = con.prepareStatement(sql);
                     ps.setObject(1, value0);
 
-                    return ps.executeUpdate() > 0;
+                    return ps.executeUpdate();
                 } catch (Exception e) {
                     log.error("sql错误", e);
                     throw e;
@@ -222,7 +220,7 @@ public class BaseDaoImpi<T extends EntityObject, K extends KeyObject>
     }
 
     @Override
-    public boolean incrementUpdatePartial(final Map<Field, Object> m, final K key) {
+    public int incrementUpdatePartial(final Map<Field, Object> m, final K key) {
         StringBuilder sb = new StringBuilder();
 
         sb.append(entityMeta.getKeyUpdatePartialPrefixSql());
@@ -236,7 +234,7 @@ public class BaseDaoImpi<T extends EntityObject, K extends KeyObject>
     }
 
     @Override
-    public boolean updatePartial(final Map<Field, Object> m, final K key) {
+    public int updatePartial(final Map<Field, Object> m, final K key) {
         StringBuilder sb = new StringBuilder();
 
         sb.append(entityMeta.getKeyUpdatePartialPrefixSql());
@@ -249,10 +247,10 @@ public class BaseDaoImpi<T extends EntityObject, K extends KeyObject>
         return updatePartial(sql, args);
     }
 
-    private boolean updatePartial(final String sql, final ArrayList<Object> args) {
-        return getJdbcTemplate().execute(new ConnectionCallback<Boolean>() {
+    private int updatePartial(final String sql, final ArrayList<Object> args) {
+        return getJdbcTemplate().execute(new ConnectionCallback<Integer>() {
             @Override
-            public Boolean doInConnection(Connection con) throws SQLException, DataAccessException {
+            public Integer doInConnection(Connection con) throws SQLException, DataAccessException {
                 PreparedStatement ps = null;
                 try {
                     if (log.isDebugEnabled()) {
@@ -266,7 +264,7 @@ public class BaseDaoImpi<T extends EntityObject, K extends KeyObject>
                         ps.setObject(i, arg);
                         i++;
                     }
-                    return ps.executeUpdate() > 0;
+                    return ps.executeUpdate();
                 } catch (Exception e) {
                     log.error("sql错误", e);
                     throw e;
