@@ -37,6 +37,11 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.forkjoin</groupId>
+            <artifactId>forkjoin-apikit-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
     <build>
     </build>
