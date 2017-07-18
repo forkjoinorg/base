@@ -30,6 +30,8 @@ public abstract class EntityMeta<T extends EntityObject, K extends KeyObject> {
 
     public abstract String getUpdateSql();
 
+    public abstract boolean isHasAutoIncrement();
+
     public abstract void setKey(T t, ResultSet rs) throws SQLException;
 
     public abstract int setPreparedStatement(T t, PreparedStatement ps, int i, boolean isSetUnique) throws SQLException;

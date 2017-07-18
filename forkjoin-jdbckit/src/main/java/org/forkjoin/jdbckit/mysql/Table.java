@@ -16,7 +16,8 @@ import java.util.regex.Pattern;
  *
  * @author zuoge85@gmail.com
  */
-public class Table {
+public class
+Table {
     private static final Pattern XML_PATTERN = Pattern
             .compile("XML:([^;]+);{1}(.*)");
     private static final Pattern JSON_PATTERN = Pattern
@@ -309,6 +310,15 @@ public class Table {
     public boolean isHasDateColumns() {
         for (Column c : allColumns) {
             if (c.isDateColumn()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isHasAutoIncrement() {
+        for (Column c : keyColumns) {
+            if (c.isAutoIncrement()) {
                 return true;
             }
         }

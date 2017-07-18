@@ -80,10 +80,17 @@ public final class $!{t.className}Meta extends EntityMeta<$!{t.className}DO ,$!{
     }
 
     @Override
-    public void setKey(T t, ResultSet rs) throws SQLException {
+    public final void setKey($!{t.className}DO t, ResultSet rs) throws SQLException {
 <!--#for(c : t.keyColumns)-->
-        t.$!{c.setName}(rs.$!{c.resultGetMethod}("$!{c.dbName}"));
+<!--    #if(c.autoIncrement)-->
+        t.$!{c.setName}(rs.$!{c.resultGetMethod}(1));
+<!--    #end-->
 <!--#end-->
+    }
+
+    @Override
+    public final boolean isHasAutoIncrement() {
+        return $!{t.isHasAutoIncrement};
     }
 
     @Override

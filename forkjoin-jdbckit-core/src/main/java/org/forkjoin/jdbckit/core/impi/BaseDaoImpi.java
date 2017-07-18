@@ -55,9 +55,11 @@ public class BaseDaoImpi<T extends EntityObject, K extends KeyObject>
                     entityMeta.setAllPreparedStatement(t, ps, 1);
                     int updateCount = ps.executeUpdate();
 
-                    rs = ps.getGeneratedKeys();
-                    if (rs.next()) {
-                        entityMeta.setKey(t, rs);
+                    if (entityMeta.isHasAutoIncrement()) {
+                        rs = ps.getGeneratedKeys();
+                        if (rs.next()) {
+                            entityMeta.setKey(t, rs);
+                        }
                     }
                     return updateCount > 0;
                 } catch (Exception e) {
@@ -87,9 +89,11 @@ public class BaseDaoImpi<T extends EntityObject, K extends KeyObject>
 
                     entityMeta.setPreparedStatement(t, ps, 1, true);
                     ps.execute();
-                    rs = ps.getGeneratedKeys();
-                    if (rs.next()) {
-                        entityMeta.setKey(t, rs);
+                    if (entityMeta.isHasAutoIncrement()) {
+                        rs = ps.getGeneratedKeys();
+                        if (rs.next()) {
+                            entityMeta.setKey(t, rs);
+                        }
                     }
                     return null;
                 } catch (Exception e) {

@@ -10,6 +10,7 @@
       <module fileurl="file://$PROJECT_DIR$/forkjoin-apikit-springmvc/forkjoin-apikit-springmvc.iml" filepath="$PROJECT_DIR$/forkjoin-apikit-springmvc/forkjoin-apikit-springmvc.iml" />
       <module fileurl="file://$PROJECT_DIR$/forkjoin-core/forkjoin-core.iml" filepath="$PROJECT_DIR$/forkjoin-core/forkjoin-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/forkjoin-jdbckit/forkjoin-jdbckit.iml" filepath="$PROJECT_DIR$/forkjoin-jdbckit/forkjoin-jdbckit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/forkjoin-jdbckit-cache/forkjoin-jdbckit-cache.iml" filepath="$PROJECT_DIR$/forkjoin-jdbckit-cache/forkjoin-jdbckit-cache.iml" />
       <module fileurl="file://$PROJECT_DIR$/forkjoin-jdbckit-core/forkjoin-jdbckit-core.iml" filepath="$PROJECT_DIR$/forkjoin-jdbckit-core/forkjoin-jdbckit-core.iml" />
     </modules>
   </component>

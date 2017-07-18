@@ -29,6 +29,9 @@ import org.forkjoin.jdbckit.core.SqlUtils;
 import org.forkjoin.jdbckit.core.identifier.Field;
 import org.forkjoin.jdbckit.core.identifier.Table;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 处理相对复杂的查询
  * 依然是简单查询封装
@@ -40,6 +43,8 @@ public class Select {
     private QueryParams queryParams;
     private Order order;
     private Field[] groupFields;
+
+    private List<Join> joins;
 
     public Select() {
         this(Field.ALL_FIELDS);
@@ -62,6 +67,30 @@ public class Select {
         this.table = table;
         this.tableAliasName = tableAliasName;
         return this;
+    }
+
+//    public Select join(Table table, QueryParams qs) {
+//       return join(table, null , qs);
+//    }
+//
+//    public Select join(Table table, QueryParams qs) {
+//        return join(table, null , qs);
+//    }
+
+    public Select join(Table table, String tableAliasName, QueryParams qs) {
+       addJoin(new Join(table, tableAliasName, qs));
+       return this;
+    }
+
+//    public Select leftJoin(Table table, String tableAliasName, QueryParams qs) {
+//
+//    }
+
+    private void addJoin(Join join) {
+        if (joins == null) {
+            joins = new ArrayList<>();
+        }
+        joins.add(join);
     }
 
     public Select where(QueryParams params) {
