@@ -7,8 +7,7 @@ import javax.validation.Valid;
 import java.lang.Object;
 import org.forkjoin.apikit.core.*;
 import org.forkjoin.apikit.example.form.TestForm;
-import org.forkjoin.apikit.example.model.TestObject;
-import org.forkjoin.apikit.example.model.User;
+import org.forkjoin.apikit.example.model.*;
 import org.springframework.web.bind.annotation.PathVariable;
 
 /**

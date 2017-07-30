@@ -1,7 +1,7 @@
 'use strict';
 
 import User from './../model/User'
-import AccountService from './../services/AccountService'
+
 import AbstractApi from './../AbstractApi'
 
 
@@ -23,12 +23,12 @@ class AccountApi extends AbstractApi {
     * @see String
 
     */
-    login():Promise<String> {
+    login = ():Promise<String> => {
         var _path = null;
         return super._request(
                     "POST", "account/login", _path, null
                 );
-    }
+    };
 
 
 
@@ -43,12 +43,12 @@ class AccountApi extends AbstractApi {
     * </div>
 
     */
-    testLogin():Promise<void> {
+    testLogin = ():Promise<void> => {
         var _path = null;
         return super._request(
                     "POST", "account/testLogin", _path, null
                 );
-    }
+    };
 
 
 
@@ -63,12 +63,12 @@ class AccountApi extends AbstractApi {
     * @see User
 
     */
-    testNotLogin():Promise<User> {
+    testNotLogin = ():Promise<User> => {
         var _path = null;
         return super._request(
                     "GET", "baseUrl/testNotLogin", _path, null
                 );
-    }
+    };
 
 }
 export default AccountApi;

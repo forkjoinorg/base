@@ -29,12 +29,18 @@ public class ImportsInfo {
     }
 
 
-    public Import getOnDemandImport(String name) {
+    public Import getOnDemandImport(String name, String sourcePackage) {
         for (Import imp : imports) {
             if (imp.isOnDemand()) {
                 try {
-                    Class<?> aClass = Class.forName(imp.getFullName() + "." + name);
-                    return new Import(imp.getFullName(), name, false, false);
+                    String className;
+                    if (imp.isInside()) {
+                        className = sourcePackage + imp.getPackageName() + "." + name;
+                    } else {
+                        className = imp.getPackageName() + "." + name;
+                    }
+                    Class<?> aClass = Class.forName(className);
+                    return new Import(imp.getPackageName(), name, imp.isInside(), imp.isOnDemand());
                 } catch (ClassNotFoundException ignored) {
                 }
             }

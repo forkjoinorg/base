@@ -1,7 +1,5 @@
 'use strict';
 
-import TestObject from './../model/TestObject'
-import User from './../model/User'
 
 
 /**

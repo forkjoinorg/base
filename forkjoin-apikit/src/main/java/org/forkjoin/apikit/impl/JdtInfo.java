@@ -115,7 +115,10 @@ public class JdtInfo {
                 return anImport;
             }
 
-            anImport = importsInfo.getOnDemandImport(name);
+            /**
+             * 在 *的包没查找
+             */
+            anImport = importsInfo.getOnDemandImport(name, sourcePackage);
             if (anImport != null) {
                 return anImport;
             }
@@ -127,6 +130,10 @@ public class JdtInfo {
 
     private Import newImport(String packageName, String name, boolean onDemand) {
         boolean isInside = false;
+        if (onDemand) {
+            packageName = packageName + "." + name;
+            name = "*";
+        }
         if (packageName.startsWith(sourcePackage)) {
             isInside = true;
             packageName = packageName.substring(sourcePackage.length());

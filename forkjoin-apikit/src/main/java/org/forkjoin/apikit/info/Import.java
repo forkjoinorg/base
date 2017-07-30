@@ -6,6 +6,10 @@ package org.forkjoin.apikit.info;
 public class Import {
     private String packageName;
     private String name;
+
+    /**
+     * 是否包内，也就是需要进行包转换
+     */
     private boolean isInside = false;
     private boolean onDemand;
 

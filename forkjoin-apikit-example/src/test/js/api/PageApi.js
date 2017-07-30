@@ -1,9 +1,7 @@
 'use strict';
 
-import TestForm from './../form/TestForm'
 import TestObject from './../model/TestObject'
-import TestObjectList from './../model/TestObjectList'
-import User from './../model/User'
+
 import AbstractApi from './../AbstractApi'
 
 
@@ -29,14 +27,14 @@ class PageApi extends AbstractApi {
     * @see Number
 
     */
-    page(page:Number, pageSize:Number):Promise<TestObject> {
+    page = (page:Number, pageSize:Number):Promise<TestObject> => {
         var _path = {};
         _path["page"] = page;
         _path["pageSize"] = pageSize;
         return super._request(
                     "GET", "page/page/{page}-{pageSize}", _path, null
                 );
-    }
+    };
 
 
 
@@ -55,14 +53,14 @@ class PageApi extends AbstractApi {
     * @see Number
 
     */
-    pageString(page:Number, pageSize:Number):Promise<String> {
+    pageString = (page:Number, pageSize:Number):Promise<String> => {
         var _path = {};
         _path["page"] = page;
         _path["pageSize"] = pageSize;
         return super._request(
                     "GET", "page/pageString/{page}-{pageSize}", _path, null
                 );
-    }
+    };
 
 }
 export default PageApi;

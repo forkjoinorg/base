@@ -1,8 +1,11 @@
 'use strict';
 
 import TestForm from './../form/TestForm'
+
 import TestObject from './../model/TestObject'
+
 import User from './../model/User'
+
 import AbstractApi from './../AbstractApi'
 
 
@@ -27,12 +30,12 @@ class BaseApi extends AbstractApi {
     * @see TestForm
 
     */
-    create(testForm:TestForm):Promise<TestObject[]> {
+    create = (testForm:TestForm):Promise<TestObject[]> => {
         var _path = null;
         return super._request(
                     "POST", "base", _path, testForm
                 );
-    }
+    };
 
 
 
@@ -49,13 +52,13 @@ class BaseApi extends AbstractApi {
     * @see String
 
     */
-    get(id:String):Promise<void> {
+    get = (id:String):Promise<void> => {
         var _path = {};
         _path["id"] = id;
         return super._request(
                     "POST", "base/{id}", _path, null
                 );
-    }
+    };
 
 
 
@@ -73,12 +76,12 @@ class BaseApi extends AbstractApi {
     * @see User
 
     */
-    create(user:User):Promise<User> {
+    create = (user:User):Promise<User> => {
         var _path = null;
         return super._request(
                     "GET", "baseUrl/", _path, user
                 );
-    }
+    };
 
 }
 export default BaseApi;

@@ -7,23 +7,15 @@ import TestObjectList from './model/TestObjectList';
 import User from './model/User';
 import Apis from "./Apis";
 
-const collecton:{
-    ApiList:ApiList
-} = {
+const collecton = {
     ApiList:ApiList
 };
 
-const form:{
-    TestForm:TestForm
-} = {
+const form = {
     TestForm:TestForm
 };
 
-const model:{
-    TestObject:TestObject,
-    TestObjectList:TestObjectList,
-    User:User
-} = {
+const model = {
     TestObject:TestObject,
     TestObjectList:TestObjectList,
     User:User

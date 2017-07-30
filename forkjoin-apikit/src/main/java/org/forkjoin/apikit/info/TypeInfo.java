@@ -21,7 +21,7 @@ public class TypeInfo implements Cloneable{
     private boolean isArray;
     private List<TypeInfo> typeArguments = new ArrayList<>();
     /**
-     * 是否包内
+     * 是否包内，也就是需要进行包转换
      */
     private boolean isInside = false;
     /**
