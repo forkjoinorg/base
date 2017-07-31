@@ -4,6 +4,7 @@ import org.forkjoin.apikit.Analyse;
 import org.forkjoin.apikit.Context;
 import org.forkjoin.apikit.Manager;
 import org.forkjoin.apikit.ObjectFactory;
+import org.forkjoin.apikit.generator.ApiDocGenerator;
 import org.forkjoin.apikit.generator.JavaClientGenerator;
 import org.forkjoin.apikit.generator.JavaScriptGenerator;
 import org.forkjoin.apikit.impl.JdtAnalyse;
@@ -29,6 +30,8 @@ public class ApiBuilderMain {
         }
 
         File dir = new File(root, "src/main/java/");
+        File apiDocDir = new File(root, "src/main/resources/");
+
         File javaClientDir = new File(root, "src/test/java/");
         File jsClientDir = new File(root, "src/test/js/");
 
@@ -53,7 +56,13 @@ public class ApiBuilderMain {
             manager.generate(generator);
         }
 
-
+        {
+            ApiDocGenerator generator = new ApiDocGenerator();
+            generator.setAmd(true);
+            generator.setOutPath(apiDocDir.getAbsolutePath());
+            generator.setVersion(version);
+            manager.generate(generator);
+        }
 
 
         {
@@ -62,28 +71,6 @@ public class ApiBuilderMain {
             generator.setVersion(version);
             manager.generate(generator);
         }
-
-//        {
-//            GitGenerator gitGenerator = new GitGenerator();
-//
-//            JavaClientGenerator generator = new JavaClientGenerator();
-//            generator.setVersion(version);
-//            String rootPackage = "org.forkjoin.apikit.example.client";
-//            generator.setRootPackage(rootPackage);
-//
-//            gitGenerator.setGenerator(generator);
-//            gitGenerator.setGitUrl("https://code.aliyun.com/lipscoffee/cloud-sdk.git");
-//            gitGenerator.setGitUser("zuoge85");
-//            gitGenerator.setGetPassword("sbfgfg03423");
-//            gitGenerator.setGitEmail("zuoge85@gmail.com");
-//            gitGenerator.setGitName("小草");
-//
-//            gitGenerator.setSrcUri("javasdk/src/main/java");
-//            gitGenerator.setDeleteUris(rootPackage.replace(".", "/"));
-//            gitGenerator.setGitBranch("master");
-//
-//            manager.generate(gitGenerator);
-//        }
     }
 
     private static ObjectFactory objectFactory = new ObjectFactory() {

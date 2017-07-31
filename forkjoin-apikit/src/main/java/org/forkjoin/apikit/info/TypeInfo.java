@@ -1,18 +1,22 @@
 package org.forkjoin.apikit.info;
 
 import com.google.common.collect.ImmutableMap;
+import org.apache.commons.lang3.ClassUtils;
 import org.forkjoin.apikit.AnalyseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.ListIterator;
 
 /**
  * 类型信息
  *
  * @author zuoge85 on 15/6/12.
  */
-public class TypeInfo implements Cloneable{
+public class TypeInfo implements Cloneable {
     private static final Logger log = LoggerFactory.getLogger(TypeInfo.class);
 
     private Type type;
@@ -48,9 +52,9 @@ public class TypeInfo implements Cloneable{
 
 
     public TypeInfo replaceGeneric(TypeInfo realResultType) {
-        if(this.isGeneric){
+        if (this.isGeneric) {
             return realResultType;
-        }else{
+        } else {
             for (ListIterator<TypeInfo> iterator = typeArguments.listIterator(); iterator.hasNext(); ) {
                 iterator.set(iterator.next().replaceGeneric(realResultType));
             }
@@ -163,7 +167,7 @@ public class TypeInfo implements Cloneable{
 
 
     @Override
-    public TypeInfo clone()  {
+    public TypeInfo clone() {
         try {
             return (TypeInfo) super.clone();
         } catch (CloneNotSupportedException e) {
@@ -187,13 +191,12 @@ public class TypeInfo implements Cloneable{
     }
 
     public Class<?> toClass() throws ClassNotFoundException {
-        if(type.isBaseType()){
+        if (type.isBaseType()) {
             return type.toClass();
-        }else{
+        } else {
             return Class.forName(getFullName());
         }
     }
-
 
 
     /**
@@ -245,16 +248,16 @@ public class TypeInfo implements Cloneable{
 
         private static final ImmutableMap<Type, Class> classMap = ImmutableMap.<Type, Class>builder()
                 .put(VOID, Void.class)
-                .put(BOOLEAN,Boolean.class)
-                .put(BYTE,Byte.class)
-                .put(SHORT,Short.class)
-                .put(INT,Integer.class)
-                .put(LONG,Long.class)
-                .put(FLOAT,Float.class)
-                .put(DOUBLE,Double.class)
+                .put(BOOLEAN, Boolean.class)
+                .put(BYTE, Byte.class)
+                .put(SHORT, Short.class)
+                .put(INT, Integer.class)
+                .put(LONG, Long.class)
+                .put(FLOAT, Float.class)
+                .put(DOUBLE, Double.class)
 
 
-                .put(STRING,String.class)
+                .put(STRING, String.class)
                 .put(DATE, Date.class)
                 .build();
 
@@ -277,6 +280,16 @@ public class TypeInfo implements Cloneable{
 
         public Class toClass() {
             return classMap.get(this);
+        }
+
+        public String getPrimitiveName() {
+            Class aClass = classMap.get(this);
+            if (aClass != null) {
+                Class<?> primitive = ClassUtils.wrapperToPrimitive(aClass);
+                return primitive == null ? aClass.getSimpleName() :primitive.getSimpleName();
+            } else {
+                return null;
+            }
         }
 
         public static Type form(String name) {

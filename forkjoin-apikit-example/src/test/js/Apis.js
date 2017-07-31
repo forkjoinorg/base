@@ -1,10 +1,18 @@
 'use strict';
 
+import AccountApi  from './api/AccountApi';
 import BaseApi  from './api/BaseApi';
+import PageApi  from './api/PageApi';
+import TestApi  from './api/TestApi';
+import TestNoResultApi  from './api/TestNoResultApi';
 import ApiUtils from "./ApiUtils";
 
 class Apis {
+    accountApi:AccountApi;
     baseApi:BaseApi;
+    pageApi:PageApi;
+    testApi:TestApi;
+    testNoResultApi:TestNoResultApi;
     _xhrArray:XMLHttpRequest[];
     _isStop = true;
 
@@ -20,8 +28,16 @@ class Apis {
     constructor() {
         this._xhrArray = [];
         let _xhrHandler = this._xhrHandler.bind(this);
+        this.accountApi = new AccountApi();
+        this.accountApi._initNet(_xhrHandler);
         this.baseApi = new BaseApi();
         this.baseApi._initNet(_xhrHandler);
+        this.pageApi = new PageApi();
+        this.pageApi._initNet(_xhrHandler);
+        this.testApi = new TestApi();
+        this.testApi._initNet(_xhrHandler);
+        this.testNoResultApi = new TestNoResultApi();
+        this.testNoResultApi._initNet(_xhrHandler);
         this._isStop = false;
     }
 

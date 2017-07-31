@@ -1,0 +1,1 @@
+define({"name":null,"version":"v1","description":null,"title":null,"url":null,"sampleUrl":null,"generator":{"version":"v1","time":"2017-07-31T09:47:17+0800"},"template":{"withCompare":true,"withGenerator":true},"header":null,"footer":null});

@@ -1,9 +1,6 @@
 package org.forkjoin.apikit;
 
-import org.forkjoin.apikit.info.ApiInfo;
-import org.forkjoin.apikit.info.MessageInfo;
-import org.forkjoin.apikit.info.ModuleInfo;
-import org.forkjoin.apikit.info.PackageInfo;
+import org.forkjoin.apikit.info.*;
 
 /**
  *
@@ -22,6 +19,11 @@ public class Context {
         } else if (m instanceof ApiInfo) {
             apis.add(m.getPackageName(), (ApiInfo) m);
         }
+    }
+
+
+    public MessageInfo getMessage(TypeInfo typeInfo) {
+        return messages.getByType(typeInfo);
     }
 
     public String getPath() {
@@ -47,4 +49,5 @@ public class Context {
     public PackageInfo<MessageInfo> getMessages() {
         return messages;
     }
+
 }

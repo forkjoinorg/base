@@ -49,7 +49,7 @@ public class ModuleInfo {
         this.packageName = packageName;
     }
 
-    public Object getFullName() {
+    public String getFullName() {
         return packageName + "." +name;
     }
 }
