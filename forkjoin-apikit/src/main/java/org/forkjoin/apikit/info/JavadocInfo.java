@@ -2,11 +2,9 @@ package org.forkjoin.apikit.info;
 
 import com.google.common.base.Supplier;
 import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -30,6 +28,10 @@ public class JavadocInfo {
 
     public void add(String tagName, List<String> fragmentsInfo) {
         tags.putAll(tagName, fragmentsInfo);
+    }
+
+    public List<String> get(String tagName) {
+        return tags.get(tagName);
     }
 
     public ListMultimap<String, String> getTags() {

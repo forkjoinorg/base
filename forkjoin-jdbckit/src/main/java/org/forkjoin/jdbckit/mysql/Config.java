@@ -1,7 +1,11 @@
 package org.forkjoin.jdbckit.mysql;
 
 
+import org.forkjoin.jdbckit.core.identifier.*;
+import org.forkjoin.jdbckit.mysql.Table;
+
 import java.io.File;
+import java.util.function.Predicate;
 
 public class Config {
 
@@ -11,6 +15,7 @@ public class Config {
     private String charset = "utf8";
     private String tablePrefix;
     private String jdbcDataSourceName;
+    private Predicate<Table> tableFilter = new DefaultTablePrefix();
 
 
     private File dir;
@@ -105,6 +110,15 @@ public class Config {
         this.jdbcDataSourceName = jdbcDataSourceName;
     }
 
+
+    public Predicate<Table> getTableFilter() {
+        return tableFilter;
+    }
+
+    public void setTableFilter(Predicate<Table> tableFilter) {
+        this.tableFilter = tableFilter;
+    }
+
     @Override
     public String toString() {
         return "Config{" +
@@ -114,6 +128,7 @@ public class Config {
                 ", charset='" + charset + '\'' +
                 ", tablePrefix='" + tablePrefix + '\'' +
                 ", jdbcDataSourceName='" + jdbcDataSourceName + '\'' +
+                ", tableFilter=" + tableFilter +
                 ", dir=" + dir +
                 ", resourcesDir=" + resourcesDir +
                 '}';

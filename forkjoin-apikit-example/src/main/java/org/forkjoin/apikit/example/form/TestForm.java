@@ -56,11 +56,11 @@ public class TestForm<T> {
      */
     private T[] generics;
 
-    private TestObject<T>[] genericObjs;
-
-    private TestObject<User>[] genericUsers;
-
-    private TestObject<T> genericObj;
+//    private TestObject<T>[] genericObjs;
+//
+//    private TestObject<User>[] genericUsers;
+//
+//    private TestObject<T> genericObj;
 
     private T generic;
 
@@ -216,29 +216,6 @@ public class TestForm<T> {
         this.generics = generics;
     }
 
-    public TestObject<T>[] getGenericObjs() {
-        return genericObjs;
-    }
-
-    public void setGenericObjs(TestObject<T>[] genericObjs) {
-        this.genericObjs = genericObjs;
-    }
-
-    public TestObject<User>[] getGenericUsers() {
-        return genericUsers;
-    }
-
-    public void setGenericUsers(TestObject<User>[] genericUsers) {
-        this.genericUsers = genericUsers;
-    }
-
-    public TestObject<T> getGenericObj() {
-        return genericObj;
-    }
-
-    public void setGenericObj(TestObject<T> genericObj) {
-        this.genericObj = genericObj;
-    }
 
     public T getGeneric() {
         return generic;

@@ -33,7 +33,9 @@ public class Generator {
             String remark = String.valueOf(rs.getObject("REMARKS"));
             if (type.equals("TABLE")) {
                 Table t = new Table(config.getTablePrefix(), conn, dm, name, type, remark);
-                list.add(t);
+                if (config.getTableFilter().test(t)) {
+                    list.add(t);
+                }
             }
         }
         rs.close();

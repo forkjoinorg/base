@@ -1,6 +1,5 @@
 package org.forkjoin.apikit.example.client.form;
 
-import org.forkjoin.apikit.example.client.model.TestObject;
 import org.forkjoin.apikit.example.client.model.User;
 
 import org.forkjoin.apikit.core.*;
@@ -65,12 +64,6 @@ public class TestForm<T extends ApiMessage> implements ApiMessage {
 	 */
 	private java.util.ArrayList<T> generics;
 
-	private java.util.ArrayList<TestObject<T>> genericObjs;
-
-	private java.util.ArrayList<TestObject<User>> genericUsers;
-
-	private TestObject<T> genericObj;
-
 	private T generic;
 
 	public TestForm() {
@@ -82,8 +75,7 @@ public class TestForm<T extends ApiMessage> implements ApiMessage {
 			java.util.ArrayList<Long> longValueArray, java.util.ArrayList<Float> floatValueArray,
 			java.util.ArrayList<Double> doubleValueArray, java.util.ArrayList<String> stringValueArray,
 			java.util.ArrayList<Date> regDateArray, User user, java.util.ArrayList<User> users,
-			java.util.ArrayList<T> generics, java.util.ArrayList<TestObject<T>> genericObjs,
-			java.util.ArrayList<TestObject<User>> genericUsers, TestObject<T> genericObj, T generic) {
+			java.util.ArrayList<T> generics, T generic) {
 		this.id = id;
 		this.booleanValue = booleanValue;
 		this.intValue = intValue;
@@ -103,9 +95,6 @@ public class TestForm<T extends ApiMessage> implements ApiMessage {
 		this.user = user;
 		this.users = users;
 		this.generics = generics;
-		this.genericObjs = genericObjs;
-		this.genericUsers = genericUsers;
-		this.genericObj = genericObj;
 		this.generic = generic;
 	}
 
@@ -277,30 +266,6 @@ public class TestForm<T extends ApiMessage> implements ApiMessage {
 		this.generics = generics;
 	}
 
-	public java.util.ArrayList<TestObject<T>> getGenericObjs() {
-		return genericObjs;
-	}
-
-	public void setGenericObjs(java.util.ArrayList<TestObject<T>> genericObjs) {
-		this.genericObjs = genericObjs;
-	}
-
-	public java.util.ArrayList<TestObject<User>> getGenericUsers() {
-		return genericUsers;
-	}
-
-	public void setGenericUsers(java.util.ArrayList<TestObject<User>> genericUsers) {
-		this.genericUsers = genericUsers;
-	}
-
-	public TestObject<T> getGenericObj() {
-		return genericObj;
-	}
-
-	public void setGenericObj(TestObject<T> genericObj) {
-		this.genericObj = genericObj;
-	}
-
 	public T getGeneric() {
 		return generic;
 	}
@@ -375,20 +340,6 @@ public class TestForm<T extends ApiMessage> implements ApiMessage {
 		this.generics.add(generics);
 	}
 
-	public void addGenericObjs(TestObject<T> genericObjs) {
-		if (this.genericObjs == null) {
-			this.genericObjs = new java.util.ArrayList<TestObject<T>>();
-		}
-		this.genericObjs.add(genericObjs);
-	}
-
-	public void addGenericUsers(TestObject<User> genericUsers) {
-		if (this.genericUsers == null) {
-			this.genericUsers = new java.util.ArrayList<TestObject<User>>();
-		}
-		this.genericUsers.add(genericUsers);
-	}
-
 	@Override
 	public List<Entry<String, Object>> encode(String $parent, List<Entry<String, Object>> $list) {
 
@@ -450,22 +401,6 @@ public class TestForm<T extends ApiMessage> implements ApiMessage {
 			}
 		}
 
-		if (genericObjs != null && (!genericObjs.isEmpty())) {
-			for (int i = 0; i < genericObjs.size(); i++) {
-				genericObjs.get(i).encode($parent + "genericObjs" + "[" + i + "].", $list);
-			}
-		}
-
-		if (genericUsers != null && (!genericUsers.isEmpty())) {
-			for (int i = 0; i < genericUsers.size(); i++) {
-				genericUsers.get(i).encode($parent + "genericUsers" + "[" + i + "].", $list);
-			}
-		}
-
-		if (genericObj != null) {
-			genericObj.encode($parent + "genericObj.", $list);
-		}
-
 		if (generic != null) {
 			generic.encode($parent + "generic.", $list);
 		}
@@ -486,9 +421,6 @@ public class TestForm<T extends ApiMessage> implements ApiMessage {
 				+ ",stringValueArray=size:" + (stringValueArray == null ? -1 : stringValueArray.size())
 				+ ",regDateArray=size:" + (regDateArray == null ? -1 : regDateArray.size()) + ",user=" + user
 				+ ",users=size:" + (users == null ? -1 : users.size()) + ",generics=size:"
-				+ (generics == null ? -1 : generics.size()) + ",genericObjs=size:"
-				+ (genericObjs == null ? -1 : genericObjs.size()) + ",genericUsers=size:"
-				+ (genericUsers == null ? -1 : genericUsers.size()) + ",genericObj=" + genericObj + ",generic="
-				+ generic + ", ]";
+				+ (generics == null ? -1 : generics.size()) + ",generic=" + generic + ", ]";
 	}
 }

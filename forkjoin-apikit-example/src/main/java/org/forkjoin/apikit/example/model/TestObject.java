@@ -11,7 +11,6 @@ import java.util.Date;
  */
 @Message
 public class TestObject<T> {
-    private TestForm testForm;
     private String id;
     /**
      * 签名

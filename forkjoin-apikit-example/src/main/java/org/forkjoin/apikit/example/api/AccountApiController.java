@@ -16,7 +16,7 @@ import javax.validation.Valid;
 /**
  * @author zuoge85 on 15/6/11.
  */
-@Api
+//@Api
 @RestController
 @RequestMapping(value = "v1")
 public class AccountApiController {
@@ -24,11 +24,14 @@ public class AccountApiController {
     @Autowired
     private AccountService accountService;
 
+    /**
+     * @return 返回授权token
+     */
     @RequestMapping(value = "account/login", method = RequestMethod.POST)
     @Account(false)
-    public Result<String> login() throws Exception {
+    public String login() throws Exception {
         String token = accountService.login();
-        return Result.createSuccess(token);
+        return token;
     }
 
     /**

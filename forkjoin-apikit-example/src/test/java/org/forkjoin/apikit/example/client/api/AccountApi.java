@@ -20,7 +20,7 @@ public class AccountApi {
 	}
 
 	/**
-	 * 
+	 *  返回授权token
 	 *
 	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>account/login</b>
 	 * <ul>
@@ -44,7 +44,7 @@ public class AccountApi {
 	}
 
 	/**
-	 * 
+	 *  返回授权token
 	 *
 	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>account/login</b>
 	 * <ul>
@@ -62,7 +62,7 @@ public class AccountApi {
 	}
 
 	/**
-	 * 
+	 *  返回授权token
 	 *
 	 * <div class='http-info'>http 说明：<b>Api Url:</b> <b>account/login</b>
 	 * <ul>

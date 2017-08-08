@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * @author zuoge85 on 15/6/11.
  */
-@Api
+//@Api
 @RestController
 @RequestMapping(value = "v1")
 public class PageApiController {
