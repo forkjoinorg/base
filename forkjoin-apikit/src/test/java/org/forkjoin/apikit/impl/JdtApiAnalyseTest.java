@@ -37,7 +37,7 @@ public class JdtApiAnalyseTest extends BaseTest {
 
         //测试注释
         JavadocInfo comment = api.getComment();
-        Map.Entry<String, Collection<String>> entry = comment.getTags(0);
+        Map.Entry<String, Collection<List<String>>> entry = comment.getTags(0);
 
         assertJavadocInfo(api.getComment(), "@author", Collections.singletonList(" zuoge85 on 15/6/11."));
 

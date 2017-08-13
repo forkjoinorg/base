@@ -33,7 +33,7 @@ public class DefaultTablePrefix implements Predicate<Table> {
 
     @Override
     public boolean test(Table table) {
-        return excludeTableName.contains(table.getDbName());
+        return !excludeTableName.contains(table.getDbName());
     }
 
     public Set<String> getExcludeTableName() {

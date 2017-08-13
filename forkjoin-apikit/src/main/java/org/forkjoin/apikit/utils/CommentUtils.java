@@ -3,10 +3,8 @@ package org.forkjoin.apikit.utils;
 import org.apache.commons.lang3.StringUtils;
 import org.forkjoin.apikit.info.JavadocInfo;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author zuoge85@gmail.com on 2016/11/23.
@@ -14,6 +12,31 @@ import java.util.Map;
 public class CommentUtils {
 
 
+    /**
+     * 不包含tag 的内容
+     */
+    public static String formatCommentNoTag(JavadocInfo comment, String start) {
+        if (comment == null) {
+            return start;
+        }
+        StringBuilder sb = new StringBuilder();
+
+        for (String tagName : comment.getTags().keySet()) {
+            if (StringUtils.isEmpty(tagName)) {
+                sb.append(start);
+                formatCommentItem(comment, start, sb, tagName);
+            }
+        }
+        if (sb.length() > 0) {
+            return sb.toString();
+        } else {
+            return start;
+        }
+    }
+
+    /**
+     * 不带tagname，但是tagname 的内容会被包含
+     */
     public static String formatBaseComment(JavadocInfo comment, String start) {
         if (comment == null) {
             return start;
@@ -25,14 +48,13 @@ public class CommentUtils {
             formatCommentItem(comment, start, sb, tagName);
         }
         if (sb.length() > 0) {
-            sb.setLength(sb.length() - 1);
+            return sb.toString();
         } else {
             return start;
         }
-        return sb.toString();
     }
-    public static String formatComment(JavadocInfo comment, String start) {
 
+    public static String formatComment(JavadocInfo comment, String start) {
         if (comment == null) {
             return start;
         }
@@ -44,6 +66,7 @@ public class CommentUtils {
                 sb.append(' ');
             }
             formatCommentItem(comment, start, sb, tagName);
+            sb.append("\n");
         }
         if (sb.length() > 0) {
             sb.setLength(sb.length() - 1);
@@ -52,16 +75,8 @@ public class CommentUtils {
     }
 
     private static void formatCommentItem(JavadocInfo comment, String start, StringBuilder sb, String tagName) {
-        Collection<String> fragments = comment.getTags().get(tagName);
-        int i = 0;
-        for (String fragment : fragments) {
-            if (i > 0) {
-                sb.append(start);
-            }
-            sb.append(fragment);
-            sb.append('\n');
-            i++;
-        }
+        List<List<String>> fragments = comment.getTags().get(tagName);
+        sb.append(fragments.stream().flatMap(Collection::stream).collect(Collectors.joining("\n")));
     }
 
     public static Map<String, String> commentToMap(JavadocInfo comment) {
@@ -72,23 +87,20 @@ public class CommentUtils {
 
         for (String tagName : comment.getTags().keySet()) {
             StringBuilder sb = new StringBuilder();
-            String paramName = null;
 
             boolean isParam = "@param".equals(tagName);
 
-            Collection<String> fragments = comment.getTags().get(tagName);
-            for (String fragment : fragments) {
-                paramName = fragment;
-                if (!isParam) {
-                    sb.append(fragment);
-                    sb.append(' ');
-                }
-            }
+            Collection<List<String>> fragments = comment.getTags().get(tagName);
 
-            if (isParam && paramName != null) {
-                map.put(paramName, sb.toString());
+            if (isParam) {
+                fragments.forEach(fragment -> {
+                    if (!fragment.isEmpty()) {
+                        String paramName = fragment.get(0);
+                        map.put(paramName, fragments.stream().skip(1).flatMap(Collection::stream).collect(Collectors.joining(" ")));
+                    }
+                });
             } else {
-                map.put(tagName, sb.toString());
+                map.put(tagName, fragments.stream().flatMap(Collection::stream).collect(Collectors.joining(" ")));
             }
         }
         return map;

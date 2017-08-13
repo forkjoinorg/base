@@ -275,6 +275,7 @@ public class ApiDocApi {
         private String defaultValue;
 
         public Field() {
+
         }
 
         public Field(String group, String type, String field, boolean optional, String description, String defaultValue) {

@@ -174,7 +174,7 @@ public class JavaMessageWrapper extends JavaWrapper<MessageInfo> {
             sb.append('\n');
             TypeInfo typeInfo = attr.getTypeInfo();
             String name = attr.getName();
-            if (typeInfo.isList()) {
+            if (typeInfo.isCollection()) {
                 if (CollectionUtils.isEmpty(typeInfo.getTypeArguments())) {
                     throw new AnalyseException("List 类型参数不明确:" + attr.getTypeInfo());
                 }

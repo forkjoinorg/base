@@ -1,9 +1,11 @@
 package org.forkjoin.apikit.impl.api.form;
 
 import org.forkjoin.apikit.core.Message;
+import org.forkjoin.apikit.impl.api.model.User;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 好吧，测试表单
@@ -16,9 +18,15 @@ import java.util.Date;
  */
 @Message
 public class TestForm<T> {
+    List<Date> regDates;
+    Date[] regDateArray;
+    //
+    List<T> childs;
+    T generic;
     String id;
+
     /**
-     * 签名
+     * booleanValue
      *
      * @see java.lang
      * @see java.lang
@@ -35,6 +43,8 @@ public class TestForm<T> {
 
     Date regDate;
 
+    List<User> users;
+
 
     boolean[] booleanValueArray;
     int[] intValueArray;
@@ -43,9 +53,6 @@ public class TestForm<T> {
     double[] doubleValueArray;
 
     String[] stringValueArray;
+//
 
-    Date[] regDateArray;
-
-
-    T generic;
 }

@@ -10,6 +10,7 @@ import javax.validation.constraints.Min;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.*;
@@ -28,7 +29,7 @@ public class JdtMessageAnalyseTest extends BaseTest {
         assertEquals("model", message.getPackageName());
 
         ImportsInfo imports = message.getImports();
-        assertEquals(3, imports.getImports().size());
+        assertEquals(4, imports.getImports().size());
 
 
         assertImport(imports.get("Message"), Message.class.getName());
@@ -37,7 +38,7 @@ public class JdtMessageAnalyseTest extends BaseTest {
 
         //测试注释
         JavadocInfo comment = message.getComment();
-        Map.Entry<String, Collection<String>> entry = comment.getTags(0);
+        Map.Entry<String, Collection<List<String>>> entry = comment.getTags(0);
 
         assertJavadocInfo(message.getComment(), null, Collections.singletonList("用户信息"));
 

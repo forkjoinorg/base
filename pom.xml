@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.forkjoin</groupId>
     <artifactId>base</artifactId>
-    <version>2.1.7-SNAPSHOT</version>
+    <version>2.1.7.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <url>http://forkjoin.org</url>
     <name>forkjoin base tools</name>

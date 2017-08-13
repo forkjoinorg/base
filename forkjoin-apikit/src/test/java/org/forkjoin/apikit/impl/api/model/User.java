@@ -4,6 +4,7 @@ import org.forkjoin.apikit.core.Message;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Min;
+import java.util.ArrayList;
 
 /**
  * 用户信息
@@ -18,10 +19,14 @@ public class User {
      */
     @Length(max = 255)
     String name;
+    String[] names;
+    ArrayList<String> nameList;
 
     /**
      * 年龄
      */
     @Min(14)
     int age;
+
+    TestObject testObject;
 }

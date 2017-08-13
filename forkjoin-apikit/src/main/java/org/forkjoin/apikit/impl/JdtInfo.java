@@ -123,7 +123,7 @@ public class JdtInfo {
                 return anImport;
             }
 
-            return newImport(packageName, name, false);
+            return newImport(sourcePackage + packageName, name, false);
         }
     }
 

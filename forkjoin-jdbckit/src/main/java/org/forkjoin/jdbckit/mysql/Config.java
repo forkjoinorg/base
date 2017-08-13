@@ -15,6 +15,9 @@ public class Config {
     private String charset = "utf8";
     private String tablePrefix;
     private String jdbcDataSourceName;
+    /**
+     * 只生成 test 函数返回true 的表
+     */
     private Predicate<Table> tableFilter = new DefaultTablePrefix();
 
 

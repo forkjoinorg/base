@@ -6,10 +6,7 @@ import org.forkjoin.apikit.AnalyseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 /**
  * 类型信息
@@ -123,6 +120,10 @@ public class TypeInfo implements Cloneable {
         return name;
     }
 
+    public String getTrueName() {
+        return type.isBaseType() ? type.getPrimitiveName() : name;
+    }
+
     public boolean isArray() {
         return isArray;
     }
@@ -132,16 +133,16 @@ public class TypeInfo implements Cloneable {
     }
 
 
-    public boolean isArrayOrList() {
-        return (isArray() || isList()) && type != Type.BYTE;
+    public boolean isArrayOrCollection() {
+        return (isArray() || isCollection()) && type != Type.BYTE;
     }
 
-    public boolean isList() {
+    public boolean isCollection() {
         try {
             String fullName = getFullName();
             if (fullName != null) {
                 Class<?> cls = Class.forName(fullName);
-                return List.class.isAssignableFrom(cls);
+                return Collection.class.isAssignableFrom(cls);
             }
             return false;
         } catch (ClassNotFoundException e) {
@@ -286,7 +287,7 @@ public class TypeInfo implements Cloneable {
             Class aClass = classMap.get(this);
             if (aClass != null) {
                 Class<?> primitive = ClassUtils.wrapperToPrimitive(aClass);
-                return primitive == null ? aClass.getSimpleName() :primitive.getSimpleName();
+                return primitive == null ? aClass.getSimpleName() : primitive.getSimpleName();
             } else {
                 return null;
             }
