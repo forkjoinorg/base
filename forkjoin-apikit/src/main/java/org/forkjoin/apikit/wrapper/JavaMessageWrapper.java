@@ -172,7 +172,8 @@ public class JavaMessageWrapper extends JavaWrapper<MessageInfo> {
         StringBuilder sb = new StringBuilder();
         for (PropertyInfo attr : moduleInfo.getProperties()) {
             sb.append('\n');
-            TypeInfo typeInfo = attr.getTypeInfo();
+            TypeInfo sourceTypeInfo = attr.getTypeInfo();
+            TypeInfo typeInfo = sourceTypeInfo;
             String name = attr.getName();
             if (typeInfo.isCollection()) {
                 if (CollectionUtils.isEmpty(typeInfo.getTypeArguments())) {
@@ -182,39 +183,48 @@ public class JavaMessageWrapper extends JavaWrapper<MessageInfo> {
                 typeInfo = childTypeInfo.clone();
                 typeInfo.setArray(true);
             }
-            if (typeInfo.isOtherType()) {
-//                List<TypeInfo> typeArguments = typeInfo.getTypeArguments();
-                if (typeInfo.isArray()) {
-                    if (typeInfo.isOtherType()) {
-                        sb.append(start).append(" if (").append(name).append(" != null && (!").append(name).append(".isEmpty())) {\n");
-                        sb.append(start).append("for (int i = 0; i < ").append(name).append(".size(); i++) {\n");
-                        sb.append(start).append("    ").append(name).append(".get(i).encode(").append(parentName).append(" + \"")
-                                .append(name).append("\" + \"[\" + i + \"].\", $list);\n");
-                        sb.append(start).append("    }\n");
-                        sb.append(start).append("}\n");
-                    } else {
-                        sb.append(start).append(" if (").append(name).append(" != null && (!").append(name).append(".isEmpty())) {\n");
-                        sb.append(start).append("for (int i = 0; i < ").append(name).append(".size(); i++) {\n");
-                        sb.append("$list.add(new SimpleImmutableEntry<String, Object>(" + parentName + " + \"")
-                                .append(name).append("\", ")
-                                .append(name)
-                                .append(".get(i)));\n");
-                        sb.append(start).append("    }\n");
-                        sb.append(start).append("}\n");
-                    }
+            if (typeInfo.isArray()) {
+                if (sourceTypeInfo.isBytes()) {
+                    sb.append(start).append(" if (").append(name).append(" != null && (").append(name).append(".length > 0)) {\n");
+                    sb.append("$list.add(new SimpleImmutableEntry<>(" + parentName + " + \"")
+                            .append(name).append("\", ")
+                            .append(name)
+                            .append("));\n");
+                    sb.append(start).append("}\n");
+                } else if (typeInfo.isOtherType()) {
+                    sb.append(start).append(" if (").append(name).append(" != null && (!").append(name).append(".isEmpty())) {\n");
+                    sb.append(start).append("for (int i = 0; i < ").append(name).append(".size(); i++) {\n");
+                    sb.append(start).append("    ").append(name).append(".get(i).encode(").append(parentName).append(" + \"")
+                            .append(name).append("\" + \"[\" + i + \"].\", $list);\n");
+                    sb.append(start).append("    }\n");
+                    sb.append(start).append("}\n");
+                } else if (typeInfo.isString()) {
+                    sb.append(start).append(" if (").append(name).append(" != null && (!").append(name).append(".isEmpty())) {\n");
+                    sb.append(start).append("for (int i = 0; i < ").append(name).append(".size(); i++) {\n");
+                    sb.append("$list.add(new SimpleImmutableEntry<>(" + parentName + " + \"")
+                            .append(name).append("\", ")
+                            .append(name)
+                            .append(".get(i)));\n");
+                    sb.append(start).append("    }\n");
+                    sb.append(start).append("}\n");
                 } else {
-                    sb.append(start).append(" if (").append(name).append(" != null) {\n");
-                    sb.append(start).append("    ").append(name).append(".encode(").append(parentName).append(" + \"").append(name).append(".\", $list);");
+                    sb.append(start).append(" if (").append(name).append(" != null && (!").append(name).append(".isEmpty())) {\n");
+                    sb.append("$list.add(new SimpleImmutableEntry<>(" + parentName + " + \"")
+                            .append(name).append("\", ")
+                            .append(name)
+                            .append("));\n");
                     sb.append(start).append("}\n");
                 }
+            } else if (typeInfo.isOtherType()) {
+                sb.append(start).append(" if (").append(name).append(" != null) {\n");
+                sb.append(start).append("    ").append(name).append(".encode(").append(parentName).append(" + \"").append(name).append(".\", $list);");
+                sb.append(start).append("}\n");
+            } else if (typeInfo.getType().isHasNull()) {
+                sb.append(start).append("if (").append(name).append(" != null) {\n");
+                getEncodeCodeItemBase(start, sb, name, parentName);
+                sb.append(start).append("}\n");
             } else {
-                if (typeInfo.getType().isHasNull()) {
-                    sb.append(start).append("if (").append(name).append(" != null) {\n");
-                    getEncodeCodeItemBase(start, sb, name, parentName);
-                    sb.append(start).append("}\n");
-                } else {
-                    getEncodeCodeItemBase(start, sb, name, parentName);
-                }
+                getEncodeCodeItemBase(start, sb, name, parentName);
             }
         }
         return sb.toString();
@@ -239,7 +249,7 @@ public class JavaMessageWrapper extends JavaWrapper<MessageInfo> {
     private void getEncodeCodeItemBase(String start, StringBuilder sb, String name, String parentName) {
         sb.append(start)
                 .append("    ")
-                .append("$list.add(new SimpleImmutableEntry<String, Object>(")
+                .append("$list.add(new SimpleImmutableEntry<>(")
                 .append(parentName).append(" + \"")
                 .append(name).append("\",")
                 .append(name)
