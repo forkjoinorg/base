@@ -38,6 +38,11 @@ public class TestApiControllerTest extends BaseControllerTest {
         String str = RandomStringUtils.random(ARRAY_MAX);
 
         TestForm<User> form = createForm();
+        ArrayList<String> stringValueArray = new ArrayList<>();
+        stringValueArray.add("sb,sb");
+        stringValueArray.add("sb1,sb1");
+        form.setStringValueArray(stringValueArray);
+        form.setStringValue(form.getStringValue()+",+,sb%");
         TestObjectList<User> data = apiManager.testApi.testObjectListData(form);
 
         Assert.assertEquals(form.getBooleanValue(), data.getBooleanValue());
@@ -108,70 +113,33 @@ public class TestApiControllerTest extends BaseControllerTest {
         TestForm<User> form = new TestForm<>();
 
         form.setBooleanValue(random.nextBoolean());
-        form.setBooleanValueArray(randomArrayList(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return random.nextBoolean();
-            }
-        }));
+        form.setBooleanValueArray(randomArrayList(random::nextBoolean));
 
         form.setBytesValue(RandomStringUtils.random(random.nextInt(ARRAY_MAX) + 1).getBytes(CHARSET_NAME));
 
         form.setDoubleValue(random.nextDouble());
-        form.setDoubleValueArray(randomArrayList(new Callable<Double>() {
-            @Override
-            public Double call() throws Exception {
-                return random.nextDouble();
-            }
-        }));
+        ArrayList<Double> doubleValueArray = randomArrayList(random::nextDouble);
+        doubleValueArray.add(Double.MAX_VALUE);
+        doubleValueArray.add(Double.MIN_VALUE);
+        form.setDoubleValueArray(doubleValueArray);
 
         form.setFloatValue(random.nextFloat());
-        form.setFloatValueArray(randomArrayList(new Callable<Float>() {
-            @Override
-            public Float call() throws Exception {
-                return random.nextFloat();
-            }
-        }));
+        form.setFloatValueArray(randomArrayList(random::nextFloat));
 
         form.setIntValue(random.nextInt());
-        form.setIntValueArray(randomArrayList(new Callable<Integer>() {
-            @Override
-            public Integer call() throws Exception {
-                return random.nextInt();
-            }
-        }));
+        form.setIntValueArray(randomArrayList(random::nextInt));
 
         form.setLongValue(random.nextInt());
-        form.setLongValueArray(randomArrayList(new Callable<Long>() {
-            @Override
-            public Long call() throws Exception {
-                return random.nextLong();
-            }
-        }));
+        form.setLongValueArray(randomArrayList(random::nextLong));
 
         form.setRegDate(new Date());
-        form.setRegDateArray(randomArrayList(new Callable<Date>() {
-            @Override
-            public Date call() throws Exception {
-                return new Date();
-            }
-        }));
+        form.setRegDateArray(randomArrayList(Date::new));
 
         form.setStringValue(RandomStringUtils.random(random.nextInt(ARRAY_MAX)));
-        form.setStringValueArray(randomArrayList(new Callable<String>() {
-            @Override
-            public String call() throws Exception {
-                return RandomStringUtils.random(random.nextInt(ARRAY_MAX));
-            }
-        }));
+        form.setStringValueArray(randomArrayList(() -> RandomStringUtils.random(random.nextInt(ARRAY_MAX))));
 
         form.setUser(newUser());
-        form.setUsers(randomArrayList(new Callable<User>() {
-            @Override
-            public User call() throws Exception {
-                return newUser();
-            }
-        }));
+        form.setUsers(randomArrayList(this::newUser));
         return form;
     }
 
