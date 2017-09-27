@@ -11,9 +11,7 @@ import org.springframework.data.redis.core.SessionCallback;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
@@ -311,7 +309,7 @@ public class EntityCache<K extends KeyObject, V extends EntityObject> extends Ca
                     String ukey = createUniqueKey(u.getName(), objs);
                     keys[++keyIndex] = ukey;
                 }
-                opt.delete(keys);
+                opt.delete(Arrays.asList(keys));
                 opt.exec();
                 return null;
             }
