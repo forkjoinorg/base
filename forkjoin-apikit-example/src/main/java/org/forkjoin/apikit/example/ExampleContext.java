@@ -3,6 +3,7 @@ package org.forkjoin.apikit.example;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.forkjoin.apikit.generator.apidoc.ApiDocProject;
 import org.forkjoin.apikit.spring.*;
 import org.forkjoin.apikit.spring.utils.JsonUtils;
 import org.springframework.context.annotation.Bean;
@@ -31,6 +32,11 @@ public class ExampleContext extends WebMvcConfigurerAdapter {
 
     public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
 
+
+    @Bean
+    public ApiDocController  apiDocController(){
+        return new ApiDocController();
+    }
     @Bean
     public ReloadableResourceBundleMessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();

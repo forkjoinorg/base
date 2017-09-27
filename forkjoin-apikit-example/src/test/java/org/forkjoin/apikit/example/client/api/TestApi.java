@@ -13,6 +13,7 @@ import org.forkjoin.apikit.example.client.model.TestObjectList;
 import org.forkjoin.apikit.example.client.model.User;
 
 /**
+ * 测试一些复杂的情况
  * @author  zuoge85 on 15/6/11.
  */
 public class TestApi {

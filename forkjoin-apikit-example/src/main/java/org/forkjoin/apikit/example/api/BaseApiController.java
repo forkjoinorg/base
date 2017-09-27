@@ -11,6 +11,8 @@ import org.forkjoin.apikit.example.model.*;
 import org.springframework.web.bind.annotation.PathVariable;
 
 /**
+ * 基本的测试api
+ *
  * @author  zuoge85 on 15/6/11.
  */
 @Api

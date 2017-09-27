@@ -15,7 +15,7 @@ class TestObjectList {
 	/**
 	 * 签名
 	 * @see java.lang
-	 * java.lang
+java.lang
 	 */
     booleanValue:Boolean;
 

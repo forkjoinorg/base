@@ -7,8 +7,8 @@ import org.forkjoin.apikit.ObjectFactory;
 import org.forkjoin.apikit.generator.ApiDocGenerator;
 import org.forkjoin.apikit.generator.JavaClientGenerator;
 import org.forkjoin.apikit.generator.JavaScriptGenerator;
+import org.forkjoin.apikit.generator.apidoc.ApiDocProject;
 import org.forkjoin.apikit.impl.JdtAnalyse;
-import org.forkjoin.apikit.jgit.GitGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,6 +31,8 @@ public class ApiBuilderMain {
 
         File dir = new File(root, "src/main/java/");
         File apiDocDir = new File(root, "src/main/resources/");
+
+        File apiDoc = new File(root, "src/main/resources/static/apidoc");
 
         File javaClientDir = new File(root, "src/test/java/");
         File jsClientDir = new File(root, "src/test/js/");
@@ -55,20 +57,28 @@ public class ApiBuilderMain {
             generator.setRootPackage("org.forkjoin.apikit.example.client");
             manager.generate(generator);
         }
-
-        {
-            ApiDocGenerator generator = new ApiDocGenerator();
-            generator.setAmd(true);
-            generator.setOutPath(apiDocDir.getAbsolutePath());
-            generator.setVersion(version);
-            manager.generate(generator);
-        }
-
-
         {
             JavaScriptGenerator generator = new JavaScriptGenerator();
             generator.setOutPath(jsClientDir.getAbsolutePath());
             generator.setVersion(version);
+            manager.generate(generator);
+        }
+
+        {
+            ApiDocGenerator generator = new ApiDocGenerator();
+            generator.setOutPath(apiDoc.getAbsolutePath());
+            generator.setVersion(version);
+            generator.setAmd(true);
+            ApiDocProject apiDocProject = new ApiDocProject();
+            apiDocProject.setName("example-api");
+            apiDocProject.setDescription("example-api");
+            apiDocProject.setTitle("example-api");
+            apiDocProject.setUrl("http://api.example.com/");
+            apiDocProject.setSampleUrl("http://test-api.example.com/");
+
+            apiDocProject.setHeader(new ApiDocProject.Header("公共说明", "公告部分的文档"));
+
+            generator.setApiDocProject(apiDocProject);
             manager.generate(generator);
         }
     }

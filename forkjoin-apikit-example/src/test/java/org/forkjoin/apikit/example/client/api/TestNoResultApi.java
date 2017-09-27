@@ -14,6 +14,7 @@ import org.forkjoin.apikit.example.client.model.TestObjectList;
 import org.forkjoin.apikit.example.client.model.User;
 
 /**
+ * 测试直接返回结果
  * @author  zuoge85 on 15/6/11.
  */
 public class TestNoResultApi {

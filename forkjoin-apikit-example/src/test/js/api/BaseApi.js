@@ -10,6 +10,7 @@ import AbstractApi from './../AbstractApi'
 
 
 /**
+ * 基本的测试api
  * @author   zuoge85 on 15/6/11.
 */
 class BaseApi extends AbstractApi {

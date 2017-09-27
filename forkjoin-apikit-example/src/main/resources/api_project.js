@@ -1,1 +1,0 @@
-define({"name":null,"version":"v1","description":null,"title":null,"url":null,"sampleUrl":null,"generator":{"version":"ApiKit 生成器生成，当前api版本:v1","time":"2017-07-31T06:03:23+0800"},"template":{"withCompare":true,"withGenerator":true},"header":null,"footer":null});

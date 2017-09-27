@@ -10,6 +10,7 @@ import org.forkjoin.apikit.core.Result;
 import org.forkjoin.apikit.example.client.model.User;
 
 /**
+ * 账户api
  * @author  zuoge85 on 15/6/11.
  */
 public class AccountApi {

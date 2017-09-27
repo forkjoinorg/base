@@ -12,6 +12,7 @@ import AbstractApi from './../AbstractApi'
 
 
 /**
+ * 测试一些复杂的情况
  * @author  zuoge85 on 15/6/11.
 */
 class TestApi extends AbstractApi {

@@ -1,5 +1,8 @@
 package org.forkjoin.apikit.example.client.model;
 
+import org.forkjoin.apikit.example.client.model.TestObjectList;
+import org.forkjoin.apikit.example.client.model.User;
+
 import org.forkjoin.apikit.core.*;
 
 import java.util.*;
@@ -16,7 +19,7 @@ public class TestObjectList<T extends ApiMessage> implements ApiMessage {
 	/**
 	 * 签名
 	 * @see java.lang
-	 * java.lang
+	java.lang
 	 */
 	private boolean booleanValue;
 
@@ -108,7 +111,7 @@ public class TestObjectList<T extends ApiMessage> implements ApiMessage {
 	/**
 	 * 签名
 	 * @see java.lang
-	 * java.lang
+	java.lang
 	 */
 	public boolean getBooleanValue() {
 		return booleanValue;
@@ -117,7 +120,7 @@ public class TestObjectList<T extends ApiMessage> implements ApiMessage {
 	/**
 	 * 签名
 	 * @see java.lang
-	 * java.lang
+	java.lang
 	 */
 	public void setBooleanValue(boolean booleanValue) {
 		this.booleanValue = booleanValue;
@@ -295,45 +298,59 @@ public class TestObjectList<T extends ApiMessage> implements ApiMessage {
 	public List<Entry<String, Object>> encode(String $parent, List<Entry<String, Object>> $list) {
 
 		if (id != null) {
-			$list.add(new SimpleImmutableEntry<String, Object>($parent + "id", id));
+			$list.add(new SimpleImmutableEntry<>($parent + "id", id));
 		}
 
-		$list.add(new SimpleImmutableEntry<String, Object>($parent + "booleanValue", booleanValue));
+		$list.add(new SimpleImmutableEntry<>($parent + "booleanValue", booleanValue));
 
-		$list.add(new SimpleImmutableEntry<String, Object>($parent + "intValue", intValue));
+		$list.add(new SimpleImmutableEntry<>($parent + "intValue", intValue));
 
-		$list.add(new SimpleImmutableEntry<String, Object>($parent + "longValue", longValue));
+		$list.add(new SimpleImmutableEntry<>($parent + "longValue", longValue));
 
-		$list.add(new SimpleImmutableEntry<String, Object>($parent + "floatValue", floatValue));
+		$list.add(new SimpleImmutableEntry<>($parent + "floatValue", floatValue));
 
-		$list.add(new SimpleImmutableEntry<String, Object>($parent + "doubleValue", doubleValue));
+		$list.add(new SimpleImmutableEntry<>($parent + "doubleValue", doubleValue));
 
 		if (stringValue != null) {
-			$list.add(new SimpleImmutableEntry<String, Object>($parent + "stringValue", stringValue));
+			$list.add(new SimpleImmutableEntry<>($parent + "stringValue", stringValue));
 		}
 
-		$list.add(new SimpleImmutableEntry<String, Object>($parent + "bytesValue", bytesValue));
+		if (bytesValue != null && (!bytesValue.isEmpty())) {
+			$list.add(new SimpleImmutableEntry<>($parent + "bytesValue", bytesValue));
+		}
 
 		if (regDate != null) {
-			$list.add(new SimpleImmutableEntry<String, Object>($parent + "regDate", regDate));
+			$list.add(new SimpleImmutableEntry<>($parent + "regDate", regDate));
 		}
 
-		$list.add(new SimpleImmutableEntry<String, Object>($parent + "booleanValueArray", booleanValueArray));
-
-		$list.add(new SimpleImmutableEntry<String, Object>($parent + "intValueArray", intValueArray));
-
-		$list.add(new SimpleImmutableEntry<String, Object>($parent + "longValueArray", longValueArray));
-
-		$list.add(new SimpleImmutableEntry<String, Object>($parent + "floatValueArray", floatValueArray));
-
-		$list.add(new SimpleImmutableEntry<String, Object>($parent + "doubleValueArray", doubleValueArray));
-
-		if (stringValueArray != null) {
-			$list.add(new SimpleImmutableEntry<String, Object>($parent + "stringValueArray", stringValueArray));
+		if (booleanValueArray != null && (!booleanValueArray.isEmpty())) {
+			$list.add(new SimpleImmutableEntry<>($parent + "booleanValueArray", booleanValueArray));
 		}
 
-		if (regDateArray != null) {
-			$list.add(new SimpleImmutableEntry<String, Object>($parent + "regDateArray", regDateArray));
+		if (intValueArray != null && (!intValueArray.isEmpty())) {
+			$list.add(new SimpleImmutableEntry<>($parent + "intValueArray", intValueArray));
+		}
+
+		if (longValueArray != null && (!longValueArray.isEmpty())) {
+			$list.add(new SimpleImmutableEntry<>($parent + "longValueArray", longValueArray));
+		}
+
+		if (floatValueArray != null && (!floatValueArray.isEmpty())) {
+			$list.add(new SimpleImmutableEntry<>($parent + "floatValueArray", floatValueArray));
+		}
+
+		if (doubleValueArray != null && (!doubleValueArray.isEmpty())) {
+			$list.add(new SimpleImmutableEntry<>($parent + "doubleValueArray", doubleValueArray));
+		}
+
+		if (stringValueArray != null && (!stringValueArray.isEmpty())) {
+			for (int i = 0; i < stringValueArray.size(); i++) {
+				$list.add(new SimpleImmutableEntry<>($parent + "stringValueArray", stringValueArray.get(i)));
+			}
+		}
+
+		if (regDateArray != null && (!regDateArray.isEmpty())) {
+			$list.add(new SimpleImmutableEntry<>($parent + "regDateArray", regDateArray));
 		}
 
 		if (user != null) {

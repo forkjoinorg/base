@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 /**
+ * 账户api
+ *
  * @author zuoge85 on 15/6/11.
  */
-//@Api
+@Api
 @RestController
 @RequestMapping(value = "v1")
 public class AccountApiController {

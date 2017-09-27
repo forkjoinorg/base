@@ -3,6 +3,7 @@
 import AccountApi  from './api/AccountApi';
 import BaseApi  from './api/BaseApi';
 import PageApi  from './api/PageApi';
+import SysApi  from './api/SysApi';
 import TestApi  from './api/TestApi';
 import TestNoResultApi  from './api/TestNoResultApi';
 import ApiUtils from "./ApiUtils";
@@ -11,6 +12,7 @@ class Apis {
     accountApi:AccountApi;
     baseApi:BaseApi;
     pageApi:PageApi;
+    sysApi:SysApi;
     testApi:TestApi;
     testNoResultApi:TestNoResultApi;
     _xhrArray:XMLHttpRequest[];
@@ -34,6 +36,8 @@ class Apis {
         this.baseApi._initNet(_xhrHandler);
         this.pageApi = new PageApi();
         this.pageApi._initNet(_xhrHandler);
+        this.sysApi = new SysApi();
+        this.sysApi._initNet(_xhrHandler);
         this.testApi = new TestApi();
         this.testApi._initNet(_xhrHandler);
         this.testNoResultApi = new TestNoResultApi();

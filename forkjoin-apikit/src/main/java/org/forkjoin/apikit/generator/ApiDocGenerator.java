@@ -51,22 +51,27 @@ public class ApiDocGenerator extends AbstractGenerator {
     public void generateTool() throws Exception {
         String suffix = isAmd ? JS_SUFFIX : JSON_SUFFIX;
 
-        File apiProjectFile = new File(outPath, API_PROJECT + suffix);
         apiDocProject.setVersion(getVersion());
         apiDocProject.setTemplate(new ApiDocProject.Template(true, true));
         apiDocProject.setGenerator(new ApiDocProject.Generator("ApiKit 生成器生成，当前api版本:" + getVersion(), new Date()));
+
         String apiDocProjectJson = JsonUtils.serialize(apiDocProject);
         if (isAmd) {
             apiDocProjectJson = "define(" + apiDocProjectJson + ");";
         }
-        FileUtils.write(apiProjectFile, apiDocProjectJson);
 
-        File apiDataFile = new File(outPath, API_DATA + suffix);
         String apiDataJson = JsonUtils.serialize(apis);
         if (isAmd) {
             apiDataJson = "define({ api:" + apiDataJson + "});";
         }
-        FileUtils.write(apiDataFile, apiDataJson);
+
+        if (outPath != null) {
+            File apiProjectFile = new File(outPath, API_PROJECT + suffix);
+            FileUtils.write(apiProjectFile, apiDocProjectJson);
+
+            File apiDataFile = new File(outPath, API_DATA + suffix);
+            FileUtils.write(apiDataFile, apiDataJson);
+        }
     }
 
 
@@ -145,7 +150,9 @@ public class ApiDocGenerator extends AbstractGenerator {
                 );
                 list.add(dataField);
                 MessageInfo messageInfo = getFields(list, "data", groupName, resultDataType);
-                dataField.setDescription(transform(messageInfo.getComment()));
+                if (messageInfo != null) {
+                    dataField.setDescription(transform(messageInfo.getComment()));
+                }
             } else {
                 JavadocInfo comment = methodInfo.getComment();
                 String description = "协议返回数据";
@@ -195,6 +202,7 @@ public class ApiDocGenerator extends AbstractGenerator {
         if (message == null) {
             if (trueType.isGeneric()) {
                 log.error("不能确定泛型:{}", type);
+                return null;
             } else {
                 throw new AnalyseException("找不到类型对应的消息:" + trueType);
             }

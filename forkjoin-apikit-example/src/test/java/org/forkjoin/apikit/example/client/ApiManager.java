@@ -5,6 +5,7 @@ import org.forkjoin.apikit.client.HttpClientAdapter;
 import org.forkjoin.apikit.example.client.api.AccountApi;
 import org.forkjoin.apikit.example.client.api.BaseApi;
 import org.forkjoin.apikit.example.client.api.PageApi;
+import org.forkjoin.apikit.example.client.api.SysApi;
 import org.forkjoin.apikit.example.client.api.TestApi;
 import org.forkjoin.apikit.example.client.api.TestNoResultApi;
 
@@ -29,10 +30,12 @@ public class ApiManager {
 	private HttpClientAdapter httpClientAdapter;
 
 	/**
+	 * 账户api
 	 * @author  zuoge85 on 15/6/11.
 	 */
 	public final AccountApi accountApi;
 	/**
+	 * 基本的测试api
 	 * @author   zuoge85 on 15/6/11.
 	 */
 	public final BaseApi baseApi;
@@ -41,10 +44,17 @@ public class ApiManager {
 	 */
 	public final PageApi pageApi;
 	/**
+	 * 账户api
+	 * @author  zuoge85 on 15/6/11.
+	 */
+	public final SysApi sysApi;
+	/**
+	 * 测试一些复杂的情况
 	 * @author  zuoge85 on 15/6/11.
 	 */
 	public final TestApi testApi;
 	/**
+	 * 测试直接返回结果
 	 * @author  zuoge85 on 15/6/11.
 	 */
 	public final TestNoResultApi testNoResultApi;
@@ -55,6 +65,7 @@ public class ApiManager {
 		accountApi = new AccountApi(httpClientAdapter);
 		baseApi = new BaseApi(httpClientAdapter);
 		pageApi = new PageApi(httpClientAdapter);
+		sysApi = new SysApi(httpClientAdapter);
 		testApi = new TestApi(httpClientAdapter);
 		testNoResultApi = new TestNoResultApi(httpClientAdapter);
 	}

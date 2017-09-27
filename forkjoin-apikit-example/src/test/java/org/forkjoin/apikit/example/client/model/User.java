@@ -71,13 +71,13 @@ public class User implements ApiMessage {
 	@Override
 	public List<Entry<String, Object>> encode(String $parent, List<Entry<String, Object>> $list) {
 
-		$list.add(new SimpleImmutableEntry<String, Object>($parent + "id", id));
+		$list.add(new SimpleImmutableEntry<>($parent + "id", id));
 
 		if (name != null) {
-			$list.add(new SimpleImmutableEntry<String, Object>($parent + "name", name));
+			$list.add(new SimpleImmutableEntry<>($parent + "name", name));
 		}
 
-		$list.add(new SimpleImmutableEntry<String, Object>($parent + "age", age));
+		$list.add(new SimpleImmutableEntry<>($parent + "age", age));
 
 		return $list;
 	}

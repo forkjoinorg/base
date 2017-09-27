@@ -4,9 +4,9 @@
 
 /**
  * 好吧，测试表单
- * <p>
- * <p>
- * <h1>好呀</h1>
+<p>
+<p>
+<h1>好呀</h1>
  * @author  zuoge85 on 15/4/18.
  * @see java.lang
 */
@@ -17,7 +17,7 @@ class TestForm {
 	/**
 	 * 签名
 	 * @see java.lang
-	 * java.lang
+java.lang
 	 */
     booleanValue:Boolean;
 
@@ -58,18 +58,12 @@ class TestForm {
 	 */
     generics:Object[];
 
-    genericObjs:TestObject[];
-
-    genericUsers:TestObject[];
-
-    genericObj:TestObject;
-
     generic:Object;
     constructor() {
 
     }
 
-    formObject({id,booleanValue,intValue,longValue,floatValue,doubleValue,stringValue,bytesValue,regDate,booleanValueArray,intValueArray,longValueArray,floatValueArray,doubleValueArray,stringValueArray,regDateArray,user,users,generics,genericObjs,genericUsers,genericObj,generic}):TestForm{
+    formObject({id,booleanValue,intValue,longValue,floatValue,doubleValue,stringValue,bytesValue,regDate,booleanValueArray,intValueArray,longValueArray,floatValueArray,doubleValueArray,stringValueArray,regDateArray,user,users,generics,generic}):TestForm{
         this.id = id;
         this.booleanValue = booleanValue;
         this.intValue = intValue;
@@ -89,19 +83,16 @@ class TestForm {
         this.user = user;
         this.users = users;
         this.generics = generics;
-        this.genericObjs = genericObjs;
-        this.genericUsers = genericUsers;
-        this.genericObj = genericObj;
         this.generic = generic;
         return this;
     }
 
-    static of({id,booleanValue,intValue,longValue,floatValue,doubleValue,stringValue,bytesValue,regDate,booleanValueArray,intValueArray,longValueArray,floatValueArray,doubleValueArray,stringValueArray,regDateArray,user,users,generics,genericObjs,genericUsers,genericObj,generic}):TestForm{
-        return new TestForm().formObject({id,booleanValue,intValue,longValue,floatValue,doubleValue,stringValue,bytesValue,regDate,booleanValueArray,intValueArray,longValueArray,floatValueArray,doubleValueArray,stringValueArray,regDateArray,user,users,generics,genericObjs,genericUsers,genericObj,generic});
+    static of({id,booleanValue,intValue,longValue,floatValue,doubleValue,stringValue,bytesValue,regDate,booleanValueArray,intValueArray,longValueArray,floatValueArray,doubleValueArray,stringValueArray,regDateArray,user,users,generics,generic}):TestForm{
+        return new TestForm().formObject({id,booleanValue,intValue,longValue,floatValue,doubleValue,stringValue,bytesValue,regDate,booleanValueArray,intValueArray,longValueArray,floatValueArray,doubleValueArray,stringValueArray,regDateArray,user,users,generics,generic});
     }
 
-    static form(id:String,booleanValue:Boolean,intValue:Number,longValue:Number,floatValue:Number,doubleValue:Number,stringValue:String,bytesValue:Number[],regDate:Date,booleanValueArray:Boolean[],intValueArray:Number[],longValueArray:Number[],floatValueArray:Number[],doubleValueArray:Number[],stringValueArray:String[],regDateArray:Date[],user:User,users:User[],generics:Object[],genericObjs:TestObject[],genericUsers:TestObject[],genericObj:TestObject,generic:Object):TestForm{
-        return new TestForm().formObject({id,booleanValue,intValue,longValue,floatValue,doubleValue,stringValue,bytesValue,regDate,booleanValueArray,intValueArray,longValueArray,floatValueArray,doubleValueArray,stringValueArray,regDateArray,user,users,generics,genericObjs,genericUsers,genericObj,generic});
+    static form(id:String,booleanValue:Boolean,intValue:Number,longValue:Number,floatValue:Number,doubleValue:Number,stringValue:String,bytesValue:Number[],regDate:Date,booleanValueArray:Boolean[],intValueArray:Number[],longValueArray:Number[],floatValueArray:Number[],doubleValueArray:Number[],stringValueArray:String[],regDateArray:Date[],user:User,users:User[],generics:Object[],generic:Object):TestForm{
+        return new TestForm().formObject({id,booleanValue,intValue,longValue,floatValue,doubleValue,stringValue,bytesValue,regDate,booleanValueArray,intValueArray,longValueArray,floatValueArray,doubleValueArray,stringValueArray,regDateArray,user,users,generics,generic});
     }
 }
 

@@ -6,6 +6,7 @@ import AbstractApi from './../AbstractApi'
 
 
 /**
+ * 账户api
  * @author  zuoge85 on 15/6/11.
 */
 class AccountApi extends AbstractApi {
@@ -13,7 +14,7 @@ class AccountApi extends AbstractApi {
 
 
    /**
-    * 
+    *  返回授权token
     *
     * <div class='http-info'>http 说明：<b>Api Url:</b> <b>account/login</b>
     * <ul>

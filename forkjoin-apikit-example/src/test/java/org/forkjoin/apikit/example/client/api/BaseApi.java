@@ -12,6 +12,7 @@ import org.forkjoin.apikit.example.client.model.TestObject;
 import org.forkjoin.apikit.example.client.model.User;
 
 /**
+ * 基本的测试api
  * @author   zuoge85 on 15/6/11.
  */
 public class BaseApi {

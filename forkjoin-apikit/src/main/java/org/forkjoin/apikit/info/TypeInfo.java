@@ -190,6 +190,10 @@ public class TypeInfo implements Cloneable {
     public boolean isOtherType() {
         return type == Type.OTHER;
     }
+    public boolean isString() {
+        return type == Type.STRING;
+    }
+
 
     public Class<?> toClass() throws ClassNotFoundException {
         if (type.isBaseType()) {

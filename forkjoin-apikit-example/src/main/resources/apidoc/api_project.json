@@ -1,0 +1,1 @@
+{"name":"example-api","version":"v1","description":"example-api","title":"example-api","url":"http://api.example.com/","sampleUrl":"http://test-api.example.com/","generator":{"version":"ApiKit 生成器生成，当前api版本:v1","time":"2017-08-16T02:11:03+0800"},"template":{"withCompare":true,"withGenerator":true},"header":{"title":"公共说明","content":"公告部分的文档"},"footer":null}
