@@ -1,75 +1,62 @@
 'use strict';
 
-import AccountApi  from './api/AccountApi';
-import BaseApi  from './api/BaseApi';
-import PageApi  from './api/PageApi';
-import SysApi  from './api/SysApi';
-import TestApi  from './api/TestApi';
-import TestNoResultApi  from './api/TestNoResultApi';
-import ApiUtils from "./ApiUtils";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
-class Apis {
-    accountApi:AccountApi;
-    baseApi:BaseApi;
-    pageApi:PageApi;
-    sysApi:SysApi;
-    testApi:TestApi;
-    testNoResultApi:TestNoResultApi;
-    _xhrArray:XMLHttpRequest[];
-    _isStop = true;
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
-    static init(apiUrl:String, apiVersion:String){
-        ApiUtils.apiUrl = apiUrl;
-        ApiUtils.apiVersion = apiVersion;
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+
+var _BaseApi = require('./api/BaseApi');
+var _TestApi = require('./api/TestApi');
+var _TestNoResultApi = require('./api/TestNoResultApi');
+var _SysApi = require('./api/SysApi');
+var _AccountApi = require('./api/AccountApi');
+var _PageApi = require('./api/PageApi');
+
+var _HttpGroupImpi = require('./HttpGroupImpi');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var Apis = function () {
+    function Apis() {
+        (0, _classCallCheck3['default'])(this, Apis);
+
+        this.httpGroup = new _HttpGroupImpi.HttpGroupImpi();
+
+        this.baseApi = new _BaseApi.BaseApi();
+        this.baseApi._init(this.httpGroup);
+        this.testApi = new _TestApi.TestApi();
+        this.testApi._init(this.httpGroup);
+        this.testNoResultApi = new _TestNoResultApi.TestNoResultApi();
+        this.testNoResultApi._init(this.httpGroup);
+        this.sysApi = new _SysApi.SysApi();
+        this.sysApi._init(this.httpGroup);
+        this.accountApi = new _AccountApi.AccountApi();
+        this.accountApi._init(this.httpGroup);
+        this.pageApi = new _PageApi.PageApi();
+        this.pageApi._init(this.httpGroup);
     }
 
-    static setToken(token:String){
-        ApiUtils.setToken(token);
-    }
-
-    constructor() {
-        this._xhrArray = [];
-        let _xhrHandler = this._xhrHandler.bind(this);
-        this.accountApi = new AccountApi();
-        this.accountApi._initNet(_xhrHandler);
-        this.baseApi = new BaseApi();
-        this.baseApi._initNet(_xhrHandler);
-        this.pageApi = new PageApi();
-        this.pageApi._initNet(_xhrHandler);
-        this.sysApi = new SysApi();
-        this.sysApi._initNet(_xhrHandler);
-        this.testApi = new TestApi();
-        this.testApi._initNet(_xhrHandler);
-        this.testNoResultApi = new TestNoResultApi();
-        this.testNoResultApi._initNet(_xhrHandler);
-        this._isStop = false;
-    }
-
-    _xhrHandler(xhr:XMLHttpRequest) {
-        if(this._isStop){
-            xhr.abort();
-        }else{
-            this._xhrArray.push(xhr);
-            xhr.loadend = ()=> {
-                this._clearXhr(xhr);
-            };
+    (0, _createClass3['default'])(Apis, [{
+        key: 'stopAll',
+        value: function stopAll() {
+            this.httpGroup.stopAll();
         }
-    }
-
-    _clearXhr(xhr:XMLHttpRequest) {
-        var index = this._xhrArray.indexOf(xhr);
-        if (index > -1) {
-            this._xhrArray.splice(index, 1);
+    }, {
+        key: 'stop',
+        value: function stop(tag) {
+            this.httpGroup.stop(tag);
         }
-    }
+    }]);
+    return Apis;
+}();
 
-    stopAll() {
-        for (var i = 0; i < this._xhrArray.length; i++) {
-            this._xhrArray[i].abort();
-        }
-        this._xhrArray.length = 0;
-    }
-}
-
-
-export default Apis;
+exports['default'] = Apis;
+module.exports = exports['default'];

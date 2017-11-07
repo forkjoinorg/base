@@ -3,11 +3,15 @@ package org.forkjoin.apikit.wrapper;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.forkjoin.apikit.Context;
-import org.forkjoin.apikit.info.*;
+import org.forkjoin.apikit.info.ApiInfo;
+import org.forkjoin.apikit.info.ApiMethodInfo;
+import org.forkjoin.apikit.info.ApiMethodParamInfo;
+import org.forkjoin.apikit.info.TypeInfo;
 import org.forkjoin.apikit.utils.ApiImport;
 import org.forkjoin.apikit.utils.CommentUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * @author zuoge85 on 15/6/14.
@@ -27,6 +31,20 @@ public class JSApiWrapper extends JSWrapper<ApiInfo> {
 
         String imports = getMethodImports();
         return imports + "\nimport AbstractApi from './" + StringUtils.repeat("../", myLevel) + "AbstractApi'\n";
+
+    }
+
+    public String getEs5Imports() {
+        String moduleInfoPackageName = moduleInfo.getPackageName();
+        //自己的目录级别
+        int myLevel = moduleInfoPackageName.split(".").length + 1;
+        String str = StringUtils.repeat("../", myLevel);
+
+        return "var _AbstractApi2 = require(\""+str+"AbstractApi\");\n" +
+                "var _AbstractApi3 = _interopRequireDefault(_AbstractApi2);\n" +
+                "\n" +
+                "var _HttpGroupImpi = require(\""+str+"HttpGroupImpi\");\n" +
+                "var _HttpGroupImpi2 = _interopRequireDefault(_HttpGroupImpi);\n";
     }
 
     public String getMethodImports() {
@@ -157,6 +175,10 @@ public class JSApiWrapper extends JSWrapper<ApiInfo> {
     }
 
     public String params(ApiMethodInfo method) {
+        return params(method, false);
+    }
+
+    public String params(ApiMethodInfo method, boolean isType) {
         StringBuilder sb = new StringBuilder();
         ArrayList<ApiMethodParamInfo> params = method.getParams();
         for (int i = 0; i < params.size(); i++) {
@@ -166,7 +188,7 @@ public class JSApiWrapper extends JSWrapper<ApiInfo> {
                     sb.append(", ");
                 }
                 sb.append(attributeInfo.getName());
-                if (getType() == Type.FLOW_TYPE) {
+                if (isType) {
                     sb.append(":");
                     sb.append(toTypeString(attributeInfo.getTypeInfo()));
                 }

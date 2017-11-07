@@ -5,6 +5,7 @@ import org.eclipse.jdt.core.dom.*;
 import org.forkjoin.apikit.AnalyseException;
 import org.forkjoin.apikit.core.Account;
 import org.forkjoin.apikit.core.ActionType;
+import org.forkjoin.apikit.core.Ignore;
 import org.forkjoin.apikit.core.Result;
 import org.forkjoin.apikit.info.*;
 import org.slf4j.Logger;
@@ -41,9 +42,10 @@ public class JdtApiAnalyse extends JdtAbstractModuleAnalyse {
                     if (equalsType(annotation.getTypeName(), RequestMapping.class)) {
                         //分析Method
                         ApiMethodInfo apiMethodInfo = analyseMethodInfo(method, annotation);
-                        apiInfo.addApiMethod(apiMethodInfo);
-
-                        log.debug("ApiMethodInfo: {}:{}", method.getName(), apiMethodInfo);
+                        if (!apiMethodInfo.isIgnore()) {
+                            apiInfo.addApiMethod(apiMethodInfo);
+                            log.debug("ApiMethodInfo: {}:{}", method.getName(), apiMethodInfo);
+                        }
                     }
                 }
             }
@@ -127,6 +129,8 @@ public class JdtApiAnalyse extends JdtAbstractModuleAnalyse {
                             }
                         }
                     }
+                } else if (annotationInfo.getTypeInfo().getFullName().equals(Ignore.class.getName())) {
+                    apiMethodInfo.setIgnore(true);
                 }
             }
         }

@@ -1,15 +1,9 @@
 package org.forkjoin.apikit.wrapper;
 
 import com.google.common.collect.ImmutableMap;
-import org.apache.commons.lang3.StringUtils;
 import org.forkjoin.apikit.Context;
-import org.forkjoin.apikit.info.Import;
-import org.forkjoin.apikit.info.ImportsInfo;
 import org.forkjoin.apikit.info.ModuleInfo;
 import org.forkjoin.apikit.info.TypeInfo;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author zuoge85 on 15/6/15.
@@ -17,6 +11,7 @@ import java.util.Set;
 public class JSWrapper<T extends ModuleInfo> extends BuilderWrapper<T> {
     public enum Type {
         ES6,
+        JS,
         FLOW_TYPE
     }
 
@@ -41,12 +36,17 @@ public class JSWrapper<T extends ModuleInfo> extends BuilderWrapper<T> {
     }
 
 
+    public String toTypeString(TypeInfo typeInfo) {
+        return toTypeString(typeInfo, false);
+    }
 
-
-    public static String toTypeString(TypeInfo typeInfo) {
+    public String toTypeString(TypeInfo typeInfo, boolean isArray) {
         StringBuilder sb = new StringBuilder();
         TypeInfo.Type type = typeInfo.getType();
-        if (type == TypeInfo.Type.OTHER) {
+        if (typeInfo.isCollection()) {
+            TypeInfo typeInfoArg = typeInfo.getTypeArguments().get(0);
+            return toTypeString(typeInfoArg, true);
+        } else if (type == TypeInfo.Type.OTHER) {
             if (typeInfo.isGeneric()) {
                 sb.append("Object");
             } else {
@@ -55,7 +55,7 @@ public class JSWrapper<T extends ModuleInfo> extends BuilderWrapper<T> {
         } else {
             sb.append(toJavaScriptString(type));
         }
-        if (typeInfo.isArray()) {
+        if (typeInfo.isArray() || isArray) {
             sb.append("[]");
         }
         return sb.toString();
@@ -64,19 +64,19 @@ public class JSWrapper<T extends ModuleInfo> extends BuilderWrapper<T> {
     private static final ImmutableMap<TypeInfo.Type, String> typeMap
             = ImmutableMap.<TypeInfo.Type, String>builder()
             .put(TypeInfo.Type.VOID, "void")
-            .put(TypeInfo.Type.BOOLEAN, "Boolean")
-            .put(TypeInfo.Type.BYTE, "Number")
-            .put(TypeInfo.Type.SHORT, "Number")
-            .put(TypeInfo.Type.INT, "Number")
-            .put(TypeInfo.Type.LONG, "Number")
-            .put(TypeInfo.Type.FLOAT, "Number")
-            .put(TypeInfo.Type.DOUBLE, "Number")
+            .put(TypeInfo.Type.BOOLEAN, "boolean")
+            .put(TypeInfo.Type.BYTE, "number")
+            .put(TypeInfo.Type.SHORT, "number")
+            .put(TypeInfo.Type.INT, "number")
+            .put(TypeInfo.Type.LONG, "number")
+            .put(TypeInfo.Type.FLOAT, "number")
+            .put(TypeInfo.Type.DOUBLE, "number")
             .put(TypeInfo.Type.DATE, "Date")
-            .put(TypeInfo.Type.STRING, "String")
+            .put(TypeInfo.Type.STRING, "string")
             .build();
 
 
-    public static String toJavaScriptString(TypeInfo.Type type) {
+    public String toJavaScriptString(TypeInfo.Type type) {
         return typeMap.get(type);
     }
 

@@ -52,6 +52,6 @@ public class Builder {
         generator.objectMetaCreate();
         //generator.daoCreate();
         generator.readOnlyDaoImplCreate();
-        generator.springXmlCreate();
+        generator.readOnlySpringXmlCreate();
     }
 }

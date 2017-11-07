@@ -1,5 +1,6 @@
 package org.forkjoin.apikit.wrapper;
 
+import org.apache.commons.lang3.StringUtils;
 import org.forkjoin.apikit.Context;
 import org.forkjoin.apikit.info.MessageInfo;
 import org.forkjoin.apikit.info.PropertyInfo;
@@ -29,18 +30,40 @@ public class JSMessageWrapper extends JSWrapper<MessageInfo> {
         //自己的目录级别
         int i = 0;
         for (PropertyInfo pro : moduleInfo.getProperties()) {
-            if (moduleInfo.getPackageName().equals(pro.getTypeInfo().getPackageName())) {
-                if (i == 0) {
-                    sb.append("\n\n");
-                }
-                String proTypeName = pro.getTypeInfo().getName();
-                if (!this.getName().equals(proTypeName)) {
-                    if (!containsSet.contains(proTypeName)) {
-                        containsSet.add(proTypeName);
-                        sb.append("import ")
-                                .append(proTypeName)
-                                .append(" from './").append(proTypeName).append("'\n");
-                        i++;
+            if (pro.getTypeInfo().isInside()) {
+                if (moduleInfo.getPackageName().equals(pro.getTypeInfo().getPackageName())) {
+                    if (i == 0) {
+                        sb.append("\n\n");
+                    }
+                    String proTypeName = pro.getTypeInfo().getName();
+                    if (!this.getName().equals(proTypeName)) {
+                        if (!containsSet.contains(proTypeName)) {
+                            containsSet.add(proTypeName);
+                            sb.append("import ")
+                                    .append(proTypeName)
+                                    .append(" from './").append(proTypeName).append("'\n");
+                            i++;
+                        }
+                    }
+                } else {
+                    if (i == 0) {
+                        sb.append("\n\n");
+                    }
+                    String proTypeName = pro.getTypeInfo().getName();
+                    int level = moduleInfo.getPackageName().split("\\.").length;
+                    if (!this.getName().equals(proTypeName)) {
+                        if (!containsSet.contains(proTypeName)) {
+                            containsSet.add(proTypeName);
+                            sb.append("import ")
+                                    .append(proTypeName)
+                                    .append(" from '")
+                                    .append(StringUtils.repeat("../", level))
+                                    .append(pro.getTypeInfo().getPackageName())
+                                    .append("/")
+                                    .append(proTypeName)
+                                    .append("'\n");
+                            i++;
+                        }
                     }
                 }
             }

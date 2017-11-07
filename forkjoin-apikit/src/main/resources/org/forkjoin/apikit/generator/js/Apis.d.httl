@@ -1,0 +1,19 @@
+<!--#set(ApiInfo info)-->
+<!--#set(Collection<ApiInfo> values)-->
+<!--#set(NameUtils nameUtils)-->
+
+<!--#for(info : values)-->
+import $!{info.name}  from './$!{info.packageName.replace('.','/')}/$!{info.name}';
+<!--#end-->
+import HttpGroup from './HttpGroup';
+
+declare class Apis {
+    httpGroup: HttpGroup;
+<!--#for(info : values)-->
+    $!{nameUtils.toFieldName(info.name)}:$!{info.name};
+<!--#end-->
+    constructor();
+    stopAll(): void;
+    stop(tag: string): void;
+}
+export default Apis;

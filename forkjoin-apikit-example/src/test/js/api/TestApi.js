@@ -1,272 +1,136 @@
 'use strict';
 
-import TestForm from './../form/TestForm'
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.AccountApi = undefined;
 
-import TestObject from './../model/TestObject'
+var _classCallCheck2 = require("babel-runtime/helpers/classCallCheck");
 
-import TestObjectList from './../model/TestObjectList'
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-import User from './../model/User'
+var _possibleConstructorReturn2 = require("babel-runtime/helpers/possibleConstructorReturn");
 
-import AbstractApi from './../AbstractApi'
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
+var _inherits2 = require("babel-runtime/helpers/inherits");
 
-/**
- * 测试一些复杂的情况
- * @author  zuoge85 on 15/6/11.
-*/
-class TestApi extends AbstractApi {
+var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _get2 = require("babel-runtime/helpers/get");
 
+var _get3 = _interopRequireDefault(_get2);
 
-   /**
-    * 
-    *
-    * <div class='http-info'>http 说明：<b>Api Url:</b> <b>testVoid</b>
-    * <ul>
-    * <li><b>Model:</b> void</li>
-    * </ul>
-    * </div>
+var _AbstractApi2 = require("../AbstractApi");
+var _AbstractApi3 = _interopRequireDefault(_AbstractApi2);
 
-    */
-    testVoid = ():Promise<void> => {
-        var _path = null;
-        return super._request(
-                    "POST", "testVoid", _path, null
-                );
-    };
+var _HttpGroupImpi = require("../HttpGroupImpi");
+var _HttpGroupImpi2 = _interopRequireDefault(_HttpGroupImpi);
 
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-   /**
-    * 
-    *
-    * <div class='http-info'>http 说明：<b>Api Url:</b> <b>testObjectList</b>
-    * <ul>
-    * <li><b>Form:</b>TestFormtestObjectList</li>
-    * <li><b>Model:</b> TestObjectList</li>
-    * </ul>
-    * </div>
-    * @see TestObjectList
-    * @see TestForm
+var TestApi = function (_AbstractApi) {
+    (0, _inherits3["default"])(TestApi, _AbstractApi);
 
-    */
-    testObjectList = (testForm:TestForm):Promise<TestObjectList> => {
-        var _path = null;
-        return super._request(
-                    "POST", "testObjectList", _path, testForm
-                );
-    };
+    function TestApi() {
+        (0, _classCallCheck3["default"])(this, TestApi);
+
+        var _this = (0, _possibleConstructorReturn3["default"])(this, (TestApi.__proto__ || Object.getPrototypeOf(TestApi)).apply(this, arguments));
 
 
 
-   /**
-    * 添加
-    *
-    * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test</b>
-    * <ul>
-    * <li><b>Form:</b>TestFormcreate</li>
-    * <li><b>Model:</b> TestObject</li>
-    * </ul>
-    * </div>
-    * @see TestObject
-    * @see TestForm
 
-    */
-    create = (testForm:TestForm):Promise<TestObject> => {
-        var _path = null;
-        return super._request(
-                    "POST", "test", _path, testForm
-                );
-    };
+        this.testVoid = function(){
+            var _path = null;
+            return (0, _get3["default"])(TestApi.prototype.__proto__ || Object.getPrototypeOf(TestApi.prototype), "_request", _this).call(_this, "testApi", "POST", "testVoid", _path, null);
+        };
 
 
 
-   /**
-    * 
-    *
-    * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test/{id}</b>
-    * <ul>
-    * <li><b>PathVariable:</b> String id</li>
-    * <li><b>Model:</b> TestObject</li>
-    * </ul>
-    * </div>
-    * @see TestObject
-    * @see String
-
-    */
-    get = (id:String):Promise<TestObject> => {
-        var _path = {};
-        _path["id"] = id;
-        return super._request(
-                    "GET", "test/{id}", _path, null
-                );
-    };
+        this.testObjectList = function(testForm){
+            var _path = null;
+            return (0, _get3["default"])(TestApi.prototype.__proto__ || Object.getPrototypeOf(TestApi.prototype), "_request", _this).call(_this, "testApi", "POST", "testObjectList", _path, testForm);
+        };
 
 
 
-   /**
-    * 
-    *
-    * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test</b>
-    * <ul>
-    * <li><b>Form:</b>TestFormupdate</li>
-    * <li><b>Model:</b> TestObject</li>
-    * </ul>
-    * </div>
-    * @see TestObject
-    * @see TestForm
-
-    */
-    update = (testForm:TestForm):Promise<TestObject> => {
-        var _path = null;
-        return super._request(
-                    "PUT", "test", _path, testForm
-                );
-    };
+        this.create = function(testForm){
+            var _path = null;
+            return (0, _get3["default"])(TestApi.prototype.__proto__ || Object.getPrototypeOf(TestApi.prototype), "_request", _this).call(_this, "testApi", "POST", "test", _path, testForm);
+        };
 
 
 
-   /**
-    * 
-    *
-    * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test</b>
-    * <ul>
-    * <li><b>Form:</b>TestFormpatchUpdate</li>
-    * <li><b>Model:</b> TestObject</li>
-    * </ul>
-    * </div>
-    * @see TestObject
-    * @see TestForm
-
-    */
-    patchUpdate = (testForm:TestForm):Promise<TestObject> => {
-        var _path = null;
-        return super._request(
-                    "PATCH", "test", _path, testForm
-                );
-    };
+        this.get = function(id){
+            var _path = {};
+            _path["id"] = id;
+            return (0, _get3["default"])(TestApi.prototype.__proto__ || Object.getPrototypeOf(TestApi.prototype), "_request", _this).call(_this, "testApi", "GET", "test/{id}", _path, null);
+        };
 
 
 
-   /**
-    * 
-    *
-    * <div class='http-info'>http 说明：<b>Api Url:</b> <b>test/{id}</b>
-    * <ul>
-    * <li><b>PathVariable:</b> String id</li>
-    * <li><b>Model:</b> Boolean</li>
-    * </ul>
-    * </div>
-    * @see Boolean
-    * @see String
-
-    */
-    delete = (id:String):Promise<Boolean> => {
-        var _path = {};
-        _path["id"] = id;
-        return super._request(
-                    "DELETE", "test/{id}", _path, null
-                );
-    };
+        this.update = function(testForm){
+            var _path = null;
+            return (0, _get3["default"])(TestApi.prototype.__proto__ || Object.getPrototypeOf(TestApi.prototype), "_request", _this).call(_this, "testApi", "PUT", "test", _path, testForm);
+        };
 
 
 
-   /**
-    * 
-    *
-    * <div class='http-info'>http 说明：<b>Api Url:</b> <b>tests/{id}</b>
-    * <ul>
-    * <li><b>PathVariable:</b> List id</li>
-    * <li><b>Model:</b> Number</li>
-    * </ul>
-    * </div>
-    * @see Number
-    * @see List
-
-    */
-    deletes = (id:List):Promise<Number> => {
-        var _path = {};
-        _path["id"] = id;
-        return super._request(
-                    "DELETE", "tests/{id}", _path, null
-                );
-    };
+        this.patchUpdate = function(testForm){
+            var _path = null;
+            return (0, _get3["default"])(TestApi.prototype.__proto__ || Object.getPrototypeOf(TestApi.prototype), "_request", _this).call(_this, "testApi", "PATCH", "test", _path, testForm);
+        };
 
 
 
-   /**
-    * 
-    *
-    * <div class='http-info'>http 说明：<b>Api Url:</b> <b>search/{id}/{name}</b>
-    * <ul>
-    * <li><b>PathVariable:</b> String id</li>
-    * <li><b>PathVariable:</b> String name</li>
-    * <li><b>Model:</b> TestObject</li>
-    * </ul>
-    * </div>
-    * @see TestObject
-    * @see String
-    * @see String
-
-    */
-    search = (id:String, name:String):Promise<TestObject> => {
-        var _path = {};
-        _path["id"] = id;
-        _path["name"] = name;
-        return super._request(
-                    "GET", "search/{id}/{name}", _path, null
-                );
-    };
+        this.delete = function(id){
+            var _path = {};
+            _path["id"] = id;
+            return (0, _get3["default"])(TestApi.prototype.__proto__ || Object.getPrototypeOf(TestApi.prototype), "_request", _this).call(_this, "testApi", "DELETE", "test/{id}", _path, null);
+        };
 
 
 
-   /**
-    * 
-    *
-    * <div class='http-info'>http 说明：<b>Api Url:</b> <b>testString/{name}</b>
-    * <ul>
-    * <li><b>PathVariable:</b> String name</li>
-    * <li><b>Model:</b> String</li>
-    * </ul>
-    * </div>
-    * @see String
-    * @see String
-
-    */
-    testString = (name:String):Promise<String> => {
-        var _path = {};
-        _path["name"] = name;
-        return super._request(
-                    "GET", "testString/{name}", _path, null
-                );
-    };
+        this.deletes = function(id){
+            var _path = {};
+            _path["id"] = id;
+            return (0, _get3["default"])(TestApi.prototype.__proto__ || Object.getPrototypeOf(TestApi.prototype), "_request", _this).call(_this, "testApi", "DELETE", "tests/{id}", _path, null);
+        };
 
 
 
-   /**
-    * 
-    *
-    * <div class='http-info'>http 说明：<b>Api Url:</b> <b>testString1/{name}/{age}</b>
-    * <ul>
-    * <li><b>PathVariable:</b> String name</li>
-    * <li><b>PathVariable:</b> String age</li>
-    * <li><b>Model:</b> String</li>
-    * </ul>
-    * </div>
-    * @see String
-    * @see String
-    * @see String
+        this.search = function(id, name){
+            var _path = {};
+            _path["id"] = id;
+            _path["name"] = name;
+            return (0, _get3["default"])(TestApi.prototype.__proto__ || Object.getPrototypeOf(TestApi.prototype), "_request", _this).call(_this, "testApi", "GET", "search/{id}/{name}", _path, null);
+        };
 
-    */
-    testString1 = (name:String, age:String):Promise<String> => {
-        var _path = {};
-        _path["name"] = name;
-        _path["age"] = age;
-        return super._request(
-                    "GET", "testString1/{name}/{age}", _path, null
-                );
-    };
 
-}
-export default TestApi;
+
+        this.testString = function(name){
+            var _path = {};
+            _path["name"] = name;
+            return (0, _get3["default"])(TestApi.prototype.__proto__ || Object.getPrototypeOf(TestApi.prototype), "_request", _this).call(_this, "testApi", "GET", "testString/{name}", _path, null);
+        };
+
+
+
+        this.testString1 = function(name, age){
+            var _path = {};
+            _path["name"] = name;
+            _path["age"] = age;
+            return (0, _get3["default"])(TestApi.prototype.__proto__ || Object.getPrototypeOf(TestApi.prototype), "_request", _this).call(_this, "testApi", "GET", "testString1/{name}/{age}", _path, null);
+        };
+
+    }
+
+    return TestApi;
+}(_AbstractApi3["default"]);
+
+exports.TestApi = TestApi;
+
+var testApi = new TestApi();
+testApi._init(_HttpGroupImpi2["default"]);
+exports["default"] = testApi;

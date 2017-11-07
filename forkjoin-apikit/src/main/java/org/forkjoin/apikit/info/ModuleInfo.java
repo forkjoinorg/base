@@ -1,5 +1,7 @@
 package org.forkjoin.apikit.info;
 
+import org.forkjoin.apikit.utils.NameUtils;
+
 /**
  * @author zuoge85 on 15/6/11.
  */
@@ -35,6 +37,9 @@ public class ModuleInfo {
 
     public String getName() {
         return name;
+    }
+    public String getFieldName() {
+        return NameUtils.toFieldName(name);
     }
 
     public void setName(String name) {

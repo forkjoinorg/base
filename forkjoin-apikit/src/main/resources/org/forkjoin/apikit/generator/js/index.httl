@@ -1,33 +1,28 @@
 <!--#set(Set<java.util.Map.Entry<String, Collection<MessageInfo>>> all)-->
 <!--#set(Collection<MessageInfo> values)-->
+<!--#set(Collection<ApiInfo> apis)-->
 <!--#set(MessageInfo info)-->
+<!--#set(ApiInfo api)-->
 'use strict';
 
-<!--#for(info : values)-->
-import $!{info.name} from './$!{info.packageName.replace('.','/')}/$!{info.name}';
-<!--#end-->
-import Apis from "./Apis";
 
-<!--#for(java.util.Map.Entry<String, Collection<MessageInfo>> pack : all)-->
-const ${pack.key} = {
-<!--    #for(info : pack.value)-->
-<!--        #if(!for.last)-->
-    $!{info.name}:$!{info.name},
-<!--        #else-->
-    $!{info.name}:$!{info.name}
-<!--        #end-->
-<!--    #end-->
-};
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
+<!--#for(api : apis)-->
+var _$!{api.name} = require('./$!{api.packageName.replace('.','/')}/$!{api.name}');
+var _$!{api.name}2 = _interopRequireDefault(_$!{api.name});
 <!--#end-->
 
-export default Apis;
+var _Apis = require('./Apis');
+var _Apis2 = _interopRequireDefault(_Apis);
 
-export {
-<!--#for(java.util.Map.Entry<String, Collection<MessageInfo>> pack : all)-->
-    $!{pack.key},
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+exports['default'] = _Apis2['default'];
+
+<!--#for(api : apis)-->
+exports.$!{api.name} = _$!{api.name}.$!{api.name};
+exports.$!{api.fieldName} = _$!{api.name}2['default'];
 <!--#end-->
-<!--#for(info : values)-->
-    $!{info.name},
-<!--#end-->
-};

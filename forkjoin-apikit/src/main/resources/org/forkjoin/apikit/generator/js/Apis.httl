@@ -3,62 +3,52 @@
 <!--#set(NameUtils nameUtils)-->
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+
 <!--#for(info : values)-->
-import $!{info.name}  from './$!{info.packageName.replace('.','/')}/$!{info.name}';
+var _$!{info.name} = require('./$!{info.packageName.replace('.','/')}/$!{info.name}');
 <!--#end-->
-import ApiUtils from "./ApiUtils";
 
-class Apis {
+var _HttpGroupImpi = require('./HttpGroupImpi');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var Apis = function () {
+    function Apis() {
+        (0, _classCallCheck3['default'])(this, Apis);
+
+        this.httpGroup = new _HttpGroupImpi.HttpGroupImpi();
+
 <!--#for(info : values)-->
-    $!{nameUtils.toFieldName(info.name)}:$!{info.name};
+        this.$!{nameUtils.toFieldName(info.name)} = new _$!{info.name}.$!{info.name}();
+        this.$!{nameUtils.toFieldName(info.name)}._init(this.httpGroup);
 <!--#end-->
-    _xhrArray:XMLHttpRequest[];
-    _isStop = true;
-
-    static init(apiUrl:String, apiVersion:String){
-        ApiUtils.apiUrl = apiUrl;
-        ApiUtils.apiVersion = apiVersion;
     }
 
-    static setToken(token:String){
-        ApiUtils.setToken(token);
-    }
-
-    constructor() {
-        this._xhrArray = [];
-        let _xhrHandler = this._xhrHandler.bind(this);
-<!--#for(info : values)-->
-        this.$!{nameUtils.toFieldName(info.name)} = new $!{info.name}();
-        this.$!{nameUtils.toFieldName(info.name)}._initNet(_xhrHandler);
-<!--#end-->
-        this._isStop = false;
-    }
-
-    _xhrHandler(xhr:XMLHttpRequest) {
-        if(this._isStop){
-            xhr.abort();
-        }else{
-            this._xhrArray.push(xhr);
-            xhr.loadend = ()=> {
-                this._clearXhr(xhr);
-            };
+    (0, _createClass3['default'])(Apis, [{
+        key: 'stopAll',
+        value: function stopAll() {
+            this.httpGroup.stopAll();
         }
-    }
-
-    _clearXhr(xhr:XMLHttpRequest) {
-        var index = this._xhrArray.indexOf(xhr);
-        if (index > -1) {
-            this._xhrArray.splice(index, 1);
+    }, {
+        key: 'stop',
+        value: function stop(tag) {
+            this.httpGroup.stop(tag);
         }
-    }
+    }]);
+    return Apis;
+}();
 
-    stopAll() {
-        for (var i = 0; i < this._xhrArray.length; i++) {
-            this._xhrArray[i].abort();
-        }
-        this._xhrArray.length = 0;
-    }
-}
-
-
-export default Apis;
+exports['default'] = Apis;
+module.exports = exports['default'];

@@ -18,6 +18,7 @@ public class ApiMethodInfo {
     private String url;
     private ActionType[] types = new ActionType[]{ActionType.GET};
     private boolean account = true;
+    private boolean ignore = false;
 
 
     //    private boolean isPathVariable = false;
@@ -165,6 +166,14 @@ public class ApiMethodInfo {
 
     public void setResultDataType(TypeInfo resultDataType) {
         this.resultDataType = resultDataType;
+    }
+
+    public boolean isIgnore() {
+        return ignore;
+    }
+
+    public void setIgnore(boolean ignore) {
+        this.ignore = ignore;
     }
 
     @Override

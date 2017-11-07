@@ -1,0 +1,24 @@
+<!--#set(Set<java.util.Map.Entry<String, Collection<MessageInfo>>> all)-->
+<!--#set(Collection<MessageInfo> values)-->
+<!--#set(Collection<ApiInfo> apis)-->
+<!--#set(MessageInfo info)-->
+<!--#set(ApiInfo api)-->
+<!--#for(info : values)-->
+import $!{info.name} from './$!{info.packageName.replace('.','/')}/$!{info.name}';
+<!--#end-->
+<!--#for(api : apis)-->
+import $!{api.name} from './$!{api.packageName.replace('.','/')}/$!{api.name}';
+<!--#end-->
+import Apis from "./Apis";
+
+
+export default Apis;
+
+export {
+<!--#for(info : values)-->
+    $!{info.name},
+<!--#end-->
+<!--#for(api : apis)-->
+    $!{api.name},
+<!--#end-->
+};
