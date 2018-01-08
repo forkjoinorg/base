@@ -1,136 +1,233 @@
-'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.AccountApi = undefined;
+import AbstractApi from './../AbstractApi'
 
-var _classCallCheck2 = require("babel-runtime/helpers/classCallCheck");
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _possibleConstructorReturn2 = require("babel-runtime/helpers/possibleConstructorReturn");
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = require("babel-runtime/helpers/inherits");
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _get2 = require("babel-runtime/helpers/get");
-
-var _get3 = _interopRequireDefault(_get2);
-
-var _AbstractApi2 = require("../AbstractApi");
-var _AbstractApi3 = _interopRequireDefault(_AbstractApi2);
-
-var _HttpGroupImpi = require("../HttpGroupImpi");
-var _HttpGroupImpi2 = _interopRequireDefault(_HttpGroupImpi);
+import requestGroupImpi from './../RequestGroupImpi'
 
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+class TestNoResultApi extends AbstractApi {
 
-var TestNoResultApi = function (_AbstractApi) {
-    (0, _inherits3["default"])(TestNoResultApi, _AbstractApi);
+    /**
+        * 
+     *
+        * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/testObjectList</b>
+    * <ul>
+    * <li><b>Form:</b>TestFormtestObjectList</li>
+    * <li><b>Model:</b> TestObjectList</li>
+    * </ul>
+    * </div>
+    * @see TestObjectList
+    * @see TestForm
 
-    function TestNoResultApi() {
-        (0, _classCallCheck3["default"])(this, TestNoResultApi);
-
-        var _this = (0, _possibleConstructorReturn3["default"])(this, (TestNoResultApi.__proto__ || Object.getPrototypeOf(TestNoResultApi)).apply(this, arguments));
-
-
-
-
-        this.testObjectList = function(testForm){
-            var _path = null;
-            return (0, _get3["default"])(TestNoResultApi.prototype.__proto__ || Object.getPrototypeOf(TestNoResultApi.prototype), "_request", _this).call(_this, "testNoResultApi", "POST", "noResult/testObjectList", _path, testForm);
-        };
-
-
-
-        this.create = function(testForm){
-            var _path = null;
-            return (0, _get3["default"])(TestNoResultApi.prototype.__proto__ || Object.getPrototypeOf(TestNoResultApi.prototype), "_request", _this).call(_this, "testNoResultApi", "POST", "noResult/test", _path, testForm);
-        };
-
-
-
-        this.get = function(id){
-            var _path = {};
-            _path["id"] = id;
-            return (0, _get3["default"])(TestNoResultApi.prototype.__proto__ || Object.getPrototypeOf(TestNoResultApi.prototype), "_request", _this).call(_this, "testNoResultApi", "GET", "noResult/test/{id}", _path, null);
-        };
-
-
-
-        this.update = function(testForm){
-            var _path = null;
-            return (0, _get3["default"])(TestNoResultApi.prototype.__proto__ || Object.getPrototypeOf(TestNoResultApi.prototype), "_request", _this).call(_this, "testNoResultApi", "PUT", "noResult/test", _path, testForm);
-        };
-
-
-
-        this.patchUpdate = function(testForm){
-            var _path = null;
-            return (0, _get3["default"])(TestNoResultApi.prototype.__proto__ || Object.getPrototypeOf(TestNoResultApi.prototype), "_request", _this).call(_this, "testNoResultApi", "PATCH", "noResult/test", _path, testForm);
-        };
-
-
-
-        this.delete = function(id){
-            var _path = {};
-            _path["id"] = id;
-            return (0, _get3["default"])(TestNoResultApi.prototype.__proto__ || Object.getPrototypeOf(TestNoResultApi.prototype), "_request", _this).call(_this, "testNoResultApi", "DELETE", "noResult/test/{id}", _path, null);
-        };
-
-
-
-        this.deletes = function(id){
-            var _path = {};
-            _path["id"] = id;
-            return (0, _get3["default"])(TestNoResultApi.prototype.__proto__ || Object.getPrototypeOf(TestNoResultApi.prototype), "_request", _this).call(_this, "testNoResultApi", "DELETE", "noResult/tests/{id}", _path, null);
-        };
-
-
-
-        this.search = function(id, name){
-            var _path = {};
-            _path["id"] = id;
-            _path["name"] = name;
-            return (0, _get3["default"])(TestNoResultApi.prototype.__proto__ || Object.getPrototypeOf(TestNoResultApi.prototype), "_request", _this).call(_this, "testNoResultApi", "GET", "noResult/search/{id}/{name}", _path, null);
-        };
-
-
-
-        this.testString = function(name){
-            var _path = {};
-            _path["name"] = name;
-            return (0, _get3["default"])(TestNoResultApi.prototype.__proto__ || Object.getPrototypeOf(TestNoResultApi.prototype), "_request", _this).call(_this, "testNoResultApi", "GET", "noResult/testString/{name}", _path, null);
-        };
-
-
-
-        this.testString1 = function(name, age){
-            var _path = {};
-            _path["name"] = name;
-            _path["age"] = age;
-            return (0, _get3["default"])(TestNoResultApi.prototype.__proto__ || Object.getPrototypeOf(TestNoResultApi.prototype), "_request", _this).call(_this, "testNoResultApi", "GET", "noResult/testString1/{name}/{age}", _path, null);
-        };
-
-
-
-        this.page = function(){
-            var _path = null;
-            return (0, _get3["default"])(TestNoResultApi.prototype.__proto__ || Object.getPrototypeOf(TestNoResultApi.prototype), "_request", _this).call(_this, "testNoResultApi", "GET", "noResult/page", _path, null);
-        };
-
+     */
+    testObjectList(testForm){
+        let _path = null;
+        return super._request("testNoResultApi", "POST", "noResult/testObjectList", _path, testForm);
     }
 
-    return TestNoResultApi;
-}(_AbstractApi3["default"]);
 
-exports.TestNoResultApi = TestNoResultApi;
+    /**
+        * 添加
+     *
+        * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/test</b>
+    * <ul>
+    * <li><b>Form:</b>TestFormcreate</li>
+    * <li><b>Model:</b> TestObject</li>
+    * </ul>
+    * </div>
+    * @see TestObject
+    * @see TestForm
 
-var testNoResultApi = new TestNoResultApi();
-testNoResultApi._init(_HttpGroupImpi2["default"]);
-exports["default"] = testNoResultApi;
+     */
+    create(testForm){
+        let _path = null;
+        return super._request("testNoResultApi", "POST", "noResult/test", _path, testForm);
+    }
+
+
+    /**
+        * 
+     *
+        * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/test/{id}</b>
+    * <ul>
+    * <li><b>PathVariable:</b> string id</li>
+    * <li><b>Model:</b> TestObject</li>
+    * </ul>
+    * </div>
+    * @see TestObject
+    * @see string
+
+     */
+    get(id){
+        let _path = {};
+        _path["id"] = id;
+        return super._request("testNoResultApi", "GET", "noResult/test/{id}", _path, null);
+    }
+
+
+    /**
+        * 
+     *
+        * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/test</b>
+    * <ul>
+    * <li><b>Form:</b>TestFormupdate</li>
+    * <li><b>Model:</b> TestObject</li>
+    * </ul>
+    * </div>
+    * @see TestObject
+    * @see TestForm
+
+     */
+    update(testForm){
+        let _path = null;
+        return super._request("testNoResultApi", "PUT", "noResult/test", _path, testForm);
+    }
+
+
+    /**
+        * 
+     *
+        * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/test</b>
+    * <ul>
+    * <li><b>Form:</b>TestFormpatchUpdate</li>
+    * <li><b>Model:</b> TestObject</li>
+    * </ul>
+    * </div>
+    * @see TestObject
+    * @see TestForm
+
+     */
+    patchUpdate(testForm){
+        let _path = null;
+        return super._request("testNoResultApi", "PATCH", "noResult/test", _path, testForm);
+    }
+
+
+    /**
+        * 
+     *
+        * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/test/{id}</b>
+    * <ul>
+    * <li><b>PathVariable:</b> string id</li>
+    * <li><b>Model:</b> boolean</li>
+    * </ul>
+    * </div>
+    * @see boolean
+    * @see string
+
+     */
+    delete(id){
+        let _path = {};
+        _path["id"] = id;
+        return super._request("testNoResultApi", "DELETE", "noResult/test/{id}", _path, null);
+    }
+
+
+    /**
+        * 
+     *
+        * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/tests/{id}</b>
+    * <ul>
+    * <li><b>PathVariable:</b> string[] id</li>
+    * <li><b>Model:</b> number</li>
+    * </ul>
+    * </div>
+    * @see number
+    * @see string[]
+
+     */
+    deletes(id){
+        let _path = {};
+        _path["id"] = id;
+        return super._request("testNoResultApi", "DELETE", "noResult/tests/{id}", _path, null);
+    }
+
+
+    /**
+        * 
+     *
+        * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/search/{id}/{name}</b>
+    * <ul>
+    * <li><b>PathVariable:</b> string id</li>
+    * <li><b>PathVariable:</b> string name</li>
+    * <li><b>Model:</b> TestObject</li>
+    * </ul>
+    * </div>
+    * @see TestObject
+    * @see string
+    * @see string
+
+     */
+    search(id, name){
+        let _path = {};
+        _path["id"] = id;
+        _path["name"] = name;
+        return super._request("testNoResultApi", "GET", "noResult/search/{id}/{name}", _path, null);
+    }
+
+
+    /**
+        * 
+     *
+        * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/testString/{name}</b>
+    * <ul>
+    * <li><b>PathVariable:</b> string name</li>
+    * <li><b>Model:</b> string</li>
+    * </ul>
+    * </div>
+    * @see string
+    * @see string
+
+     */
+    testString(name){
+        let _path = {};
+        _path["name"] = name;
+        return super._request("testNoResultApi", "GET", "noResult/testString/{name}", _path, null);
+    }
+
+
+    /**
+        * 
+     *
+        * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/testString1/{name}/{age}</b>
+    * <ul>
+    * <li><b>PathVariable:</b> string name</li>
+    * <li><b>PathVariable:</b> string age</li>
+    * <li><b>Model:</b> string</li>
+    * </ul>
+    * </div>
+    * @see string
+    * @see string
+    * @see string
+
+     */
+    testString1(name, age){
+        let _path = {};
+        _path["name"] = name;
+        _path["age"] = age;
+        return super._request("testNoResultApi", "GET", "noResult/testString1/{name}/{age}", _path, null);
+    }
+
+
+    /**
+        * 
+     *
+        * <div class='http-info'>http 说明：<b>Api Url:</b> <b>noResult/page</b>
+    * <ul>
+    * <li><b>Model:</b> TestObject</li>
+    * </ul>
+    * </div>
+    * @see TestObject
+
+     */
+    page(){
+        let _path = null;
+        return super._request("testNoResultApi", "GET", "noResult/page", _path, null);
+    }
+
+}
+
+export { TestNoResultApi };
+const testNoResultApi = new TestNoResultApi();
+testNoResultApi._init(requestGroupImpi);
+export default testNoResultApi;
+

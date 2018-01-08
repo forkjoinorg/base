@@ -10,6 +10,8 @@ import User from './../model/User'
 
 import AbstractApi from './../AbstractApi'
 
+import requestGroupImpi from './../RequestGroupImpi'
+
 
 /**
  * 测试直接返回结果

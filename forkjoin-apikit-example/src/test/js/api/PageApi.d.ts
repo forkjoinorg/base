@@ -4,6 +4,8 @@ import TestObject from './../model/TestObject'
 
 import AbstractApi from './../AbstractApi'
 
+import requestGroupImpi from './../RequestGroupImpi'
+
 
 /**
  * @author  zuoge85 on 15/6/11.

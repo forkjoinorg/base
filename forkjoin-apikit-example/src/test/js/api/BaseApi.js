@@ -1,73 +1,74 @@
-'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.AccountApi = undefined;
+import AbstractApi from './../AbstractApi'
 
-var _classCallCheck2 = require("babel-runtime/helpers/classCallCheck");
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _possibleConstructorReturn2 = require("babel-runtime/helpers/possibleConstructorReturn");
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = require("babel-runtime/helpers/inherits");
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _get2 = require("babel-runtime/helpers/get");
-
-var _get3 = _interopRequireDefault(_get2);
-
-var _AbstractApi2 = require("../AbstractApi");
-var _AbstractApi3 = _interopRequireDefault(_AbstractApi2);
-
-var _HttpGroupImpi = require("../HttpGroupImpi");
-var _HttpGroupImpi2 = _interopRequireDefault(_HttpGroupImpi);
+import requestGroupImpi from './../RequestGroupImpi'
 
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+class BaseApi extends AbstractApi {
 
-var BaseApi = function (_AbstractApi) {
-    (0, _inherits3["default"])(BaseApi, _AbstractApi);
+    /**
+        * 
+     *
+        * <div class='http-info'>http 说明：<b>Api Url:</b> <b>base</b>
+    * <ul>
+    * <li><b>Form:</b>TestFormcreate</li>
+    * <li><b>Model:</b> TestObject[]</li>
+    * <li>需要登录</li>
+    * </ul>
+    * </div>
+    * @see TestObject[]
+    * @see TestForm
 
-    function BaseApi() {
-        (0, _classCallCheck3["default"])(this, BaseApi);
-
-        var _this = (0, _possibleConstructorReturn3["default"])(this, (BaseApi.__proto__ || Object.getPrototypeOf(BaseApi)).apply(this, arguments));
-
-
-
-
-        this.create = function(testForm){
-            var _path = null;
-            return (0, _get3["default"])(BaseApi.prototype.__proto__ || Object.getPrototypeOf(BaseApi.prototype), "_request", _this).call(_this, "baseApi", "POST", "base", _path, testForm);
-        };
-
-
-
-        this.get = function(id){
-            var _path = {};
-            _path["id"] = id;
-            return (0, _get3["default"])(BaseApi.prototype.__proto__ || Object.getPrototypeOf(BaseApi.prototype), "_request", _this).call(_this, "baseApi", "POST", "base/{id}", _path, null);
-        };
-
-
-
-        this.create = function(user){
-            var _path = null;
-            return (0, _get3["default"])(BaseApi.prototype.__proto__ || Object.getPrototypeOf(BaseApi.prototype), "_request", _this).call(_this, "baseApi", "GET", "baseUrl/", _path, user);
-        };
-
+     */
+    create(testForm){
+        let _path = null;
+        return super._request("baseApi", "POST", "base", _path, testForm);
     }
 
-    return BaseApi;
-}(_AbstractApi3["default"]);
 
-exports.BaseApi = BaseApi;
+    /**
+        * 
+     *
+        * <div class='http-info'>http 说明：<b>Api Url:</b> <b>base/{id}</b>
+    * <ul>
+    * <li><b>PathVariable:</b> string id</li>
+    * <li><b>Model:</b> void</li>
+    * <li>需要登录</li>
+    * </ul>
+    * </div>
+    * @see string
 
-var baseApi = new BaseApi();
-baseApi._init(_HttpGroupImpi2["default"]);
-exports["default"] = baseApi;
+     */
+    get(id){
+        let _path = {};
+        _path["id"] = id;
+        return super._request("baseApi", "POST", "base/{id}", _path, null);
+    }
+
+
+    /**
+        * 
+     *
+        * <div class='http-info'>http 说明：<b>Api Url:</b> <b>baseUrl/</b>
+    * <ul>
+    * <li><b>Form:</b>Usercreate</li>
+    * <li><b>Model:</b> User</li>
+    * <li>需要登录</li>
+    * </ul>
+    * </div>
+    * @see User
+    * @see User
+
+     */
+    create(user){
+        let _path = null;
+        return super._request("baseApi", "GET", "baseUrl/", _path, user);
+    }
+
+}
+
+export { BaseApi };
+const baseApi = new BaseApi();
+baseApi._init(requestGroupImpi);
+export default baseApi;
+

@@ -5,10 +5,10 @@ import TestNoResultApi  from './api/TestNoResultApi';
 import SysApi  from './api/SysApi';
 import AccountApi  from './api/AccountApi';
 import PageApi  from './api/PageApi';
-import HttpGroup from './HttpGroup';
+import RequestGroup from './RequestGroup';
 
 declare class Apis {
-    httpGroup: HttpGroup;
+    requestGroup: RequestGroup;
     baseApi:BaseApi;
     testApi:TestApi;
     testNoResultApi:TestNoResultApi;

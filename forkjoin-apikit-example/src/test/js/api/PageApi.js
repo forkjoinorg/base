@@ -1,69 +1,60 @@
-'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.AccountApi = undefined;
+import AbstractApi from './../AbstractApi'
 
-var _classCallCheck2 = require("babel-runtime/helpers/classCallCheck");
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _possibleConstructorReturn2 = require("babel-runtime/helpers/possibleConstructorReturn");
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = require("babel-runtime/helpers/inherits");
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _get2 = require("babel-runtime/helpers/get");
-
-var _get3 = _interopRequireDefault(_get2);
-
-var _AbstractApi2 = require("../AbstractApi");
-var _AbstractApi3 = _interopRequireDefault(_AbstractApi2);
-
-var _HttpGroupImpi = require("../HttpGroupImpi");
-var _HttpGroupImpi2 = _interopRequireDefault(_HttpGroupImpi);
+import requestGroupImpi from './../RequestGroupImpi'
 
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+class PageApi extends AbstractApi {
 
-var PageApi = function (_AbstractApi) {
-    (0, _inherits3["default"])(PageApi, _AbstractApi);
+    /**
+        * 
+     *
+        * <div class='http-info'>http 说明：<b>Api Url:</b> <b>page/page/{page}-{pageSize}</b>
+    * <ul>
+    * <li><b>PathVariable:</b> number page</li>
+    * <li><b>PathVariable:</b> number pageSize</li>
+    * <li><b>Model:</b> TestObject</li>
+    * </ul>
+    * </div>
+    * @see TestObject
+    * @see number
+    * @see number
 
-    function PageApi() {
-        (0, _classCallCheck3["default"])(this, PageApi);
-
-        var _this = (0, _possibleConstructorReturn3["default"])(this, (PageApi.__proto__ || Object.getPrototypeOf(PageApi)).apply(this, arguments));
-
-
-
-
-        this.page = function(page, pageSize){
-            var _path = {};
-            _path["page"] = page;
-            _path["pageSize"] = pageSize;
-            return (0, _get3["default"])(PageApi.prototype.__proto__ || Object.getPrototypeOf(PageApi.prototype), "_request", _this).call(_this, "pageApi", "GET", "page/page/{page}-{pageSize}", _path, null);
-        };
-
-
-
-        this.pageString = function(page, pageSize){
-            var _path = {};
-            _path["page"] = page;
-            _path["pageSize"] = pageSize;
-            return (0, _get3["default"])(PageApi.prototype.__proto__ || Object.getPrototypeOf(PageApi.prototype), "_request", _this).call(_this, "pageApi", "GET", "page/pageString/{page}-{pageSize}", _path, null);
-        };
-
+     */
+    page(page, pageSize){
+        let _path = {};
+        _path["page"] = page;
+        _path["pageSize"] = pageSize;
+        return super._request("pageApi", "GET", "page/page/{page}-{pageSize}", _path, null);
     }
 
-    return PageApi;
-}(_AbstractApi3["default"]);
 
-exports.PageApi = PageApi;
+    /**
+        * 
+     *
+        * <div class='http-info'>http 说明：<b>Api Url:</b> <b>page/pageString/{page}-{pageSize}</b>
+    * <ul>
+    * <li><b>PathVariable:</b> number page</li>
+    * <li><b>PathVariable:</b> number pageSize</li>
+    * <li><b>Model:</b> string</li>
+    * </ul>
+    * </div>
+    * @see string
+    * @see number
+    * @see number
 
-var pageApi = new PageApi();
-pageApi._init(_HttpGroupImpi2["default"]);
-exports["default"] = pageApi;
+     */
+    pageString(page, pageSize){
+        let _path = {};
+        _path["page"] = page;
+        _path["pageSize"] = pageSize;
+        return super._request("pageApi", "GET", "page/pageString/{page}-{pageSize}", _path, null);
+    }
+
+}
+
+export { PageApi };
+const pageApi = new PageApi();
+pageApi._init(requestGroupImpi);
+export default pageApi;
+

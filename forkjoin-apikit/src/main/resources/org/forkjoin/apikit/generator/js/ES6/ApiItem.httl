@@ -1,0 +1,40 @@
+<!--#set(ApiInfo m)-->
+<!--#set(JSApiWrapper utils)-->
+<!--#set(TypeInfo type)-->
+<!--#set(ApiMethodInfo method)-->
+<!--#set(ApiMethodParamInfo param)-->
+$!{utils.getImports(false)}
+
+class $!{m.name} extends AbstractApi {
+<!--#for(method : m.methodInfos)-->
+##下面是异步带tag
+    /**
+    $!{utils.formatBaseComment(method.comment,"    * ")}
+     *
+    $!{utils.requestComment(method,"    * ")}
+     */
+    $!{method.name} = ($!{utils.params(method)}) => {
+        <!--#if(method.pathParams)-->
+        let _path = {};
+        <!--    #for(param : method.pathParams)-->
+        _path["$!{param.name}"] = $!{param.name};
+        <!--    #end-->
+        <!--#else-->
+        let _path = null;
+        <!--#end-->
+        <!--#if(method.formParams)-->
+        <!--#set(param = method.formParams[0])-->
+        return super._request("$!{m.fieldName}", "$!{method.type.name()}", "$!{method.url}", _path, $!{param.name});
+        <!--#else-->
+        return super._request("$!{m.fieldName}", "$!{method.type.name()}", "$!{method.url}", _path, null);
+        <!--#end-->
+    }
+##循环结束
+<!--#end-->
+}
+
+export { $!{m.name} };
+const $!{m.fieldName} = new $!{m.name}();
+$!{m.fieldName}._init(requestGroupImpi);
+export default $!{m.fieldName};
+

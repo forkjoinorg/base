@@ -1,5 +1,3 @@
-'use strict';
-
 import ApiList from './collecton/ApiList';
 import TestForm from './form/TestForm';
 import TestObject from './model/TestObject';

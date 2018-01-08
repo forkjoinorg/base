@@ -9,6 +9,7 @@ import org.forkjoin.apikit.generator.JavaClientGenerator;
 import org.forkjoin.apikit.generator.JavaScriptGenerator;
 import org.forkjoin.apikit.generator.apidoc.ApiDocProject;
 import org.forkjoin.apikit.impl.JdtAnalyse;
+import org.forkjoin.apikit.wrapper.JSWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,6 +60,7 @@ public class ApiBuilderMain {
         }
         {
             JavaScriptGenerator generator = new JavaScriptGenerator();
+            generator.setType(JSWrapper.Type.ES6);
             generator.setOutPath(jsClientDir.getAbsolutePath());
             generator.setVersion(version);
             manager.generate(generator);

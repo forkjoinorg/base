@@ -8,6 +8,8 @@ import User from './../model/User'
 
 import AbstractApi from './../AbstractApi'
 
+import requestGroupImpi from './../RequestGroupImpi'
+
 
 /**
  * 基本的测试api

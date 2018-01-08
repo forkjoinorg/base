@@ -1,0 +1,27 @@
+<!--#set(ApiInfo info)-->
+<!--#set(Collection<ApiInfo> values)-->
+<!--#set(NameUtils nameUtils)-->
+'use strict';
+
+import { RequestGroupImpi } from './RequestGroupImpi';
+<!--#for(info : values)-->
+import { $!{info.name} } from './$!{info.packageName.replace('.','/')}/$!{info.name}';
+<!--#end-->
+
+
+class Apis {
+    constructor() {
+        this.requestGroup = new RequestGroupImpi();
+<!--#for(info : values)-->
+        this.$!{nameUtils.toFieldName(info.name)} = new _$!{info.name}.$!{info.name}();
+        this.$!{nameUtils.toFieldName(info.name)}._init(this.httpGroup);
+<!--#end-->
+    }
+    stopAll() {
+        this.requestGroup.stopAll();
+    }
+    stop(tag) {
+        this.requestGroup.stop(tag);
+    }
+}
+export default Apis;

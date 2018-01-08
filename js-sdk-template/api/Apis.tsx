@@ -1,25 +1,23 @@
-'use strict';
-
 import {AccountApi} from './api/AccountApi';
-import HttpGroup from './HttpGroup';
-import {HttpGroupImpi} from './HttpGroupImpi';
+import RequestGroup from './RequestGroup';
+import {RequestGroupImpi} from './RequestGroupImpi';
 
 class Apis {
-  httpGroup: HttpGroup = new HttpGroupImpi();
+  requestGroup: RequestGroup = new RequestGroupImpi();
   accountApi: AccountApi;
 
   constructor() {
     this.accountApi = new AccountApi();
-    this.accountApi._init(this.httpGroup);
+    this.accountApi._init(this.requestGroup);
   }
 
 
   stopAll() {
-    this.httpGroup.stopAll();
+    this.requestGroup.stopAll();
   }
 
   stop(tag: string) {
-    this.httpGroup.stop(tag);
+    this.requestGroup.stop(tag);
   }
 }
 

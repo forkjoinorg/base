@@ -4,6 +4,8 @@ import User from './../model/User'
 
 import AbstractApi from './../AbstractApi'
 
+import requestGroupImpi from './../RequestGroupImpi'
+
 
 /**
  * 账户api

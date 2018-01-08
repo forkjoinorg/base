@@ -1,0 +1,29 @@
+<!--#set(ApiInfo m)-->
+<!--#set(JSApiWrapper utils)-->
+<!--#set(TypeInfo type)-->
+<!--#set(ApiMethodInfo method)-->
+<!--#set(ApiMethodParamInfo param)-->
+'use strict';
+
+$!{utils.imports}
+
+/**
+$!{utils.comment(" * ")}
+*/
+declare class $!{m.name} extends AbstractApi {
+
+<!--#for(method : m.methodInfos)-->
+
+##下面是异步带tag
+   /**
+$!{utils.formatBaseComment(method.comment,"    * ")}
+    *
+$!{utils.requestComment(method,"    * ")}
+    */
+    $!{method.name}($!{utils.params(method,true)}):Promise<$!{utils.resultTypeString(method)}>;
+##循环结束
+<!--#end-->
+}
+export { $!{m.name} };
+declare const $!{m.fieldName}: $!{m.name};
+export default $!{m.fieldName};

@@ -20,7 +20,8 @@ import java.util.Set;
  * 这个版本还不能 ,解开泛型或者支持泛型
  */
 public class JavaScriptGenerator extends HttlGenerator {
-    private JSWrapper.Type type = JSWrapper.Type.JS;
+    private JSWrapper.Type type = JSWrapper.Type.CommonJS;
+
 
     public JavaScriptGenerator() {
 
@@ -34,6 +35,10 @@ public class JavaScriptGenerator extends HttlGenerator {
         return Utils.packToPath(outPath, utils.getPack(), utils.getName(), ".d.ts");
     }
 
+    protected String getTempl(String name) {
+        return "/org/forkjoin/apikit/generator/js/" + type.name() + "/" + name;
+    }
+
     @Override
     public void generateApi(ApiInfo apiInfo) throws Exception {
         JSApiWrapper utils = new JSApiWrapper(context, apiInfo, rootPackage);
@@ -44,13 +49,13 @@ public class JavaScriptGenerator extends HttlGenerator {
 
         executeModule(
                 utils,
-                "/org/forkjoin/apikit/generator/js/ApiItem.httl",
+                getTempl("ApiItem.httl"),
                 file
         );
 
         executeModule(
                 utils,
-                "/org/forkjoin/apikit/generator/js/ApiItem.d.httl",
+                getTempl("ApiItem.d.httl"),
                 dFile
         );
     }
@@ -64,7 +69,7 @@ public class JavaScriptGenerator extends HttlGenerator {
         utils.init();
         executeModule(
                 utils,
-                "/org/forkjoin/apikit/generator/js/Message.d.httl",
+                getTempl("Message.d.httl"),
                 dFile
         );
 
@@ -75,7 +80,7 @@ public class JavaScriptGenerator extends HttlGenerator {
         File file = new File(outPath, name);
         FileUtils.copyInputStreamToFile(
                 JavaScriptGenerator.class.getResourceAsStream(
-                        "/org/forkjoin/apikit/generator/js/tool/" + name
+                        "/org/forkjoin/apikit/generator/js/" + type.name() + "/tool/" + name
                 ),
                 file
         );
@@ -87,14 +92,14 @@ public class JavaScriptGenerator extends HttlGenerator {
         copyTool("AbstractApi.d.ts");
         copyTool("AbstractApi.js");
 
-        copyTool("HttpGroup.d.ts");
-        copyTool("HttpGroup.js");
+        copyTool("RequestGroup.d.ts");
+        copyTool("RequestGroup.js");
 
-        copyTool("HttpGroupImpi.d.ts");
-        copyTool("HttpGroupImpi.js");
+        copyTool("RequestGroupImpi.d.ts");
+        copyTool("RequestGroupImpi.js");
 
-        copyTool("HttpRequest.d.ts");
-        copyTool("HttpRequest.js");
+        copyTool("Request.d.ts");
+        copyTool("Request.js");
 
         copyTool("HttpUtils.d.ts");
         copyTool("HttpUtils.js");
@@ -111,13 +116,13 @@ public class JavaScriptGenerator extends HttlGenerator {
 
             execute(
                     parameters,
-                    "/org/forkjoin/apikit/generator/js/index.d.httl",
+                    getTempl("index.d.httl"),
                     dFile
             );
 
             execute(
                     parameters,
-                    "/org/forkjoin/apikit/generator/js/index.httl",
+                    getTempl("index.httl"),
                     file
             );
         }
@@ -130,13 +135,13 @@ public class JavaScriptGenerator extends HttlGenerator {
             File dFile = Utils.packToPath(outPath, "", "Apis", ".d.ts");
             execute(
                     parameters,
-                    "/org/forkjoin/apikit/generator/js/Apis.d.httl",
+                    getTempl("Apis.d.httl"),
                     dFile
             );
             File file = Utils.packToPath(outPath, "", "Apis", ".js");
             execute(
                     parameters,
-                    "/org/forkjoin/apikit/generator/js/Apis.httl",
+                    getTempl("Apis.httl"),
                     file
             );
         }

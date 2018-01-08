@@ -1,0 +1,42 @@
+<!--#set(MessageInfo m)-->
+<!--#set(PropertyInfo attr)-->
+<!--#set(JSMessageWrapper utils)-->
+<!--#set(TypeInfo type)-->
+'use strict';
+
+$!{utils.imports}
+
+/**
+$!{utils.comment(" * ")}
+*/
+class $!{m.name} {
+<!--#for(attr : m.properties)-->
+
+<!--		#if(attr.comment)-->
+	/**
+$!{utils.formatComment(attr.comment,"	 * ")}
+	 */
+<!--		#end-->
+    $!{attr.name}:$!{utils.toTypeString(attr.typeInfo)};
+<!--#end-->
+    constructor() {
+
+    }
+
+    formObject({${utils.toObjectArgs()}}):$!{m.name}{
+<!--#for(attr : m.properties)-->
+        this.$!{attr.name} = $!{attr.name};
+<!--#end-->
+        return this;
+    }
+
+    static of({${utils.toObjectArgs()}}):$!{m.name}{
+        return new $!{m.name}().formObject({${utils.toObjectArgs()}});
+    }
+
+    static form(${utils.toObjectArgsType()}):$!{m.name}{
+        return new $!{m.name}().formObject({${utils.toObjectArgs()}});
+    }
+}
+
+export default $!{m.name};

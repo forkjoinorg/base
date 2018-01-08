@@ -1,21 +1,25 @@
-import HttpRequest from './HttpRequest'
-import HttpGroup from "./HttpGroup";
+import Request from './Request'
+import RequestGroup from "./RequestGroup";
 
 class HttpUtils {
-  private static impl: HttpRequest;
+    private static factory: () => Request;
 
-  static request<T>(tag: string,
-                    method: string,
-                    url: string,
-                    pathVars: Object,
-                    formObject: Object,
-                    handler?: HttpGroup): Promise<T> {
-    return HttpUtils.impl.request(tag,method, url, pathVars, formObject, handler);
-  }
+    static request<T>(tag: string,
+                      method: string,
+                      url: string,
+                      pathVars: any,
+                      formObject: any,
+                      requestGroup: RequestGroup): Promise<T> {
 
-  static setImpoi(impi: HttpRequest) {
-    HttpUtils.impl = impi;
-  }
+        let request = HttpUtils.factory();
+        request.init({method, url, pathVars, formObject});
+        requestGroup.add(tag, request);
+        return request.start<T>();
+    }
+
+    static setFactory(factory: () => Request) {
+        HttpUtils.factory = factory;
+    }
 }
 
 export default HttpUtils;

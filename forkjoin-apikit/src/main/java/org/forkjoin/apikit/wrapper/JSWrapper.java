@@ -12,6 +12,7 @@ public class JSWrapper<T extends ModuleInfo> extends BuilderWrapper<T> {
     public enum Type {
         ES6,
         JS,
+        CommonJS,
         FLOW_TYPE
     }
 

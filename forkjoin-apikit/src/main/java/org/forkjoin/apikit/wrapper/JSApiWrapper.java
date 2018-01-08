@@ -25,14 +25,20 @@ public class JSApiWrapper extends JSWrapper<ApiInfo> {
 
     @Override
     public String getImports() {
+        return getImports(true);
+    }
+
+    public String getImports(boolean isModel) {
         String moduleInfoPackageName = moduleInfo.getPackageName();
         //自己的目录级别
         int myLevel = moduleInfoPackageName.split(".").length + 1;
-
-        String imports = getMethodImports();
-        return imports + "\nimport AbstractApi from './" + StringUtils.repeat("../", myLevel) + "AbstractApi'\n";
+        String imports = isModel ? getMethodImports() : "";
+        return imports +
+                "\nimport AbstractApi from './" + StringUtils.repeat("../", myLevel) + "AbstractApi'\n" +
+                "\nimport requestGroupImpi from './" + StringUtils.repeat("../", myLevel) + "RequestGroupImpi'\n";
 
     }
+
 
     public String getEs5Imports() {
         String moduleInfoPackageName = moduleInfo.getPackageName();
@@ -40,11 +46,11 @@ public class JSApiWrapper extends JSWrapper<ApiInfo> {
         int myLevel = moduleInfoPackageName.split(".").length + 1;
         String str = StringUtils.repeat("../", myLevel);
 
-        return "var _AbstractApi2 = require(\""+str+"AbstractApi\");\n" +
+        return "var _AbstractApi2 = require(\"" + str + "AbstractApi\");\n" +
                 "var _AbstractApi3 = _interopRequireDefault(_AbstractApi2);\n" +
                 "\n" +
-                "var _HttpGroupImpi = require(\""+str+"HttpGroupImpi\");\n" +
-                "var _HttpGroupImpi2 = _interopRequireDefault(_HttpGroupImpi);\n";
+                "var _RequestGroupImpi = require(\"" + str + "RequestGroupImpi\");\n" +
+                "var _RequestGroupImpi2 = _interopRequireDefault(_RequestGroupImpi);\n";
     }
 
     public String getMethodImports() {

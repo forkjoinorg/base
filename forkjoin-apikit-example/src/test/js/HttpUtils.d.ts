@@ -1,8 +1,8 @@
-import HttpRequest from './HttpRequest';
-import HttpGroup from "./HttpGroup";
+import Request from './Request';
+import RequestGroup from "./RequestGroup";
 declare class HttpUtils {
-    private static impl;
-    static request<T>(tag: string, method: string, url: string, pathVars: Object, formObject: Object, handler?: HttpGroup): Promise<T>;
-    static setImpoi(impi: HttpRequest): void;
+    private static factory;
+    static request<T>(tag: string, method: string, url: string, pathVars: any, formObject: any, requestGroup: RequestGroup): Promise<T>;
+    static setHttpRequestClass(factory: () => Request): void;
 }
 export default HttpUtils;

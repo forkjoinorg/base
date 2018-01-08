@@ -1,0 +1,54 @@
+<!--#set(ApiInfo info)-->
+<!--#set(Collection<ApiInfo> values)-->
+<!--#set(NameUtils nameUtils)-->
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+
+<!--#for(info : values)-->
+var _$!{info.name} = require('./$!{info.packageName.replace('.','/')}/$!{info.name}');
+<!--#end-->
+
+var _RequestGroupImpi = require('./RequestGroupImpi');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var Apis = function () {
+    function Apis() {
+        (0, _classCallCheck3['default'])(this, Apis);
+
+        this.requestGroup = new _RequestGroupImpi.RequestGroupImpi();
+
+<!--#for(info : values)-->
+        this.$!{nameUtils.toFieldName(info.name)} = new _$!{info.name}.$!{info.name}();
+        this.$!{nameUtils.toFieldName(info.name)}._init(this.httpGroup);
+<!--#end-->
+    }
+
+    (0, _createClass3['default'])(Apis, [{
+        key: 'stopAll',
+        value: function stopAll() {
+            this.requestGroup.stopAll();
+        }
+    }, {
+        key: 'stop',
+        value: function stop(tag) {
+            this.requestGroup.stop(tag);
+        }
+    }]);
+    return Apis;
+}();
+
+exports['default'] = Apis;
+module.exports = exports['default'];
