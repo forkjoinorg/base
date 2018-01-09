@@ -4,9 +4,13 @@ export interface RequestParamsType {
     pathVars: any;
     formObject: any;
 }
-interface Request extends EventTarget {
+/**
+ * @Event loadend 必须实现这个时间
+ */
+interface Request {
     init(params: RequestParamsType): any;
     start<T>(): Promise<T>;
     abort(): any;
+    addEventListener(type: string, listener?: Function): void;
 }
 export default Request;

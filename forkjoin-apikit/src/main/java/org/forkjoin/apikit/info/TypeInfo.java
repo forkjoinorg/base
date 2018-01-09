@@ -6,6 +6,10 @@ import org.forkjoin.apikit.AnalyseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 
 /**
@@ -190,6 +194,7 @@ public class TypeInfo implements Cloneable {
     public boolean isOtherType() {
         return type == Type.OTHER;
     }
+
     public boolean isString() {
         return type == Type.STRING;
     }
@@ -249,6 +254,10 @@ public class TypeInfo implements Cloneable {
 
                 .put(String.class.getName(), STRING)
                 .put(Date.class.getName(), DATE)
+                .put(Instant.class.getName(), DATE)
+                .put(LocalDateTime.class.getName(), DATE)
+                .put(LocalDate.class.getName(), DATE)
+                .put(LocalTime.class.getName(), DATE)
                 .build();
 
         private static final ImmutableMap<Type, Class> classMap = ImmutableMap.<Type, Class>builder()

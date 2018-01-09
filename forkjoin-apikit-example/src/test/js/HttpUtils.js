@@ -5,7 +5,7 @@ class HttpUtils {
         requestGroup.add(tag, request);
         return request.start();
     }
-    static setHttpRequestClass(factory) {
+    static setFactory(factory) {
         HttpUtils.factory = factory;
     }
 }

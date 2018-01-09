@@ -51,6 +51,8 @@
         <org.eclipse.jdt.core.version>3.10.0</org.eclipse.jdt.core.version>
         <bonecp.version>0.8.0.RELEASE</bonecp.version>
         <okhttp.version>3.8.0</okhttp.version>
+        <rxjava.version>2.1.8</rxjava.version>
+        <reactor-core.version>3.1.2.RELEASE</reactor-core.version>
         <org.eclipse.jgit.version>4.8.0.201706111038-r</org.eclipse.jgit.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -72,7 +74,16 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
+            <dependency>
+                <groupId>io.reactivex.rxjava2</groupId>
+                <artifactId>rxjava</artifactId>
+                <version>${rxjava.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.projectreactor</groupId>
+                <artifactId>reactor-core</artifactId>
+                <version>${reactor-core.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.squareup.okhttp3</groupId>
                 <artifactId>okhttp</artifactId>

@@ -1,5 +1,9 @@
 package org.forkjoin.apikit.impl;
 
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.SingleSource;
 import org.apache.commons.collections.CollectionUtils;
 import org.eclipse.jdt.core.dom.*;
 import org.forkjoin.apikit.AnalyseException;
@@ -12,6 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
 import java.util.Collections;
@@ -158,20 +164,8 @@ public class JdtApiAnalyse extends JdtAbstractModuleAnalyse {
             cls = resultType.toClass();
         } catch (ClassNotFoundException ignored) {
         }
-        if (cls == null || !Result.class.isAssignableFrom(cls)) {
-            apiMethodInfo.setResultType(resultType);
-            TypeInfo resultWrappedType = new TypeInfo(
-                    TypeInfo.Type.OTHER,
-                    Result.class.getPackage().getName(),
-                    Result.class.getSimpleName(),
-                    false,
-                    Collections.singletonList(resultType),
-                    false, true
-            );
 
-            apiMethodInfo.setResultWrappedType(resultWrappedType);
-            apiMethodInfo.setResultDataType(resultType);
-        } else {
+        if (cls != null && Result.class.isAssignableFrom(cls)) {
             if (CollectionUtils.isEmpty(resultType.getTypeArguments())) {
                 throw new AnalyseException("类型不存在！!" + resultType);
             }
@@ -197,7 +191,55 @@ public class JdtApiAnalyse extends JdtAbstractModuleAnalyse {
                         resultDataType
                 );
             }
+        } else if (cls != null && (
+                Flux.class.isAssignableFrom(cls) ||
+                        Mono.class.isAssignableFrom(cls) ||
+                        Single.class.isAssignableFrom(cls) ||
+                        Observable.class.isAssignableFrom(cls) ||
+                        Flowable.class.isAssignableFrom(cls))) {
+            if (CollectionUtils.isEmpty(resultType.getTypeArguments())) {
+                throw new AnalyseException("类型不存在！!" + resultType);
+            }
+            if (resultType.getTypeArguments().size() != 1) {
+                throw new AnalyseException("返回参数的类型变量数只能是1！!" + resultType);
+            }
+            boolean isSingle = Mono.class.isAssignableFrom(cls) || SingleSource.class.isAssignableFrom(cls);
+            TypeInfo realResultType = resultType.getTypeArguments().get(0);
+
+            TypeInfo resultWrappedType = newResultTypeInfo(realResultType);
+            if (isSingle) {
+                apiMethodInfo.setResultType(realResultType);
+                apiMethodInfo.setResultWrappedType(resultWrappedType);
+
+                apiMethodInfo.setResultDataType(realResultType);
+            } else {
+                TypeInfo realResultTypeArray = realResultType.clone();
+                realResultTypeArray.setArray(true);
+
+                apiMethodInfo.setResultType(realResultTypeArray);
+                apiMethodInfo.setResultWrappedType(resultWrappedType);
+
+
+                apiMethodInfo.setResultDataType(realResultTypeArray);
+            }
+        } else {
+            apiMethodInfo.setResultType(resultType);
+            TypeInfo resultWrappedType = newResultTypeInfo(resultType);
+
+            apiMethodInfo.setResultWrappedType(resultWrappedType);
+            apiMethodInfo.setResultDataType(resultType);
         }
+    }
+
+    private TypeInfo newResultTypeInfo(TypeInfo realResultType) {
+        return new TypeInfo(
+                TypeInfo.Type.OTHER,
+                Result.class.getPackage().getName(),
+                Result.class.getSimpleName(),
+                false,
+                Collections.singletonList(realResultType),
+                false, true
+        );
     }
 
     private static java.lang.reflect.Type getResultGenericSuperclass(Class<?> cls) {
