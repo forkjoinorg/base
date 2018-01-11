@@ -3,7 +3,11 @@
 <!--#set(NameUtils nameUtils)-->
 
 <!--#for(info : values)-->
+<!--#if(info.packageName)-->
 import $!{info.name}  from './$!{info.packageName.replace('.','/')}/$!{info.name}';
+<!--#else-->
+import $!{info.name}  from './$!{info.name}';
+<!--#end-->
 <!--#end-->
 import RequestGroup from './RequestGroup';
 

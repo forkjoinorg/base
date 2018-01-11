@@ -3,14 +3,11 @@
 <!--#set(Collection<ApiInfo> apis)-->
 <!--#set(MessageInfo info)-->
 <!--#set(ApiInfo api)-->
-import Apis from "./Apis";
 
 <!--#for(api : apis)-->
 import $!{api.name} from './$!{api.packageName.replace('.','/')}/$!{api.name}';
 <!--#end-->
 
-
-export default Apis;
 
 export {
 <!--#for(api : apis)-->

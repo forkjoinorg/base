@@ -7,7 +7,7 @@ package $!{pack};
 import org.forkjoin.apikit.client.HttpClientAdapter;
 
 <!--#for(info : values)-->
-import $!{pack}.${info.packageName}.$!{info.name};
+import $!{pack}.$!{info.fullName};
 <!--#end-->
 
 /**

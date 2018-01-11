@@ -22,7 +22,6 @@ import java.util.Set;
 public class JavaScriptGenerator extends HttlGenerator {
     private JSWrapper.Type type = JSWrapper.Type.CommonJS;
 
-
     public JavaScriptGenerator() {
 
     }
@@ -127,24 +126,24 @@ public class JavaScriptGenerator extends HttlGenerator {
             );
         }
 
-        {
-            Map<String, Object> parameters = new HashMap<>();
-            Collection<ApiInfo> values = context.getApis().getValues();
-            parameters.put("values", values);
-            parameters.put("nameUtils", new NameUtils());
-            File dFile = Utils.packToPath(outPath, "", "Apis", ".d.ts");
-            execute(
-                    parameters,
-                    getTempl("Apis.d.httl"),
-                    dFile
-            );
-            File file = Utils.packToPath(outPath, "", "Apis", ".js");
-            execute(
-                    parameters,
-                    getTempl("Apis.httl"),
-                    file
-            );
-        }
+//        {
+//            Map<String, Object> parameters = new HashMap<>();
+//            Collection<ApiInfo> values = context.getApis().getValues();
+//            parameters.put("values", values);
+//            parameters.put("nameUtils", new NameUtils());
+//            File dFile = Utils.packToPath(outPath, "", "Apis", ".d.ts");
+//            execute(
+//                    parameters,
+//                    getTempl("Apis.d.httl"),
+//                    dFile
+//            );
+//            File file = Utils.packToPath(outPath, "", "Apis", ".js");
+//            execute(
+//                    parameters,
+//                    getTempl("Apis.httl"),
+//                    file
+//            );
+//        }
     }
 
     public JSWrapper.Type getType() {

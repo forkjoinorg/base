@@ -21,7 +21,7 @@ class PageApi extends AbstractApi {
     * @see number
 
      */
-    page(page, pageSize){
+    page = (page, pageSize) => {
         let _path = {};
         _path["page"] = page;
         _path["pageSize"] = pageSize;
@@ -44,7 +44,7 @@ class PageApi extends AbstractApi {
     * @see number
 
      */
-    pageString(page, pageSize){
+    pageString = (page, pageSize) => {
         let _path = {};
         _path["page"] = page;
         _path["pageSize"] = pageSize;

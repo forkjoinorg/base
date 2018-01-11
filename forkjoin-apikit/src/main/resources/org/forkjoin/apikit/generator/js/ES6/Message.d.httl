@@ -2,8 +2,6 @@
 <!--#set(PropertyInfo attr)-->
 <!--#set(JSMessageWrapper utils)-->
 <!--#set(TypeInfo type)-->
-'use strict';
-
 $!{utils.imports}
 
 /**

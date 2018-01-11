@@ -9,10 +9,7 @@ import $!{info.name} from './$!{info.packageName.replace('.','/')}/$!{info.name}
 <!--#for(api : apis)-->
 import $!{api.name} from './$!{api.packageName.replace('.','/')}/$!{api.name}';
 <!--#end-->
-import Apis from "./Apis";
 
-
-export default Apis;
 
 export {
 <!--#for(info : values)-->

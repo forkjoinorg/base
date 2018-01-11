@@ -1,5 +1,3 @@
-'use strict';
-
 import TestForm from './../form/TestForm'
 
 import TestObject from './../model/TestObject'

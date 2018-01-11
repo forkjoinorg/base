@@ -36,12 +36,20 @@ public class ApiImport {
         }
     }
 
-    public void add(String packageName, String name) {
-        StringBuilder sb = new StringBuilder();
+    private int getMyLevel() {
         ApiInfo moduleInfo = builderWrapper.getModuleInfo();
         String moduleInfoPackageName = moduleInfo.getPackageName();
+        if (StringUtils.isEmpty(moduleInfoPackageName)) {
+            return 0;
+        } else {
+            return moduleInfoPackageName.split(".").length + 1;
+        }
+    }
+
+    public void add(String packageName, String name) {
+        StringBuilder sb = new StringBuilder();
         //自己的目录级别
-        int myLevel = moduleInfoPackageName.split(".").length + 1;
+        int myLevel = getMyLevel();
 
         importSet.add(sb.append("import ")
                 .append(name)

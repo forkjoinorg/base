@@ -1,5 +1,3 @@
-'use strict';
-
 import User from './../model/User'
 
 import AbstractApi from './../AbstractApi'

@@ -1,5 +1,6 @@
 package org.forkjoin.apikit.info;
 
+import org.apache.commons.lang3.StringUtils;
 import org.forkjoin.apikit.utils.NameUtils;
 
 /**
@@ -55,6 +56,9 @@ public class ModuleInfo {
     }
 
     public String getFullName() {
+        if(StringUtils.isEmpty(packageName)){
+            return name;
+        }
         return packageName + "." +name;
     }
 }

@@ -1,5 +1,3 @@
-'use strict';
-
 import TestObject from './../model/TestObject'
 
 import AbstractApi from './../AbstractApi'

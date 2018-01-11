@@ -1,4 +1,4 @@
-package org.forkjoin.apikit.example.api;
+package org.forkjoin.apikit.example;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.forkjoin.apikit.core.Account;
@@ -29,8 +29,8 @@ public class ReactorApiController {
 
     @RequestMapping(value = "reactor/testFlux", method = {RequestMethod.POST})
     @Account(false)
-    public Flux<LocalDateTime> testFlux() throws Exception {
-        return Flux.just(LocalDateTime.now());
+    public Flux<User> testFlux(@Valid TestForm testForm) throws Exception {
+        return Flux.empty();
     }
 
     @RequestMapping(value = "reactor/testMono", method = {RequestMethod.POST})

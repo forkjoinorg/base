@@ -17,7 +17,7 @@ class SysApi extends AbstractApi {
     * @see string
 
      */
-    status(){
+    status = () => {
         let _path = null;
         return super._request("sysApi", "GET", "status", _path, null);
     }
@@ -34,7 +34,7 @@ class SysApi extends AbstractApi {
     * @see Date
 
      */
-    login(){
+    login = () => {
         let _path = null;
         return super._request("sysApi", "GET", "now", _path, null);
     }

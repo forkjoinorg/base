@@ -58,6 +58,9 @@ public class BuilderWrapper<T extends ModuleInfo> {
 
     public String getPack(String packageName) {
         if (StringUtils.isEmpty(packageName)) {
+            if (rootPackage == null) {
+                return "";
+            }
             return rootPackage;
         } else {
             if (StringUtils.isEmpty(rootPackage)) {

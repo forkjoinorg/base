@@ -20,7 +20,7 @@ class BaseApi extends AbstractApi {
     * @see TestForm
 
      */
-    create(testForm){
+    create = (testForm) => {
         let _path = null;
         return super._request("baseApi", "POST", "base", _path, testForm);
     }
@@ -39,7 +39,7 @@ class BaseApi extends AbstractApi {
     * @see string
 
      */
-    get(id){
+    get = (id) => {
         let _path = {};
         _path["id"] = id;
         return super._request("baseApi", "POST", "base/{id}", _path, null);
@@ -60,7 +60,7 @@ class BaseApi extends AbstractApi {
     * @see User
 
      */
-    create(user){
+    create = (user) => {
         let _path = null;
         return super._request("baseApi", "GET", "baseUrl/", _path, user);
     }

@@ -16,7 +16,7 @@ class TestApi extends AbstractApi {
     * </div>
 
      */
-    testVoid(){
+    testVoid = () => {
         let _path = null;
         return super._request("testApi", "POST", "testVoid", _path, null);
     }
@@ -35,7 +35,7 @@ class TestApi extends AbstractApi {
     * @see TestForm
 
      */
-    testObjectList(testForm){
+    testObjectList = (testForm) => {
         let _path = null;
         return super._request("testApi", "POST", "testObjectList", _path, testForm);
     }
@@ -54,7 +54,7 @@ class TestApi extends AbstractApi {
     * @see TestForm
 
      */
-    create(testForm){
+    create = (testForm) => {
         let _path = null;
         return super._request("testApi", "POST", "test", _path, testForm);
     }
@@ -73,7 +73,7 @@ class TestApi extends AbstractApi {
     * @see string
 
      */
-    get(id){
+    get = (id) => {
         let _path = {};
         _path["id"] = id;
         return super._request("testApi", "GET", "test/{id}", _path, null);
@@ -93,7 +93,7 @@ class TestApi extends AbstractApi {
     * @see TestForm
 
      */
-    update(testForm){
+    update = (testForm) => {
         let _path = null;
         return super._request("testApi", "PUT", "test", _path, testForm);
     }
@@ -112,7 +112,7 @@ class TestApi extends AbstractApi {
     * @see TestForm
 
      */
-    patchUpdate(testForm){
+    patchUpdate = (testForm) => {
         let _path = null;
         return super._request("testApi", "PATCH", "test", _path, testForm);
     }
@@ -131,7 +131,7 @@ class TestApi extends AbstractApi {
     * @see string
 
      */
-    delete(id){
+    delete = (id) => {
         let _path = {};
         _path["id"] = id;
         return super._request("testApi", "DELETE", "test/{id}", _path, null);
@@ -151,7 +151,7 @@ class TestApi extends AbstractApi {
     * @see string[]
 
      */
-    deletes(id){
+    deletes = (id) => {
         let _path = {};
         _path["id"] = id;
         return super._request("testApi", "DELETE", "tests/{id}", _path, null);
@@ -173,7 +173,7 @@ class TestApi extends AbstractApi {
     * @see string
 
      */
-    search(id, name){
+    search = (id, name) => {
         let _path = {};
         _path["id"] = id;
         _path["name"] = name;
@@ -194,7 +194,7 @@ class TestApi extends AbstractApi {
     * @see string
 
      */
-    testString(name){
+    testString = (name) => {
         let _path = {};
         _path["name"] = name;
         return super._request("testApi", "GET", "testString/{name}", _path, null);
@@ -216,7 +216,7 @@ class TestApi extends AbstractApi {
     * @see string
 
      */
-    testString1(name, age){
+    testString1 = (name, age) => {
         let _path = {};
         _path["name"] = name;
         _path["age"] = age;

@@ -29,9 +29,9 @@ public class JSApiWrapper extends JSWrapper<ApiInfo> {
     }
 
     public String getImports(boolean isModel) {
-        String moduleInfoPackageName = moduleInfo.getPackageName();
+        ;
         //自己的目录级别
-        int myLevel = moduleInfoPackageName.split(".").length + 1;
+        int myLevel = getMyLevel();
         String imports = isModel ? getMethodImports() : "";
         return imports +
                 "\nimport AbstractApi from './" + StringUtils.repeat("../", myLevel) + "AbstractApi'\n" +
@@ -39,11 +39,19 @@ public class JSApiWrapper extends JSWrapper<ApiInfo> {
 
     }
 
+    private int getMyLevel() {
+        String moduleInfoPackageName = moduleInfo.getPackageName();
+        if (StringUtils.isEmpty(moduleInfoPackageName)) {
+            return 0;
+        } else {
+            return moduleInfoPackageName.split(".").length + 1;
+        }
+    }
+
 
     public String getEs5Imports() {
-        String moduleInfoPackageName = moduleInfo.getPackageName();
         //自己的目录级别
-        int myLevel = moduleInfoPackageName.split(".").length + 1;
+        int myLevel = getMyLevel();
         String str = StringUtils.repeat("../", myLevel);
 
         return "var _AbstractApi2 = require(\"" + str + "AbstractApi\");\n" +

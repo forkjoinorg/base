@@ -1,6 +1,7 @@
 package org.forkjoin.apikit.impl;
 
 import org.apache.commons.lang3.ClassUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jdt.core.dom.*;
 import org.forkjoin.apikit.AnalyseException;
 import org.forkjoin.apikit.Utils;
@@ -23,7 +24,11 @@ public class JdtInfo {
         CompilationUnit node = (CompilationUnit) parser.createAST(null);
 
         String sourcePackage = node.getPackage().getName().getFullyQualifiedName();
-        sourcePackage = sourcePackage.substring(0, sourcePackage.length() - packageName.length());
+        if (StringUtils.isEmpty(packageName)) {
+            sourcePackage = sourcePackage + ".";
+        } else {
+            sourcePackage = sourcePackage.substring(0, sourcePackage.length() - packageName.length());
+        }
 
 
         List types = node.types();

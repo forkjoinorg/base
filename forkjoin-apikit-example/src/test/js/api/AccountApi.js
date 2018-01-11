@@ -17,7 +17,7 @@ class AccountApi extends AbstractApi {
     * @see string
 
      */
-    login(){
+    login = () => {
         let _path = null;
         return super._request("accountApi", "POST", "account/login", _path, null);
     }
@@ -34,7 +34,7 @@ class AccountApi extends AbstractApi {
     * </div>
 
      */
-    testLogin(){
+    testLogin = () => {
         let _path = null;
         return super._request("accountApi", "POST", "account/testLogin", _path, null);
     }
@@ -51,7 +51,7 @@ class AccountApi extends AbstractApi {
     * @see User
 
      */
-    testNotLogin(){
+    testNotLogin = () => {
         let _path = null;
         return super._request("accountApi", "GET", "baseUrl/testNotLogin", _path, null);
     }
