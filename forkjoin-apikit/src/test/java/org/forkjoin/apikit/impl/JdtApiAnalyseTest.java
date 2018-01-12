@@ -22,7 +22,7 @@ public class JdtApiAnalyseTest extends BaseTest {
         String code = readCode("api/BaseApiController.java");
         Analyse analyse = createAnalyse();
         ApiInfo api = (ApiInfo) analyse.analyse(code, "api");
-        assertEquals("BaseApi", api.getName());
+        assertEquals("BaseApiController", api.getName());
         assertEquals("api", api.getPackageName());
 
         ImportsInfo imports = api.getImports();
