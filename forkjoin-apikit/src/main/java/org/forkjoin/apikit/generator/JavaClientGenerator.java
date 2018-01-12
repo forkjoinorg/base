@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
  */
 public class JavaClientGenerator extends JavaGenerator {
     private boolean isAnnotations = false;
+    private boolean isReactive = false;
 
     private NameMaper apiNameMaper = new PatternNameMaper(
             "(?<name>.*)Controller","${name}"
@@ -36,11 +37,19 @@ public class JavaClientGenerator extends JavaGenerator {
         utils.setAnnotations(isAnnotations);
         File file = getFileName(utils);
         utils.init();
-        executeModule(
-                utils,
-                "/org/forkjoin/apikit/generator/ApiItem.httl",
-                file
-        );
+        if(isReactive){
+            executeModule(
+                    utils,
+                    "/org/forkjoin/apikit/generator/ReactiveApiItem.httl",
+                    file
+            );
+        }else{
+            executeModule(
+                    utils,
+                    "/org/forkjoin/apikit/generator/ApiItem.httl",
+                    file
+            );
+        }
     }
 
 
@@ -63,5 +72,13 @@ public class JavaClientGenerator extends JavaGenerator {
 
     public void setApiNameMaper(NameMaper apiNameMaper) {
         this.apiNameMaper = apiNameMaper;
+    }
+
+    public boolean isReactive() {
+        return isReactive;
+    }
+
+    public void setReactive(boolean reactive) {
+        isReactive = reactive;
     }
 }

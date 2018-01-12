@@ -53,6 +53,7 @@ public class ApiBuilderMain {
 
         {
             JavaClientGenerator generator = new JavaClientGenerator();
+            generator.setReactive(false);
             generator.setOutPath(javaClientDir.getAbsolutePath());
             generator.setVersion(version);
             generator.setRootPackage("org.forkjoin.apikit.example.client");

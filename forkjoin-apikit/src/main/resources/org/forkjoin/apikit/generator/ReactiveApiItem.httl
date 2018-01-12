@@ -1,0 +1,84 @@
+<!--#set(ApiInfo m)-->
+<!--#set(JavaClientApiWrapper utils)-->
+<!--#set(TypeInfo type)-->
+<!--#set(ApiMethodInfo method)-->
+<!--#set(ApiMethodParamInfo param)-->
+package $!{utils.getPack()};
+
+import reactor.core.publisher.Mono;
+
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.concurrent.Future;
+
+
+import org.forkjoin.apikit.client.*;
+
+$!{utils.imports}
+
+
+/**
+$!{utils.comment(" * ")}
+ */
+public class $!{utils.name} {
+    private ReactiveHttpClientAdapter httpClientAdapter;
+
+    public $!{utils.name}() {
+    }
+
+    public $!{utils.name}(ReactiveHttpClientAdapter httpClientAdapter) {
+        this.httpClientAdapter = httpClientAdapter;
+    }
+
+<!--#for(method : m.methodInfos)-->
+
+
+   /**
+$!{utils.formatBaseComment(method.comment,"    * ")}
+    *
+$!{utils.requestComment(method,"    * ")}
+    */
+    public Mono<$!{method.resultWrappedType.name}<$!{utils.result(method)}>> $!{method.name}Result($!{utils.params(method)}) {
+        Map<String, Object> _uriVariables = new HashMap<>();
+<!--        #for(param : method.pathParams)-->
+        _uriVariables.put("$!{param.getName()}", $!{param.getName()});
+<!--        #end-->
+        String _url = ApiUtils.expandUriComponent("$!{method.url}", _uriVariables);
+
+<!--        #if(method.formParams)-->
+        <!--#set(param = method.formParams[0])-->
+        List<Entry<String, Object>> _form = $!{param.name}.encode("", new ArrayList<Entry<String, Object>>());
+        return httpClientAdapter.requestResult("$!{method.type.name()}", _url, _form, _$!{method.index}Type, ${method.account});
+<!--        #else-->
+        return httpClientAdapter.requestResult("$!{method.type.name()}", _url, null, _$!{method.index}Type, ${method.account});
+<!--        #end-->
+    }
+
+   /**
+   $!{utils.formatBaseComment(method.comment,"    * ")}
+       *
+   $!{utils.requestComment(method,"    * ")}
+       */
+       public Mono<$!{utils.resultData(method)}> $!{method.name}($!{utils.params(method)}) {
+           Map<String, Object> _uriVariables = new HashMap<>();
+   <!--        #for(param : method.pathParams)-->requestResult
+           _uriVariables.put("$!{param.getName()}", $!{param.getName()});
+   <!--        #end-->
+           String _url = ApiUtils.expandUriComponent("$!{method.url}", _uriVariables);
+
+   <!--        #if(method.formParams)-->
+           <!--#set(param = method.formParams[0])-->
+           List<Entry<String, Object>> _form = $!{param.name}.encode("", new ArrayList<Entry<String, Object>>());
+           return httpClientAdapter.request("$!{method.type.name()}", _url, _form, _$!{method.index}Type, ${method.account});
+   <!--        #else-->
+           return httpClientAdapter.request("$!{method.type.name()}", _url, null, _$!{method.index}Type, ${method.account});
+   <!--        #end-->
+       }
+
+
+<!--#end-->
+
+<!--#for(method : m.methodInfos)-->
+$!{utils.resultTypeString(method,"    ")}
+<!--#end-->
+}
