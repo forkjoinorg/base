@@ -20,10 +20,10 @@ $!{utils.comment(" * ")}
 public class $!{utils.name} {
     private HttpClientAdapter httpClientAdapter;
 
-    public $!{m.name}() {
+    public $!{utils.name}() {
     }
 
-    public $!{m.name}(HttpClientAdapter httpClientAdapter) {
+    public $!{utils.name}(HttpClientAdapter httpClientAdapter) {
         this.httpClientAdapter = httpClientAdapter;
     }
 

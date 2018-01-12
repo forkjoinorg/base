@@ -7,17 +7,19 @@ import org.forkjoin.apikit.wrapper.JavaClientApiWrapper;
 import org.forkjoin.apikit.wrapper.JavaMessageWrapper;
 
 import java.io.File;
+import java.util.regex.Pattern;
 
 /**
  *
  */
 public class JavaClientGenerator extends JavaGenerator {
-    private JSWrapper.Type type = JSWrapper.Type.FLOW_TYPE;
-
     private boolean isAnnotations = false;
 
-    public JavaClientGenerator() {
+    private NameMaper apiNameMaper = new PatternNameMaper(
+            "(?<name>.*)Controller","${name}"
+    );
 
+    public JavaClientGenerator() {
     }
 
     protected JavaMessageWrapper createMessageWarpper(MessageInfo messageInfo) {
@@ -28,7 +30,9 @@ public class JavaClientGenerator extends JavaGenerator {
 
     @Override
     public void generateApi(ApiInfo apiInfo) throws Exception {
-        JavaClientApiWrapper utils = new JavaClientApiWrapper(context, apiInfo, rootPackage);
+        JavaClientApiWrapper utils = new JavaClientApiWrapper(
+                context, apiInfo, rootPackage, apiNameMaper
+        );
         utils.setAnnotations(isAnnotations);
         File file = getFileName(utils);
         utils.init();
@@ -42,18 +46,6 @@ public class JavaClientGenerator extends JavaGenerator {
 
     @Override
     public void generateTool() throws Exception {
-//        Map<String, Object> parameters = new HashMap<>();
-//        Collection<ApiInfo> values = context.getApis().getValues();
-//        parameters.put("values", values);
-//        parameters.put("nameUtils", new NameUtils());
-//        parameters.put("commentUtils", new CommentUtils());
-//        parameters.put("pack", getRootPackage());
-//        File file = Utils.packToPath(outPath, getRootPackage(), "ApiManager", ".java");
-//        execute(
-//                parameters,
-//                "/org/forkjoin/apikit/generator/JavaApiManager.httl",
-//                file
-//        );
     }
 
 

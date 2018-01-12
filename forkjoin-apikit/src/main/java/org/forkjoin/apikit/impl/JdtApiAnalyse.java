@@ -37,7 +37,7 @@ public class JdtApiAnalyse extends JdtAbstractModuleAnalyse {
     public ModuleInfo analyse() {
         ApiInfo apiInfo = new ApiInfo();
         initModuleInfo(apiInfo);
-        apiInfo.setName(apiInfo.getName().replace("Controller", ""));
+//        apiInfo.setName(apiInfo.getName().replace("Controller", ""));
 
         MethodDeclaration[] methods = jdtInfo.getType().getMethods();
         for (MethodDeclaration method : methods) {

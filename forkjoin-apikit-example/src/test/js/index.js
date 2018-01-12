@@ -1,19 +1,19 @@
 
-import ReactorApi from './/ReactorApi';
-import BaseApi from './api/BaseApi';
-import TestApi from './api/TestApi';
-import TestNoResultApi from './api/TestNoResultApi';
-import SysApi from './api/SysApi';
-import AccountApi from './api/AccountApi';
-import PageApi from './api/PageApi';
+import ReactorApiController from './/ReactorApiController';
+import BaseApiController from './api/BaseApiController';
+import TestApiController from './api/TestApiController';
+import TestNoResultApiController from './api/TestNoResultApiController';
+import SysApiController from './api/SysApiController';
+import AccountApiController from './api/AccountApiController';
+import PageApiController from './api/PageApiController';
 
 
 export {
-    ReactorApi,
-    BaseApi,
-    TestApi,
-    TestNoResultApi,
-    SysApi,
-    AccountApi,
-    PageApi,
+    ReactorApiController,
+    BaseApiController,
+    TestApiController,
+    TestNoResultApiController,
+    SysApiController,
+    AccountApiController,
+    PageApiController,
 };

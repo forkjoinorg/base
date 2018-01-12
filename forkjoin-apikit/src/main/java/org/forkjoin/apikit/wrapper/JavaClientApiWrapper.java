@@ -1,6 +1,7 @@
 package org.forkjoin.apikit.wrapper;
 
 import org.forkjoin.apikit.Context;
+import org.forkjoin.apikit.generator.NameMaper;
 import org.forkjoin.apikit.info.*;
 
 import java.util.ArrayList;
@@ -18,9 +19,11 @@ public class JavaClientApiWrapper extends JavaApiWrapper {
     private boolean isAnnotations = false;
     private TreeSet<String> importSet = new TreeSet<>();
 
-    public JavaClientApiWrapper(Context context, ApiInfo moduleInfo, String rootPackage) {
-        super(context, moduleInfo, rootPackage);
+    public JavaClientApiWrapper(Context context, ApiInfo moduleInfo, String rootPackage,NameMaper apiNameMaper) {
+        super(context, moduleInfo, rootPackage,apiNameMaper);
     }
+
+
 
     @Override
     public String formatAnnotations(List<AnnotationInfo> annotations, String start) {

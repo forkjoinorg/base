@@ -3,6 +3,7 @@ package org.forkjoin.apikit.wrapper;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.forkjoin.apikit.Context;
+import org.forkjoin.apikit.generator.NameMaper;
 import org.forkjoin.apikit.info.ApiInfo;
 import org.forkjoin.apikit.info.ApiMethodInfo;
 import org.forkjoin.apikit.info.ApiMethodParamInfo;
@@ -19,9 +20,16 @@ import java.util.Map;
  */
 public class JavaApiWrapper extends JavaWrapper<ApiInfo> {
     private String version;
+    private NameMaper apiNameMaper;
 
-    public JavaApiWrapper(Context context, ApiInfo moduleInfo, String rootPackage) {
+    public JavaApiWrapper(Context context, ApiInfo moduleInfo, String rootPackage, NameMaper apiNameMaper) {
         super(context, moduleInfo, rootPackage);
+        this.apiNameMaper = apiNameMaper;
+    }
+
+    @Override
+    public String getName() {
+        return apiNameMaper.apply(super.getName());
     }
 
     public String getVersion() {
@@ -210,7 +218,7 @@ public class JavaApiWrapper extends JavaWrapper<ApiInfo> {
 
     public String resultTypeString(ApiMethodInfo method, String start) {
         StringBuilder sb = new StringBuilder(start);
-        sb.append("private static final ApiType _").append(method.getIndex()).append("Type = ApiUtils.type("+method.getResultWrappedType().getName()+".class, ");
+        sb.append("private static final ApiType _").append(method.getIndex()).append("Type = ApiUtils.type(" + method.getResultWrappedType().getName() + ".class, ");
         resultTypeString(sb, method.getResultType());
         sb.append(");");
         return sb.toString();
