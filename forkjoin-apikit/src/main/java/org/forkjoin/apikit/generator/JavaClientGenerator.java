@@ -56,4 +56,12 @@ public class JavaClientGenerator extends JavaGenerator {
     public void setAnnotations(boolean annotations) {
         isAnnotations = annotations;
     }
+
+    public NameMaper getApiNameMaper() {
+        return apiNameMaper;
+    }
+
+    public void setApiNameMaper(NameMaper apiNameMaper) {
+        this.apiNameMaper = apiNameMaper;
+    }
 }
