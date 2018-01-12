@@ -17,6 +17,9 @@ import org.forkjoin.apikit.example.client.model.User;
 public class ReactorApi {
 	private HttpClientAdapter httpClientAdapter;
 
+	public ReactorApi() {
+	}
+
 	public ReactorApi(HttpClientAdapter httpClientAdapter) {
 		this.httpClientAdapter = httpClientAdapter;
 	}

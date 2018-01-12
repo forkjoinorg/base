@@ -23,13 +23,13 @@ public class TestApiControllerTest extends BaseControllerTest {
 
     @Test
     public void testVoid() {
-        apiManager.testApi.testVoid();
+        testApi.testVoid();
     }
 
     @Test
     public void testStringData() {
         String str = RandomStringUtils.random(ARRAY_MAX);
-        String result = apiManager.testApi.testStringData(str);
+        String result = testApi.testStringData(str);
         Assert.assertEquals(str, result);
     }
 
@@ -43,7 +43,7 @@ public class TestApiControllerTest extends BaseControllerTest {
         stringValueArray.add("sb1,sb1");
         form.setStringValueArray(stringValueArray);
         form.setStringValue(form.getStringValue()+",+,sb%");
-        TestObjectList<User> data = apiManager.testApi.testObjectListData(form);
+        TestObjectList<User> data = testApi.testObjectListData(form);
 
         Assert.assertEquals(form.getBooleanValue(), data.getBooleanValue());
         Assert.assertEquals(form.getBooleanValueArray(), data.getBooleanValueArray());
@@ -78,7 +78,7 @@ public class TestApiControllerTest extends BaseControllerTest {
         TestForm<User> form = createForm();
 
 
-        TestObject<User> data = apiManager.testApi.createData(form);
+        TestObject<User> data = testApi.createData(form);
 
         Assert.assertEquals(form.getBooleanValue(), data.getBooleanValue());
         Assert.assertEquals(form.getBooleanValueArray(), data.getBooleanValueArray());

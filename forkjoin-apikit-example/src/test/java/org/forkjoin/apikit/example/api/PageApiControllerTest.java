@@ -21,7 +21,7 @@ public class PageApiControllerTest extends BaseControllerTest{
 
     @Test
     public void page() throws Exception {
-        PageResult<TestObject> page = apiManager.pageApi.page(PAGE, PAGE_SIZE);
+        PageResult<TestObject> page = pageApi.page(PAGE, PAGE_SIZE);
         Assert.assertNotNull(page);
         Assert.assertNotNull(page.getData());
         Assert.assertEquals(page.getData().size(),1);
@@ -31,7 +31,7 @@ public class PageApiControllerTest extends BaseControllerTest{
 
     @Test
     public void pageString() throws Exception {
-        PageResult<String> page = apiManager.pageApi.pageString(PAGE, PAGE_SIZE);
+        PageResult<String> page = pageApi.pageString(PAGE, PAGE_SIZE);
         Assert.assertNotNull(page);
         Assert.assertNotNull(page.getData());
         Assert.assertEquals(page.getData().size(),1);

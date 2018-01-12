@@ -10,10 +10,7 @@ import TestNoResultApi from './api/TestNoResultApi';
 import SysApi from './api/SysApi';
 import AccountApi from './api/AccountApi';
 import PageApi from './api/PageApi';
-import Apis from "./Apis";
 
-
-export default Apis;
 
 export {
     ApiList,

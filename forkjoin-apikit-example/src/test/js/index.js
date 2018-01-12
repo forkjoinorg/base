@@ -1,4 +1,3 @@
-import Apis from "./Apis";
 
 import ReactorApi from './/ReactorApi';
 import BaseApi from './api/BaseApi';
@@ -8,8 +7,6 @@ import SysApi from './api/SysApi';
 import AccountApi from './api/AccountApi';
 import PageApi from './api/PageApi';
 
-
-export default Apis;
 
 export {
     ReactorApi,

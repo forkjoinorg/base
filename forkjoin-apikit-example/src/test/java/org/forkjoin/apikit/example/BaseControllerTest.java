@@ -1,8 +1,10 @@
 package org.forkjoin.apikit.example;
 
-import org.forkjoin.apikit.example.client.ApiManager;
 import org.forkjoin.apikit.client.AbstractHttpClientAdapter;
-import org.junit.After;
+import org.forkjoin.apikit.example.client.api.AccountApi;
+import org.forkjoin.apikit.example.client.api.PageApi;
+import org.forkjoin.apikit.example.client.api.TestApi;
+import org.forkjoin.apikit.example.client.api.TestNoResultApi;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +21,25 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ActiveProfiles("mock")
 public abstract class BaseControllerTest {
 
-    protected ApiManager apiManager;
+//    protected ApiManager apiManager;
 
     @Autowired
     protected AbstractHttpClientAdapter httpClientAdapter;
 
+    @Autowired
+    protected AccountApi accountApi;
+
+    @Autowired
+    protected PageApi pageApi;
+
+    @Autowired
+    protected TestApi testApi;
+
+    @Autowired
+    protected TestNoResultApi testNoResultApi;
+
     @Before
-    public void init(){
-        apiManager = new ApiManager(httpClientAdapter);
+    public void init() {
+//        apiManager = new ApiManager(httpClientAdapter);
     }
 }

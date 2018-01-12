@@ -6,8 +6,12 @@ import org.forkjoin.apikit.client.OkHttpClientAdapter;
 import org.forkjoin.apikit.client.core.JacksonJsonConvert;
 import org.forkjoin.apikit.client.core.JsonConvert;
 import org.forkjoin.apikit.client.core.TypeConvert;
-import org.forkjoin.apikit.example.client.ApiManager;
+import org.forkjoin.apikit.example.client.api.AccountApi;
+import org.forkjoin.apikit.example.client.api.PageApi;
+import org.forkjoin.apikit.example.client.api.TestApi;
+import org.forkjoin.apikit.example.client.api.TestNoResultApi;
 import org.forkjoin.apikit.spring.client.MockHttpClientAdapter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -22,9 +26,25 @@ import org.springframework.core.convert.ConversionService;
 @Configuration
 @ComponentScan
 public class TestsContext {
+
     @Bean
-    public ApiManager apiManager(HttpClientAdapter httpClientAdapter) {
-        return new ApiManager(httpClientAdapter);
+    public AccountApi accountApi(HttpClientAdapter httpClientAdapter) {
+        return new AccountApi(httpClientAdapter);
+    }
+
+    @Bean
+    public PageApi pageApi(HttpClientAdapter httpClientAdapter) {
+        return new PageApi(httpClientAdapter);
+    }
+
+    @Bean
+    public TestApi testApi(HttpClientAdapter httpClientAdapter) {
+        return new TestApi(httpClientAdapter);
+    }
+
+    @Bean
+    public TestNoResultApi testNoResultApi(HttpClientAdapter httpClientAdapter) {
+        return new TestNoResultApi(httpClientAdapter);
     }
 
     @Profile("mock")

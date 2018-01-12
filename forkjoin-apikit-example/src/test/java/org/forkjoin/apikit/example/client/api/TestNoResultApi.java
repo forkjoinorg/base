@@ -20,6 +20,9 @@ import org.forkjoin.apikit.example.client.model.User;
 public class TestNoResultApi {
 	private HttpClientAdapter httpClientAdapter;
 
+	public TestNoResultApi() {
+	}
+
 	public TestNoResultApi(HttpClientAdapter httpClientAdapter) {
 		this.httpClientAdapter = httpClientAdapter;
 	}

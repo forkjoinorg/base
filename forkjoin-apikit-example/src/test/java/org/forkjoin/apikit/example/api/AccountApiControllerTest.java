@@ -1,19 +1,9 @@
 package org.forkjoin.apikit.example.api;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.forkjoin.apikit.core.ApiMessage;
 import org.forkjoin.apikit.core.Result;
 import org.forkjoin.apikit.example.BaseControllerTest;
-import org.forkjoin.apikit.example.client.form.TestForm;
-import org.forkjoin.apikit.example.client.model.TestObject;
-import org.forkjoin.apikit.example.client.model.TestObjectList;
-import org.forkjoin.apikit.example.client.model.User;
 import org.junit.Assert;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
-
-import java.util.*;
-import java.util.concurrent.Callable;
 
 /**
  * @author zuoge85@gmail.com on 2017/5/11.
@@ -29,8 +19,8 @@ public class AccountApiControllerTest extends BaseControllerTest {
          * 未登陆
          */
         httpClientAdapter.setAccountToken(null);
-        apiManager.accountApi.testNotLoginData();
-        Result<Void> result = apiManager.accountApi.testLogin();
+        accountApi.testNotLoginData();
+        Result<Void> result = accountApi.testLogin();
         Assert.assertEquals(result.getStatus(), Result.ACCOUNT_ERROR);
     }
 
@@ -39,8 +29,8 @@ public class AccountApiControllerTest extends BaseControllerTest {
         /**
          * 登陆
          */
-        String token = apiManager.accountApi.loginData();
+        String token = accountApi.loginData();
         httpClientAdapter.setAccountToken(token);
-        apiManager.accountApi.testLoginData();
+        accountApi.testLoginData();
     }
 }

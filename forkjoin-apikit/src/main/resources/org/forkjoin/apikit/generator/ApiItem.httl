@@ -20,11 +20,12 @@ $!{utils.comment(" * ")}
 public class $!{utils.name} {
     private HttpClientAdapter httpClientAdapter;
 
+    public $!{m.name}() {
+    }
+
     public $!{m.name}(HttpClientAdapter httpClientAdapter) {
         this.httpClientAdapter = httpClientAdapter;
     }
-
-
 
 <!--#for(method : m.methodInfos)-->
 

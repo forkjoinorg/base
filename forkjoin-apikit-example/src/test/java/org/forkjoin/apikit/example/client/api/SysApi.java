@@ -15,6 +15,9 @@ import org.forkjoin.apikit.core.Result;
 public class SysApi {
 	private HttpClientAdapter httpClientAdapter;
 
+	public SysApi() {
+	}
+
 	public SysApi(HttpClientAdapter httpClientAdapter) {
 		this.httpClientAdapter = httpClientAdapter;
 	}

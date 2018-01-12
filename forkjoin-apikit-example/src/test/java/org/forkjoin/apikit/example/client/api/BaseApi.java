@@ -18,6 +18,9 @@ import org.forkjoin.apikit.example.client.model.User;
 public class BaseApi {
 	private HttpClientAdapter httpClientAdapter;
 
+	public BaseApi() {
+	}
+
 	public BaseApi(HttpClientAdapter httpClientAdapter) {
 		this.httpClientAdapter = httpClientAdapter;
 	}

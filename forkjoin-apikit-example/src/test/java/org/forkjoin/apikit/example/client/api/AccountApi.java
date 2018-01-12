@@ -16,6 +16,9 @@ import org.forkjoin.apikit.example.client.model.User;
 public class AccountApi {
 	private HttpClientAdapter httpClientAdapter;
 
+	public AccountApi() {
+	}
+
 	public AccountApi(HttpClientAdapter httpClientAdapter) {
 		this.httpClientAdapter = httpClientAdapter;
 	}
