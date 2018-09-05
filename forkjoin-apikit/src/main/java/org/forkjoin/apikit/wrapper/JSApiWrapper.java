@@ -18,9 +18,11 @@ import java.util.Map;
  */
 public class JSApiWrapper extends JSWrapper<ApiInfo> {
     private String version;
+    private String jsPackageName;
 
-    public JSApiWrapper(Context context, ApiInfo moduleInfo, String rootPackage) {
+    public JSApiWrapper(Context context, ApiInfo moduleInfo, String rootPackage,String jsPackageName) {
         super(context, moduleInfo, rootPackage);
+        this.jsPackageName = jsPackageName;
     }
 
     @Override
@@ -29,13 +31,12 @@ public class JSApiWrapper extends JSWrapper<ApiInfo> {
     }
 
     public String getImports(boolean isModel) {
-        ;
         //自己的目录级别
         int myLevel = getMyLevel();
         String imports = isModel ? getMethodImports() : "";
         return imports +
-                "\nimport AbstractApi from './" + StringUtils.repeat("../", myLevel) + "AbstractApi'\n" +
-                "\nimport requestGroupImpi from './" + StringUtils.repeat("../", myLevel) + "RequestGroupImpi'\n";
+                "\nimport {AbstractApi} from 'apikit-core'\n" +
+                "\nimport {requestGroupImpi} from 'apikit-core'\n";
 
     }
 
@@ -211,6 +212,13 @@ public class JSApiWrapper extends JSWrapper<ApiInfo> {
         return sb.toString();
     }
 
+    public String getJsPackageName() {
+        return jsPackageName;
+    }
+
+    public void setJsPackageName(String jsPackageName) {
+        this.jsPackageName = jsPackageName;
+    }
 
     public String resultTypeString(ApiMethodInfo method) {
         String returnType = toTypeString(method.getResultType());

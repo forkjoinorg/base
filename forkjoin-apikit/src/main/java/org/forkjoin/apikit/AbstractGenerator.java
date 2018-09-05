@@ -9,7 +9,6 @@ import org.forkjoin.apikit.info.MessageInfo;
 public abstract class AbstractGenerator extends AbstractFileGenerator {
     protected Context context;
 
-    private String version;
 
     public void generate(Context context) throws Exception {
         this.context = context;
@@ -39,11 +38,4 @@ public abstract class AbstractGenerator extends AbstractFileGenerator {
 
     public abstract void generateTool() throws Exception;
 
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
 }

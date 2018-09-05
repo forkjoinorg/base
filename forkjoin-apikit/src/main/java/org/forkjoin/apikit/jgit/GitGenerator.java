@@ -58,6 +58,8 @@ public class GitGenerator implements Generator {
         Path tempDir = Files.createTempDirectory("apikit-git");
         CredentialsProvider cp = new UsernamePasswordCredentialsProvider(gitUser, getPassword);
         log.info("开始 git clone");
+
+//        git clone --depth=1
         try (Git git = Git.cloneRepository()
                 .setURI(gitUrl)
                 .setDirectory(tempDir.toFile())
@@ -78,8 +80,9 @@ public class GitGenerator implements Generator {
                     FileUtils.deleteDirectory(delFile);
                 }
             }
-
+            int version = getVersion(git);
             log.info("开始执行生成器");
+            generator.setVersion(Integer.toString(version + 1));
             generator.generate(context);
 
             DirCache dirCache = git.add().addFilepattern(".").call();
@@ -112,7 +115,7 @@ public class GitGenerator implements Generator {
                 return;
             }
 
-            int version = getVersion(git);
+            version = getVersion(git);
             String message = String.format(commitTemplate, Integer.toString(version));
 
             log.info("开始提交！");
@@ -125,8 +128,6 @@ public class GitGenerator implements Generator {
             Iterable<PushResult> pushResults = git.push().setCredentialsProvider(cp).call();
 
             log.info("push结果:{}", Iterables.toString(pushResults));
-
-
         } finally {
             FileUtils.deleteDirectory(tempDir.toFile());
         }
@@ -161,6 +162,11 @@ public class GitGenerator implements Generator {
     @Override
     public String getOutPath() {
         return null;
+    }
+
+    @Override
+    public void setVersion(String version) {
+
     }
 
     public AbstractFileGenerator getGenerator() {

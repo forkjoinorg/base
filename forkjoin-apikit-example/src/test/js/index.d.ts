@@ -3,7 +3,8 @@ import TestForm from './form/TestForm';
 import TestObject from './model/TestObject';
 import User from './model/User';
 import TestObjectList from './model/TestObjectList';
-import ReactorApiController from './/ReactorApiController';
+
+import ReactorApiController from './ReactorApiController';
 import BaseApiController from './api/BaseApiController';
 import TestApiController from './api/TestApiController';
 import TestNoResultApiController from './api/TestNoResultApiController';

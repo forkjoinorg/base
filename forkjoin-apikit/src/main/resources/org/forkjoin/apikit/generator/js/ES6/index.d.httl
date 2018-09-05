@@ -4,10 +4,19 @@
 <!--#set(MessageInfo info)-->
 <!--#set(ApiInfo api)-->
 <!--#for(info : values)-->
+<!--#if(info.packageName)-->
 import $!{info.name} from './$!{info.packageName.replace('.','/')}/$!{info.name}';
+<!--#else-->
+import $!{info.name} from './$!{info.name}';
 <!--#end-->
+<!--#end-->
+
 <!--#for(api : apis)-->
+<!--#if(api.packageName)-->
 import $!{api.name} from './$!{api.packageName.replace('.','/')}/$!{api.name}';
+<!--#else-->
+import $!{api.name} from './$!{api.name}';
+<!--#end-->
 <!--#end-->
 
 

@@ -5,7 +5,11 @@
 <!--#set(ApiInfo api)-->
 
 <!--#for(api : apis)-->
+<!--#if(api.packageName)-->
 import $!{api.name} from './$!{api.packageName.replace('.','/')}/$!{api.name}';
+<!--#else-->
+import $!{api.name} from './$!{api.name}';
+<!--#end-->
 <!--#end-->
 
 

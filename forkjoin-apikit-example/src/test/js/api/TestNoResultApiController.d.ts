@@ -6,9 +6,9 @@ import TestObjectList from './../model/TestObjectList'
 
 import User from './../model/User'
 
-import AbstractApi from './../AbstractApi'
+import {AbstractApi} from 'apikit-core'
 
-import requestGroupImpi from './../RequestGroupImpi'
+import {requestGroupImpi} from 'apikit-core'
 
 
 /**

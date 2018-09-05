@@ -15,7 +15,7 @@ public class AccountApiControllerTest extends BaseControllerTest {
 
     @Test
     public void testNotLoginData() {
-        /**
+        /*
          * 未登陆
          */
         httpClientAdapter.setAccountToken(null);
@@ -26,7 +26,7 @@ public class AccountApiControllerTest extends BaseControllerTest {
 
     @Test
     public void testLoginData() {
-        /**
+        /*
          * 登陆
          */
         String token = accountApi.loginData();

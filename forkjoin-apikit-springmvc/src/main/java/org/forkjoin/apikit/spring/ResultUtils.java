@@ -1,13 +1,13 @@
 package org.forkjoin.apikit.spring;
 
-import org.apache.commons.collections.MapUtils;
 import org.forkjoin.apikit.core.Result;
+import org.forkjoin.apikit.core.ResultField;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,19 +20,19 @@ public class ResultUtils {
 
     public static void handleI18n(I18nResult result, MessageSourceAccessor messageSourceAccessor) {
         Object[] headers = result.getArgs();
-        HashMap<String, Object> serialize = new HashMap<>();
+        List<ResultField> serialize = new ArrayList<>();
         List fields = result.getFields();
 
         for (Object field1 : fields) {
             ObjectError field = (ObjectError) field1;
             String key = field.getObjectName();
             String message = messageSourceAccessor.getMessage(field);
-            serialize.put(key, message);
+            serialize.add(new ResultField(key, message));
         }
 
-        result.setMsgMap(serialize);
+        result.setErrors(serialize);
         if (null != result.getCode()) {
-            result.setMsg(messageSourceAccessor.getMessage(result.getCode(), headers));
+            result.setMessage(messageSourceAccessor.getMessage(result.getCode(), headers));
         }
     }
 
@@ -40,7 +40,7 @@ public class ResultUtils {
         Result<T> result = Result.createError(Result.VALIDATOR, null);
 
         StringBuilder sb = new StringBuilder();
-        Map<String, Object> msgMap = new HashMap<>();
+        List<ResultField> serialize = new ArrayList<>();
 
         for (ObjectError error : bindingResult.getAllErrors()) {
             String key = (error instanceof FieldError
@@ -48,7 +48,7 @@ public class ResultUtils {
                     : error.getObjectName());
             String message = messageSourceAccessor.getMessage(error);
 
-            msgMap.put(key, message);
+            serialize.add(new ResultField(key, message));
             if (sb.length() > 0) {
                 sb.append(";");
             }
@@ -58,10 +58,9 @@ public class ResultUtils {
         String message = messageSourceAccessor.getMessage(
                 "server.validator", new Object[]{sb});
 
-        result.setMsgMap(msgMap);
+        result.setErrors(serialize);
         return result;
     }
-
 
 
     public static Object handler(Map map, MessageSourceAccessor messageSourceAccessor) {
@@ -82,27 +81,10 @@ public class ResultUtils {
         return result;
     }
 
-    public static String getErrorMsg(Result<?> result) {
-        Map<String, Object> msgMap = result.getMsgMap();
-        if (MapUtils.isNotEmpty(msgMap)) {
-            StringBuilder sb = new StringBuilder();
-            for (Object item : msgMap.values()) {
-                if (sb.length() > 0) {
-                    sb.append("\n");
-                }
-                sb.append(item);
-            }
-            return sb.toString();
-        }
-        if (result.getMsg() != null) {
-            return result.getMsg();
-        }
-        return null;
-    }
 
     @SuppressWarnings("unchecked")
     public static <T> Result<T> create(Result result) {
-        if(result.isSuccess()){
+        if (result.isSuccess()) {
             throw new RuntimeException("错误的转换!,类型不合适");
         }
         return result;

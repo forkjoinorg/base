@@ -1,8 +1,8 @@
 import TestObject from './../model/TestObject'
 
-import AbstractApi from './../AbstractApi'
+import {AbstractApi} from 'apikit-core'
 
-import requestGroupImpi from './../RequestGroupImpi'
+import {requestGroupImpi} from 'apikit-core'
 
 
 /**

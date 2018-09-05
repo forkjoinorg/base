@@ -1,16 +1,18 @@
 package org.forkjoin.apikit.generator;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.io.FileUtils;
 import org.forkjoin.apikit.Utils;
 import org.forkjoin.apikit.info.ApiInfo;
 import org.forkjoin.apikit.info.MessageInfo;
-import org.forkjoin.apikit.utils.NameUtils;
+import org.forkjoin.apikit.spring.utils.JsonUtils;
 import org.forkjoin.apikit.wrapper.BuilderWrapper;
 import org.forkjoin.apikit.wrapper.JSApiWrapper;
 import org.forkjoin.apikit.wrapper.JSMessageWrapper;
 import org.forkjoin.apikit.wrapper.JSWrapper;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,9 +23,10 @@ import java.util.Set;
  */
 public class JavaScriptGenerator extends HttlGenerator {
     private JSWrapper.Type type = JSWrapper.Type.CommonJS;
+    private String jsPackageName;
 
-    public JavaScriptGenerator() {
-
+    public JavaScriptGenerator(String jsPackageName) {
+        this.jsPackageName = jsPackageName;
     }
 
     protected File getFileName(BuilderWrapper utils) {
@@ -40,7 +43,7 @@ public class JavaScriptGenerator extends HttlGenerator {
 
     @Override
     public void generateApi(ApiInfo apiInfo) throws Exception {
-        JSApiWrapper utils = new JSApiWrapper(context, apiInfo, rootPackage);
+        JSApiWrapper utils = new JSApiWrapper(context, apiInfo, rootPackage, jsPackageName);
         File dFile = getTsDFileName(utils);
         File file = getFileName(utils);
         utils.setType(type);
@@ -88,20 +91,20 @@ public class JavaScriptGenerator extends HttlGenerator {
     @Override
     public void generateTool() throws Exception {
         //copy 工具文件
-        copyTool("AbstractApi.d.ts");
-        copyTool("AbstractApi.js");
-
-        copyTool("RequestGroup.d.ts");
-        copyTool("RequestGroup.js");
-
-        copyTool("RequestGroupImpi.d.ts");
-        copyTool("RequestGroupImpi.js");
-
-        copyTool("Request.d.ts");
-        copyTool("Request.js");
-
-        copyTool("HttpUtils.d.ts");
-        copyTool("HttpUtils.js");
+//        copyTool("AbstractApi.d.ts");
+//        copyTool("AbstractApi.js");
+//
+//        copyTool("RequestGroup.d.ts");
+//        copyTool("RequestGroup.js");
+//
+//        copyTool("RequestGroupImpi.d.ts");
+//        copyTool("RequestGroupImpi.js");
+//
+//        copyTool("Request.d.ts");
+//        copyTool("Request.js");
+//
+//        copyTool("HttpUtils.d.ts");
+//        copyTool("HttpUtils.js");
 
         {
             Map<String, Object> parameters = new HashMap<>();
@@ -125,7 +128,29 @@ public class JavaScriptGenerator extends HttlGenerator {
                     file
             );
         }
+        {
+            File packageFile = Utils.packToPath(outPath, "", "package", ".json");
+            ObjectNode packageJson;
+            if (packageFile.exists()) {
+                packageJson = (ObjectNode) JsonUtils.mapper.readTree(packageFile);
+            } else {
+                try (InputStream inputStream = JavaScriptGenerator.class.getResourceAsStream(getTempl("package.json"))) {
+                    packageJson = (ObjectNode) JsonUtils.mapper.readTree(inputStream);
+                }
+            }
 
+            packageJson.put("name", jsPackageName);
+            if (this.version != null) {
+                String prevVersionText = packageJson.get("version").asText();
+                if (prevVersionText != null) {
+                    prevVersionText = prevVersionText.replaceAll("([^.]+)\\.([^.]+)\\.([^.]+)", "$1.$2." + version);
+                } else {
+                    prevVersionText = "1.0." + version;
+                }
+                packageJson.put("version", prevVersionText);
+            }
+            JsonUtils.mapper.writerWithDefaultPrettyPrinter().writeValue(packageFile, packageJson);
+        }
 //        {
 //            Map<String, Object> parameters = new HashMap<>();
 //            Collection<ApiInfo> values = context.getApis().getValues();

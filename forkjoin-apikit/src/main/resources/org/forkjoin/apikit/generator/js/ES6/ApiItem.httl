@@ -24,9 +24,9 @@ class $!{m.name} extends AbstractApi {
         <!--#end-->
         <!--#if(method.formParams)-->
         <!--#set(param = method.formParams[0])-->
-        return super._request("$!{m.fieldName}", "$!{method.type.name()}", "$!{method.url}", _path, $!{param.name});
+        return super._request("$!{utils.jsPackageName}", "$!{m.fieldName}", "$!{method.type.name()}", "$!{method.url}", _path, $!{param.name});
         <!--#else-->
-        return super._request("$!{m.fieldName}", "$!{method.type.name()}", "$!{method.url}", _path, null);
+        return super._request("$!{utils.jsPackageName}", "$!{m.fieldName}", "$!{method.type.name()}", "$!{method.url}", _path, null);
         <!--#end-->
     }
 ##循环结束

@@ -1,7 +1,7 @@
 
-import AbstractApi from './../AbstractApi'
+import {AbstractApi} from 'apikit-core'
 
-import requestGroupImpi from './../RequestGroupImpi'
+import {requestGroupImpi} from 'apikit-core'
 
 
 class AccountApiController extends AbstractApi {
@@ -19,7 +19,7 @@ class AccountApiController extends AbstractApi {
      */
     login = () => {
         let _path = null;
-        return super._request("accountApiController", "POST", "account/login", _path, null);
+        return super._request("test", "accountApiController", "POST", "account/login", _path, null);
     }
 
 
@@ -36,7 +36,7 @@ class AccountApiController extends AbstractApi {
      */
     testLogin = () => {
         let _path = null;
-        return super._request("accountApiController", "POST", "account/testLogin", _path, null);
+        return super._request("test", "accountApiController", "POST", "account/testLogin", _path, null);
     }
 
 
@@ -53,7 +53,7 @@ class AccountApiController extends AbstractApi {
      */
     testNotLogin = () => {
         let _path = null;
-        return super._request("accountApiController", "GET", "baseUrl/testNotLogin", _path, null);
+        return super._request("test", "accountApiController", "GET", "baseUrl/testNotLogin", _path, null);
     }
 
 }

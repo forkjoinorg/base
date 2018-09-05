@@ -1,5 +1,5 @@
 
-import ReactorApiController from './/ReactorApiController';
+import ReactorApiController from './ReactorApiController';
 import BaseApiController from './api/BaseApiController';
 import TestApiController from './api/TestApiController';
 import TestNoResultApiController from './api/TestNoResultApiController';

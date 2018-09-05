@@ -1,7 +1,7 @@
 
-import AbstractApi from './../AbstractApi'
+import {AbstractApi} from 'apikit-core'
 
-import requestGroupImpi from './../RequestGroupImpi'
+import {requestGroupImpi} from 'apikit-core'
 
 
 class TestApiController extends AbstractApi {
@@ -18,7 +18,7 @@ class TestApiController extends AbstractApi {
      */
     testVoid = () => {
         let _path = null;
-        return super._request("testApiController", "POST", "testVoid", _path, null);
+        return super._request("test", "testApiController", "POST", "testVoid", _path, null);
     }
 
 
@@ -37,7 +37,7 @@ class TestApiController extends AbstractApi {
      */
     testObjectList = (testForm) => {
         let _path = null;
-        return super._request("testApiController", "POST", "testObjectList", _path, testForm);
+        return super._request("test", "testApiController", "POST", "testObjectList", _path, testForm);
     }
 
 
@@ -56,7 +56,7 @@ class TestApiController extends AbstractApi {
      */
     create = (testForm) => {
         let _path = null;
-        return super._request("testApiController", "POST", "test", _path, testForm);
+        return super._request("test", "testApiController", "POST", "test", _path, testForm);
     }
 
 
@@ -76,7 +76,7 @@ class TestApiController extends AbstractApi {
     get = (id) => {
         let _path = {};
         _path["id"] = id;
-        return super._request("testApiController", "GET", "test/{id}", _path, null);
+        return super._request("test", "testApiController", "GET", "test/{id}", _path, null);
     }
 
 
@@ -95,7 +95,7 @@ class TestApiController extends AbstractApi {
      */
     update = (testForm) => {
         let _path = null;
-        return super._request("testApiController", "PUT", "test", _path, testForm);
+        return super._request("test", "testApiController", "PUT", "test", _path, testForm);
     }
 
 
@@ -114,7 +114,7 @@ class TestApiController extends AbstractApi {
      */
     patchUpdate = (testForm) => {
         let _path = null;
-        return super._request("testApiController", "PATCH", "test", _path, testForm);
+        return super._request("test", "testApiController", "PATCH", "test", _path, testForm);
     }
 
 
@@ -134,7 +134,7 @@ class TestApiController extends AbstractApi {
     delete = (id) => {
         let _path = {};
         _path["id"] = id;
-        return super._request("testApiController", "DELETE", "test/{id}", _path, null);
+        return super._request("test", "testApiController", "DELETE", "test/{id}", _path, null);
     }
 
 
@@ -154,7 +154,7 @@ class TestApiController extends AbstractApi {
     deletes = (id) => {
         let _path = {};
         _path["id"] = id;
-        return super._request("testApiController", "DELETE", "tests/{id}", _path, null);
+        return super._request("test", "testApiController", "DELETE", "tests/{id}", _path, null);
     }
 
 
@@ -177,7 +177,7 @@ class TestApiController extends AbstractApi {
         let _path = {};
         _path["id"] = id;
         _path["name"] = name;
-        return super._request("testApiController", "GET", "search/{id}/{name}", _path, null);
+        return super._request("test", "testApiController", "GET", "search/{id}/{name}", _path, null);
     }
 
 
@@ -197,7 +197,7 @@ class TestApiController extends AbstractApi {
     testString = (name) => {
         let _path = {};
         _path["name"] = name;
-        return super._request("testApiController", "GET", "testString/{name}", _path, null);
+        return super._request("test", "testApiController", "GET", "testString/{name}", _path, null);
     }
 
 
@@ -220,7 +220,7 @@ class TestApiController extends AbstractApi {
         let _path = {};
         _path["name"] = name;
         _path["age"] = age;
-        return super._request("testApiController", "GET", "testString1/{name}/{age}", _path, null);
+        return super._request("test", "testApiController", "GET", "testString1/{name}/{age}", _path, null);
     }
 
 }

@@ -1,7 +1,7 @@
 
-import AbstractApi from './../AbstractApi'
+import {AbstractApi} from 'apikit-core'
 
-import requestGroupImpi from './../RequestGroupImpi'
+import {requestGroupImpi} from 'apikit-core'
 
 
 class SysApiController extends AbstractApi {
@@ -19,7 +19,7 @@ class SysApiController extends AbstractApi {
      */
     status = () => {
         let _path = null;
-        return super._request("sysApiController", "GET", "status", _path, null);
+        return super._request("test", "sysApiController", "GET", "status", _path, null);
     }
 
 
@@ -36,7 +36,7 @@ class SysApiController extends AbstractApi {
      */
     login = () => {
         let _path = null;
-        return super._request("sysApiController", "GET", "now", _path, null);
+        return super._request("test", "sysApiController", "GET", "now", _path, null);
     }
 
 }

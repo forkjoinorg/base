@@ -55,22 +55,20 @@ public class ApiBuilderMain {
             JavaClientGenerator generator = new JavaClientGenerator();
             generator.setReactive(false);
             generator.setOutPath(javaClientDir.getAbsolutePath());
-            generator.setVersion(version);
             generator.setRootPackage("org.forkjoin.apikit.example.client");
             manager.generate(generator);
         }
         {
-            JavaScriptGenerator generator = new JavaScriptGenerator();
+            JavaScriptGenerator generator = new JavaScriptGenerator("test");
             generator.setType(JSWrapper.Type.ES6);
             generator.setOutPath(jsClientDir.getAbsolutePath());
-            generator.setVersion(version);
+            generator.setVersion("2");
             manager.generate(generator);
         }
 
         {
             ApiDocGenerator generator = new ApiDocGenerator();
             generator.setOutPath(apiDoc.getAbsolutePath());
-            generator.setVersion(version);
             generator.setAmd(true);
             ApiDocProject apiDocProject = new ApiDocProject();
             apiDocProject.setName("example-api");

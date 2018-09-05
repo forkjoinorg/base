@@ -61,7 +61,7 @@ $!{utils.requestComment(method,"    * ")}
        */
        public Mono<$!{utils.resultData(method)}> $!{method.name}($!{utils.params(method)}) {
            Map<String, Object> _uriVariables = new HashMap<>();
-   <!--        #for(param : method.pathParams)-->requestResult
+   <!--        #for(param : method.pathParams)-->
            _uriVariables.put("$!{param.getName()}", $!{param.getName()});
    <!--        #end-->
            String _url = ApiUtils.expandUriComponent("$!{method.url}", _uriVariables);
@@ -77,6 +77,14 @@ $!{utils.requestComment(method,"    * ")}
 
 
 <!--#end-->
+
+    public void setHttpClientAdapter(ReactiveHttpClientAdapter httpClientAdapter) {
+		this.httpClientAdapter = httpClientAdapter;
+	}
+
+	public ReactiveHttpClientAdapter getHttpClientAdapter() {
+		return httpClientAdapter;
+	}
 
 <!--#for(method : m.methodInfos)-->
 $!{utils.resultTypeString(method,"    ")}

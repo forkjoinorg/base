@@ -1,7 +1,7 @@
 
-import AbstractApi from './../AbstractApi'
+import {AbstractApi} from 'apikit-core'
 
-import requestGroupImpi from './../RequestGroupImpi'
+import {requestGroupImpi} from 'apikit-core'
 
 
 class PageApiController extends AbstractApi {
@@ -25,7 +25,7 @@ class PageApiController extends AbstractApi {
         let _path = {};
         _path["page"] = page;
         _path["pageSize"] = pageSize;
-        return super._request("pageApiController", "GET", "page/page/{page}-{pageSize}", _path, null);
+        return super._request("test", "pageApiController", "GET", "page/page/{page}-{pageSize}", _path, null);
     }
 
 
@@ -48,7 +48,7 @@ class PageApiController extends AbstractApi {
         let _path = {};
         _path["page"] = page;
         _path["pageSize"] = pageSize;
-        return super._request("pageApiController", "GET", "page/pageString/{page}-{pageSize}", _path, null);
+        return super._request("test", "pageApiController", "GET", "page/pageString/{page}-{pageSize}", _path, null);
     }
 
 }

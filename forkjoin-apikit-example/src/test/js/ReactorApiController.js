@@ -1,7 +1,7 @@
 
-import AbstractApi from './AbstractApi'
+import {AbstractApi} from 'apikit-core'
 
-import requestGroupImpi from './RequestGroupImpi'
+import {requestGroupImpi} from 'apikit-core'
 
 
 class ReactorApiController extends AbstractApi {
@@ -21,7 +21,7 @@ class ReactorApiController extends AbstractApi {
      */
     testFlux = (testForm) => {
         let _path = null;
-        return super._request("reactorApiController", "POST", "reactor/testFlux", _path, testForm);
+        return super._request("test", "reactorApiController", "POST", "reactor/testFlux", _path, testForm);
     }
 
 
@@ -38,7 +38,7 @@ class ReactorApiController extends AbstractApi {
      */
     testMono = () => {
         let _path = null;
-        return super._request("reactorApiController", "POST", "reactor/testMono", _path, null);
+        return super._request("test", "reactorApiController", "POST", "reactor/testMono", _path, null);
     }
 
 }
